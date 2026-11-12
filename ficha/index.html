@@ -152,7 +152,7 @@ details.hab p{padding:2px 0 7px 10px;font-size:11.5px;line-height:1.5;color:#c4b
 window.__diag=function(m){try{var d=document.getElementById('diag');d.style.display='block';d.textContent+=m+'\n';}catch(e){}};
 window.addEventListener('error',function(e){__diag('ERRO: '+(e.message||e)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:''));});
 window.addEventListener('unhandledrejection',function(e){__diag('ERRO (promise): '+((e.reason&&e.reason.message)||e.reason));});
-setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de carregar. Etapa: '+(window.__bocaStep||'script não iniciou (falha ao baixar o SDK do Owlbear?)')); },8000);
+setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de carregar. Etapa: '+(window.__bocaStep||'script não iniciou (falha ao carregar obr-sdk.js?)')); },8000);
 </script>
 <div class="demo-note" id="demoNote">Modo demonstração — fora do Owlbear. Tudo funciona localmente com dados internos.</div>
 
@@ -243,7 +243,7 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import OBR from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@3.1.0/+esm";
+import OBR from "../obr-sdk.js";
 
 const CHARS = {
  "L": {
@@ -1748,7 +1748,7 @@ async function applyOutcome(kind){ // 'hope' | 'fear' | 'crit'
   } else if(kind==='fear'){
     const m=await api.getMeta(); const f=Math.min(12,(m[K.fear]||0)+1);
     await api.setMeta({[K.fear]:f});
-    api.send(CH.notify,{msg:`🩸 A Boca salivou ${f} ${f===1?'vez':'vezes'}… (Medo do Mestre: ${f})`,variant:'WARNING'},'ALL');
+    api.send(CH.notify,{msg:`🩸 A Boca salivou ${f} ${f===1?'vez':'vezes'}… (Medo do Mestre: ${f})`,variant:'WARNING',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL');
   }
 }
 
@@ -1843,7 +1843,7 @@ $('dmgGo').onclick=async()=>{
   renderTrackers(); await saveSheet();
   $('dmgDlg').classList.remove('on');
   toast(sev>0?`Sofreu ${v} de dano → marcou ${sev} PV${used}`:`Armadura absorveu tudo${used}`);
-  if(S.pv===0){ api.send(CH.notify,{msg:`☠ ${C.nome} (${ME.name}) CAIU!`,variant:'ERROR'},'ALL'); }
+  if(S.pv===0){ api.send(CH.notify,{msg:`☠ ${C.nome} (${ME.name}) CAIU!`,variant:'ERROR',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
 };
 
 /* ---------- render ---------- */
@@ -1935,7 +1935,8 @@ function renderPick(){
 }
 
 /* ---------- cartas/avisos globais ---------- */
-api.on(CH.notify,ev=>{const d=ev.data; if(d?.msg) api.notify(d.msg,d.variant||'DEFAULT'); if(demo) toast(d.msg);});
+function _once(id){ if(!id) return true; try{ const k='boca-seen-'+id; if(localStorage.getItem(k)) return false; localStorage.setItem(k,'1'); setTimeout(()=>{try{localStorage.removeItem(k)}catch(e){}},60000); }catch(e){} return true; }
+api.on(CH.notify,ev=>{const d=ev.data; if(!d?.msg||!_once(d.id)) return; api.notify(d.msg,d.variant||'DEFAULT'); if(demo) toast(d.msg);});
 api.on(CH.card,async ev=>{
   const d=ev.data||{};
   if(demo){ toast(`🂠 ${d.n}: ${String(d.x).slice(0,60)}…`); return; }
