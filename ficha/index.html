@@ -1971,8 +1971,16 @@ document.addEventListener('click',async ev=>{
   if(dr){ if(dr.dataset.arm!=='1'){ dr.dataset.arm='1'; dr.textContent='Confirmar?'; setTimeout(()=>{dr.dataset.arm='';dr.textContent='Descartar'},3000); return; }
     const key=NS+'/loot-'+ME.id, m=await api.getMeta(); await api.setMeta({[key]:(m[key]||[]).filter(x=>x.id!==dr.dataset.lootdrop)}); }
 });
+function applyReset(r){
+  if(!r||!r.id) return; let last=null; try{last=localStorage.getItem('boca-last-reset')}catch(e){}
+  if(last===r.id) return; try{localStorage.setItem('boca-last-reset',r.id)}catch(e){}
+  if(r.swap){ C=null; try{localStorage.removeItem('boca-ficha-state')}catch(e){} $('sheet').style.display='none'; $('pick').style.display='block'; return; }
+  if(C){ S={pv:C.pvMax,fad:C.fadigaMax,pa:C.paMax,esp:2,pend:null}; renderSheet(); saveSheet(); }
+  else { try{ const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null'); if(sv&&CHARS[sv.code]){ const c=CHARS[sv.code]; localStorage.setItem('boca-ficha-state',JSON.stringify({code:sv.code,pv:c.pvMax,fad:c.fadigaMax,pa:c.paMax,esp:2,pend:null})); } }catch(e){} }
+}
 function refreshTop(m){
   renderLoot(m[NS+'/loot-'+ME.id]);
+  applyReset(m[NS+'/reset']);
   fearNow=m[K.fear]||0; fomeNow=m[K.hunger]||0;
   $('fearV').textContent=fearNow; $('fomeV').textContent=fomeNow;
   api.badge(fearNow>0?String(fearNow):undefined,'#a8312a');
