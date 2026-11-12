@@ -148,6 +148,7 @@ details.reveal summary{color:var(--bile)}
     <button class="btn" id="qTes">🎲 Tesouro (d20)</button>
     <button class="btn" id="qD20">🎲 d20 avulso</button>
   </div>
+  <details class="x" id="lootDet" style="margin-bottom:10px"><summary>tabela de tesouros — escolher e dar a um jogador</summary><div id="lootTable"></div></details>
   <div class="lastroll" id="lastroll"></div>
   <div class="dp-line"><span class="dp-dot" id="dpDot"></span><span id="dpStat">Dice+: verificando…</span></div>
 </div>
@@ -303,7 +304,7 @@ api.on(CH.card,async ev=>{
 });
 
 /* party: só quem está na sala agora */
-let partyIds=null;
+let partyIds=null, partyList=[];
 function renderParty(m){
   const list=Object.entries(m||{}).filter(([k])=>k.startsWith(K.sheetPrefix)&&(!partyIds||partyIds.has(k.slice(K.sheetPrefix.length))||k.slice(K.sheetPrefix.length)===ME.id)).map(([,v])=>v)
     .filter(v=>v&&v.ts&&Date.now()-v.ts<1000*60*60*8);
@@ -586,6 +587,8 @@ document.body.addEventListener('click',async ev=>{
   if(cr){ const c=findC(cr.dataset.cres); c.fired.res=1; c.canRes=0; c.pv=c.pvMax-Math.ceil(c.pvMax/2); c.fired.dead=0; c.fired.dead2=0; c.alerts.unshift({t:'Ressuscitou',x:'Volta com metade dos PV.'}); shout(`⚠ ${c.nome} se ergue de novo!`,'ERROR'); cmbChanged(null); return }
   const rm=ev.target.closest('[data-crm]');
   if(rm){ cmb=cmb.filter(c=>c.id!==rm.dataset.crm); paintCmb(); saveCmb(); return }
+  const gv=ev.target.closest('[data-give]');
+  if(gv){ const sel=gv.parentElement.querySelector('.giveSel'); if(sel) await giveLoot(+gv.dataset.give, sel.value); return }
   const ss=ev.target.closest('[data-showsala]');
   if(ss){ const s=SALAS[+ss.dataset.showsala];
     api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:'Sala '+ss.dataset.fl+' · '+s.tipo,n:s.nome,x:s.vox||s.leitura,p:'A Boca do Mundo',c:TCOR[s.tipo]||'#a8312a'},'ALL'); toast('Sala mostrada a todos.'); return }
@@ -607,13 +610,42 @@ document.querySelectorAll('.target [data-tg]').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.target [data-tg]').forEach(x=>x.classList.toggle('on',x===b));
 });
 $('qD20').onclick=()=>roll('1d20','d20 do Mestre');
+/* ---------- dar tesouro a um jogador ---------- */
+function lootTargets(){
+  const sheets={}; Object.entries(lastMeta||{}).forEach(([k,v])=>{ if(k.startsWith(K.sheetPrefix)&&v) sheets[k.slice(K.sheetPrefix.length)]=v; });
+  let ps=(partyList||[]).map(p=>({id:p.id,name:p.name}));
+  if(!ps.length) ps=Object.entries(sheets).map(([id,v])=>({id,name:v.player||v.nome}));
+  if(demo&&!ps.length) ps=[{id:ME.id,name:'Jogador de teste'}];
+  return ps.map(p=>({...p,label:p.name+(sheets[p.id]?' — '+sheets[p.id].nome:'')}));
+}
+function giveBox(n){
+  const ts=lootTargets();
+  if(!ts.length) return '<span class="small" style="text-transform:none;letter-spacing:0">Nenhum jogador na sala para receber.</span>';
+  return `<select class="giveSel" style="background:#0d0a0b;color:var(--bone);border:1px solid var(--ash);border-radius:4px;padding:6px;font-family:inherit;font-size:11px;max-width:190px">${ts.map(t=>`<option value="${esc(t.id)}">${esc(t.label)}</option>`).join('')}</select><button class="btn" data-give="${n}">🎁 Dar</button>`;
+}
+async function giveLoot(n,pid){
+  const t=DATA.tesouros.find(x=>x.n==n), who=lootTargets().find(x=>x.id===pid); if(!t||!who) return;
+  const key=NS+'/loot-'+pid, m=await api.getMeta();
+  const arr=(Array.isArray(m[key])?m[key]:[]).concat([{id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),n:t.n,nome:t.nome,uso:t.uso,preco:t.preco}]);
+  await api.setMeta({[key]:arr});
+  shout(`🎁 ${who.name} recebeu um tesouro da Boca: ${t.nome}`,'SUCCESS');
+  toast(`${t.nome} entregue a ${who.name}.`);
+}
+function renderLootTable(){
+  const el=$('lootTable'); if(!el) return;
+  el.innerHTML=DATA.tesouros.map(t=>`<div style="border-top:1px dashed var(--ash);padding:7px 0"><b style="color:var(--bile)">${t.n}. ${esc(t.nome)}</b>
+    <p style="font-size:11.5px;line-height:1.45;margin-top:3px">${esc(t.uso)}</p><p style="font-size:11.5px;line-height:1.45;color:var(--bile)"><b>Preço:</b> ${esc(t.preco)}</p>
+    <div style="margin-top:5px;display:flex;gap:6px;flex-wrap:wrap">${giveBox(t.n)}</div></div>`).join('');
+}
 $('qTes').onclick=async()=>{
   const n=await roll('1d20','Tesouro da Boca');
   const t=DATA.tesouros[Math.max(1,Math.min(20,n))-1];
-  const lr=$('lastroll');
-  lr.innerHTML+=`<div style="margin-top:6px"><b style="color:var(--bile)">${esc(t[1])}</b><br><span class="small">${esc(t[2])}</span><br><span class="small" style="color:var(--bile)">Preço: ${esc(t[3])}</span>
-   <div style="margin-top:5px"><button class="btn gold" id="tesShow">Mostrar a todos</button></div></div>`;
-  $('tesShow').onclick=()=>{api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:'Tesouro da Boca · d20 = '+n,n:t[1],x:t[2]+'  —  Preço: '+t[3],p:'A Boca cobra.',c:'#c9a24a'},'ALL');toast('Tesouro mostrado a todos.')};
+  const lr=$('lastroll'); lr.classList.add('on');
+  lr.innerHTML+=`<div style="margin-top:8px;border-top:1px dashed var(--ash);padding-top:8px"><b style="color:var(--bile);font-size:14px">${t.n}. ${esc(t.nome)}</b>
+   <p style="font-size:12px;line-height:1.5;margin-top:4px">${esc(t.uso)}</p>
+   <p style="font-size:12px;line-height:1.5;margin-top:4px;color:var(--bile)"><b>Preço:</b> ${esc(t.preco)}</p>
+   <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"><button class="btn gold" id="tesShow">Mostrar a todos</button>${giveBox(t.n)}</div></div>`;
+  $('tesShow').onclick=()=>{api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:'Tesouro da Boca · d20 = '+n,n:t.nome,x:t.uso+'  —  Preço: '+t.preco,p:'A Boca cobra.',c:'#c9a24a'},'ALL');toast('Tesouro mostrado a todos.')};
 };
 
 /* tabs */
@@ -632,7 +664,8 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
     return;
   }
   renderBest(); renderBoss(); paintDesc(); paintCmb();
-  if(!demo){ try{ partyIds=new Set((await OBR.party.getPlayers()).map(p=>p.id)); renderParty(lastMeta); OBR.party.onChange(ps=>{ partyIds=new Set(ps.map(p=>p.id)); renderParty(lastMeta); }); }catch(e){} }
+  $('lootDet').addEventListener('toggle',()=>{ if($('lootDet').open) renderLootTable(); });
+  if(!demo){ try{ partyList=await OBR.party.getPlayers(); partyIds=new Set(partyList.map(p=>p.id)); renderParty(lastMeta); OBR.party.onChange(ps=>{ partyList=ps; partyIds=new Set(ps.map(p=>p.id)); renderParty(lastMeta); }); }catch(e){} }
   paint(await api.getMeta());
   api.onMeta(paint);
   (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagens internas por enquanto)'; if(!ok) setTimeout(dpWatch,5000); })();
