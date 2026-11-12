@@ -190,6 +190,9 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <div class="sec">Cartas de Domínio</div>
   <div id="cards"></div>
 
+  <div class="sec">Tesouros da Boca</div>
+  <div id="loot"><div style="font-size:11px;color:var(--dim);font-style:italic">Nenhum tesouro ainda. O mestre entrega aqui o que a Boca der.</div></div>
+
   <div class="sec">Habilidades</div>
   <div id="habs"></div>
 </div>
@@ -1952,7 +1955,24 @@ api.on(CH.card,async ev=>{
 });
 
 /* ---------- topo: medo & fome ---------- */
+/* ---------- tesouros recebidos do mestre ---------- */
+let lootNow=[];
+function renderLoot(arr){
+  lootNow=Array.isArray(arr)?arr:[]; const el=$('loot'); if(!el) return;
+  if(!lootNow.length){ el.innerHTML='<div style="font-size:11px;color:var(--dim);font-style:italic">Nenhum tesouro ainda. O mestre entrega aqui o que a Boca der.</div>'; return; }
+  el.innerHTML=lootNow.map(t=>`<details class="card" style="--pc:#c9a24a"><summary><b>🎁 ${esc(t.nome)}</b><span>d20 · ${esc(t.n)}</span></summary>
+    <div class="cd">${esc(t.uso)}<br><span style="color:#c9a24a"><b>Preço:</b> ${esc(t.preco)}</span></div>
+    <div class="ca"><button data-lootshow="${esc(t.id)}">Mostrar a todos</button> <button data-lootdrop="${esc(t.id)}">Descartar</button></div></details>`).join('');
+}
+document.addEventListener('click',async ev=>{
+  const sh=ev.target.closest('[data-lootshow]');
+  if(sh){ const t=lootNow.find(x=>x.id===sh.dataset.lootshow); if(t) api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:'Tesouro de '+(C?C.nome:ME.name),n:t.nome,x:t.uso+'  —  Preço: '+t.preco,p:'A Boca cobra.',c:'#c9a24a'},'ALL'); return; }
+  const dr=ev.target.closest('[data-lootdrop]');
+  if(dr){ if(dr.dataset.arm!=='1'){ dr.dataset.arm='1'; dr.textContent='Confirmar?'; setTimeout(()=>{dr.dataset.arm='';dr.textContent='Descartar'},3000); return; }
+    const key=NS+'/loot-'+ME.id, m=await api.getMeta(); await api.setMeta({[key]:(m[key]||[]).filter(x=>x.id!==dr.dataset.lootdrop)}); }
+});
 function refreshTop(m){
+  renderLoot(m[NS+'/loot-'+ME.id]);
   fearNow=m[K.fear]||0; fomeNow=m[K.hunger]||0;
   $('fearV').textContent=fearNow; $('fomeV').textContent=fomeNow;
   api.badge(fearNow>0?String(fearNow):undefined,'#a8312a');
