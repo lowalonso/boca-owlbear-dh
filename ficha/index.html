@@ -1933,7 +1933,7 @@ api.on(CH.card,async ev=>{
   const q=new URLSearchParams({t:d.t||'',n:d.n||'',x:d.x||'',p:d.p||'',c:d.c||'#a8312a'}).toString();
   try{
     let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
-    await OBR.popover.open({id:NS+'/card',url:`card.html?${q}`,width:360,height:300,
+    await OBR.popover.open({id:NS+'/card',url:new URL('card.html?'+q,location.href).href,width:360,height:300,
       anchorReference:'POSITION',anchorPosition:{left:Math.max(190,w/2),top:70},
       anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},
       hidePaper:true,disableClickAway:false,marginThreshold:8});
