@@ -140,15 +140,16 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const randInt=m=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%m+1}catch(e){return Math.floor(Math.random()*m)+1}};
 
 let demo=!OBR.isAvailable, meta={}, metaSubs=[], bcSubs={};
+const _pendSubs=[];
 const api={
- async ready(){ if(demo){$('demoNote').style.display='block';return} await new Promise(r=>OBR.onReady(r)) },
+ async ready(){ if(demo){$('demoNote').style.display='block';return} await new Promise(r=>OBR.onReady(r)); for(const [ch,f] of _pendSubs.splice(0)) OBR.broadcast.onMessage(ch,f) },
  async me(){ if(demo) return {id:'gm',name:'Mestre',role:'GM'};
    return {id:await OBR.player.getId(),name:await OBR.player.getName(),role:await OBR.player.getRole()} },
  async getMeta(){ return demo?meta:OBR.room.getMetadata() },
  async setMeta(u){ if(demo){Object.assign(meta,u);metaSubs.forEach(f=>f(meta));return} return OBR.room.setMetadata(u) },
  onMeta(f){ demo?metaSubs.push(f):OBR.room.onMetadataChange(f) },
  send(ch,d,dest='ALL'){ if(demo){(bcSubs[ch]||[]).forEach(f=>f({data:d}));return} OBR.broadcast.sendMessage(ch,d,{destination:dest}) },
- on(ch,f){ demo?(bcSubs[ch]=bcSubs[ch]||[]).push(f):OBR.broadcast.onMessage(ch,f) },
+ on(ch,f){ if(demo){(bcSubs[ch]=bcSubs[ch]||[]).push(f);return} if(OBR.isReady) OBR.broadcast.onMessage(ch,f); else _pendSubs.push([ch,f]) },
  notify(m,v='DEFAULT'){ demo?toast(m):OBR.notification.show(m,v).catch(()=>{}) },
  badge(t,c){ if(demo)return; OBR.action.setBadgeText(t||undefined).catch(()=>{}); if(c)OBR.action.setBadgeBackgroundColor(c).catch(()=>{}) },
 };
