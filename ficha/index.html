@@ -1645,9 +1645,11 @@ const randInt=m=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);retur
 
 /* ---------- adaptador OBR / demo ---------- */
 let demo=!OBR.isAvailable, meta={}, metaSubs=[], bcSubs={};
+const _pendSubs=[];
 const api={
  async ready(){ if(demo){$('demoNote').style.display='block';return;}
-   await new Promise(r=>OBR.onReady(r)); },
+   await new Promise(r=>OBR.onReady(r));
+   for(const [ch,f] of _pendSubs.splice(0)) OBR.broadcast.onMessage(ch,f); },
  async me(){ if(demo) return {id:'demo',name:'Demo',role:'GM'};
    return {id:await OBR.player.getId(),name:await OBR.player.getName(),role:await OBR.player.getRole()}; },
  async getMeta(){ if(demo) return meta; return OBR.room.getMetadata(); },
@@ -1655,7 +1657,7 @@ const api={
  onMeta(f){ if(demo){metaSubs.push(f);return;} OBR.room.onMetadataChange(f); },
  send(ch,data,dest='ALL'){ if(demo){ (bcSubs[ch]||[]).forEach(f=>f({data})); return; }
    OBR.broadcast.sendMessage(ch,data,{destination:dest}); },
- on(ch,f){ if(demo){(bcSubs[ch]=bcSubs[ch]||[]).push(f);return;} OBR.broadcast.onMessage(ch,f); },
+ on(ch,f){ if(demo){(bcSubs[ch]=bcSubs[ch]||[]).push(f);return;} if(OBR.isReady) OBR.broadcast.onMessage(ch,f); else _pendSubs.push([ch,f]); },
  notify(msg,variant='DEFAULT'){ if(demo){toast(msg);return;} OBR.notification.show(msg,variant).catch(()=>{}); },
  badge(t,color){ if(demo) return; OBR.action.setBadgeText(t||undefined).catch(()=>{});
    if(color) OBR.action.setBadgeBackgroundColor(color).catch(()=>{}); },
