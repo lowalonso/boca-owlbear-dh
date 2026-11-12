@@ -224,7 +224,8 @@ api.on(CH.banner,async ev=>{
 });
 
 /* avisos/cartas globais */
-api.on(CH.notify,ev=>{const d=ev.data;if(d?.msg)api.notify(d.msg,d.variant||'DEFAULT')});
+function _once(id){ if(!id) return true; try{ const k='boca-seen-'+id; if(localStorage.getItem(k)) return false; localStorage.setItem(k,'1'); setTimeout(()=>{try{localStorage.removeItem(k)}catch(e){}},60000); }catch(e){} return true; }
+api.on(CH.notify,ev=>{const d=ev.data;if(d?.msg&&_once(d.id))api.notify(d.msg,d.variant||'DEFAULT')});
 api.on(CH.card,async ev=>{
   const d=ev.data||{};
   if(demo){toast(`🂠 ${d.n}`);return}
