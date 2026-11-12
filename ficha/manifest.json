@@ -3,7 +3,7 @@
  "version": "1.0.0",
  "manifest_version": 1,
  "author": "A Boca do Mundo",
- "description": "Fichas funcionais dos 9 Quebrados (Daggerheart) com dualidade via Dice+, Esperança/Medo automáticos, armas, cartas e experiências.",
+   "description": "Fichas dos 9 Quebrados (Daggerheart): dualidade via Dice+, Esperança e Medo automáticos, armas, cartas e experiências.",
  "icon": "icon.svg",
  "action": {
   "title": "Ficha dos Quebrados",
