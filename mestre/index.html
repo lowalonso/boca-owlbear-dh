@@ -214,7 +214,7 @@ api.on(CH.banner,async ev=>{
   if(demo){toast('Banner '+(d.show?'ligado':'desligado'));return}
   try{
     if(d.show){ let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
-      await OBR.popover.open({id:NS+'/banner',url:'banner.html',width:320,height:64,
+      await OBR.popover.open({id:NS+'/banner',url:new URL('banner.html',location.href).href,width:320,height:64,
         anchorReference:'POSITION',anchorPosition:{left:Math.max(170,w/2),top:8},
         anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},
         hidePaper:true,disableClickAway:true});
@@ -229,7 +229,7 @@ api.on(CH.card,async ev=>{
   if(demo){toast(`🂠 ${d.n}`);return}
   const q=new URLSearchParams({t:d.t||'',n:d.n||'',x:d.x||'',p:d.p||'',c:d.c||'#a8312a'}).toString();
   try{ let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
-    await OBR.popover.open({id:NS+'/card',url:`card.html?${q}`,width:360,height:300,
+    await OBR.popover.open({id:NS+'/card',url:new URL('card.html?'+q,location.href).href,width:360,height:300,
       anchorReference:'POSITION',anchorPosition:{left:Math.max(190,w/2),top:70},
       anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},
       hidePaper:true});
