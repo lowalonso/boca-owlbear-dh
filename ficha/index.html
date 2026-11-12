@@ -128,6 +128,44 @@ details.hab p{padding:2px 0 7px 10px;font-size:11.5px;line-height:1.5;color:#c4b
 .res-dmg b{font-size:26px;color:var(--blood2)}
 .res-dmg .small{display:block}
 .res-note{font-size:10.5px;color:var(--dim);text-align:center;margin-bottom:10px;line-height:1.5}
+/* recursos de classe */
+#fx{border:1px solid var(--ash);border-radius:5px;background:var(--panel);padding:9px 10px}
+.fxtop{display:flex;justify-content:space-between;gap:8px;font-size:10px;letter-spacing:.06em;color:var(--dim);margin-bottom:8px;flex-wrap:wrap}
+.fxtop b{font-size:16px;color:var(--pc)}
+.fxrow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:6px}
+.chip2{font-size:9.5px;letter-spacing:.06em;padding:5px 9px;border-radius:999px;border:1px solid var(--ash);color:var(--dim)}
+.chip2.on{border-color:var(--pc);color:#fff;background:color-mix(in srgb,var(--pc) 35%,transparent);box-shadow:0 0 8px color-mix(in srgb,var(--pc) 40%,transparent)}
+.fxline{display:flex;flex-wrap:wrap;align-items:center;gap:6px;border-top:1px dashed var(--ash);padding:7px 0;font-size:11px}
+.fxline.col{display:block}
+.fxline>b{font-size:11.5px}
+.fxline span{color:#b4a890;font-size:10.5px;flex:1 1 160px;line-height:1.4}
+.fxline .dv{font-size:14px;color:var(--pc)}
+.fxline.hope b{color:var(--hope)}
+.fxline select{background:#0d0a0b;color:var(--bone);border:1px solid var(--ash);border-radius:4px;padding:3px 5px;font-family:inherit}
+.mini{font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:4px}
+.mini.gold{border-color:var(--bile);color:var(--bile)}
+.mini:disabled{opacity:.35;cursor:not-allowed}
+.pd{width:30px;height:30px;border-radius:6px;border:1px solid var(--bile);color:var(--bile);font-weight:700;font-size:14px}
+.fxacts{border-top:1px dashed var(--ash);padding-top:6px}
+.fxa{display:flex;align-items:center;gap:7px;padding:5px 0}
+.fxa>div{flex:1}
+.fxa b{font-size:11.5px;display:block}
+.fxa span{font-size:10px;color:#b4a890}
+.fxa .up{display:flex;gap:3px;align-items:center}
+.fxa .up i{width:9px;height:9px;border:1px solid var(--bile);border-radius:2px;display:inline-block}
+.fxa .up i.used{background:var(--bile)}
+.fxa .up small{font-size:7.5px;color:var(--dim);margin-left:3px;text-transform:uppercase}
+.spendrow{flex-basis:100%;justify-content:flex-end}
+.fxrest{display:flex;gap:5px;margin-top:8px}
+.fxrest button{flex:1;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;padding:6px 3px;border-radius:4px}
+.dim{color:var(--dim);font-size:10.5px}
+.opts label{display:flex;gap:6px;align-items:flex-start;font-size:11px;color:var(--bone);margin-bottom:6px;text-transform:none;letter-spacing:0}
+.opts select{background:#0d0a0b;color:var(--bone);border:1px solid var(--ash);border-radius:4px;padding:3px 5px}
+.res-act{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.res-act:empty{display:none}
+details.card .ca{display:flex;flex-wrap:wrap;gap:5px}
+.vsel{display:inline-flex;gap:3px;align-items:center}
+.vsel select{background:#0d0a0b;color:var(--bone);border:1px solid var(--ash);border-radius:4px;padding:3px}
 /* rodapé fixo */
 #foot{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(0deg,var(--void) 70%,transparent);padding:10px 12px 10px;display:flex;gap:7px;z-index:30}
 #foot button{flex:1;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:8px 4px}
@@ -177,6 +215,9 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
     <button class="btn" id="btnDano">Sofrer dano</button>
   </div>
 
+  <div class="sec">Recursos da classe — habilidades automáticas</div>
+  <div id="fx"></div>
+
   <div class="sec">Atributos — clique para rolar</div>
   <div class="attrs" id="attrs"></div>
 
@@ -205,7 +246,8 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
     <button data-m="norm" class="on">Normal</button>
     <button data-m="adv">Vantagem +d6</button>
   </div>
-  <div class="small" id="rdInfo" style="margin-bottom:10px"></div>
+  <div class="small" id="rdInfo" style="margin-bottom:8px;text-transform:none;letter-spacing:.02em;line-height:1.45"></div>
+  <div id="rdOpts" class="opts"></div>
   <div class="row"><button class="btn" id="rdGo">Rolar os dados</button><button class="btn gold" id="rdCancel" style="flex:0 0 auto">✕</button></div>
 </div></div>
 
@@ -213,7 +255,7 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
 <div class="ov" id="dmgDlg"><div class="dlg">
   <h3>Sofrer dano</h3>
   <input type="number" id="dmgVal" placeholder="valor do dano" min="0">
-  <label><input type="checkbox" id="dmgArm"> usar 1 de Armadura (reduz a gravidade em um limiar)</label>
+  <div id="dmgOpts" class="opts"></div>
   <div class="row"><button class="btn" id="dmgGo">Aplicar</button><button class="btn gold" id="dmgCancel" style="flex:0 0 auto">✕</button></div>
 </div></div>
 
@@ -225,6 +267,7 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <div class="res-tag" id="resTag"></div>
   <div class="res-dmg" id="resDmg" style="display:none"></div>
   <div class="res-note" id="resNote"></div>
+  <div class="res-act" id="resAct"></div>
   <div class="row"><button class="btn" id="resOk">Fechar</button></div>
 </div></div>
 
@@ -1725,47 +1768,265 @@ function internalRoll(spec){ // gera groups no formato Dice+
   return {totalValue:0,rollSummary:'interno',groups};
 }
 
-/* ---------- motor de dualidade ---------- */
-function parseDuality(result){
-  const gs=result.groups||[];
-  const d12s=gs.filter(g=>g.diceType==='d12'&&g.dice.length===1);
-  const hope=d12s[0]?.dice[0]?.value??null, fear=d12s[1]?.dice[0]?.value??null;
-  const d6=gs.find(g=>g.diceType==='d6'&&g.dice.length===1);
-  const adv=d6?(d6.isNegative?-d6.dice[0].value:d6.dice[0].value):0;
-  // dano: grupos restantes (depois dos dois primeiros d12 singulares)
-  let seen=0, dmgDice=0, dmgMax=0;
-  for(const g of gs){
-    if(g.diceType==='d12'&&g.dice.length===1&&seen<2){seen++;continue}
-    if(g===d6) continue;
-    const t=g.dice.reduce((s,x)=>s+(x.kept?x.value:0),0);
-    dmgDice+=(g.isNegative?-t:t);
-    dmgMax+=g.dice.length*parseInt(g.diceType.slice(1)||'0');
-  }
-  return {hope,fear,adv,dmgDice,dmgMax};
+/* ======================================================================
+   RECURSOS DE CLASSE — automação das habilidades e cartas
+   ====================================================================== */
+const NIVEL=5;
+const SC={L:'Acuidade',D:'Instinto',S:'Força',M:'Conhecimento',G:null,F:'Instinto',W:null,C:'Agilidade',B:'Presença'};
+const PERN={curto:'descanso',longo:'descanso longo',sessao:'sessão'};
+const AT=k=>C.atributos[k]??0;
+const FX={
+ L:{ states:[
+      {id:'oculto',nome:'Oculto',txt:'Ataque Furtivo: +3d6 no próximo dano de arma. Você sai de Oculto ao atacar.',dmgDice:[3,6],wpn:true,consume:true},
+      {id:'vuln',nome:'Vulnerável',txt:'Adrenalina: some seu nível (+5) às rolagens de dano.',dmgFlat:NIVEL,wpn:true},
+      {id:'esquiva',nome:'Esquiva (+2 Evasão)',txt:'+2 na Evasão até o próximo ataque que acertar você.',ev:2,clearOnHit:true}],
+     hope:{nome:'Esquiva de Ladino',custo:3,state:'esquiva',txt:'+2 na Evasão até o próximo ataque que acertar você.'},
+     acts:[{nome:'Passo Sombrio',cost:{pf:1},state:'oculto',txt:'some numa sombra e reaparece em outra distante, Oculto'},
+           {nome:'Disfarce Inquietante',cost:{pf:1},txt:'toma a forma de um humanoide'},
+           {nome:'Estrangulamento',cost:{pf:1},txt:'alvo fica Vulnerável; ataques contra ele causam +2d6'}],
+     opts:[{id:'furtivo',nome:'Ataque Furtivo: aliado corpo a corpo ao alvo (+3d6)',wpn:true,dmgDice:[3,6],unless:'oculto'},
+           {id:'estr',nome:'Alvo estrangulado (+2d6)',wpn:true,dmgDice:[2,6]}],
+     after:['destemido','furtiv'] },
+ D:{ states:[
+      {id:'fera',nome:'Forma de Fera',txt:'Sem armas nem feitiços; usa os ataques e a Evasão da fera. Marcar o último PV te tira da forma.'},
+      {id:'besouros',nome:'Besouros (−1 gravidade)',txt:'Conjurar Enxame: na próxima vez que sofrer dano, reduz a gravidade em um limiar.'}],
+     hope:{nome:'Evolução',custo:3,state:'fera',txt:'Forma de Fera sem marcar PF; +1 em um atributo enquanto durar.'},
+     counters:[{id:'espinhos',nome:'Marcadores — Pele de Espinhos',max:()=>AT('Instinto'),per:'curto',start:0,txt:'Ao sofrer dano, gaste marcadores: role 1d6 por marcador e reduza o dano.'}],
+     acts:[{nome:'Forma de Fera',cost:{pf:1},state:'fera'},
+           {nome:'Regeneração',cost:{esp:3},roll:[1,4],txt:'uma criatura muito próxima recupera 1d4 PV'},
+           {nome:'Proteção Druídica',cost:{esp:2},use:{id:'protdru',max:1,per:'longo'},roll:[1,4],txt:'1d4 aliados próximos recuperam 2 PV'},
+           {nome:'Serenidade da Natureza',use:{id:'seren',max:1,per:'longo'},txt:'o grupo recupera PF igual ao seu Instinto ao descansar no espaço'},
+           {nome:'Conjurar Enxame — besouros',cost:{pf:1},state:'besouros'},
+           {nome:'Pele de Espinhos',cost:{esp:1},use:{id:'pele',max:1,per:'curto'},fill:'espinhos'},
+           {nome:'Campo Curativo',use:{id:'campo',max:1,per:'longo'},txt:'você e aliados próximos recuperam 1 PV (2 ❂ para 2 PV)'},
+           {nome:'Tronco Descomunal',use:{id:'tronco',max:1,per:'curto'}},
+           {nome:'Familiar da Natureza',cost:{esp:1}},
+           {nome:'Vínculo Mortal',cost:{pf:1},txt:'extrai uma memória de um cadáver recente'}],
+     opts:[{id:'familiar',nome:'Familiar corpo a corpo ao alvo (+1d6)',wpn:true,dmgDice:[1,6]}],
+     dmg:['besouros','espinhos'] },
+ S:{ pools:[{id:'oracao',nome:'Dados de Oração',die:4,count:()=>AT('Força'),extra:1,txt:'Devoção: role um a mais e descarte o menor. Gaste: somar a uma rolagem, reduzir dano ou ganhar Esperança.'}],
+     states:[{id:'punicao',nome:'Punição carregada',txt:'O próximo ataque de arma que acertar dobra o dano (mágico).',wpn:true,double:true,consume:true}],
+     hope:{nome:'Alicerce da Vida',custo:3,txt:'um aliado próximo recupera 1 PV.'},
+     acts:[{nome:'Toque Piedoso',use:{id:'piedoso',max:2,per:'longo'},txt:'a criatura recupera 2 PV ou 2 PF'},
+           {nome:'Punição',cost:{esp:3},use:{id:'punicao',max:1,per:'curto'},state:'punicao'},
+           {nome:'Arma Espiritual — alvo extra',cost:{pf:1}},
+           {nome:'Asas: +2 Evasão contra o ataque',cost:{pf:1}},
+           {nome:'Toque Reparador',cost:{esp:2},txt:'recupera 1 PV ou PF do alvo'},
+           {nome:'Mãos Curativas',cost:{pf:1},txt:'recupera 2 PV ou PF (1 se falhar)'},
+           {nome:'Sou Seu Escudo',cost:{pf:1}},
+           {nome:'Bastião',cost:{esp:2},txt:'aliado rola de novo o Dado de Medo ou de Esperança'}],
+     opts:[{id:'presenca',nome:'Presença Corajosa: +Força no teste (1 ❂)',test:true,cost:{esp:1},atk:()=>AT('Força')}],
+     after:['sorte'], dmg:['oracao'] },
+ M:{ num:{id:'padrao',nome:'Padrões Estranhos',txt:'Ao tirar esse número num Dado de Dualidade: +1 Esperança ou recupere 1 PF.'},
+     hope:{nome:'Não Dessa Vez',custo:3,txt:'um adversário refaz o teste de ataque ou a rolagem de dano.'},
+     acts:[{nome:'Validação',use:{id:'valid',max:1,per:'curto'},txt:'aliado rola os dados de novo'},
+           {nome:'Adivinhação',cost:{esp:3},use:{id:'adiv',max:1,per:'longo'}},
+           {nome:'Troca Perfeita',use:{id:'troca',max:1,per:'curto'}},
+           {nome:'Telepatia',cost:{esp:1}},
+           {nome:'Círculo Rúnico',cost:{pf:1},roll:[2,12,4],txt:'2d12+4 a quem entrar no círculo'}],
+     auto:['vozRazao','adepto'], after:['padrao','adapt'] },
+ G:{ det:true,
+     hope:{nome:'Linha de Frente',custo:3,fx:()=>{S.pa=Math.min(C.paMax,S.pa+2)},txt:'recupera 2 Pontos de Armadura.'},
+     acts:[{nome:'Sou Seu Escudo',cost:{pf:1}},
+           {nome:'Irmãos de Armas',cost:{pa:1},txt:'reduz a gravidade do dano físico de um aliado muito próximo'},
+           {nome:'Bastião',cost:{esp:2},txt:'aliado rola de novo o Dado de Medo ou de Esperança'}],
+     opts:[{id:'impulso',nome:'Impulso (1 PF): vantagem e +1d10 no dano',wpn:true,cost:{pf:1},adv:true,dmgDice:[1,10]}],
+     auto:['naoSuficiente'], dmg:['fisico','vontade','levante','det'] },
+ F:{ counters:[{id:'caos',nome:'Marcadores — Caos Liberto',max:()=>AT('Instinto'),per:'sessao',start:'max',recarga:{pf:1},txt:'Gaste marcadores num ataque: 1d10 de dano mágico por marcador. Recarregue marcando 1 PF.'}],
+     acts:[{nome:'Caos Liberto',spend:'caos',die:10,txt:'d10 de dano mágico por marcador'},
+           {nome:'Canalizar Poder Bruto',use:{id:'canal',max:1,per:'longo'},txt:'Esperança igual ao nível da carta, ou dano extra'},
+           {nome:'Evasão Natural',cost:{pf:1},roll:[1,6],txt:'+1d6 na Evasão contra este ataque'},
+           {nome:'Premonição',use:{id:'premon',max:1,per:'longo'},txt:'ignora as consequências do último teste'},
+           {nome:'Espírito da Meia-noite',cost:{esp:1}}],
+     opts:[{id:'elem2',nome:'Elementalismo: +2 no teste (1 ❂)',test:true,cost:{esp:1},atk:2},
+           {id:'elem3',nome:'Elementalismo: +3 no dano (1 ❂)',wpn:true,cost:{esp:1},dmgFlat:3}],
+     hope:{nome:'Magia Volátil',custo:3,txt:'aparece no resultado de dano mágico: rola o dano de novo.',resOnly:true},
+     after:['volatil'], dmg:['escamas'] },
+ W:{ states:[{id:'sempiedade',nome:'Sem Piedade (+1 ataque)',txt:'+1 nos testes de ataque até o próximo descanso.',atk:1,wpn:true,clearOnRest:true}],
+     hope:{nome:'Sem Piedade',custo:3,state:'sempiedade',txt:'+1 nos testes de ataque até o próximo descanso.'},
+     acts:[{nome:'Ritual de Batalha',use:{id:'ritual',max:1,per:'longo'},fx:()=>{S.fad=Math.min(C.fadigaMax,S.fad+2);S.esp=Math.min(6,S.esp+2)},txt:'recupera 2 PF e recebe 2 Esperança'},
+           {nome:'Reação Rápida',cost:{pf:1},txt:'vantagem num teste de reação'},
+           {nome:'Um Passo à Frente',cost:{pf:1},roll:[1,4],txt:'+1d4 na Evasão contra um ataque à distância'},
+           {nome:'Ferocidade',cost:{esp:2},txt:'Evasão +PV que o alvo marcou, até o próximo ataque'}],
+     opts:[{id:'turb',nome:'Turbilhão (1 ❂): atinge todos muito próximos (metade do dano nos extras)',wpn:true,cost:{esp:1}}],
+     auto:['treino','desafio'], after:['coragem'], dmg:['levante'] },
+ C:{ marca:true,
+     hope:{nome:'Segurem Eles',custo:3,txt:'usa o mesmo teste contra dois adversários adicionais.'},
+     acts:[{nome:'Um Passo à Frente',cost:{pf:1},roll:[1,4],txt:'+1d4 na Evasão contra um ataque à distância'},
+           {nome:'Ferocidade',cost:{esp:2}},
+           {nome:'Conhece Teu Inimigo',cost:{esp:1},txt:'pergunta ao mestre um dado do alvo'},
+           {nome:'Garras Retráteis',txt:'teste de Agilidade: alvo corpo a corpo fica Vulnerável'}],
+     opts:[{id:'marcar',nome:'Marca da Presa (1 ❂): marcar o alvo deste ataque',wpn:true,cost:{esp:1},setMarca:true,unlessMarca:true},
+           {id:'implac',nome:'Predador Implacável (1 PF): +1 Proficiência no dano',wpn:true,cost:{pf:1},prof:1},
+           {id:'golpe',nome:'Golpe Pessoal: d20 como Dado de Esperança',hopeD20:true,use:{id:'golpe',max:1,per:'curto'}},
+           {id:'ligeiro',nome:'Movimento Ligeiro (1 PF): +1 no ataque',wpn:true,cost:{pf:1},atk:1,use:{id:'ligeiro',max:1,per:'curto'}}],
+     after:['felino','marcaRe'] },
+ B:{ counters:[{id:'palavras',nome:'Marcadores — Palavras Inspiradoras',max:()=>AT('Presença'),per:'longo',start:'max',txt:'Ao falar com um aliado, gaste 1: ele recupera 1 PF, 1 PV ou ganha 1 Esperança.'},
+               {id:'invis',nome:'Marcadores — Invisibilidade',max:()=>AT('Presença'),per:'none',start:0,txt:'Gaste 1 a cada ação da criatura Invisível.'}],
+     hope:{nome:'Fazer uma Cena',custo:3,txt:'um alvo próximo fica com −2 na Dificuldade.'},
+     acts:[{nome:'Inspiração (dar d8 ao grupo)',use:{id:'insp',max:1,per:'sessao'},txt:'você e os aliados recebem um Dado de Inspiração d8'},
+           {nome:'Usar meu Dado de Inspiração',roll:[1,8],use:{id:'inspme',max:1,per:'sessao'},txt:'some a um teste, reação ou dano — ou recupere PF'},
+           {nome:'Canção Comovente',use:{id:'cc',max:1,per:'longo'},fx:()=>{S.esp=Math.min(6,S.esp+1)},txt:'você e aliados próximos recebem 1 Esperança'},
+           {nome:'Canção Épica',use:{id:'ce',max:1,per:'longo'},txt:'um alvo próximo fica Vulnerável'},
+           {nome:'Canção Relaxante',use:{id:'cr',max:1,per:'longo'},fx:()=>{S.pv=Math.min(C.pvMax,S.pv+1)},txt:'você e aliados próximos recuperam 1 PV'},
+           {nome:'Invisibilidade',cost:{pf:1},fill:'invis',txt:'você ou aliado corpo a corpo fica Invisível'},
+           {nome:'Lampejo Hipnótico',use:{id:'lamp',max:1,per:'curto'},txt:'alvos atingidos ficam Atordoados e marcam 1 PF'},
+           {nome:'Dissimulação',cost:{esp:1},txt:'vantagem para enganar'}] },
+};
+const FXC=()=>FX[C.code]||{};
+function fxS(){ if(!S.fx) S.fx={u:{},c:{},st:{},pool:{},num:{},det:null,marca:null}; for(const k of ['u','c','st','pool','num']) S.fx[k]=S.fx[k]||{}; return S.fx; }
+function stOn(id){ return !!fxS().st[id]; }
+function usesLeft(u){ return u.max-(fxS().u[u.id]||0); }
+function canPay(cost){ if(!cost) return true; if(cost.pf&&S.fad<cost.pf){toast('Sem Fadiga disponível.');return false} if(cost.esp&&S.esp<cost.esp){toast('Esperança insuficiente.');return false} if(cost.pa&&S.pa<cost.pa){toast('Sem Armadura disponível.');return false} return true; }
+function pay(cost){ if(!cost) return ''; const t=[]; if(cost.pf){S.fad-=cost.pf;t.push(cost.pf+' PF')} if(cost.esp){S.esp-=cost.esp;t.push(cost.esp+' ❂')} if(cost.pa){S.pa-=cost.pa;t.push(cost.pa+' Armadura')} return t.join(' + '); }
+function costTxt(cost){ if(!cost) return ''; const t=[]; if(cost.pf)t.push(cost.pf+' PF'); if(cost.esp)t.push(cost.esp+' ❂'); if(cost.pa)t.push(cost.pa+' Arm.'); return t.join(' · '); }
+function announce(msg,variant){ api.send(CH.notify,{msg:`✦ ${C.nome}: ${msg}`,variant:variant||'INFO',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
+function cntMax(k){ return Math.max(0,typeof k.max==='function'?k.max():k.max); }
+function evasao(){ let e=parseInt(C.evasao)||0; for(const s of (FXC().states||[])) if(s.ev&&stOn(s.id)) e+=s.ev; return e; }
+function rollLocal(n,d){ let t=0,v=[]; for(let i=0;i<n;i++){const x=randInt(d);v.push(x);t+=x} return {t,v}; }
+async function rollExpr(n,d,flat,label){ // dado avulso (cura, evasão, cartas)
+  let tot=null,vals=null,via='interna';
+  if(dpOK&&cfg.useDP){ try{ const r=await dpRoll(`${n}d${d}${flat?fmtMod(flat):''}`); const g=(r.groups||[]).find(x=>x.diceType==='d'+d); vals=g?g.dice.map(x=>x.value):null; tot=r.totalValue||((vals||[]).reduce((a,b)=>a+b,0)+(flat||0)); via='Dice+'; }catch(e){} }
+  if(tot==null){ const r=rollLocal(n,d); vals=r.v; tot=r.t+(flat||0); }
+  return {tot,vals,via};
 }
 
+function renderFx(){
+  const F=FXC(), X=fxS(); const el=$('fx'); if(!el) return;
+  let h=`<div class="fxtop"><span>Evasão <b>${evasao()}</b></span><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
+  // estados
+  if(F.states&&F.states.length) h+=`<div class="fxrow">${F.states.map(s=>`<button class="chip2 ${stOn(s.id)?'on':''}" data-fxst="${s.id}" title="${esc(s.txt)}">${esc(s.nome)}</button>`).join('')}</div>`;
+  // marca (caçador)
+  if(F.marca) h+=`<div class="fxline"><b>🎯 Marca da Presa</b><span>${X.marca?'Alvo marcado: ao causar dano, ele marca 1 PF. Você sabe a direção dele. Predador Veloz: +2 Evasão contra os ataques dele.':'nenhum alvo marcado — marque ao atacar (1 ❂)'}</span>${X.marca?'<button class="mini" data-fxmarca="0">encerrar</button>':''}</div>`;
+  // determinação (guardião)
+  if(F.det){ const d=X.det; h+=`<div class="fxline"><b>🛡 Determinação</b>${d?`<span>Dado <b class="dv">${d}</b>/6 · soma ao dano, −1 gravidade no dano físico, imune a Imobilizado e Vulnerável</span><button class="mini" data-fxdet="up">+1</button><button class="mini" data-fxdet="end">encerrar</button>`:`<span>${usesLeft({id:'det',max:1})>0?'pronta (1×/descanso longo)':'usada neste descanso longo'}</span>${usesLeft({id:'det',max:1})>0?'<button class="mini" data-fxdet="go">ficar Determinado</button>':''}`}</div>`; }
+  // número (mago)
+  if(F.num){ const v=X.num[F.num.id]||''; h+=`<div class="fxline"><b>${esc(F.num.nome)}</b><span>${esc(F.num.txt)}</span><select data-fxnum="${F.num.id}"><option value="">—</option>${Array.from({length:12},(_,i)=>`<option ${v==i+1?'selected':''}>${i+1}</option>`).join('')}</select></div>`; }
+  // pools
+  for(const p of (F.pools||[])){ const arr=X.pool[p.id]||[];
+    h+=`<div class="fxline col"><div><b>🙏 ${esc(p.nome)}</b> <span>${esc(p.txt)}</span></div><div class="fxrow">${arr.length?arr.map((v,i)=>`<button class="pd" data-fxpool="${p.id}:${i}" title="gastar">${v}</button>`).join(''):'<span class="dim">sem dados — role no início da sessão</span>'}<button class="mini" data-fxpoolroll="${p.id}">${arr.length?'rolar de novo':'rolar'} ${cntMax({max:p.count})}d${p.die}${p.extra?' (+1, descarta o menor)':''}</button></div>
+      <div class="fxrow" id="poolmenu-${p.id}"></div></div>`; }
+  // contadores
+  for(const k of (F.counters||[])){ const m=cntMax(k), v=Math.min(m, X.c[k.id]??(k.start==='max'?m:(k.start||0)));
+    h+=`<div class="fxline"><b>${esc(k.nome)}</b><span>${esc(k.txt||'')}</span><button class="mini" data-fxc="${k.id}:-1">−</button><b class="dv">${v}/${m}</b><button class="mini" data-fxc="${k.id}:1">+</button>${k.recarga?`<button class="mini" data-fxcr="${k.id}">recarregar (${costTxt(k.recarga)})</button>`:''}</div>`; }
+  // habilidade de esperança
+  if(F.hope&&!F.hope.resOnly) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span><button class="mini gold" data-fxhope="1">usar · ${F.hope.custo} ❂</button></div>`;
+  else if(F.hope) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span></div>`;
+  // ações
+  if(F.acts&&F.acts.length) h+=`<div class="fxacts">${F.acts.map((a,i)=>{ const left=a.use?usesLeft(a.use):null;
+    const pips=a.use?`<span class="up">${Array.from({length:a.use.max},(_,j)=>`<i class="${j<a.use.max-left?'used':''}"></i>`).join('')}<small>${PERN[a.use.per]||''}</small></span>`:'';
+    return `<div class="fxa"><div><b>${esc(a.nome)}</b>${a.txt?`<span>${esc(a.txt)}</span>`:''}</div>${pips}<button class="mini" data-fxact="${i}" ${a.use&&left<=0?'disabled':''}>${a.spend?'gastar':'usar'}${a.cost?' · '+costTxt(a.cost):''}${a.roll?` · ${a.roll[0]}d${a.roll[1]}${a.roll[2]?'+'+a.roll[2]:''}`:''}</button></div>`; }).join('')}</div>`;
+  h+=`<div class="fxrest"><button data-fxrest="curto">Descanso curto</button><button data-fxrest="longo">Descanso longo</button><button data-fxrest="sessao">Nova sessão</button></div>`;
+  el.innerHTML=h;
+}
+async function fxSave(){ renderFx(); renderTrackers(); await saveSheet(); }
+document.addEventListener('change',async ev=>{
+  const n=ev.target.closest('[data-fxnum]'); if(n){ fxS().num[n.dataset.fxnum]=+n.value||null; await fxSave(); toast(n.value?`Padrão escolhido: ${n.value}`:'Padrão limpo'); }
+});
+document.addEventListener('click',async ev=>{
+  if(!C) return; const F=FXC(), X=fxS(); const t=ev.target;
+  const st=t.closest('[data-fxst]'); if(st){ X.st[st.dataset.fxst]=!X.st[st.dataset.fxst]; await fxSave(); return; }
+  const mk=t.closest('[data-fxmarca]'); if(mk){ X.marca=null; await fxSave(); announce('encerrou a Marca da Presa.'); return; }
+  const dt=t.closest('[data-fxdet]'); if(dt){ const a=dt.dataset.fxdet;
+    if(a==='go'){ X.u.det=(X.u.det||0)+1; X.det=1; announce('ficou Determinado (dado 1/6).','WARNING'); }
+    else if(a==='up'){ if(X.det>=6){ X.det=null; announce('a Determinação passou do máximo e se encerrou.'); } else X.det++; }
+    else { X.det=null; }
+    await fxSave(); return; }
+  const c=t.closest('[data-fxc]'); if(c){ const [id,d]=c.dataset.fxc.split(':'); const k=F.counters.find(x=>x.id===id), m=cntMax(k); const cur=X.c[id]??(k.start==='max'?m:(k.start||0)); X.c[id]=Math.max(0,Math.min(m,cur+(+d))); await fxSave(); return; }
+  const cr=t.closest('[data-fxcr]'); if(cr){ const k=F.counters.find(x=>x.id===cr.dataset.fxcr); if(!canPay(k.recarga)) return; pay(k.recarga); X.c[k.id]=cntMax(k); await fxSave(); announce(`recarregou ${k.nome.replace('Marcadores — ','')}.`); return; }
+  const pr=t.closest('[data-fxpoolroll]'); if(pr){ const p=F.pools.find(x=>x.id===pr.dataset.fxpoolroll); const n=cntMax({max:p.count})+(p.extra||0);
+    const r=await rollExpr(n,p.die,0,p.nome); let v=(r.vals||[]).slice().sort((a,b)=>b-a); if(p.extra) v=v.slice(0,v.length-p.extra);
+    X.pool[p.id]=v; await fxSave(); announce(`rolou ${p.nome}: ${v.join(', ')}.`); return; }
+  const pd=t.closest('[data-fxpool]'); if(pd){ const [id,i]=pd.dataset.fxpool.split(':'); const v=X.pool[id][+i];
+    $('poolmenu-'+id).innerHTML=`<span class="dim">dado ${v}:</span><button class="mini" data-pooluse="${id}:${i}:roll">somar à rolagem</button><button class="mini" data-pooluse="${id}:${i}:dmg">reduzir dano</button><button class="mini" data-pooluse="${id}:${i}:hope">+${v} Esperança</button>`; return; }
+  const pu=t.closest('[data-pooluse]'); if(pu){ const [id,i,how]=pu.dataset.pooluse.split(':'); const v=X.pool[id][+i]; X.pool[id].splice(+i,1);
+    if(how==='hope'){ S.esp=Math.min(6,S.esp+v); announce(`gastou um Dado de Oração (${v}) e ganhou ${v} Esperança.`,'SUCCESS'); }
+    else announce(`gastou um Dado de Oração: ${how==='roll'?'+':'−'}${v} ${how==='roll'?'na rolagem':'no dano'}.`,'SUCCESS');
+    await fxSave(); return; }
+  const hp=t.closest('[data-fxhope]'); if(hp){ const H=F.hope; if(!canPay({esp:H.custo})) return; pay({esp:H.custo});
+    if(H.state) X.st[H.state]=true; if(H.fx) H.fx(); await fxSave(); announce(`${H.nome} (${H.custo} ❂) — ${H.txt}`,'SUCCESS'); return; }
+  const ac=t.closest('[data-fxact]'); if(ac){ const a=F.acts[+ac.dataset.fxact];
+    if(a.use&&usesLeft(a.use)<=0){ toast('Já usado neste '+(PERN[a.use.per]||'período')+'.'); return; }
+    if(a.spend){ const k=F.counters.find(x=>x.id===a.spend), have=X.c[k.id]??cntMax(k);
+      if(!have){ toast('Sem marcadores.'); return; }
+      ac.parentElement.insertAdjacentHTML('beforeend',`<div class="fxrow spendrow">${Array.from({length:have},(_,j)=>`<button class="mini" data-fxspend="${ac.dataset.fxact}:${j+1}">${j+1}</button>`).join('')}</div>`); return; }
+    if(!canPay(a.cost)) return; const pago=pay(a.cost); if(a.use) X.u[a.use.id]=(X.u[a.use.id]||0)+1;
+    if(a.state) X.st[a.state]=true; if(a.fill){ const k=F.counters.find(x=>x.id===a.fill); X.c[k.id]=cntMax(k); } if(a.fx) a.fx();
+    let extra=''; if(a.roll){ const r=await rollExpr(a.roll[0],a.roll[1],a.roll[2]||0,a.nome); extra=` → ${r.tot}`; toast(`${a.nome}: ${r.tot}`); }
+    await fxSave(); announce(`${a.nome}${pago?' ('+pago+')':''}${a.txt?' — '+a.txt:''}${extra}`); return; }
+  const sp=t.closest('[data-fxspend]'); if(sp){ const [ai,n]=sp.dataset.fxspend.split(':').map(Number); const a=F.acts[ai]; const k=F.counters.find(x=>x.id===a.spend);
+    X.c[k.id]=(X.c[k.id]??cntMax(k))-n; const r=await rollExpr(n,a.die,0,a.nome); await fxSave();
+    showDmgOnly(`${a.nome} · ${n}d${a.die}`, r, true); announce(`${a.nome}: ${n} marcador(es) → ${r.tot} de dano mágico.`); return; }
+  const rs=t.closest('[data-fxrest]'); if(rs){ fxRest(rs.dataset.fxrest); return; }
+});
+async function fxRest(kind){
+  const F=FXC(), X=fxS(); const lv={curto:['curto'],longo:['curto','longo'],sessao:['curto','longo','sessao']}[kind];
+  const all=[...(F.acts||[]).map(a=>a.use).filter(Boolean),...(F.opts||[]).map(o=>o.use).filter(Boolean)]; if(F.det) all.push({id:'det',per:'longo'});
+  for(const u of all) if(lv.includes(u.per)) X.u[u.id]=0;
+  for(const k of (F.counters||[])) if(lv.includes(k.per)) X.c[k.id]=(k.start==='max'?cntMax(k):0);
+  for(const s of (F.states||[])) if(s.clearOnRest||s.id==='esquiva'||s.id==='besouros'||s.id==='fera') X.st[s.id]=false;
+  X.det=null; if(kind==='sessao'){ X.pool={}; X.marca=null; }
+  await fxSave(); announce(`${kind==='curto'?'fez um descanso curto':kind==='longo'?'fez um descanso longo':'começou uma nova sessão'} — usos e marcadores renovados.`);
+}
+
+/* efeitos aplicados numa rolagem */
+function gatherFx(ctx,checked){
+  const F=FXC(), X=fxS(); const isW=ctx.tipo==='wpn'; const phys=isW&&/fís/.test(ctx.arma.desc||''); const mag=isW&&/mág/.test(ctx.arma.desc||'');
+  const e={atk:0,dmgDice:[],dmgFlat:0,prof:0,adv:false,hopeD20:false,double:false,notes:[],cost:{},consume:[],uses:[],setMarca:false,phys,mag};
+  const add=(o,nome)=>{ if(o.wpn&&!isW) return; if(o.test&&isW) return;
+    if(o.atk) e.atk+=typeof o.atk==='function'?o.atk():o.atk; if(o.dmgDice&&isW) e.dmgDice.push(o.dmgDice); if(o.dmgFlat&&isW) e.dmgFlat+=o.dmgFlat;
+    if(o.prof&&isW) e.prof+=o.prof; if(o.adv) e.adv=true; if(o.hopeD20) e.hopeD20=true; if(o.double&&isW) e.double=true;
+    if(o.cost) for(const k in o.cost) e.cost[k]=(e.cost[k]||0)+o.cost[k]; if(o.use) e.uses.push(o.use.id); if(o.setMarca) e.setMarca=true; e.notes.push(nome); };
+  for(const s of (F.states||[])) if(stOn(s.id)&&(s.atk||s.dmgDice||s.dmgFlat||s.double)){ if((s.wpn&&!isW)) continue; add(s,s.nome); if(s.consume&&isW) e.consume.push(s.id); }
+  for(const o of (F.opts||[])) if(checked.includes(o.id)) add(o,o.nome.split(':')[0].split('(')[0].trim());
+  // automáticos
+  if(C.code==='W'&&phys){ e.dmgFlat+=NIVEL; e.notes.push('Treinamento de Combate +5'); }
+  if(C.code==='W'&&S.pv<=2){ e.hopeD20=true; e.notes.push('Enfrentar o Desafio: d20 de Esperança'); }
+  if(C.code==='G'&&X.det&&isW){ e.dmgFlat+=X.det; e.notes.push(`Determinação +${X.det}`); }
+  if(C.code==='M'&&S.fad<=0&&isW){ e.prof+=1; e.notes.push('Voz da Razão: +1 Proficiência'); }
+  if(C.code==='C'&&X.marca&&isW) e.notes.push('alvo Marcado marca 1 PF ao sofrer dano');
+  if(isW&&/marque 1 PF/i.test(ctx.arma.desc||'')){ e.cost.pf=(e.cost.pf||0)+1; e.notes.push(ctx.arma.nome+': 1 PF'); }
+  return e;
+}
+function optsFor(ctx){
+  const F=FXC(); const isW=ctx.tipo==='wpn';
+  return (F.opts||[]).filter(o=>!(o.wpn&&!isW)&&!(o.test&&isW)&&!(o.unless&&stOn(o.unless))&&!(o.unlessMarca&&fxS().marca)&&!(o.use&&usesLeft(o.use)<=0));
+}
+
+/* ---------- motor de dualidade ---------- */
+function parseDuality(result,mode){
+  const gs=result.groups||[];
+  const hope=gs[0]?.dice?.[0]?.value??null, fear=gs[1]?.dice?.[0]?.value??null;
+  let adv=0; if(mode&&mode!=='norm'&&gs[2]&&gs[2].dice?.length===1){ adv=gs[2].isNegative||mode==='dis'?-Math.abs(gs[2].dice[0].value):gs[2].dice[0].value; }
+  return {hope,fear,adv};
+}
 async function applyOutcome(kind){ // 'hope' | 'fear' | 'crit'
-  if(kind==='crit'){ S.esp=Math.min(6,S.esp+1); S.fad=Math.min(C.fadigaMax,S.fad+1); // +1 Esperança, recupera 1 Fadiga
-    renderTrackers(); await saveSheet();
-  } else if(kind==='hope'){ S.esp=Math.min(6,S.esp+1); renderTrackers(); await saveSheet();
-  } else if(kind==='fear'){
+  if(kind==='crit'){ S.esp=Math.min(6,S.esp+1); S.fad=Math.min(C.fadigaMax,S.fad+1); renderTrackers(); await saveSheet(); }
+  else if(kind==='hope'){ S.esp=Math.min(6,S.esp+1); renderTrackers(); await saveSheet(); }
+  else if(kind==='fear'){
     const m=await api.getMeta(); const f=Math.min(12,(m[K.fear]||0)+1);
     await api.setMeta({[K.fear]:f});
     api.send(CH.notify,{msg:`🩸 A Boca salivou ${f} ${f===1?'vez':'vezes'}… (Medo do Mestre: ${f})`,variant:'WARNING',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL');
   }
 }
-
+async function undoOutcome(kind){
+  if(kind==='crit'){ S.esp=Math.max(0,S.esp-1); S.fad=Math.max(0,S.fad-1); }
+  else if(kind==='hope'){ S.esp=Math.max(0,S.esp-1); }
+  else if(kind==='fear'){ const m=await api.getMeta(); await api.setMeta({[K.fear]:Math.max(0,(m[K.fear]||0)-1)}); }
+  renderTrackers(); await saveSheet();
+}
 function fmtMod(n){return (n>=0?'+':'')+n}
 
 /* ---------- rolagens ---------- */
-let rollCtx=null; // {tipo:'attr'|'wpn', nome, mod, arma?, mode}
+let rollCtx=null, last=null;
 function openRollDlg(ctx){
   rollCtx={...ctx,mode:'norm'};
   $('rdTitle').textContent=(ctx.tipo==='wpn'?'Ataque — ':'')+ctx.nome+'  '+fmtMod(ctx.mod);
   document.querySelectorAll('#rdMode button').forEach(b=>b.classList.toggle('on',b.dataset.m==='norm'));
   const p=S.pend?`Experiência armada: ${S.pend.nome} +${S.pend.mod} (será consumida)`:'';
-  const d=ctx.tipo==='wpn'?` · dano ${ctx.arma.dano}${rollCtx?'':''}`:'';
-  $('rdInfo').textContent=(p?p+' · ':'')+(ctx.tipo==='wpn'?`Dano junto: ${ctx.arma.dano}`:'Rolagem de dualidade 2d12');
+  const auto=gatherFx(ctx,[]).notes;
+  $('rdInfo').textContent=[p,ctx.tipo==='wpn'?`Dano: ${ctx.arma.dano}`:'Rolagem de dualidade 2d12', auto.length?'Ativo: '+auto.join(' · '):''].filter(Boolean).join(' · ');
+  $('rdOpts').innerHTML=optsFor(ctx).map(o=>`<label><input type="checkbox" value="${o.id}"> ${esc(o.nome)}${o.use?` <small>(${usesLeft(o.use)}× até o ${PERN[o.use.per]})</small>`:''}</label>`).join('');
   $('rollDlg').classList.add('on');
 }
 document.querySelectorAll('#rdMode button').forEach(b=>b.onclick=()=>{
@@ -1773,81 +2034,201 @@ document.querySelectorAll('#rdMode button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#rdMode button').forEach(x=>x.classList.toggle('on',x===b));
 });
 $('rdCancel').onclick=()=>$('rollDlg').classList.remove('on');
-$('rdGo').onclick=async()=>{
-  $('rollDlg').classList.remove('on');
-  const ctx=rollCtx; const expMod=S.pend?S.pend.mod:0; const expNome=S.pend?.nome;
-  const totalMod=ctx.mod+expMod;
-  // notação
-  let not=`1d12{${cfg.hope}}+1d12{${cfg.fear}}`;
-  if(ctx.mode==='adv') not+= cfg.adv?`+1d6{${cfg.adv}}`:'+1d6';
-  if(ctx.mode==='dis') not+='-1d6';
+async function rollDuality(mode,totalMod,hopeD20,label){
+  const hd=hopeD20?20:12;
+  let not=`1d${hd}{${cfg.hope}}+1d12{${cfg.fear}}`;
+  if(mode==='adv') not+= cfg.adv?`+1d6{${cfg.adv}}`:'+1d6';
+  if(mode==='dis') not+='-1d6';
   if(totalMod) not+=fmtMod(totalMod);
-  not+=` #${ctx.nome}`;
-  let spec=[{n:1,d:12},{n:1,d:12}];
-  if(ctx.mode==='adv')spec.push({n:1,d:6});
-  if(ctx.mode==='dis')spec.push({n:1,d:6,neg:true});
-  if(ctx.tipo==='wpn'){
-    const dm=ctx.arma.dano.match(/(\d+)d(\d+)([+\-]\d+)?/);
-    not+=`, ${ctx.arma.dano} #Dano ${ctx.arma.nome}`;
-    spec.push({n:+dm[1],d:+dm[2]});
-    ctx.dmgMod=dm[3]?parseInt(dm[3]):0;
-  }
-  // consumir experiência
-  if(S.pend){S.pend=null;renderPend();}
-  let result, viaDP=false;
+  const spec=[{n:1,d:hd},{n:1,d:12}]; if(mode==='adv')spec.push({n:1,d:6}); if(mode==='dis')spec.push({n:1,d:6,neg:true});
+  let result=null, viaDP=false;
   if(dpOK&&cfg.useDP){ try{ result=await dpRoll(not); viaDP=true; }catch(e){ result=null; } }
-  if(!result){ result=internalRoll(spec); }
-  const p=parseDuality(result);
-  if(p.hope==null||p.fear==null){ // Dice+ devolveu algo inesperado → refaz interno
-    const r2=internalRoll(spec); Object.assign(p,parseDuality(r2)); viaDP=false;
-  }
+  let p=result?parseDuality(result,mode):null;
+  if(!p||p.hope==null||p.fear==null){ p=parseDuality(internalRoll(spec),mode); viaDP=false; }
+  return {p,viaDP};
+}
+async function rollDamage(ctx,e){
+  const dm=ctx.arma.dano.match(/(\d+)d(\d+)([+\-]\d+)?/);
+  const n=+dm[1]+e.prof, d=+dm[2], flat=(dm[3]?parseInt(dm[3]):0)+e.dmgFlat;
+  const groups=[{n,d},...e.dmgDice.map(x=>({n:x[0],d:x[1]}))];
+  const expr=groups.map(g=>`${g.n}d${g.d}`).join('+')+(flat?fmtMod(flat):'');
+  let vals=null, via='interna';
+  if(dpOK&&cfg.useDP){ try{ const r=await dpRoll(expr); const gs=r.groups||[]; if(gs.length>=groups.length) { vals=groups.map((g,i)=>(gs[i].dice||[]).map(x=>x.value)); via='Dice+'; } }catch(e){} }
+  if(!vals) vals=groups.map(g=>rollLocal(g.n,g.d).v);
+  let notes=[];
+  if(C.code==='G'){ // Não o Suficiente: rola de novo 1 e 2
+    let rr=0; vals=vals.map((arr,gi)=>arr.map(v=>{ if(v<=2){rr++;return randInt(groups[gi].d)} return v; })); if(rr) notes.push(`Não o Suficiente: ${rr} dado(s) de 1–2 rolado(s) de novo`); }
+  const sum=vals.flat().reduce((a,b)=>a+b,0)+flat;
+  const max=groups.reduce((s,g)=>s+g.n*g.d,0);
+  return {expr,sum,max,via,notes,groups,flat};
+}
+$('rdGo').onclick=async()=>{
+  const ctx=rollCtx; const checked=[...document.querySelectorAll('#rdOpts input:checked')].map(i=>i.value);
+  const e=gatherFx(ctx,checked);
+  if(!canPay(e.cost)) return;
+  $('rollDlg').classList.remove('on');
+  const pago=pay(e.cost); for(const u of e.uses) fxS().u[u]=(fxS().u[u]||0)+1;
+  const expMod=S.pend?S.pend.mod:0; const expNome=S.pend?.nome;
+  const totalMod=ctx.mod+expMod+e.atk;
+  const mode=e.adv&&ctx.mode==='norm'?'adv':ctx.mode;
+  if(S.pend){S.pend=null;renderPend();}
+  const {p,viaDP}=await rollDuality(mode,totalMod,e.hopeD20,ctx.nome);
   const total=p.hope+p.fear+p.adv+totalMod;
   const crit=p.hope===p.fear;
   const kind=crit?'crit':(p.hope>p.fear?'hope':'fear');
   await applyOutcome(kind);
-  showResult({ctx,p,total,crit,kind,expNome,viaDP});
+  let dmg=null;
+  if(ctx.tipo==='wpn'){ dmg=await rollDamage(ctx,e); for(const id of e.consume) fxS().st[id]=false; if(e.setMarca) fxS().marca=true; }
+  last={ctx,e,p,total,crit,kind,expNome,viaDP,dmg,totalMod,mode,pago};
+  await fxSave();
+  if(pago) announce(`${ctx.nome}: ${e.notes.join(' · ')} (${pago})`);
+  showResult(last);
 };
-
-function showResult({ctx,p,total,crit,kind,expNome,viaDP}){
+function dmgValue(L){ const d=L.dmg; if(!d) return null; let v=d.sum; if(L.crit) v+=d.max; if(L.e.double) v*=2; return v; }
+function showResult(L){
+  const {ctx,p,total,crit,kind,expNome,viaDP,e}=L;
   const col=kind==='crit'?'var(--bile)':(kind==='hope'?'var(--hope)':'var(--fear)');
   document.documentElement.style.setProperty('--rescol',col);
   $('resTitle').textContent=ctx.nome+(ctx.tipo==='wpn'?' — ataque':'');
-  let dice=`<div class="rd hope"><b>${p.hope}</b><span>Esperança</span></div>
-            <div class="rd fear"><b>${p.fear}</b><span>Medo</span></div>`;
+  let dice=`<div class="rd hope"><b>${p.hope}</b><span>Esperança${e.hopeD20?' d20':''}</span></div><div class="rd fear"><b>${p.fear}</b><span>Medo</span></div>`;
   if(p.adv) dice+=`<div class="rd ${p.adv>0?'adv':'dis'}"><b>${p.adv>0?'+':''}${p.adv}</b><span>${p.adv>0?'vantagem':'desvant.'}</span></div>`;
-  $('resDice').innerHTML=dice;
-  $('resTotal').textContent=total;
-  $('resVs').textContent='total do teste';
-  const tag=$('resTag');
-  tag.className='res-tag '+kind;
+  $('resDice').innerHTML=dice; $('resDice').style.display='flex'; $('resTag').style.display='block';
+  $('resTotal').textContent=total; $('resVs').textContent='total do teste'+(L.totalMod?` (mod ${fmtMod(L.totalMod)})`:'');
+  const tag=$('resTag'); tag.className='res-tag '+kind;
   tag.textContent=crit?'✦ CRÍTICO — sucesso com Esperança':(kind==='hope'?'COM ESPERANÇA  (+1 Esperança)':'COM MEDO  (a Boca saliva)');
   const rd=$('resDmg');
-  if(ctx.tipo==='wpn'){
-    let dmg=p.dmgDice+(ctx.dmgMod||0);
-    let note='';
-    if(crit){ dmg+=p.dmgMax; note=` (crítico: +${p.dmgMax} do máximo)`; }
-    rd.style.display='block';
-    rd.innerHTML=`<b>${dmg}</b><span class="small">dano · ${esc(ctx.arma.dano)}${note}</span>`;
+  if(L.dmg){ const d=L.dmg, v=dmgValue(L);
+    const ex=[crit?`crítico +${d.max}`:'',e.double?'Punição ×2':'',...d.notes].filter(Boolean).join(' · ');
+    rd.style.display='block'; rd.innerHTML=`<b>${v}</b><span class="small">dano · ${esc(d.expr)}${ex?' · '+esc(ex):''}</span>`;
   } else rd.style.display='none';
-  $('resNote').textContent=(expNome?`Experiência usada: ${expNome}. `:'')+(viaDP?'Rolado no Dice+.':'Rolagem interna (Dice+ indisponível).');
+  $('resNote').textContent=[expNome?`Experiência: ${expNome}`:'', e.notes.length?'Efeitos: '+e.notes.join(' · '):'', viaDP?'Rolado no Dice+.':'Rolagem interna.'].filter(Boolean).join(' · ');
+  renderAfter(L);
   $('res').classList.add('on');
 }
+function showDmgOnly(label,r,magic){
+  document.documentElement.style.setProperty('--rescol','var(--blood2)');
+  $('resTitle').textContent=label; $('resDice').style.display='none'; $('resTag').style.display='none';
+  $('resTotal').textContent=r.tot; $('resVs').textContent='dano'+(r.vals?` · dados: ${r.vals.join(', ')}`:'');
+  $('resDmg').style.display='none'; $('resNote').textContent=r.via==='Dice+'?'Rolado no Dice+.':'Rolagem interna.';
+  last={dmgOnly:true,label,r,magic};
+  $('resAct').innerHTML=magic&&C.code==='F'?`<button class="mini gold" data-after="volatil">Magia Volátil (3 ❂): rolar o dano de novo</button>`:'';
+  $('res').classList.add('on');
+}
+function renderAfter(L){
+  const F=FXC(), X=fxS(), b=[]; const after=F.after||[];
+  if(after.includes('destemido')&&L.kind==='fear') b.push(['destemido','Destemido (2 PF): rolar com Esperança']);
+  if(after.includes('furtiv')&&L.kind==='fear') b.push(['furtiv','Mestre da Furtividade (1 PF): movimento furtivo com Esperança']);
+  if(after.includes('coragem')&&L.kind==='fear') b.push(['coragem','Falhei com Medo — Coragem: +1 Esperança']);
+  if(after.includes('padrao')){ const n=X.num.padrao; if(n&&(L.p.hope===n||L.p.fear===n)){ b.push(['padraoE',`Padrão ${n}! +1 Esperança`]); b.push(['padraoF',`Padrão ${n}! recuperar 1 PF`]); } }
+  if(after.includes('adapt')&&L.expNome) b.push(['adapt','Adaptabilidade (1 PF): falhei com Experiência — rolar de novo']);
+  if(after.includes('sorte')&&usesLeft({id:'sorte',max:1})>0) b.push(['sorte','Testar a Sorte (3 ❂, 1×/sessão): rolar a Dualidade de novo']);
+  if(after.includes('felino')&&(L.ctx.nome==='Agilidade'||L.ctx.arma?.atributo==='Agilidade')) b.push(['felino','Felino (2 ❂): rolar o Dado de Esperança de novo']);
+  if(after.includes('marcaRe')&&X.marca&&L.ctx.tipo==='wpn') b.push(['marcaRe','Errei o Marcado: encerrar a Marca e rolar de novo']);
+  if(after.includes('volatil')&&L.dmg&&L.e.mag) b.push(['volatil','Magia Volátil (3 ❂): rolar o dano de novo']);
+  if(L.dmg&&C.code==='C'&&X.marca) b.push(['marcaPF','Acertei o Marcado: avisar que ele marca 1 PF']);
+  $('resAct').innerHTML=b.map(([k,t])=>`<button class="mini gold" data-after="${k}">${esc(t)}</button>`).join('');
+}
+async function rerollDuality(onlyHope){
+  const L=last; await undoOutcome(L.kind);
+  if(onlyHope){ const hd=L.e.hopeD20?20:12; let v=null; if(dpOK&&cfg.useDP){ try{ const r=await dpRoll(`1d${hd}{${cfg.hope}}`); v=r.groups?.[0]?.dice?.[0]?.value??null; }catch(e){} } if(v==null) v=randInt(hd); L.p={...L.p,hope:v}; }
+  else { const {p,viaDP}=await rollDuality(L.mode,L.totalMod,L.e.hopeD20); L.p=p; L.viaDP=viaDP; }
+  L.total=L.p.hope+L.p.fear+L.p.adv+L.totalMod; L.crit=L.p.hope===L.p.fear; L.kind=L.crit?'crit':(L.p.hope>L.p.fear?'hope':'fear');
+  await applyOutcome(L.kind); showResult(L);
+}
+document.addEventListener('click',async ev=>{
+  const a=ev.target.closest('[data-after]'); if(!a||!last) return; const k=a.dataset.after, L=last;
+  if(k==='destemido'||k==='furtiv'){ const c=k==='destemido'?2:1; if(!canPay({pf:c})) return; pay({pf:c}); await undoOutcome('fear'); L.kind='hope'; await applyOutcome('hope'); announce(`${k==='destemido'?'Destemido':'Mestre da Furtividade'} (${c} PF): rolou com Esperança em vez de Medo.`); showResult(L); }
+  else if(k==='coragem'){ S.esp=Math.min(6,S.esp+1); await fxSave(); a.remove(); announce('Coragem: falhou com Medo e recebeu 1 Esperança.'); }
+  else if(k==='padraoE'||k==='padraoF'){ if(k==='padraoE') S.esp=Math.min(6,S.esp+1); else S.fad=Math.min(C.fadigaMax,S.fad+1); await fxSave(); $('resAct').querySelectorAll('[data-after^="padrao"]').forEach(x=>x.remove()); announce(`Padrões Estranhos: ${k==='padraoE'?'+1 Esperança':'recuperou 1 PF'}.`); }
+  else if(k==='adapt'){ if(!canPay({pf:1})) return; pay({pf:1}); announce('Adaptabilidade (1 PF): rolou de novo.'); await rerollDuality(false); }
+  else if(k==='sorte'){ if(!canPay({esp:3})) return; pay({esp:3}); fxS().u.sorte=1; announce('Testar a Sorte (3 ❂): rolou os Dados de Dualidade de novo.'); await rerollDuality(false); }
+  else if(k==='felino'){ if(!canPay({esp:2})) return; pay({esp:2}); announce('Felino (2 ❂): rolou o Dado de Esperança de novo.'); await rerollDuality(true); }
+  else if(k==='marcaRe'){ fxS().marca=null; announce('encerrou a Marca da Presa para rolar de novo.'); await rerollDuality(false); }
+  else if(k==='marcaPF'){ api.send(CH.notify,{msg:`🎯 ${C.nome} acertou o alvo Marcado — ele marca 1 PF.`,variant:'WARNING',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); a.remove(); }
+  else if(k==='volatil'){ if(!canPay({esp:3})) return; pay({esp:3});
+    if(L.dmgOnly){ const m=L.label.match(/(\d+)d(\d+)(?:\+(\d+))?/); const r=await rollExpr(+m[1],+m[2],+(m[3]||0)); await fxSave(); announce(`Magia Volátil (3 ❂): dano rolado de novo → ${r.tot}.`); showDmgOnly(L.label,r,true); }
+    else { L.dmg=await rollDamage(L.ctx,L.e); await fxSave(); announce(`Magia Volátil (3 ❂): dano rolado de novo → ${dmgValue(L)}.`); showResult(L); } }
+  renderFx();
+});
+
 $('resOk').onclick=()=>$('res').classList.remove('on');
 
 /* ---------- dano sofrido ---------- */
-$('btnDano').onclick=()=>{$('dmgVal').value='';$('dmgArm').checked=false;$('dmgDlg').classList.add('on')};
+$('btnDano').onclick=()=>{
+  const F=FXC(), X=fxS(), dm=F.dmg||[]; let h='';
+  const maxArm=Math.min(S.pa, dm.includes('vontade')?2:1);
+  h+=`<label>Armadura a marcar <select id="dmgArmN">${Array.from({length:maxArm+1},(_,i)=>`<option value="${i}">${i}${i?' (−'+i+' gravidade)':''}</option>`).join('')}</select></label>`;
+  if(dm.includes('fisico')) h+=`<label><input type="checkbox" id="dmgFis" checked> dano físico${dm.includes('vontade')?' (Vontade de Ferro: até 2 Armaduras)':''}${X.det?' · Determinação: −1 gravidade':''}</label>`;
+  if(dm.includes('levante')) h+=`<label><input type="checkbox" id="dmgLev"> Levante-se (1 PF): se for grave, −1 gravidade</label>`;
+  if(dm.includes('escamas')) h+=`<label><input type="checkbox" id="dmgEsc"> Escamas (1 PF): se for grave, marque 1 PV a menos</label>`;
+  if(dm.includes('besouros')&&stOn('besouros')) h+=`<div class="dim" style="margin-bottom:6px">🪲 Besouros ativos: −1 gravidade.</div><label><input type="checkbox" id="dmgBes"> manter os besouros depois (1 ❂)</label>`;
+  if(dm.includes('espinhos')){ const n=X.c.espinhos||0; if(n) h+=`<label>Pele de Espinhos: gastar <select id="dmgEsp">${Array.from({length:n+1},(_,i)=>`<option>${i}</option>`).join('')}</select> marcador(es) (1d6 cada, reduz o dano)</label>`; }
+  if(dm.includes('oracao')){ const arr=X.pool.oracao||[]; if(arr.length) h+=`<div class="dim" style="margin-bottom:4px">Dados de Oração para reduzir o dano:</div><div class="fxrow" style="margin-bottom:8px">${arr.map((v,i)=>`<label style="margin:0"><input type="checkbox" class="dmgOra" value="${i}"> ${v}</label>`).join('')}</div>`; }
+  $('dmgOpts').innerHTML=h; $('dmgVal').value=''; $('dmgDlg').classList.add('on');
+};
 $('dmgCancel').onclick=()=>$('dmgDlg').classList.remove('on');
 $('dmgGo').onclick=async()=>{
-  const v=parseInt($('dmgVal').value||'0'); if(!v){$('dmgDlg').classList.remove('on');return}
-  let sev=v<C.limiares[0]?1:(v<C.limiares[1]?2:3);
-  let used='';
-  if($('dmgArm').checked&&S.pa>0&&sev>0){S.pa--;sev=Math.max(0,sev-1);used=' (1 Armadura: gravidade −1)'}
+  let v=parseInt($('dmgVal').value||'0'); if(!v){$('dmgDlg').classList.remove('on');return}
+  const F=FXC(), X=fxS(), log=[]; const q=id=>document.getElementById(id);
+  const fis=q('dmgFis')?q('dmgFis').checked:true;
+  if(q('dmgEsp')&&+q('dmgEsp').value){ const n=+q('dmgEsp').value; const r=await rollExpr(n,6,0); X.c.espinhos-=n; v=Math.max(0,v-r.tot); log.push(`Espinhos −${r.tot}`); announce(`Pele de Espinhos: reduziu ${r.tot} de dano (se o atacante está corpo a corpo, ele sofre ${r.tot}).`); }
+  const ora=[...document.querySelectorAll('.dmgOra:checked')].map(i=>+i.value).sort((a,b)=>b-a);
+  if(ora.length){ let s=0; for(const i of ora){ s+=X.pool.oracao[i]; X.pool.oracao.splice(i,1); } v=Math.max(0,v-s); log.push(`Oração −${s}`); }
+  const lim=C.limiares; let sev=v<=0?0:(v<lim[0]?1:(v<lim[1]?2:3)); const orig=sev;
+  const arm=Math.min(+(q('dmgArmN')?.value||0), (fis||!(F.dmg||[]).includes('vontade'))?2:1);
+  if(arm&&sev>0){ const use=Math.min(arm,S.pa); S.pa-=use; sev=Math.max(0,sev-use); log.push(`${use} Armadura`); }
+  if(C.code==='G'&&X.det&&fis&&sev>0){ sev--; log.push('Determinação'); }
+  if(stOn('besouros')&&sev>0){ sev--; log.push('Besouros'); if(q('dmgBes')?.checked&&S.esp>0){S.esp--;} else X.st.besouros=false; }
+  if(q('dmgLev')?.checked&&orig===3&&sev>0&&S.fad>0){ S.fad--; sev--; log.push('Levante-se'); }
+  if(q('dmgEsc')?.checked&&orig===3&&sev>0&&S.fad>0){ S.fad--; sev--; log.push('Escamas'); }
+  for(const s of (F.states||[])) if(s.clearOnHit&&X.st[s.id]) { X.st[s.id]=false; log.push(s.nome+' encerrada'); }
   S.pv=Math.max(0,S.pv-sev);
-  renderTrackers(); await saveSheet();
+  if(S.pv===0&&X.st.fera){ X.st.fera=false; log.push('saiu da Forma de Fera'); }
+  await fxSave();
   $('dmgDlg').classList.remove('on');
-  toast(sev>0?`Sofreu ${v} de dano → marcou ${sev} PV${used}`:`Armadura absorveu tudo${used}`);
+  toast(`${v} de dano → ${sev} PV${log.length?' · '+log.join(' · '):''}`);
   if(S.pv===0){ api.send(CH.notify,{msg:`☠ ${C.nome} (${ME.name}) CAIU!`,variant:'ERROR',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
 };
+
+/* ---------- dados das cartas ---------- */
+function cardDice(c){
+  const out=[]; const sc=SC[C.code]; const prof=+C.prof||3;
+  const re=/(^|[.!]\s+)([A-ZÁÉÍÓÚÂÊÔÃÕÇ][^.:•]{2,30}):\s/g; const marks=[]; let m;
+  while((m=re.exec(c.texto))) marks.push({i:m.index+m[1].length,nome:m[2]});
+  const segs=marks.length?marks.map((k,j)=>({nome:k.nome,t:c.texto.slice(k.i,marks[j+1]?marks[j+1].i:undefined)})):[{nome:c.nome,t:c.texto}];
+  if(marks.length&&marks[0].i>0) segs.unshift({nome:c.nome,t:c.texto.slice(0,marks[0].i)});
+  for(const s of segs){
+    if(/marcadores que gastou/.test(s.t)) continue;
+    const mag=/mágico/.test(s.t);
+    let v=s.t.match(/número de d(\d+) igual (?:à|a) quantidade de Pontos de Esperança/);
+    if(v){ out.push({nome:s.nome,varEsp:true,d:+v[1],mag}); continue; }
+    v=s.t.match(/número de d(\d+) igual ao seu atributo de conjuração/);
+    if(v){ out.push({nome:s.nome,n:Math.max(1,AT(sc)),d:+v[1],flat:0,mag}); continue; }
+    const r=/(\d*)d(\d+)(?:\s*\+\s*(\d+))?/g; let x;
+    while((x=r.exec(s.t))){ const after=s.t.slice(x.index,x.index+60);
+      if(/como seu Dado|Dado de (Esperança|Determinação|Inspiração)|nível 5/.test(after)) continue;
+      const n=x[1]?+x[1]:(/Proficiência/.test(s.t)?prof:(/atributo de conjuração/.test(s.t)&&sc?Math.max(1,AT(sc)):1));
+      out.push({nome:s.nome,n,d:+x[2],flat:+(x[3]||0),mag}); }
+  }
+  const seen=new Set(); return out.filter(o=>{const k=o.nome+o.n+'d'+o.d+'+'+(o.flat||0)+(o.varEsp?'v':''); if(seen.has(k)) return false; seen.add(k); return true;});
+}
+function cardButtons(c,i){
+  const isSpell=/Feitiço|Grimório/.test(c.meta); const sc=SC[C.code]; let b='';
+  if(isSpell&&sc) b+=`<button data-cast="${i}">Conjurar · ${esc(sc)} ${fmtMod(AT(sc))}</button>`;
+  cardDice(c).forEach((d,j)=>{
+    if(d.varEsp) b+=`<span class="vsel"><select id="ve-${i}-${j}">${[1,2,3,4,5,6].map(n=>`<option>${n}</option>`).join('')}</select><button data-cdv="${i}:${j}">${esc(d.nome)}: N❂ → Nd${d.d}</button></span>`;
+    else b+=`<button data-cd="${i}:${j}">${esc(d.nome)} · ${d.n}d${d.d}${d.flat?'+'+d.flat:''}</button>`; });
+  return b;
+}
+document.addEventListener('click',async ev=>{
+  if(!C) return;
+  const cs=ev.target.closest('[data-cast]'); if(cs){ const c=C.cartas[+cs.dataset.cast]; openRollDlg({tipo:'attr',nome:'Conjuração — '+c.nome,mod:AT(SC[C.code])}); return; }
+  const cd=ev.target.closest('[data-cd]'); if(cd){ const [i,j]=cd.dataset.cd.split(':').map(Number); const c=C.cartas[i], d=cardDice(c)[j];
+    const r=await rollExpr(d.n,d.d,d.flat); showDmgOnly(`${d.nome} · ${d.n}d${d.d}${d.flat?'+'+d.flat:''}`,r,d.mag); return; }
+  const cv=ev.target.closest('[data-cdv]'); if(cv){ const [i,j]=cv.dataset.cdv.split(':').map(Number); const c=C.cartas[i], d=cardDice(c)[j]; const n=+$('ve-'+i+'-'+j).value;
+    if(!canPay({esp:n})) return; pay({esp:n}); const r=await rollExpr(n,d.d,0); await fxSave(); announce(`${d.nome}: gastou ${n} ❂ → ${r.tot} de dano.`); showDmgOnly(`${d.nome} · ${n}d${d.d}`,r,d.mag); return; }
+  const ad=ev.target.closest('[data-adepto]'); if(ad){ const e=C.experiencias[+ad.dataset.adepto]; if(!canPay({pf:1})) return; pay({pf:1}); S.pend={nome:e.nome+' (Adepto ×2)',mod:e.mod*2}; renderPend(); await fxSave(); announce(`Adepto: usou ${e.nome} marcando 1 PF (+${e.mod*2}).`); return; }
+});
 
 /* ---------- render ---------- */
 function pipRow(label,key,max,color){
@@ -1880,7 +2261,7 @@ function renderSheet(){
   $('cCls').textContent=`${C.classe} · ${C.sub} · ${C.dom} · ${C.ancestralidade||''} ${C.comunidade?('· '+C.comunidade):''}`;
   $('cMot').textContent=C.motivo;
   $('thr1').textContent=C.limiares[0]; $('thr2').textContent=C.limiares[1]+'+';
-  renderTrackers(); renderPend();
+  renderTrackers(); renderPend(); renderFx();
   // atributos
   const AT=[['Agilidade','Agilidade'],['Força','Força'],['Acuidade','Acuidade'],['Instinto','Instinto'],['Presença','Presença'],['Conhecimento','Conhecimento']];
   $('attrs').innerHTML=AT.map(([k])=>{
@@ -1897,8 +2278,8 @@ function renderSheet(){
   });
   // experiências
   $('exps').innerHTML=C.experiencias.map((e,i)=>
-    `<div class="exp"><div class="en"><b>${esc(e.nome)}</b><span>${esc(e.desc)}</span></div><div class="em">+${e.mod}</div><button data-i="${i}">Usar · 1 ❂</button></div>`).join('');
-  document.querySelectorAll('.exp button').forEach(b=>b.onclick=async()=>{
+    `<div class="exp"><div class="en"><b>${esc(e.nome)}</b><span>${esc(e.desc)}</span></div><div class="em">+${e.mod}</div><button data-i="${i}">Usar · 1 ❂</button>${C.code==='M'?`<button data-adepto="${i}" title="Adepto: marque 1 PF em vez de gastar Esperança e dobre o modificador">Adepto · 1 PF ×2</button>`:''}</div>`).join('');
+  document.querySelectorAll('.exp button[data-i]').forEach(b=>b.onclick=async()=>{
     const e=C.experiencias[+b.dataset.i];
     if(S.esp<=0){toast('Sem Esperança para gastar.');return}
     S.esp--; S.pend={nome:e.nome,mod:e.mod};
@@ -1909,8 +2290,8 @@ function renderSheet(){
   $('cards').innerHTML=C.cartas.map((c,i)=>
     `<details class="card" open><summary><b>${esc(c.nome)}</b><span>${esc(c.meta)}</span></summary>
       <div class="cd">${esc(c.texto)}</div>
-      <div class="ca"><button data-i="${i}">Mostrar a todos</button></div></details>`).join('');
-  document.querySelectorAll('.card .ca button').forEach(b=>b.onclick=()=>{
+      <div class="ca"><button data-i="${i}">Mostrar a todos</button>${cardButtons(c,i)}</div></details>`).join('');
+  document.querySelectorAll('.card .ca button[data-i]').forEach(b=>b.onclick=()=>{
     const c=C.cartas[+b.dataset.i];
     api.send(CH.card,{t:c.meta,n:c.nome,x:c.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
     toast('Carta mostrada a todos.');
@@ -2012,7 +2393,7 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
   // restaurar ficha salva
   try{
     const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null');
-    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null};renderSheet();}
+    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null};renderSheet();}
   }catch(e){}
   (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagem interna por enquanto)'; $('btnCfg').textContent=(ok?'🟢':'⚙')+' Dice+'; if(!ok&&cfg.useDP) setTimeout(dpWatch,5000); })();
 })();
