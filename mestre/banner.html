@@ -13,9 +13,10 @@ body{font-family:Georgia,serif;background:transparent;display:flex;justify-conte
 <div class="b">
   <div class="g"><span class="v" id="f">0</span><span class="l">Medo</span></div>
   <div class="g"><div class="segs" id="segs"></div><span class="l" id="fl">Fome</span></div>
+  <div class="g"><span class="v" id="d" style="color:#d8cdbb">0</span><span class="l" id="dl">Salas descidas</span></div>
 </div>
 <script type="module">
-import OBR from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@3.1.0/+esm";
+import OBR from "../obr-sdk.js";
 const NS='com.boca-do-mundo';
 const segs=document.getElementById('segs');
 for(let i=0;i<6;i++){const d=document.createElement('div');d.className='s';segs.appendChild(d)}
@@ -23,6 +24,9 @@ function paint(m){
   const fear=m[NS+'/fear']||0, fome=m[NS+'/hunger']||0;
   document.getElementById('f').textContent=fear;
   document.querySelectorAll('.s').forEach((s,i)=>s.classList.toggle('on',i<fome));
+  const ds=m[NS+'/descida']||{}, fl0=ds.floor||0, boss=ds.last&&ds.last.kind==='boss';
+  document.getElementById('d').textContent=fl0;
+  document.getElementById('dl').textContent=boss?'O FUNDO':(fl0===1?'Sala descida':'Salas descidas');
   const fl=document.getElementById('fl');
   if(fome>=6){fl.textContent='A BOCA ACORDOU';fl.classList.add('awake')}
   else{fl.textContent='Fome';fl.classList.remove('awake')}
