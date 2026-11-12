@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>A Boca</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:transparent;display:flex;justify-content:center;padding:4px}
+.b{display:flex;align-items:center;gap:14px;background:#120c0dee;border:1px solid #5e1a16;border-radius:999px;padding:7px 18px;color:#d8cdbb;box-shadow:0 8px 28px rgba(0,0,0,.6),0 0 18px rgba(168,49,42,.25)}
+.g{display:flex;align-items:baseline;gap:6px}
+.g .v{font-size:20px;font-weight:700;color:#c0352e;line-height:1}
+.g .l{font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:#8a7d6a}
+.segs{display:flex;gap:5px}
+.s{width:9px;height:9px;border:1px solid #5e1a16;background:#0c0707;transform:rotate(45deg)}
+.s.on{background:#a8312a;box-shadow:0 0 6px rgba(168,49,42,.7)}
+.awake{color:#c9a24a!important;font-size:9px;letter-spacing:.1em}
+</style></head><body>
+<div class="b">
+  <div class="g"><span class="v" id="f">0</span><span class="l">Medo</span></div>
+  <div class="g"><div class="segs" id="segs"></div><span class="l" id="fl">Fome</span></div>
+</div>
+<script type="module">
+import OBR from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@3.1.0/+esm";
+const NS='com.boca-do-mundo';
+const segs=document.getElementById('segs');
+for(let i=0;i<6;i++){const d=document.createElement('div');d.className='s';segs.appendChild(d)}
+function paint(m){
+  const fear=m[NS+'/fear']||0, fome=m[NS+'/hunger']||0;
+  document.getElementById('f').textContent=fear;
+  document.querySelectorAll('.s').forEach((s,i)=>s.classList.toggle('on',i<fome));
+  const fl=document.getElementById('fl');
+  if(fome>=6){fl.textContent='A BOCA ACORDOU';fl.classList.add('awake')}
+  else{fl.textContent='Fome';fl.classList.remove('awake')}
+}
+if(OBR.isAvailable){ OBR.onReady(async()=>{
+  paint(await OBR.room.getMetadata());
+  OBR.room.onMetadataChange(paint);
+  OBR.broadcast.onMessage(NS+'/banner',ev=>{ if(ev.data&&ev.data.show===false) OBR.popover.close(NS+'/banner').catch(()=>{}) });
+})}
+</script></body></html>

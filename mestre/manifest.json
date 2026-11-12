@@ -1,0 +1,15 @@
+{
+ "name": "A Boca — Mesa do Mestre",
+ "version": "1.0.0",
+ "manifest_version": 1,
+ "author": "A Boca do Mundo",
+ "description": "Mesa do Mestre de A Boca do Mundo (Daggerheart): Medo compartilhado, Relógio da Fome, bestiário e chefes com rolagens via Dice+, e visão da party ao vivo.",
+ "icon": "icon.svg",
+ "action": {
+  "title": "Mesa do Mestre",
+  "icon": "icon.svg",
+  "popover": "index.html",
+  "height": 820,
+  "width": 480
+ }
+}

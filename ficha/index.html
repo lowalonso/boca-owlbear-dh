@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Boca do Mundo — Ficha dos Quebrados</title>
+<style>
+:root{--void:#0a0708;--void2:#120c0d;--panel:#161012;--bone:#d8cdbb;--dim:#8a7d6a;
+--blood:#a8312a;--blood2:#c0352e;--deep:#5e1a16;--bile:#c9a24a;--hope:#5b8bd4;--fear:#c0352e;
+--ash:#2a2320;--ok:#7faa4a;--roxo:#b070c8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--bone);font-family:Georgia,'Times New Roman',serif;font-size:14px}
+body{padding:12px 12px 90px;min-height:100vh;background:
+ radial-gradient(120% 60% at 50% -10%,rgba(94,26,22,.35),transparent 60%),var(--void)}
+h1,h2,h3{font-weight:700;letter-spacing:.02em}
+button{font-family:inherit;cursor:pointer;color:var(--bone);background:none;border:1px solid var(--ash);border-radius:4px;transition:all .25s}
+button:hover{border-color:var(--blood)}
+button:disabled{opacity:.35;cursor:not-allowed}
+.small{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+/* ===== topo compartilhado ===== */
+.topbar{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.topbar .ttl{flex:1}
+.topbar .ttl b{font-size:15px;display:block}
+.topbar .ttl span{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.gmchip{display:flex;gap:6px}
+.chip{border:1px solid var(--deep);border-radius:4px;padding:4px 9px;text-align:center;min-width:52px}
+.chip .v{font-size:17px;font-weight:700;line-height:1}
+.chip .l{font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.chip.fear .v{color:var(--blood2)}
+.chip.fome .v{color:var(--bile)}
+/* ===== seletor ===== */
+#pick h1{font-size:22px;text-transform:uppercase;text-align:center;margin:8px 0 2px;color:var(--blood2);text-shadow:0 0 22px rgba(168,49,42,.4)}
+#pick .sub{ text-align:center;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.pc{border:1px solid var(--ash);border-top:3px solid var(--pc,#a8312a);background:var(--panel);border-radius:4px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .25s}
+.pc:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.5);border-color:var(--pc)}
+.pc b{display:block;font-size:12px;margin-bottom:2px}
+.pc span{font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+/* ===== ficha ===== */
+#sheet{display:none}
+.sh-head{border:1px solid var(--ash);border-top:3px solid var(--pc);background:var(--panel);border-radius:4px;padding:11px 12px;margin-bottom:10px}
+.sh-head h1{font-size:20px;text-transform:uppercase;color:var(--pc)}
+.sh-head .cls{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:2px 0 6px}
+.sh-head .mot{font-size:11.5px;font-style:italic;color:var(--dim);line-height:1.45}
+.sec{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blood2);border-bottom:1px solid var(--ash);padding-bottom:3px;margin:14px 0 8px}
+/* trackers */
+.trk{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.trk .tl{width:76px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.pips{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.pip{width:17px;height:17px;border:1px solid var(--ash);border-radius:3px;cursor:pointer;background:#0d0a0b;transition:all .15s}
+.pip.on{background:var(--tc,var(--blood));border-color:var(--tc,var(--blood));box-shadow:0 0 7px color-mix(in srgb,var(--tc,var(--blood)) 60%,transparent)}
+.pip:hover{border-color:var(--bone)}
+.trk .tv{font-size:11px;color:var(--dim);min-width:34px;text-align:right}
+.thr{display:flex;gap:6px;align-items:center;margin:10px 0 2px}
+.thr .tb{flex:1;border:1px dashed var(--deep);border-radius:4px;padding:5px 8px;text-align:center}
+.thr .tb b{font-size:15px;color:var(--bone)}
+.thr .tb span{display:block;font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.btn{border:1px solid var(--blood);padding:9px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-radius:4px;background:rgba(168,49,42,.08)}
+.btn:hover{background:rgba(168,49,42,.2);box-shadow:0 0 14px rgba(168,49,42,.3)}
+.btn.gold{border-color:var(--bile);background:rgba(201,162,74,.08)}
+.btn.gold:hover{background:rgba(201,162,74,.18);box-shadow:0 0 14px rgba(201,162,74,.3)}
+/* atributos */
+.attrs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.attr{border:1px solid var(--ash);background:var(--panel);border-radius:4px;padding:9px 4px;text-align:center;cursor:pointer;transition:all .2s}
+.attr:hover{border-color:var(--pc);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.45)}
+.attr .an{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.attr .av{font-size:19px;font-weight:700;color:var(--pc)}
+.attr .roll-hint{font-size:7.5px;color:var(--deep);letter-spacing:.1em}
+/* armas */
+.wpn{display:flex;align-items:center;gap:9px;border:1px solid var(--ash);background:var(--panel);border-radius:4px;padding:9px 11px;margin-bottom:7px;cursor:pointer;transition:all .2s}
+.wpn:hover{border-color:var(--blood2);box-shadow:0 0 12px rgba(168,49,42,.2)}
+.wpn .wi{font-size:17px}
+.wpn .wn{flex:1}
+.wpn .wn b{display:block;font-size:13px}
+.wpn .wn span{font-size:9.5px;color:var(--dim)}
+.wpn .wd{font-size:13px;font-weight:700;color:var(--blood2);white-space:nowrap}
+/* experiências */
+.exp{display:flex;align-items:center;gap:8px;border-left:2px solid var(--bile);padding:5px 0 5px 10px;margin-bottom:6px}
+.exp .en{flex:1}
+.exp .en b{font-size:12px}
+.exp .en span{display:block;font-size:9.5px;color:var(--dim);font-style:italic}
+.exp .em{font-weight:700;color:var(--bile)}
+.exp button{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-color:var(--bile);color:var(--bile)}
+.exp button:hover{background:rgba(201,162,74,.15)}
+.pend{border:1px dashed var(--bile);border-radius:4px;background:rgba(201,162,74,.08);color:var(--bile);font-size:10px;letter-spacing:.08em;padding:6px 9px;margin-bottom:8px;display:none}
+/* cartas */
+details.card{border:1px solid var(--ash);border-left:3px solid var(--pc);border-radius:4px;background:var(--panel);margin-bottom:7px}
+details.card summary{list-style:none;cursor:pointer;padding:9px 11px;display:flex;align-items:baseline;gap:8px}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary b{font-size:13px;flex:1}
+details.card summary span{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+details.card .cd{padding:0 11px 10px;font-size:12px;line-height:1.55;color:#c4b8a4}
+details.card .ca{padding:0 11px 10px}
+details.card .ca button{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;padding:5px 9px}
+details.hab{border-left:2px solid var(--ash);margin-bottom:5px}
+details.hab summary{list-style:none;cursor:pointer;padding:5px 0 5px 10px;font-size:12px}
+details.hab summary::-webkit-details-marker{display:none}
+details.hab summary small{color:var(--dim);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-left:6px}
+details.hab p{padding:2px 0 7px 10px;font-size:11.5px;line-height:1.5;color:#c4b8a4}
+/* dialogs */
+.ov{position:fixed;inset:0;background:rgba(5,3,4,.82);display:none;align-items:center;justify-content:center;z-index:40;padding:14px}
+.ov.on{display:flex}
+.dlg{background:var(--void2);border:1px solid var(--blood);border-radius:6px;padding:16px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.dlg h3{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--blood2);margin-bottom:10px}
+.seg{display:flex;border:1px solid var(--ash);border-radius:4px;overflow:hidden;margin-bottom:10px}
+.seg button{flex:1;border:none;border-radius:0;padding:9px 4px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.seg button.on{background:var(--blood);color:#fff}
+.dlg input[type=number]{width:100%;background:#0d0a0b;border:1px solid var(--ash);border-radius:4px;color:var(--bone);font-family:inherit;font-size:18px;text-align:center;padding:8px;margin-bottom:10px}
+.dlg .row{display:flex;gap:8px}
+.dlg .row .btn{flex:1;text-align:center}
+.dlg label{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--dim);margin-bottom:10px;cursor:pointer}
+/* resultado */
+#res .dlg{border-color:var(--rescol,var(--blood));max-width:380px}
+.res-dice{display:flex;gap:10px;justify-content:center;margin:6px 0 10px}
+.rd{width:58px;height:58px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid}
+.rd b{font-size:24px;line-height:1}
+.rd span{font-size:7px;letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+.rd.hope{border-color:var(--hope);color:var(--hope);box-shadow:0 0 16px rgba(91,139,212,.35)}
+.rd.fear{border-color:var(--fear);color:var(--fear);box-shadow:0 0 16px rgba(192,53,46,.35)}
+.rd.adv{border-color:var(--ok);color:var(--ok)}
+.rd.dis{border-color:var(--roxo);color:var(--roxo)}
+.res-total{text-align:center;margin-bottom:8px}
+.res-total b{font-size:34px}
+.res-total .vs{font-size:10px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase}
+.res-tag{text-align:center;font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;padding:7px;border-radius:4px;margin-bottom:8px}
+.res-tag.hope{color:var(--hope);background:rgba(91,139,212,.12)}
+.res-tag.fear{color:var(--fear);background:rgba(192,53,46,.12)}
+.res-tag.crit{color:var(--bile);background:rgba(201,162,74,.14)}
+.res-dmg{border-top:1px dashed var(--ash);padding-top:8px;text-align:center;margin-bottom:6px}
+.res-dmg b{font-size:26px;color:var(--blood2)}
+.res-dmg .small{display:block}
+.res-note{font-size:10.5px;color:var(--dim);text-align:center;margin-bottom:10px;line-height:1.5}
+/* rodapé fixo */
+#foot{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(0deg,var(--void) 70%,transparent);padding:10px 12px 10px;display:flex;gap:7px;z-index:30}
+#foot button{flex:1;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:8px 4px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:64px;background:var(--deep);border:1px solid var(--blood);color:var(--bone);padding:9px 16px;border-radius:5px;font-size:12px;z-index:60;opacity:0;transition:opacity .3s;pointer-events:none;max-width:92%;text-align:center}
+.toast.on{opacity:1}
+.dp-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;background:var(--dim)}
+.dp-dot.ok{background:var(--ok);box-shadow:0 0 7px var(--ok)}
+.settings label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:8px 0 3px}
+.settings input[type=text]{width:100%;background:#0d0a0b;border:1px solid var(--ash);border-radius:4px;color:var(--bone);font-family:inherit;font-size:13px;padding:7px}
+.demo-note{border:1px dashed var(--bile);color:var(--bile);border-radius:4px;font-size:10px;padding:7px 10px;margin-bottom:10px;display:none;letter-spacing:.05em}
+</style></head><body>
+
+<div class="topbar">
+  <div class="ttl"><b id="tbName">A Boca do Mundo</b><span id="tbSub">Ficha dos Quebrados</span></div>
+  <div class="gmchip">
+    <div class="chip fear"><div class="v" id="fearV">0</div><div class="l">Medo</div></div>
+    <div class="chip fome"><div class="v" id="fomeV">0</div><div class="l">Fome</div></div>
+  </div>
+</div>
+<div class="demo-note" id="demoNote">Modo demonstração — fora do Owlbear. Tudo funciona localmente com dados internos.</div>
+
+<div id="pick">
+  <h1>Quem desce?</h1>
+  <p class="sub small">escolha o seu Quebrado</p>
+  <div class="grid" id="pickGrid"></div>
+</div>
+
+<div id="sheet">
+  <div class="sh-head">
+    <h1 id="cNome"></h1>
+    <div class="cls" id="cCls"></div>
+    <div class="mot" id="cMot"></div>
+  </div>
+
+  <div class="sec">Recursos</div>
+  <div id="trackers"></div>
+  <div class="thr">
+    <div class="tb"><b id="thr1"></b><span>Dano Menor · 1 PV</span></div>
+    <div class="tb"><b id="thr2"></b><span>Dano Grave · 3 PV</span></div>
+    <button class="btn" id="btnDano">Sofrer dano</button>
+  </div>
+
+  <div class="sec">Atributos — clique para rolar</div>
+  <div class="attrs" id="attrs"></div>
+
+  <div class="sec">Armas — clique: ataque + dano</div>
+  <div id="wpns"></div>
+
+  <div class="sec">Experiências</div>
+  <div class="pend" id="pend"></div>
+  <div id="exps"></div>
+
+  <div class="sec">Cartas de Domínio</div>
+  <div id="cards"></div>
+
+  <div class="sec">Habilidades</div>
+  <div id="habs"></div>
+</div>
+
+<!-- diálogo de rolagem -->
+<div class="ov" id="rollDlg"><div class="dlg">
+  <h3 id="rdTitle">Rolar</h3>
+  <div class="seg" id="rdMode">
+    <button data-m="dis">Desvantagem −d6</button>
+    <button data-m="norm" class="on">Normal</button>
+    <button data-m="adv">Vantagem +d6</button>
+  </div>
+  <div class="small" id="rdInfo" style="margin-bottom:10px"></div>
+  <div class="row"><button class="btn" id="rdGo">Rolar os dados</button><button class="btn gold" id="rdCancel" style="flex:0 0 auto">✕</button></div>
+</div></div>
+
+<!-- diálogo de dano -->
+<div class="ov" id="dmgDlg"><div class="dlg">
+  <h3>Sofrer dano</h3>
+  <input type="number" id="dmgVal" placeholder="valor do dano" min="0">
+  <label><input type="checkbox" id="dmgArm"> usar 1 de Armadura (reduz a gravidade em um limiar)</label>
+  <div class="row"><button class="btn" id="dmgGo">Aplicar</button><button class="btn gold" id="dmgCancel" style="flex:0 0 auto">✕</button></div>
+</div></div>
+
+<!-- resultado -->
+<div class="ov" id="res"><div class="dlg">
+  <h3 id="resTitle">Resultado</h3>
+  <div class="res-dice" id="resDice"></div>
+  <div class="res-total"><b id="resTotal"></b><div class="vs" id="resVs"></div></div>
+  <div class="res-tag" id="resTag"></div>
+  <div class="res-dmg" id="resDmg" style="display:none"></div>
+  <div class="res-note" id="resNote"></div>
+  <div class="row"><button class="btn" id="resOk">Fechar</button></div>
+</div></div>
+
+<!-- configurações -->
+<div class="ov" id="cfgDlg"><div class="dlg settings">
+  <h3>Dice+ &amp; opções</h3>
+  <div class="small" style="margin-bottom:6px"><span class="dp-dot" id="dpDot"></span><span id="dpStat">Dice+: verificando…</span></div>
+  <label>nome do dado de Esperança (azul)</label><input type="text" id="cfgHope">
+  <label>nome do dado de Medo (vermelho)</label><input type="text" id="cfgFear">
+  <label>nome do dado de Vantagem (d6, opcional)</label><input type="text" id="cfgAdv">
+  <label style="margin-top:10px"><input type="checkbox" id="cfgDP" checked style="width:auto"> usar Dice+ quando disponível</label>
+  <div class="row" style="margin-top:12px"><button class="btn" id="cfgOk">Salvar</button></div>
+</div></div>
+
+<div id="foot">
+  <button id="btnCfg">⚙ Dice+</button>
+  <button id="btnSwap">Trocar personagem</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import OBR from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@3.1.0/+esm";
+
+const CHARS = {
+ "L": {
+  "code": "L",
+  "nome": "O Afanador",
+  "classe": "Ladino Infernis",
+  "sub": "Gatuno",
+  "motivo": "A ganância que nunca se sacia. Suas mãos roubam antes que você decida — e a Boca guarda a maior fortuna já tragada.",
+  "cor": "#c0352e",
+  "cor2": "#e0853a",
+  "dom": "Graça & Meia-noite",
+  "arquivo": "ficha-dedo-longo",
+  "atributos": {
+   "Agilidade": 2,
+   "Força": -1,
+   "Acuidade": 4,
+   "Instinto": 2,
+   "Presença": 0,
+   "Conhecimento": 0
+  },
+  "evasao": 14,
+  "pvMax": 8,
+  "fadigaMax": 6,
+  "prof": 3,
+  "paMax": 3,
+  "limiares": [
+   10,
+   16
+  ],
+  "armas": [
+   {
+    "nome": "Lâmina do Retorno",
+    "desc": "principal · Acuidade · Próximo · <b>3d8</b> mág · uma mão · reaparece na sua mão logo após o ataque",
+    "dano": "3d8",
+    "atributo": "Acuidade"
+   },
+   {
+    "nome": "Adaga pequena",
+    "desc": "secundária · Acuidade · Corpo a corpo · 3d8 fís · uma mão",
+    "dano": "3d8",
+    "atributo": "Acuidade"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Dedos-Leves",
+    "desc": "furtar, sumir com objetos",
+    "mod": 3
+   },
+   {
+    "nome": "Faro de Ouro no Escuro",
+    "desc": "sentir valor no breu",
+    "mod": 3
+   },
+   {
+    "nome": "Filho dos Becos",
+    "desc": "sobreviver no submundo",
+    "mod": 2
+   },
+   {
+    "nome": "Pacto Sussurrado",
+    "desc": "barganhar com o impuro",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Delinquente",
+    "meta": "Meia-noite · Nv1 · Talento · Recall 0",
+    "texto": "Você tem vantagem em testes para arrombar fechaduras não mágicas, desarmar armadilhas não mágicas ou roubar itens de um alvo (seja por meio da furtividade ou da força)."
+   },
+   {
+    "nome": "Disfarce Inquietante",
+    "meta": "Meia-noite · Nv1 · Feitiço · Recall 0",
+    "texto": "Quando tem alguns minutos para se preparar, você pode marcar 1 Ponto de Fadiga para tomar a forma de qualquer humanoide que você possa ver com clareza em sua mente. Enquanto estiver disfarçado dessa forma, você tem vantagem em testes de Presença para evitar ser descoberto. Coloque um número de marcadores igual ao seu atributo de conjuração nesta carta. Quando fizer uma ação enquanto estiver disfarçado, gaste um marcador. Após a ação que consumiu o último marcador, o efeito termina."
+   },
+   {
+    "nome": "Sombra Traiçoeira",
+    "meta": "Meia-noite · Nv2 · Feitiço · Recall 0",
+    "texto": "Faça um teste de conjuração contra todos os adversários muito próximos. Alvos atingidos ficam temporariamente Imobilizados pela própria sombra no lugar em que estão."
+   },
+   {
+    "nome": "Véu da Noite",
+    "meta": "Meia-noite · Nv3 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração (13). Em um sucesso, crie uma cortina de escuridão entre dois pontos em alcance distante. Apenas você pode enxergar através dessa escuridão. Você é considerado Escondido para adversários no outro lado da cortina e tem vantagem em testes de ataque feitos através da escuridão. A cortina dura até você conjurar outro feitiço."
+   },
+   {
+    "nome": "Silêncio",
+    "meta": "Meia-noite · Nv5 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração contra um alvo próximo. Em um sucesso, gaste 1 Ponto de Esperança para conjurar um efeito mágico supressor sobre o alvo. Esse efeito afeta tudo em alcance muito próximo do alvo e o acompanha quando ele se move. O alvo, e tudo mais na área afetada, fica Silenciado. Enquanto estiver Silenciado, o alvo não pode fazer barulho ou conjurar feitiços. Essa condição dura até o mestre gastar 1 Ponto de Medo no turno dele para encerrá-la, até você conjurar Silêncio novamente ou até você sofrer dano maior."
+   },
+   {
+    "nome": "Estrangulamento",
+    "meta": "Meia-noite · Nv3 · Talento · Recall 1",
+    "texto": "Quando se posiciona atrás de uma criatura de tamanho similar ao seu, você pode marcar 1 Ponto de Fadiga para estrangulá-la, deixando-a temporariamente Vulnerável. Quando uma criatura ataca um alvo Vulnerável dessa forma, ela causa 2d6 de dano adicional."
+   },
+   {
+    "nome": "Mestre da Furtividade",
+    "meta": "Meia-noite · Nv4 · Talento · Recall 0",
+    "texto": "Ao rolar com Medo enquanto tenta se mover por uma área perigosa sem ser percebido, você pode marcar 1 PF para rolar com Esperança em vez disso. Se um aliado próximo também estiver tentando se mover sem ser percebido e rolar com Medo, você pode marcar 1 PF para mudar o resultado e fazê-lo rolar com Esperança."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Oculto",
+    "texto": "Sempre que estiver Escondido, em vez disso fica Oculto: permanece sem ser visto mesmo que o adversário se mova, desde que você fique parado. Deixa de estar Oculto ao se mover na linha de visão ou ao atacar."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Ataque Furtivo",
+    "texto": "Ao acertar enquanto Oculto, ou com um aliado corpo a corpo ao alvo, some +3d6 (igual ao patamar) à rolagem de dano."
+   },
+   {
+    "secao": "Habilidade de Esperança",
+    "tag": "3 Esperança",
+    "nome": "Esquiva de Ladino",
+    "texto": "Receba +2 na Evasão até o próximo ataque que acertar você. Caso contrário, dura até seu próximo descanso. Começa com 2 Esperança."
+   },
+   {
+    "secao": "Subclasse — Gatuno",
+    "tag": "Fundamental",
+    "nome": "Passo Sombrio",
+    "texto": "Ao entrar numa área de escuridão ou na sombra de algo, marque 1 PF para desaparecer e reaparecer em outra sombra distante. Ao reaparecer, fica Oculto."
+   },
+   {
+    "secao": "Subclasse — Gatuno",
+    "tag": "Especialização",
+    "nome": "Nuvem de Escuridão",
+    "texto": "Conjuração (15): cria escuridão temporária na área Próxima. Quem está dentro não vê fora, e vice-versa. Você fica Oculto para quem tem a visão bloqueada."
+   },
+   {
+    "secao": "Subclasse — Gatuno",
+    "tag": "Especialização",
+    "nome": "Adrenalina",
+    "texto": "Enquanto estiver Vulnerável, some seu nível às rolagens de dano."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Infernis",
+    "nome": "Destemido",
+    "texto": "Quando rolar com Medo, você pode marcar 2 Pontos de Fadiga para rolar com Esperança em vez disso."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Infernis",
+    "nome": "Aspecto Apavorante",
+    "texto": "Você tem vantagem em testes para intimidar criaturas hostis."
+   }
+  ]
+ },
+ "D": {
+  "code": "D",
+  "nome": "O Apodrecido",
+  "classe": "Druida Fungril",
+  "sub": "Protetor da Renovação",
+  "motivo": "Uma voz antiga chama do fundo da terra. A sarna que cobre sua pele é micélio, e você já não sabe onde termina você e começa o bosque.",
+  "cor": "#6a8a3a",
+  "cor2": "#9fc24a",
+  "dom": "Arcano & Sabedoria",
+  "arquivo": "ficha-apodrecido",
+  "atributos": {
+   "Agilidade": 2,
+   "Força": -1,
+   "Acuidade": 0,
+   "Instinto": 4,
+   "Presença": 0,
+   "Conhecimento": 2
+  },
+  "evasao": 11,
+  "pvMax": 8,
+  "fadigaMax": 7,
+  "prof": 3,
+  "paMax": 4,
+  "limiares": [
+   11,
+   18
+  ],
+  "armas": [
+   {
+    "nome": "Cajado Curto",
+    "desc": "principal · Instinto · Próximo · <b>3d8+1</b> mág · uma mão",
+    "dano": "3d8+1",
+    "atributo": "Instinto"
+   },
+   {
+    "nome": "Escudo Redondo",
+    "desc": "secundária · Força · Corpo a corpo · 3d4 fís · Protetor +1 Armadura",
+    "dano": "3d4",
+    "atributo": "Força"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Sussurros na Carne",
+    "desc": "ouvir a voz antiga",
+    "mod": 3
+   },
+   {
+    "nome": "Filho da Terra Tragada",
+    "desc": "sobreviver no ermo",
+    "mod": 3
+   },
+   {
+    "nome": "Olhos de Bicho",
+    "desc": "perceber como fera",
+    "mod": 2
+   },
+   {
+    "nome": "Pele que Não Cala",
+    "desc": "a coceira que avisa",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Voz da Natureza",
+    "meta": "Sabedoria · Nv1 · Talento · Recall 0",
+    "texto": "Você fala o idioma do mundo natural. Quando quiser falar com as plantas e animais ao seu redor, faça um teste de Instinto (12). Em um sucesso, essas plantas ou animais fornecem a informação que conhecem. Se rolar com Medo, o conhecimento fornecido pode ser limitado ou ter um custo. Além disso, antes de fazer um teste de conjuração em um ambiente natural, você pode gastar 1 Ponto de Esperança para receber um bônus de +2 na rolagem."
+   },
+   {
+    "nome": "Vinha Voraz",
+    "meta": "Sabedoria · Nv1 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração contra um alvo distante. Em um sucesso, raízes e vinhas saem do chão, causando 1d8+1 de dano físico e Imobilizando o alvo temporariamente. Além disso, em um sucesso, você pode gastar 1 Ponto de Esperança para temporariamente Imobilizar um adversário muito próximo do primeiro."
+   },
+   {
+    "nome": "Familiar da Natureza",
+    "meta": "Sabedoria · Nv2 · Feitiço · Recall 1",
+    "texto": "Gaste 1 Ponto de Esperança para invocar um pequeno espírito da natureza ou criatura da floresta. Esse familiar fica ao seu lado até seu próximo descanso, até você conjurar Familiar da Natureza novamente ou até que ele seja alvo de um ataque. Ao gastar 1 Ponto de Esperança adicional, você pode invocar um familiar voador. Você pode se comunicar com ele, fazer um teste de conjuração para mandá-lo executar tarefas simples e marcar 1 PF para enxergar pelos olhos dele. Ao causar dano a um adversário corpo a corpo ao seu familiar, some 1d6 à rolagem de dano."
+   },
+   {
+    "nome": "Conjurar Enxame",
+    "meta": "Sabedoria · Nv2 · Feitiço · Recall 1",
+    "texto": "Besouros Blindados de Tekaira: marque 1 PF para conjurar um enxame de besouros ao seu redor. Na próxima vez que sofrer dano, reduza a gravidade em um limiar. Você pode gastar 1 Ponto de Esperança para manter os besouros conjurados após sofrer dano. Vaga-Lumes: faça um teste de conjuração contra todos os adversários próximos. Gaste 1 Ponto de Esperança para causar 2d8+3 de dano mágico aos alvos atingidos."
+   },
+   {
+    "nome": "Tronco Descomunal",
+    "meta": "Sabedoria · Nv3 · Feitiço · Recall 1",
+    "texto": "Uma vez por descanso, você pode conjurar um tronco espesso, retorcido e fácil de escalar em um ponto em alcance próximo. A altura dele pode ser equivalente ao alcance distante. Marque 1 Ponto de Fadiga para usar este feitiço como um ataque. Faça um teste de conjuração contra um adversário ou grupo de adversários próximo. O tronco irrompe, lançando os alvos no ar e derrubando-os, causando d8 de dano físico usando sua Proficiência."
+   },
+   {
+    "nome": "Campo Curativo",
+    "meta": "Sabedoria · Nv4 · Feitiço · Recall 2",
+    "texto": "Uma vez por descanso longo, você pode conjurar um campo de plantas curativas ao seu redor. Toda a área em alcance próximo irrompe em vida e natureza vibrante, permitindo que você e todos os aliados nessa área recuperem 1 Ponto de Vida. Gaste 2 Pontos de Esperança para curar 2 Pontos de Vida em vez de 1."
+   },
+   {
+    "nome": "Pele de Espinhos",
+    "meta": "Sabedoria · Nv5 · Feitiço · Recall 1",
+    "texto": "Uma vez por descanso, gaste 1 Ponto de Esperança para fazer com que espinhos brotem de todo o seu corpo. Ao fazer isso, coloque um número de marcadores igual ao seu atributo de conjuração nesta carta. Ao sofrer dano, você pode gastar qualquer quantidade de marcadores e rolar um número equivalente de d6. Reduza o dano sofrido em um número igual à soma dos resultados. Se estiver corpo a corpo ao atacante, cause a mesma quantidade de dano a ele. Após um descanso, marcadores não utilizados são perdidos."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Forma de Fera",
+    "texto": "Marque 1 PF para se transformar numa criatura de patamar igual ou inferior (lista na pág. 3). Não pode usar armas nem feitiços de domínio enquanto fera, mas ganha as habilidades dela, soma a Evasão dela à sua e usa o atributo dela pra atacar. Marcar o último PV te tira da forma."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Dádiva da Natureza",
+    "texto": "À vontade, cria efeitos sutis e inofensivos da natureza: brotar uma flor, uma brisa, acender uma fogueira."
+   },
+   {
+    "secao": "Habilidade de Esperança",
+    "tag": "3 Esperança",
+    "nome": "Evolução",
+    "texto": "Use Forma de Fera sem marcar PF. Ao fazer isso, aumente um atributo em +1 até sair da forma."
+   },
+   {
+    "secao": "Subclasse — Protetor da Renovação",
+    "tag": "Fundamental",
+    "nome": "Serenidade da Natureza",
+    "texto": "1×/descanso longo, cria um espaço de serenidade em alcance próximo. Descansando alguns minutos nele, recupera PF do grupo igual ao seu Instinto."
+   },
+   {
+    "secao": "Subclasse — Protetor da Renovação",
+    "tag": "Fundamental",
+    "nome": "Regeneração",
+    "texto": "Toque uma criatura e gaste 3 Esperança: ela recupera 1d4 PV."
+   },
+   {
+    "secao": "Subclasse — Protetor da Renovação",
+    "tag": "Especialização",
+    "nome": "Presença Curativa",
+    "texto": "Pode usar Regeneração em criaturas Muito Próximas (sem tocar)."
+   },
+   {
+    "secao": "Subclasse — Protetor da Renovação",
+    "tag": "Especialização",
+    "nome": "Proteção Druídica",
+    "texto": "1×/descanso longo, gaste 2 Esperança para recuperar 2 PV de 1d4 aliados próximos."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Fungril",
+    "nome": "Conexão Fungril",
+    "texto": "Faça um teste de Instinto (12) para conversar com outros membros de sua ancestralidade por meio da rede micelial. Em um sucesso, você pode se comunicar a qualquer distância."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Fungril",
+    "nome": "Vínculo Mortal",
+    "texto": "Enquanto estiver tocando um cadáver que tenha morrido recentemente, você pode marcar 1 PF para extrair dele uma memória relacionada a uma emoção ou sensação específica à sua escolha."
+   }
+  ]
+ },
+ "S": {
+  "code": "S",
+  "nome": "O Desamparado",
+  "classe": "Serafim Fada",
+  "sub": "Portador Divino",
+  "motivo": "Seu deus silenciou. As preces voltam vazias e suas asas apodrecem pena por pena — mas no fundo da Boca há uma voz que ainda te chama de campeão.",
+  "cor": "#caa94e",
+  "cor2": "#f0d98a",
+  "dom": "Valor & Esplendor",
+  "arquivo": "ficha-desamparado",
+  "atributos": {
+   "Força": 4,
+   "Agilidade": 0,
+   "Acuidade": 0,
+   "Instinto": 2,
+   "Presença": 2,
+   "Conhecimento": -1
+  },
+  "evasao": 9,
+  "pvMax": 9,
+  "fadigaMax": 7,
+  "prof": 3,
+  "paMax": 4,
+  "limiares": [
+   12,
+   20
+  ],
+  "armas": [
+   {
+    "nome": "Machado Sagrado",
+    "desc": "principal · Força · Corpo a corpo · <b>3d8+1</b> mág · uma mão (Arma Espiritual)",
+    "dano": "3d8+1",
+    "atributo": "Força"
+   },
+   {
+    "nome": "Escudo Redondo",
+    "desc": "secundária · Força · Cac · 3d4 fís · Protetor +1 Armadura",
+    "dano": "3d4",
+    "atributo": "Força"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Voz que Já Foi Atendida",
+    "desc": "preces e ritos",
+    "mod": 3
+   },
+   {
+    "nome": "Escudo dos Indefesos",
+    "desc": "proteger os fracos",
+    "mod": 3
+   },
+   {
+    "nome": "Olhos de Brasa",
+    "desc": "julgar a impureza",
+    "mod": 2
+   },
+   {
+    "nome": "Asas em Ruína",
+    "desc": "voar mesmo quebrado",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Raio Luminoso",
+    "meta": "Esplendor · Nv1 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração contra um alvo distante. Em um sucesso, gaste 1 Ponto de Esperança para lançar um raio de luz radiante contra ele, causando d8+2 de dano mágico usando sua Proficiência. O alvo fica temporariamente Vulnerável e emite uma luz intensa até se recuperar dessa condição."
+   },
+   {
+    "nome": "Toque Reparador",
+    "meta": "Esplendor · Nv1 · Feitiço · Recall 1",
+    "texto": "Você toca uma criatura e canaliza magia curativa para fechar seus ferimentos. Quando pode passar alguns minutos se concentrando em quem está ajudando, gaste 2 Pontos de Esperança para recuperar 1 PV ou PF do alvo. Uma vez por descanso longo, ao passar esse momento curativo descobrindo algo novo sobre a criatura ou revelando algo sobre si mesmo a ela, você pode fazê-la recuperar 2 Pontos de Vida ou Pontos de Fadiga, em vez de 1."
+   },
+   {
+    "nome": "Mãos Curativas",
+    "meta": "Esplendor · Nv2 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração (13) tendo como alvo uma criatura corpo a corpo que não seja você. Em um sucesso, marque 1 Ponto de Fadiga para recuperar 2 Pontos de Vida ou Pontos de Fadiga do alvo. Se falhar, marque 1 Ponto de Fadiga para recuperar 1 PV ou PF do alvo. Você não pode curar o mesmo alvo novamente até seu próximo descanso longo."
+   },
+   {
+    "nome": "Punição",
+    "meta": "Esplendor · Nv5 · Feitiço · Recall 2",
+    "texto": "Uma vez por descanso, gaste 3 Pontos de Esperança para carregar sua Punição. Ao acertar seu próximo ataque de arma, dobre o resultado da rolagem de dano. Independente do tipo de dano da arma, esse ataque causa dano mágico."
+   },
+   {
+    "nome": "Sou Seu Escudo",
+    "meta": "Valor · Nv1 · Talento · Recall 1",
+    "texto": "Quando um aliado muito próximo for sofrer dano, você pode marcar 1 Ponto de Fadiga para prostrar-se no caminho e virar o alvo do ataque no lugar dele. Ao sofrer dano desse ataque, você pode marcar um número qualquer de Pontos de Armadura."
+   },
+   {
+    "nome": "Presença Corajosa",
+    "meta": "Valor · Nv2 · Talento · Recall 0",
+    "texto": "Ao fazer um teste de Presença, você pode gastar 1 Ponto de Esperança para somar sua Força à rolagem. Além disso, uma vez por descanso, quando for sofrer uma condição, você pode descrever como sua Presença Corajosa ajuda na situação e impede que você sofra a condição."
+   },
+   {
+    "nome": "Bastião",
+    "meta": "Valor · Nv4 · Talento · Recall 2",
+    "texto": "Quando um aliado próximo falhar em um teste, você pode gastar 2 Pontos de Esperança para permitir que ele role novamente o Dado de Medo ou de Esperança."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Dados de Oração",
+    "texto": "No início de cada sessão, role d4 igual à conjuração da subclasse (Força = 3) e guarde-os. Gaste Dados de Oração até alcance distante para: reduzir dano sofrido, somar ao resultado de uma rolagem após ela, ou ganhar Esperança igual ao resultado. Sobras se perdem no fim da sessão."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Alicerce da Vida",
+    "texto": "Habilidade de Esperança: gaste 3 Esperança para recuperar 1 PV de um aliado próximo."
+   },
+   {
+    "secao": "Subclasse — Portador Divino",
+    "tag": "Fundamental",
+    "nome": "Arma Espiritual",
+    "texto": "Com uma arma de alcance corpo a corpo ou muito próximo equipada, ela voa da sua mão para atacar um adversário próximo e retorna. Marque 1 PF para escolher um adversário adicional no alcance, usando o mesmo teste de ataque."
+   },
+   {
+    "secao": "Subclasse — Portador Divino",
+    "tag": "Fundamental",
+    "nome": "Toque Piedoso",
+    "texto": "Uma vez por descanso longo, toque uma criatura para que ela recupere 2 PV ou 2 PF."
+   },
+   {
+    "secao": "Subclasse — Portador Divino",
+    "tag": "Especialização",
+    "nome": "Devoção",
+    "texto": "Ao rolar seus Dados de Oração, role um dado adicional e descarte o menor resultado. Além disso, pode usar Toque Piedoso duas vezes por descanso longo."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Fada",
+    "nome": "Asas",
+    "texto": "Você pode voar. Enquanto estiver voando, e após um adversário atacar você, você pode marcar 1 Ponto de Fadiga para receber um bônus de +2 na Evasão contra esse ataque."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Fada",
+    "nome": "Testar a Sorte",
+    "texto": "Uma vez por sessão, após você ou um aliado voluntário próximo fazer um teste, você pode gastar 3 Pontos de Esperança para rolar novamente os Dados de Dualidade."
+   }
+  ],
+  "ancestralidade": "Fada",
+  "comunidade": "Aristocrática",
+  "dominios": [
+   "Valor",
+   "Esplendor"
+  ]
+ },
+ "M": {
+  "code": "M",
+  "nome": "O Decifrador",
+  "classe": "Mago Humano",
+  "sub": "Discípulo do Conhecimento",
+  "motivo": "A ignorância dói mais que qualquer ferida. A Boca devorou bibliotecas inteiras — e você arrasta a perna ruim degrau por degrau para ler tudo.",
+  "cor": "#5b7bc4",
+  "cor2": "#9fc3e0",
+  "dom": "Códice & Esplendor",
+  "arquivo": "ficha-decifrador",
+  "atributos": {
+   "Conhecimento": 4,
+   "Instinto": 2,
+   "Presença": 2,
+   "Acuidade": 0,
+   "Agilidade": 0,
+   "Força": -1
+  },
+  "evasao": 12,
+  "pvMax": 7,
+  "fadigaMax": 8,
+  "prof": 3,
+  "paMax": 3,
+  "limiares": [
+   11,
+   18
+  ],
+  "armas": [
+   {
+    "nome": "Varinha",
+    "desc": "principal · Conhecimento · Distante · <b>3d6+1</b> mág · uma mão",
+    "dano": "3d6+1",
+    "atributo": "Conhecimento"
+   },
+   {
+    "nome": "Adaga pequena",
+    "desc": "secundária · Acuidade · Corpo a corpo · 3d8 fís (só desespero)",
+    "dano": "3d8",
+    "atributo": "Acuidade"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Línguas Mortas",
+    "desc": "traduzir o ilegível",
+    "mod": 3
+   },
+   {
+    "nome": "Memória de Pergaminho",
+    "desc": "lembrar tudo que leu",
+    "mod": 3
+   },
+   {
+    "nome": "Olho para o Oculto",
+    "desc": "ver o que se esconde",
+    "mod": 2
+   },
+   {
+    "nome": "Teimosia do Aleijado",
+    "desc": "seguir apesar da dor",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Livro de Illiat",
+    "meta": "Códice · Nv1 · Grimório · Recall 2",
+    "texto": "Sonolência: faça um teste de conjuração contra um alvo muito próximo. Em um sucesso, ele fica Adormecido até sofrer dano ou até o mestre gastar 1 Ponto de Medo no turno dele para encerrar a condição. Saraivada Arcana: uma vez por descanso, gaste qualquer quantidade de Pontos de Esperança para atirar projéteis mágicos que acertam um alvo próximo à sua escolha. Role um número de d6 igual à quantidade de Pontos de Esperança gasta e cause o resultado deles como dano mágico ao alvo. Telepatia: gaste 1 Ponto de Esperança para criar uma linha de comunicação mental com um alvo que você possa ver. Essa conexão dura até seu próximo descanso ou até você conjurar Telepatia novamente."
+   },
+   {
+    "nome": "Livro de Tyfar",
+    "meta": "Códice · Nv1 · Grimório · Recall 2",
+    "texto": "Chama Selvagem: faça um teste de conjuração contra até três adversários corpo a corpo. Chamas irrompem de sua mão. Alvos atingidos sofrem 2d6 de dano mágico e marcam 1 Ponto de Fadiga. Mão Arcana: você conjura uma mão mágica idêntica à sua em força e tamanho num ponto em alcance distante. Névoa Misteriosa: faça um teste de conjuração (13) para conjurar uma névoa densa que fica em uma área estática dentro do alcance muito próximo. A neblina deixa essa área e tudo o que há nela fortemente obscurecido."
+   },
+   {
+    "nome": "Livro de Vagras",
+    "meta": "Códice · Nv2 · Grimório · Recall 2",
+    "texto": "Portal Arcano: se não houver adversários corpo a corpo, faça um teste de conjuração (13). Em um sucesso, gaste 1 Ponto de Esperança para criar um portal de onde você está para outro ponto que você possa ver em alcance distante. Ele se fecha depois que uma criatura passar por ele. Revelar: faça um teste de conjuração. Se houver algo escondido por magia em alcance próximo, ela é revelada. Tranca Rúnica: faça um teste de conjuração (15) sobre um objeto que esteja tocando e que possa fechar (como um baú, cadeado, caixa ou fechadura). Uma vez por descanso, em um sucesso, você pode trancar o objeto de modo que ele só possa ser aberto por criaturas designadas por você. Este feitiço pode ser quebrado em uma hora por uma pessoa com acesso à magia."
+   },
+   {
+    "nome": "Livro de Korvax",
+    "meta": "Códice · Nv3 · Grimório · Recall 2",
+    "texto": "Círculo Rúnico: marque 1 Ponto de Fadiga para criar um círculo mágico temporário abaixo de onde você está. Todos os adversários que entrarem ou estiverem em alcance cac sofrem 2d12+4 de dano mágico e são empurrados para um ponto em alcance muito próximo. Lapso: gaste 1 Ponto de Esperança para forçar um alvo corpo a corpo a fazer um teste de reação (15). Se falhar, ele esquece o último minuto de conversa com você. Levitação: faça um teste de conjuração para suspender temporariamente no ar um alvo que você possa ver e movê-lo para um ponto em alcance próximo relativo à posição original dele."
+   },
+   {
+    "nome": "Livro de Norai",
+    "meta": "Códice · Nv3 · Grimório · Recall 2",
+    "texto": "Amarração Mística: faça um teste de conjuração contra um alvo distante. Em um sucesso, ele fica temporariamente Imobilizado e deve marcar 1 Ponto de Fadiga. Se tiver uma criatura que esteja voando como alvo, este feitiço faz com que ela aterrisse e fique temporariamente Imobilizada. Bola de Fogo: faça um teste de conjuração contra um alvo muito distante. Em um sucesso, lance uma esfera de fogo que explode ao se chocar contra ele. O alvo e todas as criaturas Muito Próximas dele devem fazer um teste de reação (13). Alvos que falharem sofrem d20+5 de dano mágico com sua Proficiência. Alvos bem-sucedidos sofrem metade do dano."
+   },
+   {
+    "nome": "Validação",
+    "meta": "Esplendor · Nv1 · Talento · Recall 0",
+    "texto": "Uma vez por descanso, após o teste de um aliado, mas antes das consequências ocorrerem, você pode auxiliá-lo com palavras de apoio. Ao fazer isso, seu aliado pode rolar os dados novamente."
+   },
+   {
+    "nome": "Voz da Razão",
+    "meta": "Esplendor · Nv3 · Talento · Recall 1",
+    "texto": "Você fala com poder e autoridade sem igual. Você tem vantagem em testes para acalmar situações violentas ou convencer alguém a seguir sua ordem. Além disso, você demonstra mais firmeza sob pressão. Quando todos seus Pontos de Fadiga estiverem marcados, você ganha um bônus de +1 na Proficiência para rolagens de dano."
+   },
+   {
+    "nome": "Adivinhação",
+    "meta": "Esplendor · Nv4 · Feitiço · Recall 1",
+    "texto": "Uma vez por descanso longo, gaste 3 Pontos de Esperança para se comunicar com as forças do além e fazer uma única pergunta sobre algum evento, lugar, pessoa ou situação no futuro próximo que possa ser respondida com “sim” ou “não”. O tempo presente desaparece por um momento e a resposta surge magicamente diante de você."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Padrões Estranhos",
+    "texto": "Escolha um número de 1 a 12. Ao rolar esse número num Dado do Destino, receba 1 Esperança ou recupere 1 PF. Pode mudar o número num descanso longo."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Prestidigitação",
+    "texto": "Efeitos mágicos sutis e inofensivos à vontade: mudar a cor de um objeto, criar um cheiro, acender vela, flutuar um pequeno objeto, iluminar uma sala, consertar algo pequeno."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "3 Esperança",
+    "nome": "Não Dessa Vez",
+    "texto": "Habilidade de Esperança: force um adversário distante ou mais próximo a refazer um teste de ataque ou uma rolagem de dano."
+   },
+   {
+    "secao": "Subclasse — Discípulo do Conhecimento",
+    "tag": "Fundamental",
+    "nome": "Promissor",
+    "texto": "Pegue uma carta de domínio adicional, do seu nível ou inferior, de um domínio ao qual você tem acesso. (Já contabilizada nas cartas.)"
+   },
+   {
+    "secao": "Subclasse — Discípulo do Conhecimento",
+    "tag": "Fundamental",
+    "nome": "Adepto",
+    "texto": "Ao usar uma Experiência, marque 1 PF em vez de gastar 1 Esperança. Se fizer, dobre seu modificador de Experiência nessa rolagem."
+   },
+   {
+    "secao": "Subclasse — Discípulo do Conhecimento",
+    "tag": "Especialização",
+    "nome": "Talentoso",
+    "texto": "Pegue uma carta de domínio adicional, do seu nível ou inferior, de um domínio ao qual você tem acesso. (Já contabilizada.)"
+   },
+   {
+    "secao": "Subclasse — Discípulo do Conhecimento",
+    "tag": "Especialização",
+    "nome": "Troca Perfeita",
+    "texto": "Uma vez por descanso, ao trocar uma carta de domínio da reserva, reduza o custo de troca em -1."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Humano",
+    "nome": "Resiliência",
+    "texto": "Receba 1 Ponto de Fadiga adicional durante a criação de personagem."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Humano",
+    "nome": "Adaptabilidade",
+    "texto": "Ao rolar uma falha em um teste que usou uma de suas Experiências, você pode marcar 1 Ponto de Fadiga para fazer a rolagem novamente."
+   }
+  ],
+  "ancestralidade": "Humano",
+  "comunidade": "Erudita",
+  "dominios": [
+   "Códice",
+   "Esplendor"
+  ]
+ },
+ "G": {
+  "code": "G",
+  "nome": "O Redentor",
+  "classe": "Guardião Gigante",
+  "sub": "Baluarte",
+  "motivo": "Você jurou protegê-los e sobreviveu — descomunal, intacto, inútil. Desce para ficar de pé na frente deles uma última vez. Desta vez não vai falhar.",
+  "cor": "#a8895a",
+  "cor2": "#cbb486",
+  "dom": "Valor & Lâmina",
+  "arquivo": "ficha-redentor",
+  "atributos": {
+   "Força": 4,
+   "Agilidade": 0,
+   "Acuidade": -1,
+   "Instinto": 2,
+   "Presença": 2,
+   "Conhecimento": 0
+  },
+  "evasao": 8,
+  "pvMax": 10,
+  "fadigaMax": 7,
+  "prof": 3,
+  "paMax": 7,
+  "limiares": [
+   17,
+   25
+  ],
+  "armas": [
+   {
+    "nome": "Martelo de Guerra",
+    "desc": "principal · Força · Corpo a corpo · <b>3d12+3</b> fís · duas mãos · Pesado (-1 Evasão)",
+    "dano": "3d12+3",
+    "atributo": "Força"
+   },
+   {
+    "nome": "Escudo-Torre",
+    "desc": "secundária · Força · Cac · 3d6 fís · Barreira: +3 PA, -1 Evasão",
+    "dano": "3d6",
+    "atributo": "Força"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Juramento Quebrado",
+    "desc": "a culpa que move",
+    "mod": 3
+   },
+   {
+    "nome": "Muralha de Carne",
+    "desc": "aguentar o impossível",
+    "mod": 3
+   },
+   {
+    "nome": "Olhos nos Fracos",
+    "desc": "ver quem precisa",
+    "mod": 2
+   },
+   {
+    "nome": "Voz que Acalma",
+    "desc": "firmeza sob pressão",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Sou Seu Escudo",
+    "meta": "Valor · Nv1 · Talento · Recall 1",
+    "texto": "Quando um aliado muito próximo for sofrer dano, você pode marcar 1 Ponto de Fadiga para prostrar-se no caminho e virar o alvo do ataque no lugar dele. Ao sofrer dano desse ataque, você pode marcar um número qualquer de Pontos de Armadura."
+   },
+   {
+    "nome": "Impulso",
+    "meta": "Valor · Nv1 · Talento · Recall 0",
+    "texto": "Marque 1 Ponto de Fadiga para usar um aliado próximo voluntário como impulso para se lançar no ar e fazer um ataque aéreo contra um alvo distante. Você tem vantagem no ataque, soma 1d10 à rolagem de dano e termina seu movimento corpo a corpo ao alvo."
+   },
+   {
+    "nome": "Bastião",
+    "meta": "Valor · Nv4 · Talento · Recall 2",
+    "texto": "Quando um aliado próximo falhar em um teste, você pode gastar 2 Pontos de Esperança para permitir que ele role novamente o Dado de Medo ou de Esperança."
+   },
+   {
+    "nome": "Levante-se",
+    "meta": "Lâmina · Nv1 · Talento · Recall 1",
+    "texto": "Ao sofrer dano grave, você pode marcar 1 Ponto de Fadiga para reduzir a gravidade em um limiar."
+   },
+   {
+    "nome": "Não o Suficiente",
+    "meta": "Lâmina · Nv1 · Talento · Recall 1",
+    "texto": "Ao rolar dados de dano, você pode rolar novamente quaisquer resultados 1 ou 2."
+   },
+   {
+    "nome": "Armadura Fortificada",
+    "meta": "Lâmina · Nv4 · Talento · Recall 0",
+    "texto": "Você recebe um bônus de +2 nos seus limiares de dano enquanto estiver usando armadura."
+   },
+   {
+    "nome": "Vitalidade",
+    "meta": "Lâmina · Nv5 · Talento · Recall 0",
+    "texto": "Ao escolher esta carta, receba dois destes benefícios permanentemente: • 1 PF adicional; • 1 PV adicional; • Bônus de +2 em seus limiares de dano. Em seguida, coloque esta carta na sua reserva permanentemente."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Determinação",
+    "texto": "1×/descanso longo, fique Determinado (Dado de Determinação d6 no nível 5). Ao tirar PV de um alvo, aumente o dado em +1. Enquanto Determinado: reduz a gravidade do dano físico em uma categoria, soma o valor do dado às rolagens de dano, e não pode ser Imobilizado ou Vulnerável. Some-se ao máximo do dado ou fim da cena: encerra."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "3 Esperança",
+    "nome": "Linha de Frente",
+    "texto": "Habilidade de Esperança: gaste 3 Esperança para recuperar 2 Pontos de Armadura."
+   },
+   {
+    "secao": "Subclasse — Baluarte",
+    "tag": "Fundamental",
+    "nome": "Resoluto",
+    "texto": "Bônus permanente de +1 nos seus limiares de dano."
+   },
+   {
+    "secao": "Subclasse — Baluarte",
+    "tag": "Fundamental",
+    "nome": "Vontade de Ferro",
+    "texto": "Ao sofrer dano físico, marque 1 Ponto de Armadura adicional para reduzir a gravidade."
+   },
+   {
+    "secao": "Subclasse — Baluarte",
+    "tag": "Especialização",
+    "nome": "Irrefreável",
+    "texto": "Bônus permanente de +2 nos seus limiares de dano."
+   },
+   {
+    "secao": "Subclasse — Baluarte",
+    "tag": "Especialização",
+    "nome": "Irmãos de Armas",
+    "texto": "Quando um aliado muito próximo sofrer dano físico, marque 1 Ponto de Armadura para reduzir a gravidade em um limiar."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Gigante",
+    "nome": "Resistência",
+    "texto": "Receba 1 Ponto de Vida adicional durante a criação de personagem."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Gigante",
+    "nome": "Alcance",
+    "texto": "Trate qualquer arma, talento, magia ou outra habilidade com alcance corpo a corpo como se ela possuísse alcance muito próximo."
+   }
+  ],
+  "ancestralidade": "Gigante",
+  "comunidade": "Montanhesa",
+  "dominios": [
+   "Valor",
+   "Lâmina"
+  ]
+ },
+ "F": {
+  "code": "F",
+  "nome": "O Arauto",
+  "classe": "Feiticeiro Drakona",
+  "sub": "Elementalista (Fogo)",
+  "motivo": "Você sente: um grande mal vem aí, e o fogo dentro de você cresce junto. Ninguém acredita no arauto. O segredo para contê-lo está lá no fundo.",
+  "cor": "#e0772a",
+  "cor2": "#f2a64a",
+  "dom": "Arcano & Meia-noite",
+  "arquivo": "ficha-arauto",
+  "atributos": {
+   "Instinto": 4,
+   "Agilidade": 0,
+   "Acuidade": 2,
+   "Presença": 2,
+   "Conhecimento": 0,
+   "Força": -1
+  },
+  "evasao": 11,
+  "pvMax": 8,
+  "fadigaMax": 7,
+  "prof": 3,
+  "paMax": 3,
+  "limiares": [
+   11,
+   18
+  ],
+  "armas": [
+   {
+    "nome": "Cajado Curto",
+    "desc": "principal · Instinto · Próximo · <b>3d8+1</b> mág · uma mão",
+    "dano": "3d8+1",
+    "atributo": "Instinto"
+   },
+   {
+    "nome": "Sopro de Fogo",
+    "desc": "ancestralidade · Instinto · Muito próximo · 3d8 mág (alvo ou grupo)",
+    "dano": "3d8",
+    "atributo": "Instinto"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Pressinto a Catástrofe",
+    "desc": "sentir o mal que vem",
+    "mod": 3
+   },
+   {
+    "nome": "Chama Que Não Cessa",
+    "desc": "o fogo interior",
+    "mod": 3
+   },
+   {
+    "nome": "Voz no Deserto",
+    "desc": "falar sem ser ouvido",
+    "mod": 2
+   },
+   {
+    "nome": "Pele de Brasa",
+    "desc": "aguentar o próprio calor",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Incendiar",
+    "meta": "Arcano · Nv2 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração contra um alvo corpo a corpo. Em um sucesso, o alvo instantaneamente irrompe em chamas, sofre 1d20+3 de dano mágico e fica temporariamente Em Chamas. Quando uma criatura Em Chamas age, ela sofre 2d6 de dano mágico adicional se ainda estiver Em Chamas no fim da ação dela."
+   },
+   {
+    "nome": "Caos Liberto",
+    "meta": "Arcano · Nv1 · Feitiço · Recall 1",
+    "texto": "No início da sessão, coloque um número de marcadores igual ao seu atributo de conjuração nesta carta. Faça um teste de conjuração contra um alvo distante e gaste qualquer número de marcadores para canalizar energia bruta de seu interior e liberá-la contra ele. Em um sucesso, role uma quantidade de d10 igual ao número de marcadores que gastou e cause o resultado deles como dano mágico ao alvo. Marque 1 Ponto de Fadiga para recarregar esta carta com marcadores (até uma quantidade igual ao seu atributo de conjuração). No fim de cada sessão, marcadores não utilizados são perdidos."
+   },
+   {
+    "nome": "Corrente de Relâmpagos",
+    "meta": "Arcano · Nv5 · Feitiço · Recall 1",
+    "texto": "Marque 2 Pontos de Fadiga para fazer um teste de conjuração e liberar relâmpagos em cadeia contra todos os alvos próximos. Alvos atingidos devem fazer um teste de reação com Dificuldade igual ao resultado de seu teste de conjuração. Se falharem, sofrem 2d8+4 de dano mágico. Adversários adicionais que não tenham sido alvo da Corrente de Relâmpagos e estejam próximos dos alvos que sofreram dano também devem fazer um teste de reação. Se falharem, sofrem 2d8+4 de dano mágico. A corrente continua até não haver mais adversários no alcance."
+   },
+   {
+    "nome": "Impacto Defensivo",
+    "meta": "Arcano · Nv4 · Feitiço · Recall 2",
+    "texto": "Faça um teste de conjuração contra todos os alvos corpo a corpo. Alvos atingidos são empurrados para um ponto qualquer em alcance distante e sofrem d8+3 de dano mágico usando seu atributo de conjuração."
+   },
+   {
+    "nome": "Premonição",
+    "meta": "Arcano · Nv5 · Feitiço · Recall 2",
+    "texto": "Você pode canalizar energia arcana para ter visões do futuro. Uma vez por descanso longo, imediatamente após o mestre apresentar as consequências de um teste que você fez, você pode ignorar esse movimento e suas consequências como se elas não tivessem acontecido e fazer outro movimento no lugar."
+   },
+   {
+    "nome": "Espírito da Meia-noite",
+    "meta": "Meia-noite · Nv2 · Feitiço · Recall 1",
+    "texto": "Gaste 1 Ponto de Esperança para invocar um espírito de tamanho humanoide que pode se mover ou carregar coisas para você até seu próximo descanso. Você também pode mandá-lo atacar um adversário. Ao fazer isso, faça um teste de conjuração contra um alvo muito distante. Em um sucesso, o espírito se move até ficar corpo a corpo ao alvo. Role um número de d6 igual ao seu atributo de conjuração e cause o resultado deles como dano mágico ao alvo. O espírito então se dissipa. Você pode ter apenas um espírito por vez."
+   },
+   {
+    "nome": "Glifo do Ocaso",
+    "meta": "Meia-noite · Nv4 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração contra um alvo muito próximo. Em um sucesso, gaste 1 Ponto de Esperança para conjurar um glifo sombrio sobre ele. O glifo expõe os pontos fracos do alvo, reduzindo temporariamente sua Dificuldade em um valor igual ao seu Conhecimento (mínimo de 1)."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Sentido Arcano",
+    "texto": "Você pode sentir a presença de objetos e pessoas com magia quando estão próximos."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Ilusão Menor",
+    "texto": "Faça um teste de conjuração (10). Em um sucesso, cria uma ilusão visual em alcance próximo (não maior que seu tamanho). Parece convincente a quem está próximo ou mais distante."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Canalizar Poder Bruto",
+    "texto": "1×/descanso longo, coloque uma carta de domínio da mão na reserva e escolha: receber Esperança igual ao nível da carta; ou aprimorar um feitiço de dano com bônus igual ao dobro do nível da carta."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "3 Esperança",
+    "nome": "Magia Volátil",
+    "texto": "Habilidade de Esperança: gaste 3 Esperança para rolar novamente qualquer quantidade de dados de dano em um ataque que causa dano mágico."
+   },
+   {
+    "secao": "Subclasse — Elementalista",
+    "tag": "Fundamental",
+    "nome": "Elementalismo (Fogo)",
+    "texto": "Pode moldar fogo para efeitos inofensivos. Gaste 1 Esperança e descreva como o controle do fogo ajuda num teste prestes a ser feito: +2 no teste ou +3 na rolagem de dano."
+   },
+   {
+    "secao": "Subclasse — Elementalista",
+    "tag": "Especialização",
+    "nome": "Evasão Natural",
+    "texto": "Pode convocar o fogo para se proteger. Ao sofrer um ataque, marque 1 PF e descreva como usa o fogo para se defender: role 1d6 e some à sua Evasão contra esse ataque."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Drakona",
+    "nome": "Escamas",
+    "texto": "Suas escamas servem como proteção natural. Quando sofrer dano grave, você pode marcar 1 PF para marcar 1 PV a menos."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Drakona",
+    "nome": "Sopro Elemental",
+    "texto": "Escolha um elemento para seu sopro (aqui, fogo). Pode usá-lo contra um alvo ou grupo muito próximo, tratando-o como uma arma que usa Instinto e causa d8 de dano mágico com sua Proficiência."
+   }
+  ],
+  "ancestralidade": "Drakona",
+  "comunidade": "Subterrânea",
+  "dominios": [
+   "Arcano",
+   "Meia-noite"
+  ]
+ },
+ "W": {
+  "code": "W",
+  "nome": "O Fiel",
+  "classe": "Guerreiro Elfo",
+  "sub": "Escolhido da Bravura",
+  "motivo": "O Vazio levou sua amada como uma página rasgada. A Boca engole tudo o que o Vazio leva — então ela ainda existe lá no fundo. Você vai trazê-la de volta.",
+  "cor": "#9fc3e0",
+  "cor2": "#cfe2f0",
+  "dom": "Falange & Lâmina",
+  "arquivo": "ficha-fiel",
+  "atributos": {
+   "Agilidade": 4,
+   "Força": 2,
+   "Acuidade": 0,
+   "Instinto": 2,
+   "Presença": 0,
+   "Conhecimento": -1
+  },
+  "evasao": 13,
+  "pvMax": 8,
+  "fadigaMax": 7,
+  "prof": 3,
+  "paMax": 4,
+  "limiares": [
+   12,
+   20
+  ],
+  "armas": [
+   {
+    "nome": "Espada Longa",
+    "desc": "principal · Agilidade · Corpo a corpo · <b>3d10+3</b> fís · duas mãos",
+    "dano": "3d10+3",
+    "atributo": "Agilidade"
+   },
+   {
+    "nome": "Adaga",
+    "desc": "secundária · Acuidade · Corpo a corpo · 3d8 fís · uma mão (reserva)",
+    "dano": "3d8",
+    "atributo": "Acuidade"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Juramento de Amor",
+    "desc": "tudo por ela",
+    "mod": 3
+   },
+   {
+    "nome": "Mestre da Espada",
+    "desc": "séculos de treino",
+    "mod": 3
+   },
+   {
+    "nome": "Coração Inquebrável",
+    "desc": "nunca desistir",
+    "mod": 2
+   },
+   {
+    "nome": "Etiqueta de Corte",
+    "desc": "o cavaleiro nobre",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Um Passo à Frente",
+    "meta": "Falange · Nv1 · Talento · Recall 1",
+    "texto": "Quando você é alvo de um ataque originado de um ponto fora de alcance corpo a corpo, você pode marcar 1 Ponto de Fadiga para rolar 1d4 e receber um bônus igual ao resultado na sua Evasão contra este ataque."
+   },
+   {
+    "nome": "Intocável",
+    "meta": "Falange · Nv1 · Talento · Recall 1",
+    "texto": "Receba um bônus na Evasão igual à metade da sua Agilidade."
+   },
+   {
+    "nome": "Ferocidade",
+    "meta": "Falange · Nv2 · Talento · Recall 2",
+    "texto": "Ao fazer com que um adversário marque 1 ou mais Pontos de Vida, você pode gastar 2 Pontos de Esperança para aumentar sua Evasão em um número igual à quantidade de PV que ele marcou. Esse bônus dura até o término do próximo ataque feito contra você."
+   },
+   {
+    "nome": "Táticas",
+    "meta": "Falange · Nv3 · Talento · Recall 1",
+    "texto": "Ao prestar ajuda a um aliado, você pode gastar 1 Ponto de Esperança para somar uma de suas Experiências à rolagem, junto ao seu dado de vantagem. Ao fazer um teste em dupla, você pode usar 1d20 como seu Dado de Esperança."
+   },
+   {
+    "nome": "Levante-se",
+    "meta": "Lâmina · Nv1 · Talento · Recall 1",
+    "texto": "Ao sofrer dano grave, você pode marcar 1 Ponto de Fadiga para reduzir a gravidade em um limiar."
+   },
+   {
+    "nome": "Turbilhão",
+    "meta": "Lâmina · Nv1 · Talento · Recall 0",
+    "texto": "Quando acerta um ataque contra um alvo muito próximo, você pode gastar 1 Ponto de Esperança para usar este ataque contra todos os outros alvos muito próximos. Todos os adversários adicionais que você acertar ao usar este talento sofrem metade do dano."
+   },
+   {
+    "nome": "Vitalidade",
+    "meta": "Lâmina · Nv5 · Talento · Recall 0",
+    "texto": "Ao escolher esta carta, receba dois destes benefícios permanentemente: • 1 PF adicional; • 1 PV adicional; • Bônus de +2 em seus limiares de dano. Em seguida, coloque esta carta na sua reserva permanentemente."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Ataque de Oportunidade",
+    "texto": "Se um adversário corpo a corpo tentar sair desse alcance, faça um teste de reação (atributo à escolha) contra a Dificuldade dele. Em sucesso, escolha um efeito; crítico, dois: ele não pode sair; você causa dano igual à sua arma principal; ou você se move com ele."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Treinamento de Combate",
+    "texto": "Você ignora o tipo de empunhadura de armas equipadas. Ao causar dano físico, recebe um bônus igual ao seu nível na rolagem de dano."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "3 Esperança",
+    "nome": "Sem Piedade",
+    "texto": "Habilidade de Esperança: gaste 3 Esperança para receber +1 em testes de ataque até seu próximo descanso."
+   },
+   {
+    "secao": "Subclasse — Escolhido da Bravura",
+    "tag": "Fundamental",
+    "nome": "Coragem",
+    "texto": "Ao falhar com Medo, receba 1 Ponto de Esperança."
+   },
+   {
+    "secao": "Subclasse — Escolhido da Bravura",
+    "tag": "Fundamental",
+    "nome": "Ritual de Batalha",
+    "texto": "1×/descanso longo, antes de fazer algo muito perigoso ou enfrentar um oponente claramente superior, descreva sua preparação. Então recupere 2 PF e receba 2 Esperança."
+   },
+   {
+    "secao": "Subclasse — Escolhido da Bravura",
+    "tag": "Especialização",
+    "nome": "Enfrentar o Desafio",
+    "texto": "Você se mantém vigilante frente ao perigo crescente. Enquanto tiver 2 PV ou menos desmarcados, pode usar 1d20 como seu Dado de Esperança."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Elfo",
+    "nome": "Reação Rápida",
+    "texto": "Marque 1 Ponto de Fadiga para receber vantagem em um teste de reação."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Elfo",
+    "nome": "Transe Celestial",
+    "texto": "Durante um descanso, você pode entrar em um transe celestial para escolher um movimento de repouso adicional."
+   }
+  ],
+  "ancestralidade": "Elfo",
+  "comunidade": "Aristocrática",
+  "dominios": [
+   "Falange",
+   "Lâmina"
+  ]
+ },
+ "C": {
+  "code": "C",
+  "nome": "O Caçador",
+  "classe": "Patrulheiro Katari",
+  "sub": "Rastreador",
+  "motivo": "Você já abateu tudo o que anda, voa ou rasteja. Mas há algo no fundo da Boca que nunca foi caçado — algo que caça de volta. A presa perfeita.",
+  "cor": "#c2a23e",
+  "cor2": "#e0c45a",
+  "dom": "Falange & Sabedoria",
+  "arquivo": "ficha-cacador",
+  "atributos": {
+   "Agilidade": 4,
+   "Força": 0,
+   "Acuidade": 2,
+   "Instinto": 2,
+   "Presença": 0,
+   "Conhecimento": -1
+  },
+  "evasao": 13,
+  "pvMax": 8,
+  "fadigaMax": 7,
+  "prof": 3,
+  "paMax": 3,
+  "limiares": [
+   11,
+   18
+  ],
+  "armas": [
+   {
+    "nome": "Arco Longo",
+    "desc": "principal · Agilidade · Muito distante · <b>3d8+3</b> fís · duas mãos",
+    "dano": "3d8+3",
+    "atributo": "Agilidade"
+   },
+   {
+    "nome": "Adaga de Caça",
+    "desc": "secundária · Acuidade · Corpo a corpo · 3d8 fís · uma mão",
+    "dano": "3d8",
+    "atributo": "Acuidade"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Nunca Erro o Bote",
+    "desc": "o tiro certeiro",
+    "mod": 3
+   },
+   {
+    "nome": "Olho de Predador",
+    "desc": "ler a presa",
+    "mod": 3
+   },
+   {
+    "nome": "Rastros no Escuro",
+    "desc": "seguir qualquer trilha",
+    "mod": 2
+   },
+   {
+    "nome": "Paciência de Fera",
+    "desc": "esperar o momento",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Rastreador Talentoso",
+    "meta": "Sabedoria · Nv1 · Talento · Recall 0",
+    "texto": "Ao rastrear uma criatura ou grupo de criaturas com base nos sinais da passagem delas, você pode gastar qualquer quantidade de Pontos de Esperança e fazer um número equivalente destas perguntas ao mestre: • Para que direção ele(s) foi(foram)? • Há quanto tempo a criatura ou grupo passou por aqui? • O que a criatura ou grupo fazia neste lugar? • Quantas criaturas havia? Ao encontrar os alvos rastreados dessa forma, você recebe um bônus de +1 na Evasão contra elas."
+   },
+   {
+    "nome": "Movimento Ligeiro",
+    "meta": "Falange · Nv1 · Talento · Recall 0",
+    "texto": "Uma vez por descanso, marque 1 PF para se deslocar para qualquer lugar em alcance distante sem precisar de um teste de Agilidade. Se terminar esse movimento em alcance corpo a corpo de um adversário e imediatamente atacá-lo, você ganha um bônus de +1 no teste de ataque."
+   },
+   {
+    "nome": "Intocável",
+    "meta": "Falange · Nv1 · Talento · Recall 1",
+    "texto": "Receba um bônus na Evasão igual à metade da sua Agilidade."
+   },
+   {
+    "nome": "Um Passo à Frente",
+    "meta": "Falange · Nv1 · Talento · Recall 1",
+    "texto": "Quando você é alvo de um ataque originado de um ponto fora de alcance corpo a corpo, você pode marcar 1 Ponto de Fadiga para rolar 1d4 e receber um bônus igual ao resultado na sua Evasão contra este ataque."
+   },
+   {
+    "nome": "Ferocidade",
+    "meta": "Falange · Nv2 · Talento · Recall 2",
+    "texto": "Ao fazer com que um adversário marque 1 ou mais Pontos de Vida, você pode gastar 2 Pontos de Esperança para aumentar sua Evasão em um número igual à quantidade de PV que ele marcou. Esse bônus dura até o término do próximo ataque feito contra você."
+   },
+   {
+    "nome": "Conhece Teu Inimigo",
+    "meta": "Falange · Nv5 · Talento · Recall 1",
+    "texto": "Enquanto estiver observando uma criatura, você pode fazer um teste de Instinto contra ela. Em um sucesso, gaste 1 Ponto de Esperança e pergunte ao mestre uma das seguintes informações a respeito dela: • PV e PF restantes; • Dificuldade e limiares de dano; • Táticas e dados de dano padrão; • Habilidades e Experiências. Além disso, em um sucesso, você pode marcar 1 PF para fazer o mestre perder 1 Ponto de Medo."
+   },
+   {
+    "nome": "Golpe Pessoal",
+    "meta": "Falange · Nv5 · Talento · Recall 1",
+    "texto": "Você tem um golpe icônico de combate. Descreva-o e dê um nome a ele. Uma vez por descanso, ao utilizá-lo como parte de uma ação, você pode rolar 1d20 como seu Dado de Esperança. Em um sucesso, recupere 1 Ponto de Fadiga."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Marca da Presa",
+    "texto": "Gaste 1 Esperança e ataque um alvo. Se acertar, cause dano normal e Marque o alvo. Contra o Marcado: você sabe a direção dele; ao causar dano a ele, ele marca 1 PF; ao errar um ataque contra ele, pode encerrar a Marca para rolar seus Dados de Dualidade de novo."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "3 Esperança",
+    "nome": "Segurem Eles",
+    "texto": "Habilidade de Esperança: ao acertar um ataque com arma, gaste 3 Esperança para usar o mesmo teste contra dois adversários adicionais no alcance."
+   },
+   {
+    "secao": "Subclasse — Rastreador",
+    "tag": "Fundamental",
+    "nome": "Predador Implacável",
+    "texto": "Ao fazer uma rolagem de dano, marque 1 PF para +1 na Proficiência. Além disso, quando causa dano grave a um adversário, ele deve marcar 1 PF."
+   },
+   {
+    "secao": "Subclasse — Rastreador",
+    "tag": "Fundamental",
+    "nome": "Avante",
+    "texto": "Ao viajar para um lugar que já visitou, ou se possuir um objeto que já esteve nesse lugar, você identifica o caminho mais curto e direto até o destino."
+   },
+   {
+    "secao": "Subclasse — Rastreador",
+    "tag": "Especialização",
+    "nome": "Predador Veloz",
+    "texto": "Quando um adversário Marcado ataca você, você recebe +2 na Evasão contra esse ataque."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Katari",
+    "nome": "Felino",
+    "texto": "Ao fazer um teste de Agilidade, você pode gastar 2 Pontos de Esperança para rolar seu Dado de Esperança novamente."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Katari",
+    "nome": "Garras Retráteis",
+    "texto": "Faça um teste de Agilidade para arranhar um alvo corpo a corpo. Em um sucesso, ele fica temporariamente Vulnerável."
+   }
+  ],
+  "ancestralidade": "Katari",
+  "comunidade": "Silvestre",
+  "dominios": [
+   "Falange",
+   "Sabedoria"
+  ]
+ },
+ "B": {
+  "code": "B",
+  "nome": "O Silenciado",
+  "classe": "Bardo Quacho",
+  "sub": "Trovador",
+  "motivo": "Sua voz fez reis chorarem. Você a vendeu a uma divindade faminta por canções, em troca de fama. Hoje você toca, não canta — e desce para reaver o que é seu.",
+  "cor": "#b070c8",
+  "cor2": "#d4a0e8",
+  "dom": "Códice & Graça",
+  "arquivo": "ficha-silenciado",
+  "atributos": {
+   "Presença": 4,
+   "Agilidade": 0,
+   "Acuidade": 2,
+   "Instinto": 2,
+   "Conhecimento": 0,
+   "Força": -1
+  },
+  "evasao": 11,
+  "pvMax": 7,
+  "fadigaMax": 7,
+  "prof": 3,
+  "paMax": 3,
+  "limiares": [
+   11,
+   18
+  ],
+  "armas": [
+   {
+    "nome": "Lira-Cetro",
+    "desc": "principal · Presença · Distante · <b>3d6</b> mág · o instrumento do pacto",
+    "dano": "3d6",
+    "atributo": "Presença"
+   },
+   {
+    "nome": "Língua",
+    "desc": "ancestralidade Quacho · Acuidade · Próximo · 3d12 fís (marque 1 PF)",
+    "dano": "3d12",
+    "atributo": "Acuidade"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "A Lira Diz o Que a Boca Não Pode",
+    "desc": "tocar o que sente",
+    "mod": 3
+   },
+   {
+    "nome": "Estrela dos Salões",
+    "desc": "a fama do pacto",
+    "mod": 3
+   },
+   {
+    "nome": "Lê os Lábios e o Coração",
+    "desc": "entender sem palavras",
+    "mod": 2
+   },
+   {
+    "nome": "Conhece os Velhos Deuses",
+    "desc": "sabe com quem negociou",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Palavras Inspiradoras",
+    "meta": "Graça · Nv1 · Talento · Recall 1",
+    "texto": "Suas palavras são imbuídas de poder. Após um descanso longo, coloque um número de marcadores igual à sua Presença nesta carta. Ao falar com um aliado, você pode gastar um marcador desta carta para dar a ele um benefício dentre os seguintes: • Seu aliado recupera 1 PF; • Seu aliado recupera 1 PV; • Seu aliado ganha 1 Ponto de Esperança. Após um descanso longo, marcadores não utilizados são perdidos."
+   },
+   {
+    "nome": "Lampejo Hipnótico",
+    "meta": "Graça · Nv3 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração contra todos os adversários próximos na sua frente. Uma vez por descanso, em um sucesso, crie lampejos ilusórios de cores e luzes que deixam os alvos atingidos temporariamente Atordoados e os força a marcar 1 PF. Enquanto estiverem Atordoados, os alvos não podem usar reações e não podem fazer quaisquer outras ações até que se recuperem desta condição."
+   },
+   {
+    "nome": "Invisibilidade",
+    "meta": "Graça · Nv3 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração (10). Em um sucesso, marque 1 Ponto de Fadiga e deixe você ou um aliado corpo a corpo Invisível. Uma criatura Invisível só pode ser vista por meios mágicos e testes de ataque contra ela são feitos com desvantagem. Coloque um número de marcadores igual ao seu atributo de conjuração nesta carta. Quando a criatura Invisível faz uma ação, gaste um marcador desta carta. Após o término da ação que consumiu o último marcador, o efeito termina. Você pode manter apenas uma criatura sob efeito de Invisibilidade por vez."
+   },
+   {
+    "nome": "Dissimulação",
+    "meta": "Graça · Nv1 · Talento · Recall 0",
+    "texto": "Gaste 1 Ponto de Esperança para receber vantagem em um teste para enganar ou fazer alguém acreditar em uma mentira que você contar."
+   },
+   {
+    "nome": "Palavras Tranquilizantes",
+    "meta": "Graça · Nv4 · Talento · Recall 1",
+    "texto": "Durante um descanso curto, ao passar um tempo amparando outro personagem por meio do movimento de repouso Tratar Ferimentos, recupere 1 Ponto de Vida adicional desse personagem. Ao fazer isso, você também recupera 2 Pontos de Vida."
+   },
+   {
+    "nome": "Livro de Ava",
+    "meta": "Códice · Nv1 · Grimório · Recall 2",
+    "texto": "Propelir: faça um teste de conjuração contra um alvo corpo a corpo. Em um sucesso, ele é empurrado para um ponto em alcance distante e sofre d10+2 de dano mágico com sua Proficiência. Armadura de Tava: gaste 1 Ponto de Esperança para conceder um bônus de +1 na Armadura a um alvo que você possa tocar. Esse bônus dura até o próximo descanso do alvo ou até que você conjure Armadura de Tava novamente. Estaca de Gelo: faça um teste de conjuração (12) para invocar um grande espinho de gelo em alcance distante. Se usá-lo como arma, em vez disso, faça o teste de conjuração contra a Dificuldade do alvo. Em um sucesso, você causa d6 de dano físico usando sua Proficiência."
+   },
+   {
+    "nome": "Livro de Illiat",
+    "meta": "Códice · Nv1 · Grimório · Recall 2",
+    "texto": "Sonolência: faça um teste de conjuração contra um alvo muito próximo. Em um sucesso, ele fica Adormecido até sofrer dano ou até o mestre gastar 1 Ponto de Medo no turno dele para encerrar a condição. Saraivada Arcana: uma vez por descanso, gaste qualquer quantidade de Pontos de Esperança para atirar projéteis mágicos que acertam um alvo próximo à sua escolha. Role um número de d6 igual à quantidade de Pontos de Esperança gasta e cause o resultado deles como dano mágico ao alvo. Telepatia: gaste 1 Ponto de Esperança para criar uma linha de comunicação mental com um alvo que você possa ver. Essa conexão dura até seu próximo descanso ou até você conjurar Telepatia novamente."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "",
+    "nome": "Inspiração",
+    "texto": "1×/sessão, descreva como você inspira o grupo (aqui: uma melodia) e dê a você e aliados um Dado de Inspiração (d8 no nível 5). Pode somar a um teste, reação ou dano, ou recuperar PF igual ao resultado. Sobras se perdem no fim da sessão."
+   },
+   {
+    "secao": "Habilidades de Classe",
+    "tag": "3 Esperança",
+    "nome": "Fazer uma Cena",
+    "texto": "Habilidade de Esperança: gaste 3 Esperança para distrair temporariamente um alvo próximo, aplicando -2 à Dificuldade dele. (Aqui: um acorde dissonante e teatral.)"
+   },
+   {
+    "secao": "Subclasse — Trovador",
+    "tag": "Fundamental",
+    "nome": "Artista Talentoso",
+    "texto": "Descreva sua performance (instrumental). Toque cada canção 1×/descanso longo: Canção Comovente (você e aliados próximos recebem 1 Esperança); Canção Épica (deixa um alvo próximo Vulnerável); Canção Relaxante (você e aliados próximos recuperam 1 PV)."
+   },
+   {
+    "secao": "Subclasse — Trovador",
+    "tag": "Especialização",
+    "nome": "Maestro",
+    "texto": "Suas canções inspiram coragem. Ao conceder um Dado de Inspiração a um aliado, ele pode receber 1 Esperança ou recuperar 1 PF."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Quacho",
+    "nome": "Anfíbio",
+    "texto": "Você pode respirar e se movimentar naturalmente debaixo d'água."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Quacho",
+    "nome": "Linguarudo",
+    "texto": "Você pode usar sua língua comprida para agarrar coisas Próximas. Marque 1 PF para usá-la como arma de Acuidade com alcance próximo que causa d12 de dano físico com sua Proficiência."
+   }
+  ],
+  "ancestralidade": "Quacho",
+  "comunidade": "Marítima",
+  "dominios": [
+   "Códice",
+   "Graça"
+  ]
+ }
+};
+const NS='com.boca-do-mundo';
+const K={fear:NS+'/fear', hunger:NS+'/hunger', sheet:NS+'/sheet-'};
+const CH={card:NS+'/card', notify:NS+'/notify'};
+const SRC=NS+'.ficha';
+const DP={req:'dice-plus/roll-request', ready:'dice-plus/isReady', res:SRC+'/roll-result', err:SRC+'/roll-error'};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const randInt=m=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%m+1}catch(e){return Math.floor(Math.random()*m)+1}};
+
+/* ---------- adaptador OBR / demo ---------- */
+let demo=!OBR.isAvailable, meta={}, metaSubs=[], bcSubs={};
+const api={
+ async ready(){ if(demo){$('demoNote').style.display='block';return;}
+   await new Promise(r=>OBR.onReady(r)); },
+ async me(){ if(demo) return {id:'demo',name:'Demo',role:'GM'};
+   return {id:await OBR.player.getId(),name:await OBR.player.getName(),role:await OBR.player.getRole()}; },
+ async getMeta(){ if(demo) return meta; return OBR.room.getMetadata(); },
+ async setMeta(u){ if(demo){Object.assign(meta,u);metaSubs.forEach(f=>f(meta));return;} return OBR.room.setMetadata(u); },
+ onMeta(f){ if(demo){metaSubs.push(f);return;} OBR.room.onMetadataChange(f); },
+ send(ch,data,dest='ALL'){ if(demo){ (bcSubs[ch]||[]).forEach(f=>f({data})); return; }
+   OBR.broadcast.sendMessage(ch,data,{destination:dest}); },
+ on(ch,f){ if(demo){(bcSubs[ch]=bcSubs[ch]||[]).push(f);return;} OBR.broadcast.onMessage(ch,f); },
+ notify(msg,variant='DEFAULT'){ if(demo){toast(msg);return;} OBR.notification.show(msg,variant).catch(()=>{}); },
+ badge(t,color){ if(demo) return; OBR.action.setBadgeText(t||undefined).catch(()=>{});
+   if(color) OBR.action.setBadgeBackgroundColor(color).catch(()=>{}); },
+};
+
+/* ---------- config ---------- */
+const CFG_KEY='boca-ficha-cfg';
+let cfg={hope:'Esperanca',fear:'Medo',adv:'Vantagem',useDP:true};
+try{Object.assign(cfg,JSON.parse(localStorage.getItem(CFG_KEY)||'{}'))}catch(e){}
+function saveCfg(){try{localStorage.setItem(CFG_KEY,JSON.stringify(cfg))}catch(e){}}
+
+/* ---------- estado ---------- */
+let ME={id:'',name:'',role:'PLAYER'};
+let C=null;            // personagem
+let S=null;            // estado vivo {code,pv,fad,pa,esp,pend}
+let fearNow=0, fomeNow=0, dpOK=false;
+
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2600)}
+
+async function saveSheet(){ if(!C) return;
+  const pub={code:C.code,nome:C.nome,player:ME.name,pv:S.pv,fad:S.fad,pa:S.pa,esp:S.esp,
+    pvMax:C.pvMax,fadMax:C.fadigaMax,paMax:C.paMax,espMax:6,cor:C.cor,ts:Date.now()};
+  await api.setMeta({[K.sheet+ME.id]:pub});
+  try{localStorage.setItem('boca-ficha-state',JSON.stringify({code:C.code,...S}))}catch(e){}
+}
+
+/* ---------- Dice+ ---------- */
+const _pings={};
+api.on(DP.ready,ev=>{const d=ev.data; if(d&&d.ready&&_pings[d.requestId]){_pings[d.requestId]();delete _pings[d.requestId]}});
+function pingDP(){ return new Promise(res=>{
+  if(demo||!cfg.useDP){res(false);return}
+  const id='p'+Date.now()+'-'+randInt(999);
+  _pings[id]=()=>res(true);
+  api.send(DP.ready,{requestId:id,timestamp:Date.now()},'LOCAL');
+  setTimeout(()=>{if(_pings[id]){delete _pings[id];res(false)}},2500);
+})}
+const pending={};
+api.on(DP.res, ev=>{const d=ev.data; const h=pending[d?.rollId]; if(h){delete pending[d.rollId]; h.ok(d.result)}});
+api.on(DP.err, ev=>{const d=ev.data; const h=pending[d?.rollId]; if(h){delete pending[d.rollId]; h.fail(d.error)}});
+
+function dpRoll(notation){ return new Promise((ok,fail)=>{
+  const rollId='boca-'+Date.now()+'-'+randInt(999);
+  pending[rollId]={ok,fail};
+  api.send(DP.req,{rollId,playerId:ME.id,playerName:ME.name,rollTarget:'everyone',
+    diceNotation:notation,showResults:true,timestamp:Date.now(),source:SRC},'LOCAL');
+  setTimeout(()=>{if(pending[rollId]){delete pending[rollId];fail('timeout')}},9000);
+})}
+
+function internalRoll(spec){ // gera groups no formato Dice+
+  const groups=[];
+  for(const g of spec){ const dice=[]; let tot=0;
+    for(let i=0;i<g.n;i++){const v=randInt(g.d);dice.push({value:v,kept:true});tot+=v}
+    groups.push({description:`${g.n}d${g.d}`,diceType:'d'+g.d,dice,total:tot,isNegative:!!g.neg});
+  }
+  return {totalValue:0,rollSummary:'interno',groups};
+}
+
+/* ---------- motor de dualidade ---------- */
+function parseDuality(result){
+  const gs=result.groups||[];
+  const d12s=gs.filter(g=>g.diceType==='d12'&&g.dice.length===1);
+  const hope=d12s[0]?.dice[0]?.value??null, fear=d12s[1]?.dice[0]?.value??null;
+  const d6=gs.find(g=>g.diceType==='d6'&&g.dice.length===1);
+  const adv=d6?(d6.isNegative?-d6.dice[0].value:d6.dice[0].value):0;
+  // dano: grupos restantes (depois dos dois primeiros d12 singulares)
+  let seen=0, dmgDice=0, dmgMax=0;
+  for(const g of gs){
+    if(g.diceType==='d12'&&g.dice.length===1&&seen<2){seen++;continue}
+    if(g===d6) continue;
+    const t=g.dice.reduce((s,x)=>s+(x.kept?x.value:0),0);
+    dmgDice+=(g.isNegative?-t:t);
+    dmgMax+=g.dice.length*parseInt(g.diceType.slice(1)||'0');
+  }
+  return {hope,fear,adv,dmgDice,dmgMax};
+}
+
+async function applyOutcome(kind){ // 'hope' | 'fear' | 'crit'
+  if(kind==='crit'){ S.esp=Math.min(6,S.esp+1); S.fad=Math.min(C.fadigaMax,S.fad+1); // +1 Esperança, recupera 1 Fadiga
+    renderTrackers(); await saveSheet();
+  } else if(kind==='hope'){ S.esp=Math.min(6,S.esp+1); renderTrackers(); await saveSheet();
+  } else if(kind==='fear'){
+    const m=await api.getMeta(); const f=Math.min(12,(m[K.fear]||0)+1);
+    await api.setMeta({[K.fear]:f});
+    api.send(CH.notify,{msg:`🩸 A Boca salivou ${f} ${f===1?'vez':'vezes'}… (Medo do Mestre: ${f})`,variant:'WARNING'},'ALL');
+  }
+}
+
+function fmtMod(n){return (n>=0?'+':'')+n}
+
+/* ---------- rolagens ---------- */
+let rollCtx=null; // {tipo:'attr'|'wpn', nome, mod, arma?, mode}
+function openRollDlg(ctx){
+  rollCtx={...ctx,mode:'norm'};
+  $('rdTitle').textContent=(ctx.tipo==='wpn'?'Ataque — ':'')+ctx.nome+'  '+fmtMod(ctx.mod);
+  document.querySelectorAll('#rdMode button').forEach(b=>b.classList.toggle('on',b.dataset.m==='norm'));
+  const p=S.pend?`Experiência armada: ${S.pend.nome} +${S.pend.mod} (será consumida)`:'';
+  const d=ctx.tipo==='wpn'?` · dano ${ctx.arma.dano}${rollCtx?'':''}`:'';
+  $('rdInfo').textContent=(p?p+' · ':'')+(ctx.tipo==='wpn'?`Dano junto: ${ctx.arma.dano}`:'Rolagem de dualidade 2d12');
+  $('rollDlg').classList.add('on');
+}
+document.querySelectorAll('#rdMode button').forEach(b=>b.onclick=()=>{
+  rollCtx.mode=b.dataset.m;
+  document.querySelectorAll('#rdMode button').forEach(x=>x.classList.toggle('on',x===b));
+});
+$('rdCancel').onclick=()=>$('rollDlg').classList.remove('on');
+$('rdGo').onclick=async()=>{
+  $('rollDlg').classList.remove('on');
+  const ctx=rollCtx; const expMod=S.pend?S.pend.mod:0; const expNome=S.pend?.nome;
+  const totalMod=ctx.mod+expMod;
+  // notação
+  let not=`1d12{${cfg.hope}}+1d12{${cfg.fear}}`;
+  if(ctx.mode==='adv') not+= cfg.adv?`+1d6{${cfg.adv}}`:'+1d6';
+  if(ctx.mode==='dis') not+='-1d6';
+  if(totalMod) not+=fmtMod(totalMod);
+  not+=` #${ctx.nome}`;
+  let spec=[{n:1,d:12},{n:1,d:12}];
+  if(ctx.mode==='adv')spec.push({n:1,d:6});
+  if(ctx.mode==='dis')spec.push({n:1,d:6,neg:true});
+  if(ctx.tipo==='wpn'){
+    const dm=ctx.arma.dano.match(/(\d+)d(\d+)([+\-]\d+)?/);
+    not+=`, ${ctx.arma.dano} #Dano ${ctx.arma.nome}`;
+    spec.push({n:+dm[1],d:+dm[2]});
+    ctx.dmgMod=dm[3]?parseInt(dm[3]):0;
+  }
+  // consumir experiência
+  if(S.pend){S.pend=null;renderPend();}
+  let result, viaDP=false;
+  if(dpOK&&cfg.useDP){ try{ result=await dpRoll(not); viaDP=true; }catch(e){ result=null; } }
+  if(!result){ result=internalRoll(spec); }
+  const p=parseDuality(result);
+  if(p.hope==null||p.fear==null){ // Dice+ devolveu algo inesperado → refaz interno
+    const r2=internalRoll(spec); Object.assign(p,parseDuality(r2)); viaDP=false;
+  }
+  const total=p.hope+p.fear+p.adv+totalMod;
+  const crit=p.hope===p.fear;
+  const kind=crit?'crit':(p.hope>p.fear?'hope':'fear');
+  await applyOutcome(kind);
+  showResult({ctx,p,total,crit,kind,expNome,viaDP});
+};
+
+function showResult({ctx,p,total,crit,kind,expNome,viaDP}){
+  const col=kind==='crit'?'var(--bile)':(kind==='hope'?'var(--hope)':'var(--fear)');
+  document.documentElement.style.setProperty('--rescol',col);
+  $('resTitle').textContent=ctx.nome+(ctx.tipo==='wpn'?' — ataque':'');
+  let dice=`<div class="rd hope"><b>${p.hope}</b><span>Esperança</span></div>
+            <div class="rd fear"><b>${p.fear}</b><span>Medo</span></div>`;
+  if(p.adv) dice+=`<div class="rd ${p.adv>0?'adv':'dis'}"><b>${p.adv>0?'+':''}${p.adv}</b><span>${p.adv>0?'vantagem':'desvant.'}</span></div>`;
+  $('resDice').innerHTML=dice;
+  $('resTotal').textContent=total;
+  $('resVs').textContent='total do teste';
+  const tag=$('resTag');
+  tag.className='res-tag '+kind;
+  tag.textContent=crit?'✦ CRÍTICO — sucesso com Esperança':(kind==='hope'?'COM ESPERANÇA  (+1 Esperança)':'COM MEDO  (a Boca saliva)');
+  const rd=$('resDmg');
+  if(ctx.tipo==='wpn'){
+    let dmg=p.dmgDice+(ctx.dmgMod||0);
+    let note='';
+    if(crit){ dmg+=p.dmgMax; note=` (crítico: +${p.dmgMax} do máximo)`; }
+    rd.style.display='block';
+    rd.innerHTML=`<b>${dmg}</b><span class="small">dano · ${esc(ctx.arma.dano)}${note}</span>`;
+  } else rd.style.display='none';
+  $('resNote').textContent=(expNome?`Experiência usada: ${expNome}. `:'')+(viaDP?'Rolado no Dice+.':'Rolagem interna (Dice+ indisponível).');
+  $('res').classList.add('on');
+}
+$('resOk').onclick=()=>$('res').classList.remove('on');
+
+/* ---------- dano sofrido ---------- */
+$('btnDano').onclick=()=>{$('dmgVal').value='';$('dmgArm').checked=false;$('dmgDlg').classList.add('on')};
+$('dmgCancel').onclick=()=>$('dmgDlg').classList.remove('on');
+$('dmgGo').onclick=async()=>{
+  const v=parseInt($('dmgVal').value||'0'); if(!v){$('dmgDlg').classList.remove('on');return}
+  let sev=v<C.limiares[0]?1:(v<C.limiares[1]?2:3);
+  let used='';
+  if($('dmgArm').checked&&S.pa>0&&sev>0){S.pa--;sev=Math.max(0,sev-1);used=' (1 Armadura: gravidade −1)'}
+  S.pv=Math.max(0,S.pv-sev);
+  renderTrackers(); await saveSheet();
+  $('dmgDlg').classList.remove('on');
+  toast(sev>0?`Sofreu ${v} de dano → marcou ${sev} PV${used}`:`Armadura absorveu tudo${used}`);
+  if(S.pv===0){ api.send(CH.notify,{msg:`☠ ${C.nome} (${ME.name}) CAIU!`,variant:'ERROR'},'ALL'); }
+};
+
+/* ---------- render ---------- */
+function pipRow(label,key,max,color){
+  const cur=S[key];
+  let pips='';
+  for(let i=0;i<max;i++) pips+=`<div class="pip ${i<cur?'on':''}" data-k="${key}" data-i="${i}" style="--tc:${color}"></div>`;
+  return `<div class="trk"><div class="tl">${label}</div><div class="pips">${pips}</div><div class="tv">${cur}/${max}</div></div>`;
+}
+function renderTrackers(){
+  $('trackers').innerHTML=
+    pipRow('PV',       'pv', C.pvMax,     'var(--blood2)')+
+    pipRow('Fadiga',   'fad',C.fadigaMax, 'var(--roxo)')+
+    pipRow('Armadura', 'pa', C.paMax,     '#8a7d6a')+
+    pipRow('Esperança','esp',6,           'var(--hope)');
+  document.querySelectorAll('#trackers .pip').forEach(p=>p.onclick=async()=>{
+    const k=p.dataset.k,i=+p.dataset.i;
+    S[k]=(S[k]===i+1)?i:i+1;
+    renderTrackers(); await saveSheet();
+  });
+}
+function renderPend(){
+  const el=$('pend');
+  if(S.pend){el.style.display='block';el.textContent=`✦ Experiência armada para a próxima rolagem: ${S.pend.nome} +${S.pend.mod}`}
+  else el.style.display='none';
+}
+function renderSheet(){
+  document.documentElement.style.setProperty('--pc',C.cor);
+  $('tbName').textContent=C.nome; $('tbSub').textContent=ME.name||'Quebrado';
+  $('cNome').textContent=C.nome;
+  $('cCls').textContent=`${C.classe} · ${C.sub} · ${C.dom} · ${C.ancestralidade||''} ${C.comunidade?('· '+C.comunidade):''}`;
+  $('cMot').textContent=C.motivo;
+  $('thr1').textContent=C.limiares[0]; $('thr2').textContent=C.limiares[1]+'+';
+  renderTrackers(); renderPend();
+  // atributos
+  const AT=[['Agilidade','Agilidade'],['Força','Força'],['Acuidade','Acuidade'],['Instinto','Instinto'],['Presença','Presença'],['Conhecimento','Conhecimento']];
+  $('attrs').innerHTML=AT.map(([k])=>{
+    const v=C.atributos[k]??0;
+    return `<div class="attr" data-a="${k}"><div class="an">${k}</div><div class="av">${fmtMod(v)}</div><div class="roll-hint">2d12 ▸</div></div>`;
+  }).join('');
+  document.querySelectorAll('.attr').forEach(a=>a.onclick=()=>openRollDlg({tipo:'attr',nome:a.dataset.a,mod:C.atributos[a.dataset.a]??0}));
+  // armas
+  $('wpns').innerHTML=C.armas.map((w,i)=>
+    `<div class="wpn" data-i="${i}"><div class="wi">⚔</div><div class="wn"><b>${esc(w.nome)}</b><span>${esc(w.desc)}</span></div><div class="wd">${esc(w.dano)}</div></div>`).join('');
+  document.querySelectorAll('.wpn').forEach(w=>w.onclick=()=>{
+    const arma=C.armas[+w.dataset.i];
+    openRollDlg({tipo:'wpn',nome:arma.nome,mod:C.atributos[arma.atributo]??0,arma});
+  });
+  // experiências
+  $('exps').innerHTML=C.experiencias.map((e,i)=>
+    `<div class="exp"><div class="en"><b>${esc(e.nome)}</b><span>${esc(e.desc)}</span></div><div class="em">+${e.mod}</div><button data-i="${i}">Usar · 1 ❂</button></div>`).join('');
+  document.querySelectorAll('.exp button').forEach(b=>b.onclick=async()=>{
+    const e=C.experiencias[+b.dataset.i];
+    if(S.esp<=0){toast('Sem Esperança para gastar.');return}
+    S.esp--; S.pend={nome:e.nome,mod:e.mod};
+    renderTrackers(); renderPend(); await saveSheet();
+    api.send(CH.card,{t:'Experiência',n:e.nome,x:(e.desc||'')+` — +${e.mod} na próxima rolagem`,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
+  });
+  // cartas
+  $('cards').innerHTML=C.cartas.map((c,i)=>
+    `<details class="card" open><summary><b>${esc(c.nome)}</b><span>${esc(c.meta)}</span></summary>
+      <div class="cd">${esc(c.texto)}</div>
+      <div class="ca"><button data-i="${i}">Mostrar a todos</button></div></details>`).join('');
+  document.querySelectorAll('.card .ca button').forEach(b=>b.onclick=()=>{
+    const c=C.cartas[+b.dataset.i];
+    api.send(CH.card,{t:c.meta,n:c.nome,x:c.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
+    toast('Carta mostrada a todos.');
+  });
+  // habilidades
+  const bySec={};
+  for(const hb of C.habilidades){(bySec[hb.secao]=bySec[hb.secao]||[]).push(hb)}
+  $('habs').innerHTML=Object.entries(bySec).map(([sec,list])=>
+    `<div class="small" style="margin:8px 0 4px">${esc(sec)}</div>`+
+    list.map(hb=>`<details class="hab"><summary>${esc(hb.nome)}${hb.tag?`<small>${esc(hb.tag)}</small>`:''}</summary><p>${esc(hb.texto)}</p></details>`).join('')
+  ).join('');
+  $('pick').style.display='none'; $('sheet').style.display='block';
+}
+
+function renderPick(){
+  $('pickGrid').innerHTML=Object.values(CHARS).map(p=>
+    `<div class="pc" data-c="${p.code}" style="--pc:${p.cor}"><b>${esc(p.nome)}</b><span>${esc(p.classe.split(' ')[0])}</span></div>`).join('');
+  document.querySelectorAll('.pc').forEach(el=>el.onclick=async()=>{
+    C=CHARS[el.dataset.c];
+    S={pv:C.pvMax,fad:0,pa:C.paMax,esp:2,pend:null};
+    // fadiga: trackers marcam USADO (fadiga gasta). pv marcam restantes? convenção: PV = vida restante (começa cheio); fadiga/armadura = disponíveis (começam cheios); esperança = atual (2).
+    S.fad=C.fadigaMax; // disponível
+    renderSheet(); await saveSheet();
+  });
+}
+
+/* ---------- cartas/avisos globais ---------- */
+api.on(CH.notify,ev=>{const d=ev.data; if(d?.msg) api.notify(d.msg,d.variant||'DEFAULT'); if(demo) toast(d.msg);});
+api.on(CH.card,async ev=>{
+  const d=ev.data||{};
+  if(demo){ toast(`🂠 ${d.n}: ${String(d.x).slice(0,60)}…`); return; }
+  const q=new URLSearchParams({t:d.t||'',n:d.n||'',x:d.x||'',p:d.p||'',c:d.c||'#a8312a'}).toString();
+  try{
+    let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
+    await OBR.popover.open({id:NS+'/card',url:`card.html?${q}`,width:360,height:300,
+      anchorReference:'POSITION',anchorPosition:{left:Math.max(190,w/2),top:70},
+      anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},
+      hidePaper:true,disableClickAway:false,marginThreshold:8});
+  }catch(e){ api.notify(`🂠 ${d.n} — ${d.p}`,'INFO'); }
+});
+
+/* ---------- topo: medo & fome ---------- */
+function refreshTop(m){
+  fearNow=m[K.fear]||0; fomeNow=m[K.hunger]||0;
+  $('fearV').textContent=fearNow; $('fomeV').textContent=fomeNow;
+  api.badge(fearNow>0?String(fearNow):undefined,'#a8312a');
+}
+
+/* ---------- config ---------- */
+$('btnCfg').onclick=()=>{
+  $('cfgHope').value=cfg.hope;$('cfgFear').value=cfg.fear;$('cfgAdv').value=cfg.adv;$('cfgDP').checked=cfg.useDP;
+  $('cfgDlg').classList.add('on');
+  pingDP().then(ok=>{dpOK=ok;$('dpDot').classList.toggle('ok',ok);$('dpStat').textContent=ok?'Dice+: conectado':'Dice+: não encontrado (uso rolagem interna)';});
+};
+$('cfgOk').onclick=()=>{
+  cfg.hope=$('cfgHope').value.trim()||'Esperanca';cfg.fear=$('cfgFear').value.trim()||'Medo';
+  cfg.adv=$('cfgAdv').value.trim();cfg.useDP=$('cfgDP').checked;saveCfg();
+  $('cfgDlg').classList.remove('on');
+};
+$('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.display='block';};
+
+/* ---------- init ---------- */
+(async()=>{
+  await api.ready();
+  ME=await api.me();
+  renderPick();
+  const m=await api.getMeta(); refreshTop(m);
+  api.onMeta(refreshTop);
+  // restaurar ficha salva
+  try{
+    const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null');
+    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null};renderSheet();}
+  }catch(e){}
+  dpOK=await pingDP();
+})();
+</script>
+</body></html>
