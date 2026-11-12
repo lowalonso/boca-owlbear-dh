@@ -3,12 +3,12 @@
  "version": "1.0.0",
  "manifest_version": 1,
  "author": "A Boca do Mundo",
-   "description": "Fichas dos 9 Quebrados (Daggerheart): dualidade via Dice+, Esperança e Medo automáticos, armas, cartas e experiências.",
- "icon": "icon.svg",
+ "description": "Fichas dos 9 Quebrados (Daggerheart): dualidade via Dice+, Esperança e Medo automáticos, armas, cartas e experiências.",
+ "icon": "https://lowalonso.github.io/boca-owlbear-dh/ficha/icon.svg",
  "action": {
   "title": "Ficha dos Quebrados",
-  "icon": "icon.svg",
-  "popover": "index.html",
+  "icon": "https://lowalonso.github.io/boca-owlbear-dh/ficha/icon.svg",
+  "popover": "https://lowalonso.github.io/boca-owlbear-dh/ficha/index.html",
   "height": 820,
   "width": 440
  }
