@@ -1698,7 +1698,7 @@ function pingDP(){ return new Promise(res=>{
   if(demo||!cfg.useDP){res(false);return}
   const id='p'+Date.now()+'-'+randInt(999);
   _pings[id]=()=>res(true);
-  api.send(DP.ready,{requestId:id,timestamp:Date.now()},'LOCAL');
+  api.send(DP.ready,{requestId:id,timestamp:Date.now()},'ALL');
   setTimeout(()=>{if(_pings[id]){delete _pings[id];res(false)}},2500);
 })}
 const pending={};
@@ -1709,7 +1709,7 @@ function dpRoll(notation){ return new Promise((ok,fail)=>{
   const rollId='boca-'+Date.now()+'-'+randInt(999);
   pending[rollId]={ok,fail};
   api.send(DP.req,{rollId,playerId:ME.id,playerName:ME.name,rollTarget:'everyone',
-    diceNotation:notation,showResults:true,timestamp:Date.now(),source:SRC},'LOCAL');
+    diceNotation:notation,showResults:true,timestamp:Date.now(),source:SRC},'ALL');
   setTimeout(()=>{if(pending[rollId]){delete pending[rollId];fail('timeout')}},9000);
 })}
 
@@ -1986,7 +1986,7 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
     const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null');
     if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null};renderSheet();}
   }catch(e){}
-  dpOK=await pingDP();
+  (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagem interna por enquanto)'; $('btnCfg').textContent=(ok?'🟢':'⚙')+' Dice+'; if(!ok&&cfg.useDP) setTimeout(dpWatch,5000); })();
 })();
 </script>
 </body></html>
