@@ -221,7 +221,7 @@ const _pings={};
 api.on(DP.ready,ev=>{const d=ev.data;if(d&&d.ready&&_pings[d.requestId]){_pings[d.requestId]();delete _pings[d.requestId]}});
 function pingDP(){return new Promise(res=>{ if(demo){res(false);return}
   const id='p'+Date.now()+'-'+randInt(999); _pings[id]=()=>res(true);
-  api.send(DP.ready,{requestId:id,timestamp:Date.now()},'LOCAL');
+  api.send(DP.ready,{requestId:id,timestamp:Date.now()},'ALL');
   setTimeout(()=>{if(_pings[id]){delete _pings[id];res(false)}},2500);
 })}
 const pend={};
@@ -230,12 +230,12 @@ api.on(DP.err,ev=>{const d=ev.data;const h=pend[d?.rollId];if(h){delete pend[d.r
 function dpRoll(notation){return new Promise((ok,fail)=>{
   const rollId='mesa-'+Date.now()+'-'+randInt(999); pend[rollId]={ok,fail};
   api.send(DP.req,{rollId,playerId:ME.id,playerName:ME.name,rollTarget:target,
-    diceNotation:notation,showResults:true,timestamp:Date.now(),source:SRC},'LOCAL');
+    diceNotation:notation,showResults:true,timestamp:Date.now(),source:SRC},'ALL');
   setTimeout(()=>{if(pend[rollId]){delete pend[rollId];fail('timeout')}},9000);
 })}
 async function roll(notation,label){
   let total=null, via='Dice+';
-  if(dpOK){ try{ const r=await dpRoll(notation+(label?` #${label}`:'')); total=r.totalValue;
+  if(dpOK){ try{ const r=await dpRoll(notation); total=r.totalValue;
     if(!total&&r.groups) total=r.groups.reduce((s,g)=>s+(g.isNegative?-g.total:g.total),0);
   }catch(e){} }
   if(total==null){ via='interna';
@@ -244,6 +244,7 @@ async function roll(notation,label){
   }
   const lr=$('lastroll'); lr.classList.add('on');
   lr.innerHTML=`<b style="font-size:17px;color:var(--blood2)">${total}</b> — ${esc(label||notation)} <span class="small">(${esc(notation)} · ${via}${target==='gm_only'?' · oculta':''})</span>`;
+  toast(`🎲 ${label||notation}: ${total}${via==='interna'?' (interna)':''}`);
   return total;
 }
 
@@ -634,8 +635,6 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
   if(!demo){ try{ partyIds=new Set((await OBR.party.getPlayers()).map(p=>p.id)); renderParty(lastMeta); OBR.party.onChange(ps=>{ partyIds=new Set(ps.map(p=>p.id)); renderParty(lastMeta); }); }catch(e){} }
   paint(await api.getMeta());
   api.onMeta(paint);
-  dpOK=await pingDP();
-  $('dpDot').classList.toggle('ok',dpOK);
-  $('dpStat').textContent=dpOK?'Dice+: conectado':'Dice+: não encontrado — rolagens internas';
+  (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagens internas por enquanto)'; if(!ok) setTimeout(dpWatch,5000); })();
 })();
 </script></body></html>
