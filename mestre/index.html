@@ -150,6 +150,16 @@ details.reveal summary{color:var(--bile)}
   </div>
   <details class="x" id="lootDet" style="margin-bottom:10px"><summary>tabela de tesouros — escolher e dar a um jogador</summary><div id="lootTable"></div></details>
   <div class="lastroll" id="lastroll"></div>
+  <div class="fome" style="text-align:left;margin-top:12px">
+    <div class="small" style="margin-bottom:8px">Nova sessão</div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn" id="rsMesa">↺ Resetar a mesa</button>
+      <button class="btn" id="rsJog">↺ Resetar os jogadores</button>
+    </div>
+    <label class="small" style="display:flex;gap:6px;align-items:center;margin-top:9px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:11px"><input type="checkbox" id="rsLoot" checked> apagar os tesouros dos jogadores</label>
+    <label class="small" style="display:flex;gap:6px;align-items:center;margin-top:4px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:11px"><input type="checkbox" id="rsSwap"> jogadores escolhem o personagem de novo</label>
+    <div class="small" style="margin-top:7px;text-transform:none;letter-spacing:0;font-size:10.5px;line-height:1.4">Mesa: zera Medo, Fome, descida, combate e banner. Jogadores: PV, Fadiga e Armadura cheios e Esperança 2 em todas as fichas (vale também para quem está com a ficha fechada).</div>
+  </div>
   <div class="dp-line"><span class="dp-dot" id="dpDot"></span><span id="dpStat">Dice+: verificando…</span></div>
 </div>
 
@@ -610,6 +620,21 @@ document.querySelectorAll('.target [data-tg]').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.target [data-tg]').forEach(x=>x.classList.toggle('on',x===b));
 });
 $('qD20').onclick=()=>roll('1d20','d20 do Mestre');
+/* ---------- reset de sessão ---------- */
+function armBtn(id,label,fn){ const b=document.querySelector(id); b.onclick=async()=>{ if(b.dataset.arm!=='1'){ b.dataset.arm='1'; b.textContent='Clique de novo para confirmar'; setTimeout(()=>{b.dataset.arm='';b.textContent=label},3500); return; } b.dataset.arm=''; b.textContent=label; await fn(); }; }
+armBtn('#rsMesa','↺ Resetar a mesa',async()=>{
+  desc={floor:0,visited:[],log:[],last:null}; cmb=[];
+  await api.setMeta({[K.fear]:0,[K.hunger]:0,[K.desc]:desc,[K.cmb]:[],[NS+'/banner']:false});
+  paintDesc(); paintCmb(); $('lastroll').classList.remove('on'); $('lastroll').innerHTML='';
+  shout('↺ A Boca se fecha. A mesa foi reiniciada.','INFO'); toast('Mesa reiniciada.');
+});
+armBtn('#rsJog','↺ Resetar os jogadores',async()=>{
+  const m=await api.getMeta(), u={};
+  Object.keys(m).forEach(k=>{ if(k.startsWith(K.sheetPrefix)) u[k]=undefined; if($('rsLoot').checked&&k.startsWith(NS+'/loot-')) u[k]=undefined; });
+  u[NS+'/reset']={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),swap:$('rsSwap').checked};
+  await api.setMeta(u);
+  shout('↺ Os Quebrados se recompõem: fichas restauradas'+($('rsSwap').checked?' — escolham o personagem de novo.':'.'),'INFO'); toast('Jogadores reiniciados.');
+});
 /* ---------- dar tesouro a um jogador ---------- */
 function lootTargets(){
   const sheets={}; Object.entries(lastMeta||{}).forEach(([k,v])=>{ if(k.startsWith(K.sheetPrefix)&&v) sheets[k.slice(K.sheetPrefix.length)]=v; });
