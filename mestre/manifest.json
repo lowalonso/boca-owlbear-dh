@@ -3,12 +3,12 @@
  "version": "1.0.0",
  "manifest_version": 1,
  "author": "A Boca do Mundo",
-   "description": "Mesa do Mestre (Daggerheart): Medo compartilhado, Relógio da Fome, bestiário, chefes e party ao vivo.",
- "icon": "icon.svg",
+ "description": "Mesa do Mestre (Daggerheart): Medo compartilhado, Relógio da Fome, bestiário, chefes e party ao vivo.",
+ "icon": "https://lowalonso.github.io/boca-owlbear-dh/mestre/icon.svg",
  "action": {
   "title": "Mesa do Mestre",
-  "icon": "icon.svg",
-  "popover": "index.html",
+  "icon": "https://lowalonso.github.io/boca-owlbear-dh/mestre/icon.svg",
+  "popover": "https://lowalonso.github.io/boca-owlbear-dh/mestre/index.html",
   "height": 820,
   "width": 480
  }
