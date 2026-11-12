@@ -301,9 +301,10 @@ api.on(CH.card,async ev=>{
   }catch(e){ api.notify(`🂠 ${d.n}`,'INFO') }
 });
 
-/* party */
+/* party: só quem está na sala agora */
+let partyIds=null;
 function renderParty(m){
-  const list=Object.entries(m).filter(([k])=>k.startsWith(K.sheetPrefix)).map(([,v])=>v)
+  const list=Object.entries(m||{}).filter(([k])=>k.startsWith(K.sheetPrefix)&&(!partyIds||partyIds.has(k.slice(K.sheetPrefix.length))||k.slice(K.sheetPrefix.length)===ME.id)).map(([,v])=>v)
     .filter(v=>v&&v.ts&&Date.now()-v.ts<1000*60*60*8);
   const el=$('party');
   if(!list.length){el.innerHTML='<div class="empty">Nenhum Quebrado conectado ainda.<br>Os jogadores aparecem aqui ao escolherem a ficha.</div>';return}
@@ -485,7 +486,7 @@ function encButtons(txt){
   return h?`<div>${h}</div>`:'';
 }
 function runEnc(arr){
-  const party=Object.keys(lastMeta||{}).filter(k=>k.startsWith(K.sheetPrefix)).length||4; let tot=0;
+  const party=(partyIds&&partyIds.size)||Object.keys(lastMeta||{}).filter(k=>k.startsWith(K.sheetPrefix)).length||4; let tot=0;
   arr.forEach(a=>{ let n=a.n==='pj'?party:/d/.test(a.n)?(()=>{const [x,y]=a.n.split('d').map(Number);let s=0;for(let i=0;i<x;i++)s+=randInt(y);return s})():+a.n;
     tot+=addCombat('e',a.idx,n); });
   toast(`${tot} inimigo(s) no combate.`);
@@ -630,6 +631,7 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
     return;
   }
   renderBest(); renderBoss(); paintDesc(); paintCmb();
+  if(!demo){ try{ partyIds=new Set((await OBR.party.getPlayers()).map(p=>p.id)); renderParty(lastMeta); OBR.party.onChange(ps=>{ partyIds=new Set(ps.map(p=>p.id)); renderParty(lastMeta); }); }catch(e){} }
   paint(await api.getMeta());
   api.onMeta(paint);
   dpOK=await pingDP();
