@@ -1,6 +1,6 @@
 {
  "name": "A Boca — Ficha dos Quebrados",
- "version": "1.0.0",
+ "version": "1.1.0",
  "manifest_version": 1,
  "author": "A Boca do Mundo",
  "description": "Fichas dos 9 Quebrados (Daggerheart): dualidade via Dice+, Esperança e Medo automáticos, armas, cartas e experiências.",
@@ -11,5 +11,6 @@
   "popover": "https://lowalonso.github.io/boca-owlbear-dh/ficha/index.html",
   "height": 820,
   "width": 440
- }
+ },
+ "background_url": "https://lowalonso.github.io/boca-owlbear-dh/ficha/background.html"
 }
