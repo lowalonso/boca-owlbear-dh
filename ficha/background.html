@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>A Boca — fundo</title></head><body>
+<script type="module">
+// Roda escondido para TODOS na sala (jogadores e mestre), mesmo com a ficha fechada:
+// banner do topo, cartas mostradas a todos e avisos da Boca.
+import OBR from "../obr-sdk.js";
+const NS='com.boca-do-mundo';
+const abs=p=>new URL(p,location.href).href;
+function once(id){ if(!id) return true; try{ const k='boca-seen-'+id; if(localStorage.getItem(k)) return false; localStorage.setItem(k,'1'); setTimeout(()=>{try{localStorage.removeItem(k)}catch(e){}},60000); }catch(e){} return true; }
+let shown=null;
+async function syncBanner(show){
+  show=!!show; if(show===shown) return; shown=show;
+  try{
+    if(show){ let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
+      await OBR.popover.open({id:NS+'/banner',url:abs('../mestre/banner.html'),width:430,height:64,
+        anchorReference:'POSITION',anchorPosition:{left:Math.max(220,w/2),top:8},
+        anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},
+        hidePaper:true,disableClickAway:true});
+    } else await OBR.popover.close(NS+'/banner');
+  }catch(e){}
+}
+if(OBR.isAvailable) OBR.onReady(async()=>{
+  syncBanner((await OBR.room.getMetadata())[NS+'/banner']);
+  OBR.room.onMetadataChange(m=>syncBanner(m[NS+'/banner']));
+  OBR.broadcast.onMessage(NS+'/notify',ev=>{const d=ev.data; if(d?.msg&&once(d.id)) OBR.notification.show(d.msg,d.variant||'DEFAULT').catch(()=>{});});
+  OBR.broadcast.onMessage(NS+'/card',async ev=>{
+    const d=ev.data||{}; if(!once(d.id?'card-'+d.id:null)) return;
+    const q=new URLSearchParams({t:d.t||'',n:d.n||'',x:d.x||'',p:d.p||'',c:d.c||'#a8312a'}).toString();
+    try{ let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
+      await OBR.popover.open({id:NS+'/card',url:abs('card.html?'+q),width:360,height:300,
+        anchorReference:'POSITION',anchorPosition:{left:Math.max(190,w/2),top:70},
+        anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},hidePaper:true});
+    }catch(e){}
+  });
+});
+</script></body></html>
