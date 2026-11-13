@@ -19,7 +19,7 @@ button:hover{border-color:var(--c,#a8312a);color:#d8cdbb}
   <div class="p"><span id="p"></span><button id="ok">fechar</button></div>
 </div>
 <script type="module">
-import OBR from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@3.1.0/+esm";
+import OBR from "../obr-sdk.js";
 const q=new URLSearchParams(location.search);
 const set=(id,v)=>document.getElementById(id).textContent=v||'';
 set('t',q.get('t'));set('n',q.get('n'));set('x',q.get('x'));set('p',q.get('p'));
