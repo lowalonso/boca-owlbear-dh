@@ -164,6 +164,9 @@ details.hab p{padding:2px 0 7px 10px;font-size:11.5px;line-height:1.5;color:#c4b
 .res-act{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
 .res-act:empty{display:none}
 details.card .ca{display:flex;flex-wrap:wrap;gap:5px}
+details.card summary button{font-size:8px;letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;margin-left:4px}
+details.card.vault{opacity:.62;border-left-style:dashed}
+details.card .ca button:disabled{opacity:.35;cursor:not-allowed}
 .vsel{display:inline-flex;gap:3px;align-items:center}
 .vsel select{background:#0d0a0b;color:var(--bone);border:1px solid var(--ash);border-radius:4px;padding:3px}
 /* rodapé fixo */
@@ -706,7 +709,7 @@ const CHARS = {
     "secao": "Habilidades de Classe",
     "tag": "",
     "nome": "Dados de Oração",
-    "texto": "No início de cada sessão, role d4 igual à conjuração da subclasse (Força = 3) e guarde-os. Gaste Dados de Oração até alcance distante para: reduzir dano sofrido, somar ao resultado de uma rolagem após ela, ou ganhar Esperança igual ao resultado. Sobras se perdem no fim da sessão."
+    "texto": "No início de cada sessão, role d4 igual à conjuração da subclasse (Força = 4) e guarde-os. Gaste Dados de Oração até alcance distante para: reduzir dano sofrido, somar ao resultado de uma rolagem após ela, ou ganhar Esperança igual ao resultado. Sobras se perdem no fim da sessão."
    },
    {
     "secao": "Habilidades de Classe",
@@ -1874,6 +1877,17 @@ const FX={
            {nome:'Lampejo Hipnótico',use:{id:'lamp',max:1,per:'curto'},txt:'alvos atingidos ficam Atordoados e marcam 1 PF'},
            {nome:'Dissimulação',cost:{esp:1},txt:'vantagem para enganar'}] },
 };
+/* itens que dependem de uma carta estar na mão */
+const CARDREQ={'Disfarce Inquietante':'Disfarce Inquietante','Estrangulamento':'Estrangulamento','estr':'Estrangulamento',
+ 'Conjurar Enxame — besouros':'Conjurar Enxame','Pele de Espinhos':'Pele de Espinhos','espinhos':'Pele de Espinhos','Campo Curativo':'Campo Curativo','Tronco Descomunal':'Tronco Descomunal','Familiar da Natureza':'Familiar da Natureza','familiar':'Familiar da Natureza',
+ 'Punição':'Punição','punicao':'Punição','Toque Reparador':'Toque Reparador','Mãos Curativas':'Mãos Curativas','Sou Seu Escudo':'Sou Seu Escudo','Bastião':'Bastião','presenca':'Presença Corajosa',
+ 'Validação':'Validação','Adivinhação':'Adivinhação','Telepatia':'Livro de Illiat','Círculo Rúnico':'Livro de Korvax',
+ 'impulso':'Impulso','Caos Liberto':'Caos Liberto','caos':'Caos Liberto','Premonição':'Premonição','Espírito da Meia-noite':'Espírito da Meia-noite',
+ 'Um Passo à Frente':'Um Passo à Frente','Ferocidade':'Ferocidade','turb':'Turbilhão','Conhece Teu Inimigo':'Conhece Teu Inimigo','golpe':'Golpe Pessoal','ligeiro':'Movimento Ligeiro',
+ 'Invisibilidade':'Invisibilidade','invis':'Invisibilidade','Lampejo Hipnótico':'Lampejo Hipnótico','Dissimulação':'Dissimulação','palavras':'Palavras Inspiradoras'};
+function hasCard(n){ if(!n||!C) return true; const i=C.cartas.findIndex(c=>c.nome===n); if(i<0) return true; return loadout().includes(i); }
+function okItem(x){ return hasCard(CARDREQ[x.id]||CARDREQ[x.nome]); }
+function limiares(){ const l=[...C.limiares]; const i=C.cartas.findIndex(c=>c.nome==='Armadura Fortificada'); if(i>=0&&!loadout().includes(i)) return [l[0]-2,l[1]-2]; return l; }
 const FXC=()=>FX[C.code]||{};
 function fxS(){ if(!S.fx) S.fx={u:{},c:{},st:{},pool:{},num:{},det:null,marca:null}; for(const k of ['u','c','st','pool','num']) S.fx[k]=S.fx[k]||{}; return S.fx; }
 function stOn(id){ return !!fxS().st[id]; }
@@ -1883,7 +1897,7 @@ function pay(cost){ if(!cost) return ''; const t=[]; if(cost.pf){S.fad-=cost.pf;
 function costTxt(cost){ if(!cost) return ''; const t=[]; if(cost.pf)t.push(cost.pf+' PF'); if(cost.esp)t.push(cost.esp+' ❂'); if(cost.pa)t.push(cost.pa+' Arm.'); return t.join(' · '); }
 function announce(msg,variant){ api.send(CH.notify,{msg:`✦ ${C.nome}: ${msg}`,variant:variant||'INFO',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
 function cntMax(k){ return Math.max(0,typeof k.max==='function'?k.max():k.max); }
-function evasao(){ let e=parseInt(C.evasao)||0; for(const s of (FXC().states||[])) if(s.ev&&stOn(s.id)) e+=s.ev; return e; }
+function evasao(){ let e=parseInt(C.evasao)||0; if(!hasCard('Intocável')) e-=Math.floor(AT('Agilidade')/2); for(const s of (FXC().states||[])) if(s.ev&&stOn(s.id)) e+=s.ev; return e; }
 function rollLocal(n,d){ let t=0,v=[]; for(let i=0;i<n;i++){const x=randInt(d);v.push(x);t+=x} return {t,v}; }
 async function rollExpr(n,d,flat,label){ // dado avulso (cura, evasão, cartas)
   let tot=null,vals=null,via='interna';
@@ -1908,13 +1922,13 @@ function renderFx(){
     h+=`<div class="fxline col"><div><b>🙏 ${esc(p.nome)}</b> <span>${esc(p.txt)}</span></div><div class="fxrow">${arr.length?arr.map((v,i)=>`<button class="pd" data-fxpool="${p.id}:${i}" title="gastar">${v}</button>`).join(''):'<span class="dim">sem dados — role no início da sessão</span>'}<button class="mini" data-fxpoolroll="${p.id}">${arr.length?'rolar de novo':'rolar'} ${cntMax({max:p.count})}d${p.die}${p.extra?' (+1, descarta o menor)':''}</button></div>
       <div class="fxrow" id="poolmenu-${p.id}"></div></div>`; }
   // contadores
-  for(const k of (F.counters||[])){ const m=cntMax(k), v=Math.min(m, X.c[k.id]??(k.start==='max'?m:(k.start||0)));
+  for(const k of (F.counters||[]).filter(okItem)){ const m=cntMax(k), v=Math.min(m, X.c[k.id]??(k.start==='max'?m:(k.start||0)));
     h+=`<div class="fxline"><b>${esc(k.nome)}</b><span>${esc(k.txt||'')}</span><button class="mini" data-fxc="${k.id}:-1">−</button><b class="dv">${v}/${m}</b><button class="mini" data-fxc="${k.id}:1">+</button>${k.recarga?`<button class="mini" data-fxcr="${k.id}">recarregar (${costTxt(k.recarga)})</button>`:''}</div>`; }
   // habilidade de esperança
   if(F.hope&&!F.hope.resOnly) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span><button class="mini gold" data-fxhope="1">usar · ${F.hope.custo} ❂</button></div>`;
   else if(F.hope) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span></div>`;
   // ações
-  if(F.acts&&F.acts.length) h+=`<div class="fxacts">${F.acts.map((a,i)=>{ const left=a.use?usesLeft(a.use):null;
+  if(F.acts&&F.acts.length) h+=`<div class="fxacts">${F.acts.map((a,i)=>{ if(!okItem(a)) return ''; const left=a.use?usesLeft(a.use):null;
     const pips=a.use?`<span class="up">${Array.from({length:a.use.max},(_,j)=>`<i class="${j<a.use.max-left?'used':''}"></i>`).join('')}<small>${PERN[a.use.per]||''}</small></span>`:'';
     return `<div class="fxa"><div><b>${esc(a.nome)}</b>${a.txt?`<span>${esc(a.txt)}</span>`:''}</div>${pips}<button class="mini" data-fxact="${i}" ${a.use&&left<=0?'disabled':''}>${a.spend?'gastar':'usar'}${a.cost?' · '+costTxt(a.cost):''}${a.roll?` · ${a.roll[0]}d${a.roll[1]}${a.roll[2]?'+'+a.roll[2]:''}`:''}</button></div>`; }).join('')}</div>`;
   h+=`<div class="fxrest"><button data-fxrest="curto">Descanso curto</button><button data-fxrest="longo">Descanso longo</button><button data-fxrest="sessao">Nova sessão</button></div>`;
@@ -1984,14 +1998,14 @@ function gatherFx(ctx,checked){
   if(C.code==='W'&&phys){ e.dmgFlat+=NIVEL; e.notes.push('Treinamento de Combate +5'); }
   if(C.code==='W'&&S.pv<=2){ e.hopeD20=true; e.notes.push('Enfrentar o Desafio: d20 de Esperança'); }
   if(C.code==='G'&&X.det&&isW){ e.dmgFlat+=X.det; e.notes.push(`Determinação +${X.det}`); }
-  if(C.code==='M'&&S.fad<=0&&isW){ e.prof+=1; e.notes.push('Voz da Razão: +1 Proficiência'); }
+  if(C.code==='M'&&S.fad<=0&&isW&&hasCard('Voz da Razão')){ e.prof+=1; e.notes.push('Voz da Razão: +1 Proficiência'); }
   if(C.code==='C'&&X.marca&&isW) e.notes.push('alvo Marcado marca 1 PF ao sofrer dano');
   if(isW&&/marque 1 PF/i.test(ctx.arma.desc||'')){ e.cost.pf=(e.cost.pf||0)+1; e.notes.push(ctx.arma.nome+': 1 PF'); }
   return e;
 }
 function optsFor(ctx){
   const F=FXC(); const isW=ctx.tipo==='wpn';
-  return (F.opts||[]).filter(o=>!(o.wpn&&!isW)&&!(o.test&&isW)&&!(o.unless&&stOn(o.unless))&&!(o.unlessMarca&&fxS().marca)&&!(o.use&&usesLeft(o.use)<=0));
+  return (F.opts||[]).filter(o=>okItem(o)&&!(o.wpn&&!isW)&&!(o.test&&isW)&&!(o.unless&&stOn(o.unless))&&!(o.unlessMarca&&fxS().marca)&&!(o.use&&usesLeft(o.use)<=0));
 }
 
 /* ---------- motor de dualidade ---------- */
@@ -2057,7 +2071,7 @@ async function rollDamage(ctx,e){
   if(dpOK&&cfg.useDP){ try{ const r=await dpRoll(expr); const gs=r.groups||[]; if(gs.length>=groups.length) { vals=groups.map((g,i)=>(gs[i].dice||[]).map(x=>x.value)); via='Dice+'; } }catch(e){} }
   if(!vals) vals=groups.map(g=>rollLocal(g.n,g.d).v);
   let notes=[];
-  if(C.code==='G'){ // Não o Suficiente: rola de novo 1 e 2
+  if(C.code==='G'&&hasCard('Não o Suficiente')){ // Não o Suficiente: rola de novo 1 e 2
     let rr=0; vals=vals.map((arr,gi)=>arr.map(v=>{ if(v<=2){rr++;return randInt(groups[gi].d)} return v; })); if(rr) notes.push(`Não o Suficiente: ${rr} dado(s) de 1–2 rolado(s) de novo`); }
   const sum=vals.flat().reduce((a,b)=>a+b,0)+flat;
   const max=groups.reduce((s,g)=>s+g.n*g.d,0);
@@ -2160,7 +2174,7 @@ $('btnDano').onclick=()=>{
   const maxArm=Math.min(S.pa, dm.includes('vontade')?2:1);
   h+=`<label>Armadura a marcar <select id="dmgArmN">${Array.from({length:maxArm+1},(_,i)=>`<option value="${i}">${i}${i?' (−'+i+' gravidade)':''}</option>`).join('')}</select></label>`;
   if(dm.includes('fisico')) h+=`<label><input type="checkbox" id="dmgFis" checked> dano físico${dm.includes('vontade')?' (Vontade de Ferro: até 2 Armaduras)':''}${X.det?' · Determinação: −1 gravidade':''}</label>`;
-  if(dm.includes('levante')) h+=`<label><input type="checkbox" id="dmgLev"> Levante-se (1 PF): se for grave, −1 gravidade</label>`;
+  if(dm.includes('levante')&&hasCard('Levante-se')) h+=`<label><input type="checkbox" id="dmgLev"> Levante-se (1 PF): se for grave, −1 gravidade</label>`;
   if(dm.includes('escamas')) h+=`<label><input type="checkbox" id="dmgEsc"> Escamas (1 PF): se for grave, marque 1 PV a menos</label>`;
   if(dm.includes('besouros')&&stOn('besouros')) h+=`<div class="dim" style="margin-bottom:6px">🪲 Besouros ativos: −1 gravidade.</div><label><input type="checkbox" id="dmgBes"> manter os besouros depois (1 ❂)</label>`;
   if(dm.includes('espinhos')){ const n=X.c.espinhos||0; if(n) h+=`<label>Pele de Espinhos: gastar <select id="dmgEsp">${Array.from({length:n+1},(_,i)=>`<option>${i}</option>`).join('')}</select> marcador(es) (1d6 cada, reduz o dano)</label>`; }
@@ -2175,7 +2189,7 @@ $('dmgGo').onclick=async()=>{
   if(q('dmgEsp')&&+q('dmgEsp').value){ const n=+q('dmgEsp').value; const r=await rollExpr(n,6,0); X.c.espinhos-=n; v=Math.max(0,v-r.tot); log.push(`Espinhos −${r.tot}`); announce(`Pele de Espinhos: reduziu ${r.tot} de dano (se o atacante está corpo a corpo, ele sofre ${r.tot}).`); }
   const ora=[...document.querySelectorAll('.dmgOra:checked')].map(i=>+i.value).sort((a,b)=>b-a);
   if(ora.length){ let s=0; for(const i of ora){ s+=X.pool.oracao[i]; X.pool.oracao.splice(i,1); } v=Math.max(0,v-s); log.push(`Oração −${s}`); }
-  const lim=C.limiares; let sev=v<=0?0:(v<lim[0]?1:(v<lim[1]?2:3)); const orig=sev;
+  const lim=limiares(); let sev=v<=0?0:(v<lim[0]?1:(v<lim[1]?2:3)); const orig=sev;
   const arm=Math.min(+(q('dmgArmN')?.value||0), (fis||!(F.dmg||[]).includes('vontade'))?2:1);
   if(arm&&sev>0){ const use=Math.min(arm,S.pa); S.pa-=use; sev=Math.max(0,sev-use); log.push(`${use} Armadura`); }
   if(C.code==='G'&&X.det&&fis&&sev>0){ sev--; log.push('Determinação'); }
@@ -2261,7 +2275,7 @@ function renderSheet(){
   $('cNome').textContent=C.nome;
   $('cCls').textContent=`${C.classe} · ${C.sub} · ${C.dom} · ${C.ancestralidade||''} ${C.comunidade?('· '+C.comunidade):''}`;
   $('cMot').textContent=C.motivo;
-  $('thr1').textContent=C.limiares[0]; $('thr2').textContent=C.limiares[1]+'+';
+  $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+';
   renderTrackers(); renderPend(); renderFx();
   // atributos
   const AT=[['Agilidade','Agilidade'],['Força','Força'],['Acuidade','Acuidade'],['Instinto','Instinto'],['Presença','Presença'],['Conhecimento','Conhecimento']];
@@ -2288,15 +2302,7 @@ function renderSheet(){
     api.send(CH.card,{t:'Experiência',n:e.nome,x:(e.desc||'')+` — +${e.mod} na próxima rolagem`,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
   });
   // cartas
-  $('cards').innerHTML=C.cartas.map((c,i)=>
-    `<details class="card" open><summary><b>${esc(c.nome)}</b><span>${esc(c.meta)}</span></summary>
-      <div class="cd">${esc(c.texto)}</div>
-      <div class="ca"><button data-i="${i}">Mostrar a todos</button>${cardButtons(c,i)}</div></details>`).join('');
-  document.querySelectorAll('.card .ca button[data-i]').forEach(b=>b.onclick=()=>{
-    const c=C.cartas[+b.dataset.i];
-    api.send(CH.card,{t:c.meta,n:c.nome,x:c.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
-    toast('Carta mostrada a todos.');
-  });
+  renderCards();
   // habilidades
   const bySec={};
   for(const hb of C.habilidades){(bySec[hb.secao]=bySec[hb.secao]||[]).push(hb)}
@@ -2307,6 +2313,33 @@ function renderSheet(){
   $('pick').style.display='none'; $('sheet').style.display='block';
 }
 
+/* ---------- cartas: mão (até 5) e reserva ---------- */
+let trocaGratis=false;
+function loadout(){ if(!Array.isArray(S.load)){ let L=C.cartas.map((c,i)=>i).filter(i=>!/Vitalidade/.test(C.cartas[i].nome)); while(L.length>5){ let w=L[0]; for(const i of L) if(recallOf(C.cartas[i])>=recallOf(C.cartas[w])) w=i; L=L.filter(i=>i!==w); } S.load=L; } return S.load; }
+function recallOf(c){ const m=(c.meta||'').match(/Recall\s*(\d+)/); return m?+m[1]:0; }
+function renderCards(){
+  const L=loadout(); const mao=C.cartas.map((c,i)=>i).filter(i=>L.includes(i)), res=C.cartas.map((c,i)=>i).filter(i=>!L.includes(i));
+  const card=(i,inHand)=>{ const c=C.cartas[i];
+    const back=`<button data-cm="${i}" ${mao.length>=5?'disabled title="a mão já tem 5 cartas: mande uma para a reserva antes"':''}>← mão${trocaGratis||!recallOf(c)?' (grátis)':` · ${recallOf(c)} PF`}</button>`;
+    return `<details class="card ${inHand?'':'vault'}" ${inHand?'open':''}><summary><b>${esc(c.nome)}</b><span>${esc(c.meta)}</span>${inHand?'':back}</summary>
+      <div class="cd">${esc(c.texto)}</div>
+      <div class="ca"><button data-i="${i}">Mostrar a todos</button>${inHand?cardButtons(c,i)+`<button data-cv="${i}" title="mandar para a reserva">→ reserva</button>`:''}</div></details>`; };
+  $('cards').innerHTML=`<div class="dim" style="margin:-2px 0 7px;display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap"><span>Na mão: <b>${mao.length}/5</b> · Reserva: <b>${res.length}</b></span><label style="display:flex;gap:5px;align-items:center;cursor:pointer"><input type="checkbox" id="trocaGratis" ${trocaGratis?'checked':''}> em descanso (trocas sem custo)</label></div>`
+    +mao.map(i=>card(i,true)).join('')+(res.length?`<div class="small" style="margin:10px 0 5px">Reserva — trazer para a mão custa o Recall da carta em PF</div>`+res.map(i=>card(i,false)).join(''):'');
+  document.querySelectorAll('.card .ca button[data-i]').forEach(b=>b.onclick=()=>{
+    const c=C.cartas[+b.dataset.i];
+    api.send(CH.card,{t:c.meta,n:c.nome,x:c.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
+    toast('Carta mostrada a todos.');
+  });
+  $('trocaGratis').onchange=e=>{ trocaGratis=e.target.checked; renderCards(); };
+}
+document.addEventListener('click',async ev=>{
+  if(!C) return;
+  const v=ev.target.closest('[data-cv]'); if(v){ S.load=loadout().filter(i=>i!==+v.dataset.cv); renderCards(); renderFx(); $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+'; await saveSheet(); return; }
+  const m=ev.target.closest('[data-cm]'); if(m){ ev.preventDefault(); const i=+m.dataset.cm, c=C.cartas[i]; const L=loadout(); if(L.length>=5){toast('A mão já tem 5 cartas.');return}
+    const cost=trocaGratis?0:recallOf(c); if(cost&&S.fad<cost){toast('Fadiga insuficiente para o Recall.');return}
+    S.fad-=cost; S.load=[...L,i]; renderTrackers(); renderCards(); renderFx(); $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+'; await saveSheet(); if(cost) announce(`trouxe ${c.nome} da reserva (Recall ${cost} PF).`); return; }
+});
 function renderPick(){
   $('pickGrid').innerHTML=Object.values(CHARS).map(p=>
     `<div class="pc" data-c="${p.code}" style="--pc:${p.cor}"><b>${esc(p.nome)}</b><span>${esc(p.classe.split(' ')[0])}</span></div>`).join('');
@@ -2395,7 +2428,7 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
   if(ME.role==='GM'&&!demo){ $('gmNote').style.display='block'; const mm=await api.getMeta(); if(mm[K.sheet+ME.id]) await api.setMeta({[K.sheet+ME.id]:undefined}); }
   else try{
     const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null');
-    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null};renderSheet();}
+    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null};renderSheet();}
   }catch(e){}
   (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagem interna por enquanto)'; $('btnCfg').textContent=(ok?'🟢':'⚙')+' Dice+'; if(!ok&&cfg.useDP) setTimeout(dpWatch,5000); })();
 })();
