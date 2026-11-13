@@ -2016,12 +2016,12 @@ function optsFor(ctx){
    canal de mensagens dele (eu.armindo.embers/effects).
    ====================================================================== */
 const EMB='eu.armindo.embers/effects';
-const nrm=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/^(o|a|os|as)\s+/,'').trim();
+const nrm=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/^\s*(boss|npc|pc)\s*-\s*/,'').replace(/^\s*[\d]{2}(-[\d]{2})?\s*·\s*/,'').replace(/\s*\([^)]*\)\s*$/,'').replace(/\s*(#\d+|— irmao [ab])$/,'').replace(/\s+/g,' ').trim().replace(/^(o|a|os|as)\s+/,'');
 async function sceneChars(){ if(demo) return []; try{ return await OBR.scene.items.getItems(i=>i.layer==='CHARACTER'); }catch(e){ return []; } }
 async function findMyToken(){
   if(!C) return null; const items=await sceneChars();
   if(S.token){ const t=items.find(i=>i.id===S.token); if(t) return t; }
-  const key=nrm(C.nome); return items.find(i=>{ const n=nrm(i.name); return n&&(n===key||n.includes(key)||(n.length>3&&key.includes(n))); })||null;
+  const key=nrm(C.nome); return items.find(i=>nrm(i.name)===key)||items.find(i=>{ const n=nrm(i.name); return n&&n.length>3&&(n.includes(key)||key.includes(n)); })||null;
 }
 function tsize(it){ const g=(it.image&&it.grid)?Math.max(it.image.width,it.image.height)/it.grid.dpi:1; return Math.max(Math.abs(it.scale?.x||1),Math.abs(it.scale?.y||1))*g; }
 async function selTargets(excl){ if(demo) return []; try{ const sel=(await OBR.player.getSelection())||[]; const ids=sel.filter(id=>id!==excl); return ids.length?await OBR.scene.items.getItems(ids):[]; }catch(e){ return []; } }
