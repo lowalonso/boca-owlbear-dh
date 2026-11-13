@@ -77,6 +77,7 @@ details.reveal summary{color:var(--bile)}
 .lastroll.on{display:block}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:var(--deep);border:1px solid var(--blood);color:var(--bone);padding:8px 14px;border-radius:5px;font-size:12px;z-index:60;opacity:0;transition:opacity .3s;pointer-events:none;max-width:92%;text-align:center}
 .toast.on{opacity:1}
+.rollbtn.hab{border-style:dashed}
 .tokr{font-size:10px;color:var(--dim,#998);margin-top:4px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 .demo-note{border:1px dashed var(--bile);color:var(--bile);border-radius:4px;font-size:10px;padding:7px 10px;margin-bottom:10px;display:none}
 .dp-line{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-align:center;margin-top:10px}
@@ -475,17 +476,96 @@ function fxFor(nomeAtk,txt){
   if(/mag/.test(t)) return {hit:'generic.magic_signs.necromancy_circle.dark_green.complete'};
   return {hit:'generic.creature.claws'};
 }
-async function enemyFx(c,nomeAtk,txt){
-  if(demo||!c||localStorage.getItem('boca-embers')==='off') return;
+/* efeitos próprios de cada ataque/habilidade.
+   s = no inimigo · t = em cada alvo selecionado · p = projétil até cada alvo · a = área (alvos selecionados, ou todos os PCs do mapa)
+   z = tamanho em relação ao token · d = atraso em ms */
+const FXE={
+ 'Garras Famintas':[{t:'generic.creature.claws'}],
+ 'Maré de Sombras':[{t:'darkness.black.transparent',z:1.5}],
+ 'Toque que Lembra':[{p:'generic.ranged_spell.instant.blue'},{t:'generic.marker.horror.1',d:600}],
+ 'Coro de Saudade':[{s:'generic.template.circle.outpulse.regular.burst',z:3},{a:'generic.marker.horror.2',d:500}],
+ 'Gancho de Osso':[{p:'generic.weapon_attacks.ranged.dagger.return'},{t:'generic.impact.dropshadow',d:500}],
+ 'Estripada':[{t:'generic.weapon_attacks.melee.single.falchion',z:1.3},{t:'generic.impact.orange.3',d:300}],
+ 'Açoite':[{t:'generic.weapon_attacks.melee.single.generic_slash'},{t:'generic.marker.red_chain_ground',d:200}],
+ 'Enlaçar':[{t:'generic.marker.spectral_chain.complete'}],
+ 'Labareda':[{p:'fire_bolt'},{t:'generic.impact.fire',d:500}],
+ 'Erupção':[{s:'generic.fire.ring',z:2},{a:'generic.fire.eruption',d:300}],
+ 'Teia Prendedora':[{p:'generic.weapon_attacks.ranged.throw.flask'},{t:'web.transparent.simple',d:500}],
+ 'Mordida do Esquecimento':[{t:'generic.creature.bite'},{t:'generic.particles.outwards.3',d:300}],
+ 'Lâmina Enferrujada':[{t:'generic.weapon_attacks.melee.single.shortsword'}],
+ 'Última Ordem':[{t:'generic.marker.skull.1'}],
+ 'Espelhamento':[{s:'generic.magic_signs.illusion_circle.dark_purple.complete',z:2}],
+ 'Golpe da Certeza':[{t:'generic.ui.critical.hit.1'}],
+ // ---- chefes: maiores e em camadas ----
+ 'Mordida Total':[{s:'generic.particles.inwards.5',z:3},{t:'generic.creature.bite',z:2.5,d:400},{t:'generic.impact.groundcrack.fire_impact.1',z:2.5,d:700}],
+ 'Língua Predadora':[{p:'generic.energy.energy_beam.blue_pink1'},{t:'generic.marker.drop.2',d:500}],
+ 'Devorar o Chão':[{s:'black_tentacles',z:5},{s:'generic.impact.groundcrack.fire_impact.3',z:5,d:600},{a:'generic.marker.fear.2',d:900}],
+ 'Julgamento':[{s:'generic.magic_signs.divination_circle.dark_blue.complete',z:3},{p:'guiding_bolt',d:800},{t:'sacred_flame.target',z:2,d:1300},{t:'generic.marker.horror.3',d:1700}],
+ 'Mão do Deus Morto':[{t:'arcane_hand.purple',z:2},{t:'generic.marker.shield_cracked.2',d:900}],
+ 'Lembrança Acusatória':[{s:'toll_the_dead.shockwave',z:6},{a:'generic.marker.horror.3',d:600}],
+ 'Decreto':[{t:'spiritual_weapon.flaming_yellow_mace',z:1.8},{t:'generic.impact.yellow.1',z:2,d:700}],
+ 'Convocar a Corte':[{s:'generic.magic_signs.necromancy_circle.dark_green.complete',z:4},{s:'toll_the_dead.skull_smoke',z:3,d:900}],
+ 'Peso da Coroa':[{s:'generic.template.circle.outpulse.regular.burst',z:6},{a:'generic.marker.stun.1',d:500}],
+ 'Fio do Esquecimento':[{p:'generic.energy.energy_strand.normal'},{t:'generic.particles.outwards.7',d:600}],
+ 'Casulo':[{t:'web.opaque.spiders',z:1.6}],
+ 'Tecer o Passado':[{t:'generic.magic_signs.illusion_circle.dark_purple.complete',z:1.5},{t:'generic.marker.heart.1',d:700}],
+ 'Coro dos Mortos':[{s:'toll_the_dead.bell',z:3},{s:'generic.template.circle.outpulse.regular.burst',z:7,d:600},{a:'toll_the_dead.skull_smoke',d:900}],
+ 'Roubar a Voz':[{t:'generic.marker.mute.1'},{t:'generic.particles.inwards.3',d:300}],
+ 'Nome Esquecido':[{p:'generic.ranged_spell.overcharged_sphere.purple'},{t:'toll_the_dead.skull_smoke',z:1.5,d:700}],
+ 'Apagar':[{p:'disintegrate'},{t:'generic.item.sphere_of_annihilation',z:1.5,d:700}],
+ 'Maré de Nada':[{s:'darkness.black.opaque',z:6},{s:'arms_of_hadar.transparent',z:6,d:400},{a:'generic.marker.fear.3',d:900}],
+ 'Bênção Afogada':[{p:'generic.ranged_spell.instant.blue'},{t:'generic.impact.water',z:2,d:500},{s:'generic.healing.blue',z:2,d:900}],
+ 'Mãos em Prece':[{t:'arcane_hand.blue',z:2},{t:'generic.impact.water',z:1.5,d:700}],
+ 'Martírio':[{s:'moonbeam.complete',z:4},{s:'antilife_shell.circle',z:4,d:500},{a:'generic.impact.water',z:2,d:1200},{a:'generic.healing.blue',d:1500}],
+ 'Provar':[{t:'generic.creature.bite',z:2.5},{t:'generic.marker.drop.1',d:500}],
+ 'Onda de Saliva':[{s:'grease',z:6},{a:'generic.impact.water',z:1.5,d:500}],
+ 'Engolir':[{t:'generic.creature.bite',z:3},{t:'darkness.black.transparent',z:2,d:400},{s:'generic.particles.inwards.8',z:3,d:800}],
+ 'Golpe Discordante':[{t:'generic.weapon_attacks.melee.single.generic_slash',z:1.5},{t:'generic.creature.claws',z:1.5,d:500}],
+ 'Briga Interna':[{s:'whirlwind',z:3},{a:'generic.explosion.orange1',d:700}],
+ 'Sincronia Forçada':[{s:'generic.particles.inwards.6',z:3},{t:'divine_smite.target',z:2.5,d:500},{t:'generic.impact.groundcrack.fire_impact.2',z:2.5,d:900}],
+ 'Gancho de Alma':[{p:'generic.weapon_attacks.ranged.dagger.return'},{t:'hunters_mark.pulse',d:600}],
+ 'Redoma':[{t:'generic.marker.bubble.big.complete',z:1.6},{t:'wall_of_force.ring',z:1.5,d:300}],
+ 'Apreço Cruel':[{t:'generic.eyes.many',z:1.5},{t:'generic.marker.shield_cracked.1',d:600}],
+ 'Sopro de Almas':[{s:'fireball.explosion',z:5},{a:'generic.fire.eruption',z:1.5,d:500},{a:'toll_the_dead.skull_smoke',d:900}],
+ 'Corrente Ardente':[{p:'scorching_ray'},{t:'generic.marker.red_chain.complete',d:500},{t:'generic.impact.fire',d:700}],
+ 'Alimentar a Fornalha':[{t:'generic.marker.red_chain.complete',z:1.3},{s:'wall_of_fire.transparent.ring.yellow',z:4,d:500},{t:'generic.fire.campfire.flame.tall.complete',z:1.5,d:900},{s:'fireball.explosion',z:4,d:1400}],
+};
+/* assinatura de cada chefe: carrega em volta dele antes de qualquer ataque */
+const BOSS_SIG={
+ 1:[{s:'generic.particles.inwards.10',z:5},{s:'generic.impact.groundcrack.frost_impact',z:4,d:300}],
+ 2:[{s:'generic.magic_signs.divination_rune.complete',z:5},{s:'generic.marker.light.complete',z:3,d:200}],
+ 3:[{s:'generic.magic_signs.necromancy_rune.complete',z:5},{s:'toll_the_dead.skull_smoke',z:3,d:300}],
+ 4:[{s:'generic.magic_signs.illusion_rune.complete',z:5},{s:'web.transparent.spiders',z:4,d:200}],
+ 5:[{s:'generic.magic_signs.enchantment_rune.complete',z:5},{s:'generic.energy.soundwave.jagged',z:4,d:200}],
+ 6:[{s:'darkness.black.transparent',z:6},{s:'generic.particles.inwards.7',z:5,d:200}],
+ 7:[{s:'generic.magic_signs.abjuration_rune.complete',z:5},{s:'generic.impact.water',z:4,d:300}],
+ 8:[{s:'generic.particles.inwards.9',z:5},{s:'grease',z:4,d:200}],
+ 9:[{s:'generic.magic_signs.evocation_rune.complete',z:5},{s:'generic.particles.swirl.2',z:4,d:200}],
+ 10:[{s:'generic.magic_signs.transmutation_rune.complete',z:5},{s:'generic.eyes.many',z:4,d:200}],
+ 11:[{s:'generic.fire.ring',z:5},{s:'generic.magic_signs.evocation_circle.dark_red.complete',z:5,d:200}],
+};
+const FX_PHASE=[{s:'generic.magic_signs.evocation_circle.dark_red.complete',z:6},{s:'generic.particles.inwards.10',z:6,d:200},{s:'toll_the_dead.shockwave',z:8,d:1200},{s:'generic.explosion.blue_yellow',z:4,d:1300},{a:'generic.marker.fear.3',d:1600}];
+const FX_DEAD_BOSS=[{s:'generic.particles.inwards.10',z:6},{s:'generic.explosion.orange2',z:6,d:900},{s:'fireball.explosion',z:6,d:1100},{s:'toll_the_dead.shockwave',z:9,d:1300},{s:'toll_the_dead.skull_smoke',z:5,d:1600},{s:'generic.particles.outwards.10',z:7,d:1800}];
+const FX_DEAD=[{s:'generic.smoke.puff',z:1.2}];
+async function runFx(c,steps,name){
+  if(demo||!c||!steps||localStorage.getItem('boca-embers')==='off') return;
+  if(c.src==='b'&&FXE[name]){ const sig=BOSS_SIG[c.ref]||[]; steps=[...sig, ...steps.map(st=>({...st,z:(st.z||1)*1.3,d:(st.d||0)+700})), {t:'generic.impact.dropshadow',z:2.5,d:(Math.max(...steps.map(st=>st.d||0))+1100)}]; }
   try{
-    const items=await chars(); const me=c.tok&&items.find(i=>i.id===c.tok);
-    const sel=((await OBR.player.getSelection())||[]).filter(id=>id!==c.tok); const tg=sel.length?await OBR.scene.items.getItems(sel):[];
-    const s=fxFor(nomeAtk,txt), ins=[];
-    if(s.proj&&me&&tg.length) tg.forEach(t=>ins.push({type:'effect',id:s.proj,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}}));
-    else (tg.length?tg:me?[me]:[]).forEach(t=>ins.push({type:'effect',id:s.hit||s.fall,effectProperties:{source:t.position,size:tsize(t)}}));
-    if(ins.length) OBR.broadcast.sendMessage(EMB,{instructions:ins,spellData:{name:nomeAtk,caster:ME.id}},{destination:'ALL'});
+    let items=await chars(); let me=c.tok&&items.find(i=>i.id===c.tok);
+    if(!me&&await autoLink()){ saveCmb(); paintCmb(); items=await chars(); me=c.tok&&items.find(i=>i.id===c.tok); }
+    const sel=((await OBR.player.getSelection())||[]).filter(id=>id!==c.tok); const tg=sel.length?items.filter(i=>sel.includes(i.id)):[];
+    const pcs=items.filter(i=>/^\s*pc\s*-/i.test(i.name||''));
+    const ins=[]; const add=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:tsize(t)*(z||1)}});
+    for(const st of steps){
+      if(st.s&&me) add(st.s,me,st.z,st.d);
+      if(st.t) (tg.length?tg:me?[me]:[]).forEach(t=>add(st.t,t,st.z,st.d));
+      if(st.a) (tg.length?tg:pcs).forEach(t=>add(st.a,t,st.z,st.d));
+      if(st.p){ if(me&&tg.length) tg.forEach(t=>ins.push({type:'effect',id:st.p,delay:st.d||0,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}})); }
+    }
+    if(ins.length) OBR.broadcast.sendMessage(EMB,{instructions:ins,spellData:{name,caster:ME.id}},{destination:'ALL'});
   }catch(e){}
 }
+async function enemyFx(c,nomeAtk,txt){ const f=FXE[nomeAtk]; if(f) return runFx(c,f,nomeAtk); const s=fxFor(nomeAtk,txt); return runFx(c,[s.proj?{p:s.proj}:null,{t:s.hit||s.fall,d:s.proj?500:0}].filter(Boolean),nomeAtk); }
 
 function newInst(src,ref,suf){
   const id='c'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
@@ -506,6 +586,7 @@ function addCombat(src,ref,n=1){
 }
 function shout(msg,variant){ api.send(CH.notify,{msg,variant,id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
 function fire(c,key,list){ if(c.fired[key]) return; c.fired[key]=1;
+  runFx(c, key==='dead'?(c.src==='b'?FX_DEAD_BOSS:FX_DEAD):(c.src==='b'&&list.length?FX_PHASE:null), key);
   list.forEach(([t,x],i)=>{ c.alerts.unshift({k:key,i}); });
   if(list.length) shout(key==='dead'?`☠ ${c.nome} caiu… ${list.filter(h=>h[0]!=='Ao cair'&&h[0]!=='Brutalidade').map(h=>h[0]).join(' · ')}`.replace(/… $/,'.'):`⚠ ${c.nome} muda: ${list.map(h=>h[0]==='Brutalidade'?'fica mais brutal':h[0]).join(' · ')}`, key==='dead'?'ERROR':'WARNING'); c.alerts=c.alerts.slice(0,4); }
 function checkHooks(c){
@@ -530,7 +611,9 @@ function cmbAtkBtns(c){
   let b=c.atq!=null?`<button class="rollbtn" data-r="1d20${c.atq>=0?'+':''}${c.atq}" data-l="${esc(c.nome)} · ataque">ATQ d20${c.atq>=0?'+':''}${c.atq}</button>`:'';
   const seen=new Set();
   [...(src.ataques||[]), ...(c.src==='b'&&src.sb.arma?[[String(src.sb.arma).split('(')[0].trim(),src.sb.arma]]:[])].forEach(a=>{
-    const d=((a[1]||'').match(diceRe)||[])[1]; if(d&&!seen.has(a[0]+d)){seen.add(a[0]+d); b+=`<button class="rollbtn" data-r="${d}" data-l="${esc(c.nome)} · ${esc(a[0])}" data-fxc="${c.id}" data-fxa="${esc(a[0])}" data-fxt="${esc(a[1]||'')}" title="${esc(a[0])}">${esc(a[0].split(' ')[0])} ${d}</button>`;} });
+    const d=((a[1]||'').match(diceRe)||[])[1]; if(seen.has(a[0])) return; seen.add(a[0]);
+    if(d) b+=`<button class="rollbtn" data-r="${d}" data-l="${esc(c.nome)} · ${esc(a[0])}" data-fxc="${c.id}" data-fxa="${esc(a[0])}" data-fxt="${esc(a[1]||'')}" title="${esc(a[0])} — ${esc(a[1]||'')}">${esc(a[0])} ${d}</button>`;
+    else b+=`<button class="rollbtn hab" data-hab="${c.id}" data-fxa="${esc(a[0])}" data-fxt="${esc(a[1]||'')}" title="${esc(a[1]||'')}">✦ ${esc(a[0])}</button>`; });
   return b;
 }
 function paintCmb(){
@@ -662,6 +745,8 @@ $('dReset').onclick=async()=>{
 document.body.addEventListener('click',async ev=>{
   const r=ev.target.closest('[data-r]');
   if(r){ if(r.dataset.fxc) enemyFx(findC(r.dataset.fxc),r.dataset.fxa,r.dataset.fxt); await roll(r.dataset.r, r.dataset.l); return }
+  const hb=ev.target.closest('[data-hab]');
+  if(hb){ const c=findC(hb.dataset.hab); enemyFx(c,hb.dataset.fxa,hb.dataset.fxt); toast(`${c?c.nome:''} · ${hb.dataset.fxa}: ${hb.dataset.fxt}`); return }
   const tk=ev.target.closest('[data-ctok]');
   if(tk){ const [id,op]=tk.dataset.ctok.split(':'); const c=findC(id); if(!c) return;
     if(op==='put'){ await placeFromAssets(assetTok(baseNome(c)),'CHARACTER',c); return }
