@@ -179,7 +179,12 @@ details.card .ca button:disabled{opacity:.35;cursor:not-allowed}
 .settings label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:8px 0 3px}
 .settings input[type=text]{width:100%;background:#0d0a0b;border:1px solid var(--ash);border-radius:4px;color:var(--bone);font-family:inherit;font-size:13px;padding:7px}
 .demo-note{border:1px dashed var(--bile);color:var(--bile);border-radius:4px;font-size:10px;padding:7px 10px;margin-bottom:10px;display:none;letter-spacing:.05em}
-</style></head><body>
+</style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
+const BUILD='20261113171504';
+(async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
+  if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
+</script>
+</head><body>
 
 <div class="topbar">
   <div class="ttl"><b id="tbName">A Boca do Mundo</b><span id="tbSub">Ficha dos Quebrados</span></div>
