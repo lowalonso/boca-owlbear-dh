@@ -433,14 +433,19 @@ function hooksFor(c){
    TOKENS, MAPAS E EMBERS (Mesa do Mestre)
    ====================================================================== */
 const EMB='eu.armindo.embers/effects';
-const nrm=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/^(o|a|os|as)\s+/,'').replace(/\s*(#\d+|— irmão [ab])$/,'').trim();
+const nrm=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/^\s*(boss|npc|pc)\s*-\s*/,'').replace(/^\s*[\d]{2}(-[\d]{2})?\s*·\s*/,'').replace(/\s*\([^)]*\)\s*$/,'').replace(/\s*(#\d+|— irmao [ab])$/,'').replace(/\s+/g,' ').trim().replace(/^(o|a|os|as)\s+/,'');
+/* nomes exatos dos seus Assets no Owlbear (Personagens e Mapas) */
+const ASSET_TOK=["Boss - A Fornalha Viva","Boss - O Colecionador","Boss - Gêmeos de Carne","Boss - O Santo Afogado","BOSS - A Língua","Boss - O Eco de Todos","Boss - Vazio Encarnado","Boss -  A Primeira Fome","BOSS - A Mãe das Memórias","boss - Coroa de Costelas","Boss - O Deus Que Você Matou","NPC -  Eco Roubado","NPC - Lacaio do Vazio","NPC -  Elemental de Fogo","NPC -  Aranha-Memória","NPC -  Servo-Esqueleto","NPC -  Carniçal de Gancho","NPC -  Corrente de Culpa","NPC -  Reflexo-Sombra"];
+const ASSET_MAP=["00 · A Garganta","96-99 · A Falsa Saída","91-95 · O Olho no Fundo","81-85 · Catedral do Silêncio","86-90 · O Açoite de Culpa","76-80 · O Mercado dos Sussurros","71-75 · A Teia da Aranha-Memória","66-70 · Fornalha de Almas","61-65 · O Quarto que Lembra","56-60 · Salão dos Pactos","51-55 · A Ponte de Costelas","46-50 · Ninho de Ecos","41-45 · O Espelho Rachado","36-40 · Jardim de Carne","30-35 · A Biblioteca Afogada","25-29 · Coro de Bocas","19-24 · O Poço de Moedas","13-18 · Açougue de Deuses","07-12 · A Sala dos Nomes","01-06 · O Gosto da Língua"];
+const assetTok=n=>ASSET_TOK.find(a=>nrm(a)===nrm(n))||n;
+const assetMap=n=>ASSET_MAP.find(a=>nrm(a)===nrm(n))||n;
 const baseNome=c=>c.nome.replace(/\s*(#\d+|— irmão [AB])$/,'');
 async function chars(){ if(demo) return []; try{ return await OBR.scene.items.getItems(i=>i.layer==='CHARACTER'); }catch(e){ return []; } }
 function tsize(it){ const g=(it.image&&it.grid)?Math.max(it.image.width,it.image.height)/it.grid.dpi:1; return Math.max(Math.abs(it.scale?.x||1),Math.abs(it.scale?.y||1))*g; }
 async function autoLink(){ // liga instâncias sem token a tokens do mapa com o mesmo nome
   if(demo||!cmb.length) return false; const items=await chars(); const used=new Set(cmb.map(c=>c.tok).filter(Boolean)); let ch=false;
   cmb.forEach(c=>{ if(c.tok&&items.some(i=>i.id===c.tok)) return; const k=nrm(c.nome);
-    const t=items.find(i=>!used.has(i.id)&&nrm(i.name)===k)||items.find(i=>!used.has(i.id)&&nrm(i.name).includes(k));
+    const t=items.find(i=>!used.has(i.id)&&nrm(i.name)===k)||items.find(i=>!used.has(i.id)&&nrm(i.name).length>3&&nrm(i.name).includes(k));
     if(t){ c.tok=t.id; used.add(t.id); ch=true; } });
   return ch;
 }
@@ -595,7 +600,7 @@ function salaHTML(i,floor,roll){
     <div class="hd"><b>${esc(s.nome)}</b><span class="tipo">${esc(s.tipo)}</span></div>
     <div class="small" style="margin:3px 0 7px">Sala ${floor} · d100 = ${roll===100?'00':roll} · faixa ${esc(s.faixa)}</div>
     <div class="vox"><span class="tg small" style="display:block;font-style:normal">Leia ao revelar</span>${esc(s.vox||'')}</div>
-    <p style="margin:2px 0 8px"><button class="btn gold" data-showsala="${i}" data-fl="${floor}">Mostrar a sala aos jogadores</button> <button class="btn" data-map="${esc(s.nome)}" title="abre seus Assets › Mapas buscando pelo nome da sala">Colocar mapa</button></p>
+    <p style="margin:2px 0 8px"><button class="btn gold" data-showsala="${i}" data-fl="${floor}">Mostrar a sala aos jogadores</button> <button class="btn" data-map="${esc(assetMap(s.nome))}" title="abre seus Assets › Mapas buscando pelo nome da sala">Colocar mapa</button></p>
     <p class="nb"><span class="tg">Descrição</span>${esc(s.leitura)}</p>
     <p class="nb"><span class="tg">A sala revela</span>${esc(s.revela)}</p>
     ${cb?`<div class="cmb"><div class="hd"><b style="font-size:12px">⚔ ${esc(cb.titulo)}</b></div>
@@ -616,7 +621,7 @@ function paintDesc(){
   else if(L.kind==='sala') $('dStage').innerHTML=salaHTML(L.i,L.floor,L.roll);
   else { const b=DATA.bosses.find(x=>x.n==L.n);
     $('dStage').innerHTML=`<div class="small" style="margin-bottom:5px;color:var(--bile)">O Fundo · d12 = ${L.n}</div>`+bossHTML(b)+
-      `<p style="margin:-2px 0 8px"><button class="btn gold" data-showboss="${L.n}">Mostrar o chefe aos jogadores</button> <button class="btn" data-map="O Fundo" title="abre seus Assets › Mapas">Colocar mapa</button></p>`; }
+      `<p style="margin:-2px 0 8px"><button class="btn gold" data-showboss="${L.n}">Mostrar o chefe aos jogadores</button> <button class="btn" data-map="boss" title="abre seus Assets › Mapas">Colocar mapa</button></p>`; }
   $('dLog').innerHTML=desc.log.length?'<div class="small" style="margin-top:12px">Caminho da descida</div><div class="dlog">'+
     desc.log.map((e,k)=>`<span style="--tc:${e.c}" data-logk="${k}">${e.f}. ${esc(e.nome)}</span>`).join('')+'</div>':'';
 }
@@ -659,7 +664,7 @@ document.body.addEventListener('click',async ev=>{
   if(r){ if(r.dataset.fxc) enemyFx(findC(r.dataset.fxc),r.dataset.fxa,r.dataset.fxt); await roll(r.dataset.r, r.dataset.l); return }
   const tk=ev.target.closest('[data-ctok]');
   if(tk){ const [id,op]=tk.dataset.ctok.split(':'); const c=findC(id); if(!c) return;
-    if(op==='put'){ await placeFromAssets(baseNome(c),'CHARACTER',c); return }
+    if(op==='put'){ await placeFromAssets(assetTok(baseNome(c)),'CHARACTER',c); return }
     if(demo){ toast('Fora do Owlbear.'); return } const sel=(await OBR.player.getSelection())||[]; if(sel.length!==1){ toast('Selecione um token no mapa.'); return }
     c.tok=sel[0]; paintCmb(); saveCmb(); toast('Token vinculado a '+c.nome+'.'); return }
   const mp=ev.target.closest('[data-map]');
