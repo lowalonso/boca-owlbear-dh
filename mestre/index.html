@@ -316,7 +316,7 @@ api.on(CH.card,async ev=>{
 /* party: só quem está na sala agora */
 let partyIds=null, partyList=[];
 function renderParty(m){
-  const list=Object.entries(m||{}).filter(([k])=>k.startsWith(K.sheetPrefix)&&(!partyIds||partyIds.has(k.slice(K.sheetPrefix.length))||k.slice(K.sheetPrefix.length)===ME.id)).map(([,v])=>v)
+  const list=Object.entries(m||{}).filter(([k])=>k.startsWith(K.sheetPrefix)&&(!partyIds||partyIds.has(k.slice(K.sheetPrefix.length)))).map(([,v])=>v)
     .filter(v=>v&&v.ts&&Date.now()-v.ts<1000*60*60*8);
   const el=$('party');
   if(!list.length){el.innerHTML='<div class="empty">Nenhum Quebrado conectado ainda.<br>Os jogadores aparecem aqui ao escolherem a ficha.</div>';return}
@@ -690,8 +690,9 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
   }
   renderBest(); renderBoss(); paintDesc(); paintCmb();
   $('lootDet').addEventListener('toggle',()=>{ if($('lootDet').open) renderLootTable(); });
-  if(!demo){ try{ partyList=await OBR.party.getPlayers(); partyIds=new Set(partyList.map(p=>p.id)); renderParty(lastMeta); OBR.party.onChange(ps=>{ partyList=ps; partyIds=new Set(ps.map(p=>p.id)); renderParty(lastMeta); }); }catch(e){} }
+  if(!demo){ try{ const soJog=ps=>ps.filter(p=>p.role!=='GM'); partyList=soJog(await OBR.party.getPlayers()); partyIds=new Set(partyList.map(p=>p.id)); renderParty(lastMeta); OBR.party.onChange(ps=>{ partyList=soJog(ps); partyIds=new Set(partyList.map(p=>p.id)); renderParty(lastMeta); }); }catch(e){} }
   paint(await api.getMeta());
+  if(!demo&&lastMeta[K.sheetPrefix+ME.id]) api.setMeta({[K.sheetPrefix+ME.id]:undefined}); // limpa ficha antiga do mestre
   api.onMeta(paint);
   (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagens internas por enquanto)'; if(!ok) setTimeout(dpWatch,5000); })();
 })();
