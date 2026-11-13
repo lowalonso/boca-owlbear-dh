@@ -197,6 +197,7 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
 <div id="pick">
   <h1>Quem desce?</h1>
   <p class="sub small">escolha o seu Quebrado</p>
+  <p class="small" id="gmNote" style="display:none;text-transform:none;letter-spacing:.02em;color:var(--bile);margin:6px 0 10px;line-height:1.45">Você é o mestre: pode abrir uma ficha para consultar ou testar, mas ela não aparece na Party e não conta como jogador.</p>
   <div class="grid" id="pickGrid"></div>
 </div>
 
@@ -1733,7 +1734,7 @@ function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clear
 async function saveSheet(){ if(!C) return;
   const pub={code:C.code,nome:C.nome,player:ME.name,pv:S.pv,fad:S.fad,pa:S.pa,esp:S.esp,
     pvMax:C.pvMax,fadMax:C.fadigaMax,paMax:C.paMax,espMax:6,cor:C.cor,ts:Date.now()};
-  await api.setMeta({[K.sheet+ME.id]:pub});
+  if(!(ME.role==='GM'&&!demo)) await api.setMeta({[K.sheet+ME.id]:pub}); // o mestre não entra na Party
   try{localStorage.setItem('boca-ficha-state',JSON.stringify({code:C.code,...S}))}catch(e){}
 }
 
@@ -2390,8 +2391,9 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
   renderPick(); window.__bocaOK=true;
   const m=await api.getMeta(); refreshTop(m);
   api.onMeta(refreshTop);
-  // restaurar ficha salva
-  try{
+  // restaurar ficha salva (o mestre começa sem ficha e nunca entra na Party)
+  if(ME.role==='GM'&&!demo){ $('gmNote').style.display='block'; const mm=await api.getMeta(); if(mm[K.sheet+ME.id]) await api.setMeta({[K.sheet+ME.id]:undefined}); }
+  else try{
     const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null');
     if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null};renderSheet();}
   }catch(e){}
