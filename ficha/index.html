@@ -283,6 +283,7 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <label>nome do dado de Medo (vermelho)</label><input type="text" id="cfgFear">
   <label>nome do dado de Vantagem (d6, opcional)</label><input type="text" id="cfgAdv">
   <label style="margin-top:10px"><input type="checkbox" id="cfgDP" checked style="width:auto"> usar Dice+ quando disponível</label>
+  <label style="margin-top:6px"><input type="checkbox" id="cfgEmb" checked style="width:auto"> efeitos animados do Embers (se estiver instalado na sala)</label>
   <div class="row" style="margin-top:12px"><button class="btn" id="cfgOk">Salvar</button></div>
 </div></div>
 
@@ -1908,7 +1909,7 @@ async function rollExpr(n,d,flat,label){ // dado avulso (cura, evasão, cartas)
 
 function renderFx(){
   const F=FXC(), X=fxS(); const el=$('fx'); if(!el) return;
-  let h=`<div class="fxtop"><span>Evasão <b>${evasao()}</b></span><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
+  let h=`<div class="fxline" id="tokLine"></div><div class="fxtop"><span>Evasão <b>${evasao()}</b></span><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
   // estados
   if(F.states&&F.states.length) h+=`<div class="fxrow">${F.states.map(s=>`<button class="chip2 ${stOn(s.id)?'on':''}" data-fxst="${s.id}" title="${esc(s.txt)}">${esc(s.nome)}</button>`).join('')}</div>`;
   // marca (caçador)
@@ -1932,7 +1933,7 @@ function renderFx(){
     const pips=a.use?`<span class="up">${Array.from({length:a.use.max},(_,j)=>`<i class="${j<a.use.max-left?'used':''}"></i>`).join('')}<small>${PERN[a.use.per]||''}</small></span>`:'';
     return `<div class="fxa"><div><b>${esc(a.nome)}</b>${a.txt?`<span>${esc(a.txt)}</span>`:''}</div>${pips}<button class="mini" data-fxact="${i}" ${a.use&&left<=0?'disabled':''}>${a.spend?'gastar':'usar'}${a.cost?' · '+costTxt(a.cost):''}${a.roll?` · ${a.roll[0]}d${a.roll[1]}${a.roll[2]?'+'+a.roll[2]:''}`:''}</button></div>`; }).join('')}</div>`;
   h+=`<div class="fxrest"><button data-fxrest="curto">Descanso curto</button><button data-fxrest="longo">Descanso longo</button><button data-fxrest="sessao">Nova sessão</button></div>`;
-  el.innerHTML=h;
+  el.innerHTML=h; tokenLine();
 }
 async function fxSave(){ renderFx(); renderTrackers(); await saveSheet(); }
 document.addEventListener('change',async ev=>{
@@ -1943,7 +1944,7 @@ document.addEventListener('click',async ev=>{
   const st=t.closest('[data-fxst]'); if(st){ X.st[st.dataset.fxst]=!X.st[st.dataset.fxst]; await fxSave(); return; }
   const mk=t.closest('[data-fxmarca]'); if(mk){ X.marca=null; await fxSave(); announce('encerrou a Marca da Presa.'); return; }
   const dt=t.closest('[data-fxdet]'); if(dt){ const a=dt.dataset.fxdet;
-    if(a==='go'){ X.u.det=(X.u.det||0)+1; X.det=1; announce('ficou Determinado (dado 1/6).','WARNING'); }
+    if(a==='go'){ X.u.det=(X.u.det||0)+1; X.det=1; announce('ficou Determinado (dado 1/6).','WARNING'); playFx(FXK['Determinação']); }
     else if(a==='up'){ if(X.det>=6){ X.det=null; announce('a Determinação passou do máximo e se encerrou.'); } else X.det++; }
     else { X.det=null; }
     await fxSave(); return; }
@@ -1959,7 +1960,7 @@ document.addEventListener('click',async ev=>{
     else announce(`gastou um Dado de Oração: ${how==='roll'?'+':'−'}${v} ${how==='roll'?'na rolagem':'no dano'}.`,'SUCCESS');
     await fxSave(); return; }
   const hp=t.closest('[data-fxhope]'); if(hp){ const H=F.hope; if(!canPay({esp:H.custo})) return; pay({esp:H.custo});
-    if(H.state) X.st[H.state]=true; if(H.fx) H.fx(); await fxSave(); announce(`${H.nome} (${H.custo} ❂) — ${H.txt}`,'SUCCESS'); return; }
+    if(H.state) X.st[H.state]=true; if(H.fx) H.fx(); await fxSave(); announce(`${H.nome} (${H.custo} ❂) — ${H.txt}`,'SUCCESS'); playFx(FXK[H.nome]); return; }
   const ac=t.closest('[data-fxact]'); if(ac){ const a=F.acts[+ac.dataset.fxact];
     if(a.use&&usesLeft(a.use)<=0){ toast('Já usado neste '+(PERN[a.use.per]||'período')+'.'); return; }
     if(a.spend){ const k=F.counters.find(x=>x.id===a.spend), have=X.c[k.id]??cntMax(k);
@@ -1968,10 +1969,10 @@ document.addEventListener('click',async ev=>{
     if(!canPay(a.cost)) return; const pago=pay(a.cost); if(a.use) X.u[a.use.id]=(X.u[a.use.id]||0)+1;
     if(a.state) X.st[a.state]=true; if(a.fill){ const k=F.counters.find(x=>x.id===a.fill); X.c[k.id]=cntMax(k); } if(a.fx) a.fx();
     let extra=''; if(a.roll){ const r=await rollExpr(a.roll[0],a.roll[1],a.roll[2]||0,a.nome); extra=` → ${r.tot}`; toast(`${a.nome}: ${r.tot}`); }
-    await fxSave(); announce(`${a.nome}${pago?' ('+pago+')':''}${a.txt?' — '+a.txt:''}${extra}`); return; }
+    await fxSave(); announce(`${a.nome}${pago?' ('+pago+')':''}${a.txt?' — '+a.txt:''}${extra}`); playFx(FXK[a.nome]); return; }
   const sp=t.closest('[data-fxspend]'); if(sp){ const [ai,n]=sp.dataset.fxspend.split(':').map(Number); const a=F.acts[ai]; const k=F.counters.find(x=>x.id===a.spend);
     X.c[k.id]=(X.c[k.id]??cntMax(k))-n; const r=await rollExpr(n,a.die,0,a.nome); await fxSave();
-    showDmgOnly(`${a.nome} · ${n}d${a.die}`, r, true); announce(`${a.nome}: ${n} marcador(es) → ${r.tot} de dano mágico.`); return; }
+    showDmgOnly(`${a.nome} · ${n}d${a.die}`, r, true); playFx(FXK[a.nome]); announce(`${a.nome}: ${n} marcador(es) → ${r.tot} de dano mágico.`); return; }
   const rs=t.closest('[data-fxrest]'); if(rs){ fxRest(rs.dataset.fxrest); return; }
 });
 async function fxRest(kind){
@@ -2007,6 +2008,73 @@ function optsFor(ctx){
   const F=FXC(); const isW=ctx.tipo==='wpn';
   return (F.opts||[]).filter(o=>okItem(o)&&!(o.wpn&&!isW)&&!(o.test&&isW)&&!(o.unless&&stOn(o.unless))&&!(o.unlessMarca&&fxS().marca)&&!(o.use&&usesLeft(o.use)<=0));
 }
+
+/* ======================================================================
+   TOKENS NO MAPA + EFEITOS DO EMBERS
+   O token do personagem é achado pelo nome (ex.: "Redentor"); o alvo é o
+   que o jogador selecionou no mapa. Os efeitos vão para o Embers pelo
+   canal de mensagens dele (eu.armindo.embers/effects).
+   ====================================================================== */
+const EMB='eu.armindo.embers/effects';
+const nrm=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/^(o|a|os|as)\s+/,'').trim();
+async function sceneChars(){ if(demo) return []; try{ return await OBR.scene.items.getItems(i=>i.layer==='CHARACTER'); }catch(e){ return []; } }
+async function findMyToken(){
+  if(!C) return null; const items=await sceneChars();
+  if(S.token){ const t=items.find(i=>i.id===S.token); if(t) return t; }
+  const key=nrm(C.nome); return items.find(i=>{ const n=nrm(i.name); return n&&(n===key||n.includes(key)||(n.length>3&&key.includes(n))); })||null;
+}
+function tsize(it){ const g=(it.image&&it.grid)?Math.max(it.image.width,it.image.height)/it.grid.dpi:1; return Math.max(Math.abs(it.scale?.x||1),Math.abs(it.scale?.y||1))*g; }
+async function selTargets(excl){ if(demo) return []; try{ const sel=(await OBR.player.getSelection())||[]; const ids=sel.filter(id=>id!==excl); return ids.length?await OBR.scene.items.getItems(ids):[]; }catch(e){ return []; } }
+async function sendEmbers(instructions,name){ if(demo||!instructions.length) return; try{ const pid=await OBR.player.getId(); OBR.broadcast.sendMessage(EMB,{instructions,spellData:{name,caster:pid}},{destination:'ALL'}); }catch(e){} }
+async function playFx(spec){
+  if(!spec||demo||cfg.embers===false) return;
+  try{
+    const me=await findMyToken(); const tg=await selTargets(me&&me.id); const ins=[];
+    if(spec.proj&&me&&tg.length){ tg.forEach(t=>ins.push({type:'effect',id:spec.proj,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}})); }
+    else if((spec.hit||(spec.proj&&spec.fall))&&(tg.length||me)){ const id=spec.hit||spec.fall; (tg.length?tg:[me]).forEach(t=>ins.push({type:'effect',id,effectProperties:{source:t.position,size:tsize(t)*(spec.sz||1)}})); }
+    else if(spec.self&&me){ ins.push({type:'effect',id:spec.self,effectProperties:{source:me.position,size:tsize(me)*(spec.sz||2)}}); }
+    await sendEmbers(ins,spec.proj||spec.hit||spec.self);
+  }catch(e){}
+}
+const FXW={ // armas
+ 'Lâmina do Retorno':{proj:'generic.weapon_attacks.ranged.dagger.throw',fall:'generic.weapon_attacks.melee.single.dagger'},
+ 'Adaga pequena':{hit:'generic.weapon_attacks.melee.single.dagger'},'Adaga':{hit:'generic.weapon_attacks.melee.single.dagger'},'Adaga de Caça':{hit:'generic.weapon_attacks.melee.single.dagger'},
+ 'Cajado Curto':{proj:'generic.ranged_spell.instant.dark_orange',fall:'generic.impact.fire'},
+ 'Escudo Redondo':{hit:'generic.impact.dropshadow'},'Escudo-Torre':{hit:'generic.impact.dropshadow'},
+ 'Machado Sagrado':{hit:'divine_smite.target'},'Varinha':{proj:'guiding_bolt',fall:'sacred_flame.target'},
+ 'Martelo de Guerra':{hit:'generic.weapon_attacks.melee.single.warhammer'},'Sopro de Fogo':{proj:'fire_bolt',fall:'generic.impact.fire'},
+ 'Espada Longa':{hit:'generic.weapon_attacks.melee.single.sword'},'Arco Longo':{proj:'generic.weapon_attacks.ranged.arrow.white',fall:'generic.impact.dropshadow'},
+ 'Lira-Cetro':{hit:'generic.template.circle.outpulse.music_notes.burst'},'Língua':{hit:'generic.creature.bite'},
+};
+const FXK={ // cartas, feitiços dos grimórios e ações de classe
+ 'Vinha Voraz':{hit:'generic.nature.vine_nature.thorns.1.complete'},'Raio Luminoso':{proj:'guiding_bolt',fall:'sacred_flame.target'},'Chama Selvagem':{hit:'generic.impact.fire'},
+ 'Círculo Rúnico':{self:'generic.magic_signs.evocation_circle.dark_red.complete',sz:3},'Bola de Fogo':{proj:'fireball.beam',fall:'fireball.explosion'},'Incendiar':{hit:'generic.fire.eruption'},
+ 'Corrente de Relâmpagos':{proj:'chain_lightning.primary',fall:'generic.lightning.lightning_strike'},'Impacto Defensivo':{self:'generic.impact.dropshadow',sz:3},
+ 'Espírito da Meia-noite':{hit:'spiritual_weapon.spectral_green_longsword'},'Caos Liberto':{proj:'eldritch_blast',fall:'generic.impact.fire'},'Saraivada Arcana':{proj:'eldritch_blast',fall:'generic.impact.fire'},
+ 'Propelir':{hit:'generic.impact.dropshadow'},'Estaca de Gelo':{proj:'generic.ranged_spell.ice_shard',fall:'generic.impact.ice_shard'},'Vaga-Lumes':{self:'generic.fireflies.many',sz:3},
+ 'Tronco Descomunal':{hit:'generic.nature.group_vine.1.complete'},'Sonolência':{hit:'sleep.symbol.dark_pink'},'Amarração Mística':{hit:'generic.nature.vine_nature.simple.1.complete'},
+ 'Sombra Traiçoeira':{self:'darkness.black.transparent',sz:3},'Véu da Noite':{self:'darkness.black.transparent',sz:4},'Silêncio':{hit:'darkness.black.transparent'},'Glifo do Ocaso':{hit:'generic.magic_signs.necromancy_circle.dark_green.complete'},
+ 'Regeneração':{hit:'generic.healing.green'},'Proteção Druídica':{self:'generic.healing.green',sz:3},'Toque Piedoso':{hit:'generic.healing.yellow'},'Alicerce da Vida':{hit:'generic.healing.yellow'},
+ 'Toque Reparador':{hit:'generic.healing.blue'},'Mãos Curativas':{hit:'cure_wounds'},'Campo Curativo':{self:'generic.healing.green',sz:4},
+ 'Canção Comovente':{self:'generic.template.circle.outpulse.music_notes.burst',sz:3},'Canção Épica':{hit:'generic.marker.music'},'Canção Relaxante':{self:'generic.template.circle.outpulse.music_notes.burst',sz:3},
+ 'Inspiração (dar d8 ao grupo)':{self:'generic.template.circle.outpulse.music_notes.burst',sz:3},'Fazer uma Cena':{hit:'generic.marker.music'},'Lampejo Hipnótico':{self:'generic.magic_signs.illusion_circle.dark_purple.complete',sz:3},
+ 'Invisibilidade':{hit:'generic.magic_signs.illusion_circle.dark_purple.complete'},'Linha de Frente':{self:'generic.energy.shield_eldritch_web.above'},'Forma de Fera':{self:'generic.creature.claws'},'Evolução':{self:'generic.creature.claws'},
+ 'Passo Sombrio':{self:'darkness.black.transparent'},'Esquiva de Ladino':{self:'darkness.black.transparent'},'Conjurar Enxame — besouros':{self:'generic.energy.shield_eldritch_web.above'},
+ 'Punição':{self:'divine_smite.caster'},'Evasão Natural':{self:'generic.fire.shield.fire.above'},'Determinação':{self:'generic.fire.shield.molten.above'},'Sem Piedade':{self:'generic.weapon_attacks.melee.single.generic_whirlwind'},
+ 'Segurem Eles':{self:'generic.weapon_attacks.melee.single.generic_whirlwind'},'Não Dessa Vez':{hit:'generic.magic_signs.abjuration_circle.dark_blue.complete'},'Magia Volátil':{hit:'generic.impact.fire'},
+};
+async function tokenLine(){
+  const el=$('tokLine'); if(!el) return;
+  if(demo){ el.innerHTML='<span class="dim">Tokens e efeitos do Embers funcionam dentro do Owlbear.</span>'; return; }
+  const t=await findMyToken();
+  el.innerHTML=`<b>🎯 Token</b><span>${t?`${esc(t.name||'sem nome')}${S.token?' (vinculado)':' (achado pelo nome)'} · efeitos do Embers ${cfg.embers===false?'desligados':'ligados'}`:'nenhum token com o nome do personagem no mapa — selecione o seu e clique em vincular'}</span><button class="mini" data-tok="link">vincular selecionado</button>${S.token?'<button class="mini" data-tok="unlink">desvincular</button>':''}`;
+}
+document.addEventListener('click',async ev=>{
+  const b=ev.target.closest('[data-tok]'); if(!b||!C||demo) return;
+  if(b.dataset.tok==='link'){ const sel=(await OBR.player.getSelection())||[]; if(sel.length!==1){ toast('Selecione só o seu token no mapa.'); return; } S.token=sel[0]; toast('Token vinculado.'); }
+  else S.token=null;
+  await saveSheet(); tokenLine();
+});
 
 /* ---------- motor de dualidade ---------- */
 function parseDuality(result,mode){
@@ -2098,6 +2166,8 @@ $('rdGo').onclick=async()=>{
   await fxSave();
   if(pago) announce(`${ctx.nome}: ${e.notes.join(' · ')} (${pago})`);
   showResult(last);
+  if(ctx.tipo==='wpn') playFx(FXW[ctx.arma.nome]||{hit:'generic.weapon_attacks.melee.single.generic_slash'});
+  else if(/^Conjuração — /.test(ctx.nome)) playFx(FXK[ctx.nome.replace('Conjuração — ','')]);
 };
 function dmgValue(L){ const d=L.dmg; if(!d) return null; let v=d.sum; if(L.crit) v+=d.max; if(L.e.double) v*=2; return v; }
 function showResult(L){
@@ -2239,7 +2309,8 @@ document.addEventListener('click',async ev=>{
   if(!C) return;
   const cs=ev.target.closest('[data-cast]'); if(cs){ const c=C.cartas[+cs.dataset.cast]; openRollDlg({tipo:'attr',nome:'Conjuração — '+c.nome,mod:AT(SC[C.code])}); return; }
   const cd=ev.target.closest('[data-cd]'); if(cd){ const [i,j]=cd.dataset.cd.split(':').map(Number); const c=C.cartas[i], d=cardDice(c)[j];
-    const r=await rollExpr(d.n,d.d,d.flat); showDmgOnly(`${d.nome} · ${d.n}d${d.d}${d.flat?'+'+d.flat:''}`,r,d.mag); return; }
+    const r=await rollExpr(d.n,d.d,d.flat); showDmgOnly(`${d.nome} · ${d.n}d${d.d}${d.flat?'+'+d.flat:''}`,r,d.mag);
+    if(d.nome!==c.nome||!/Feitiço|Grimório/.test(c.meta)) playFx(FXK[d.nome]||FXK[c.nome]); return; }
   const cv=ev.target.closest('[data-cdv]'); if(cv){ const [i,j]=cv.dataset.cdv.split(':').map(Number); const c=C.cartas[i], d=cardDice(c)[j]; const n=+$('ve-'+i+'-'+j).value;
     if(!canPay({esp:n})) return; pay({esp:n}); const r=await rollExpr(n,d.d,0); await fxSave(); announce(`${d.nome}: gastou ${n} ❂ → ${r.tot} de dano.`); showDmgOnly(`${d.nome} · ${n}d${d.d}`,r,d.mag); return; }
   const ad=ev.target.closest('[data-adepto]'); if(ad){ const e=C.experiencias[+ad.dataset.adepto]; if(!canPay({pf:1})) return; pay({pf:1}); S.pend={nome:e.nome+' (Adepto ×2)',mod:e.mod*2}; renderPend(); await fxSave(); announce(`Adepto: usou ${e.nome} marcando 1 PF (+${e.mod*2}).`); return; }
@@ -2403,13 +2474,13 @@ function refreshTop(m){
 
 /* ---------- config ---------- */
 $('btnCfg').onclick=()=>{
-  $('cfgHope').value=cfg.hope;$('cfgFear').value=cfg.fear;$('cfgAdv').value=cfg.adv;$('cfgDP').checked=cfg.useDP;
+  $('cfgHope').value=cfg.hope;$('cfgFear').value=cfg.fear;$('cfgAdv').value=cfg.adv;$('cfgDP').checked=cfg.useDP;$('cfgEmb').checked=cfg.embers!==false;
   $('cfgDlg').classList.add('on');
   pingDP().then(ok=>{dpOK=ok;$('dpDot').classList.toggle('ok',ok);$('dpStat').textContent=ok?'Dice+: conectado':'Dice+: não encontrado (uso rolagem interna)';});
 };
 $('cfgOk').onclick=()=>{
   cfg.hope=$('cfgHope').value.trim()||'Esperanca';cfg.fear=$('cfgFear').value.trim()||'Medo';
-  cfg.adv=$('cfgAdv').value.trim();cfg.useDP=$('cfgDP').checked;saveCfg();
+  cfg.adv=$('cfgAdv').value.trim();cfg.useDP=$('cfgDP').checked;cfg.embers=$('cfgEmb').checked;saveCfg();
   $('cfgDlg').classList.remove('on');
 };
 $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.display='block';};
@@ -2428,7 +2499,7 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
   if(ME.role==='GM'&&!demo){ $('gmNote').style.display='block'; const mm=await api.getMeta(); if(mm[K.sheet+ME.id]) await api.setMeta({[K.sheet+ME.id]:undefined}); }
   else try{
     const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null');
-    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null};renderSheet();}
+    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null,token:sv.token||null};renderSheet();}
   }catch(e){}
   (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagem interna por enquanto)'; $('btnCfg').textContent=(ok?'🟢':'⚙')+' Dice+'; if(!ok&&cfg.useDP) setTimeout(dpWatch,5000); })();
 })();
