@@ -225,6 +225,29 @@ details.hab p{padding:2px 0 7px 10px;font-size:11.5px;line-height:1.5;color:#3a2
 .settings input[type=text]{width:100%;background:var(--paper);border:1.5px solid var(--bone);border-radius:3px;color:var(--bone);font-family:var(--tele);font-size:13px;padding:7px}
 .demo-note{border:1px dashed var(--bile);color:#6b4708;border-radius:3px;font-size:10px;padding:7px 10px;margin-bottom:10px;display:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ===== celular / toque ===== */
+html{-webkit-text-size-adjust:100%} body{overflow-x:hidden}
+img,svg{max-width:100%}
+@media (pointer:coarse),(max-width:400px){
+  button{min-height:36px;touch-action:manipulation}
+  .mini,.x,.rollbtn{min-height:36px;padding:8px 11px;font-size:10.5px}
+  input,select,textarea{font-size:16px!important}
+  .pip{width:22px!important;height:22px!important}
+  .pips{gap:6px}
+  .fpips i{width:25px;height:25px}
+  .tabs button{padding:13px 2px;font-size:11.5px}
+  .tier button{padding:9px 14px}
+  details.adv summary{padding:11px 10px}
+  .ft{font-size:12.5px} details.adv .bd2{font-size:12.5px}
+  .dmg input{width:76px;padding:7px}
+  .fxline{flex-wrap:wrap}
+}
+@media (max-width:380px){
+  .spend{grid-template-columns:1fr}
+  .topbar .ttl b{font-size:15px}
+  .ci .hd{flex-wrap:wrap}
+  .srch input{flex-basis:100%}
+}
 /* ===== mesa do mestre ===== */
 .fearbox{background:var(--paper);border:2px solid var(--bone);outline:1px solid var(--bone);outline-offset:-6px;padding:14px 14px 12px;text-align:center;box-shadow:2px 3px 0 rgba(42,26,15,.2)}
 .fearbox .n{font-family:var(--rye);font-size:44px;line-height:1;color:var(--blood)}
@@ -284,7 +307,7 @@ details.adv .bd2{padding:0 10px 10px;font-size:11.5px;line-height:1.5}
 .gate{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;text-align:center;gap:8px}
 .gate h1{font-size:26px}
 </style><script>
-const BUILD='20261120125003';
+const BUILD='20261120182530';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -311,7 +334,7 @@ const BUILD='20261120125003';
   <div class="frow" style="justify-content:flex-start;margin-bottom:9px"><button class="x" id="cClean">tirar derrotados</button><button class="x" id="cClear">encerrar combate</button><button class="x" id="tgl">rolagens: todos veem</button><button class="x" id="fxT"></button></div>
   <div id="cList"></div>
   <div class="small" id="dpS" style="text-transform:none;letter-spacing:0;margin-top:6px"></div>
-  <p class="small" style="text-transform:none;letter-spacing:0;line-height:1.5;margin-top:8px">Animações (Embers): selecione no mapa o token do alvo antes de clicar em atacar ou usar. Sem alvo, o efeito aparece no próprio adversário. Ataques em área atingem os tokens dos personagens.</p>
+  <p class="small" style="text-transform:none;letter-spacing:0;line-height:1.5;margin-top:8px">Animações (Embers): selecione no mapa o token do alvo antes de clicar em atacar ou usar. Sem alvo, o efeito aparece no token do adversário (ou no centro da tela, se ele ainda não tiver token). Ataques em área atingem os tokens dos personagens.</p>
 </div>
 <div class="tab" id="tab-best">
   <div class="srch"><div class="tier" id="bTier"><button data-t="1">1º</button><button data-t="2">2º</button><button data-t="3">3º</button></div><input id="bQ" placeholder="buscar adversário…"><select id="bTipo"></select></div>
@@ -391,8 +414,19 @@ async function autoLink(){ if(demo||!cmb.length) return false; const items=await
     if(t){ c.tok=t.id; used.add(t.id); ch=true; } });
   return ch; }
 async function viewCenter(){ try{ const w=await OBR.viewport.getWidth(), h=await OBR.viewport.getHeight(); const p=await OBR.viewport.inverseTransformPoint({x:w/2,y:h/2}); return await OBR.scene.grid.snapPosition(p); }catch(e){ return {x:0,y:0}; } }
+const TSLUG=t=>'t-'+nrm(t).split(' ')[0];
 async function placeToken(c){
-  if(demo){ toast('Fora do Owlbear: abriria os seus Assets › Personagens buscando “'+B(c).nome+'”.'); return; }
+  if(demo){ toast('Fora do Owlbear: colocaria o token de '+c.nome+' no centro da tela.'); return; }
+  try{ const b=B(c), pos=await viewCenter(); let dpi=150; try{ dpi=await OBR.scene.grid.getDpi(); }catch(e){}
+    const k=cmb.filter(x=>x.tok).length; pos.x+=dpi*((k%5)-2); pos.y+=dpi*Math.floor(k/5);
+    const sc=/^Solo/.test(b.tipo)?2:/^Brutamonte|^Líder/.test(b.tipo)?1.5:1;
+    const it=buildImage({url:new URL('../terras-aridas/tokens/'+TSLUG(b.tipo)+'.png',location.href).href,width:400,height:400,mime:'image/png'},{dpi:400,offset:{x:200,y:200}})
+      .name(c.nome).plainText(c.nome).textItemType('LABEL').layer('CHARACTER').position(pos).scale({x:sc,y:sc}).build();
+    await OBR.scene.items.addItems([it]); c.tok=it.id; paintCmb(); saveCmb(); toast(c.nome+' entrou no mapa.');
+  }catch(e){ toast('Não deu para colocar o token: '+(e&&e.message||e)); }
+}
+async function placeAsset(c){
+  if(demo){ toast('Fora do Owlbear.'); return; }
   let got; try{ got=await OBR.assets.downloadImages(false,B(c).nome,'CHARACTER'); }catch(e){ toast('Não deu para abrir os Assets.'); return; }
   if(!got||!got.length) return; const d=got[0]; const pos=await viewCenter();
   let b=buildImage(d.image,d.grid).name(c.nome).position(pos).rotation(d.rotation||0).scale(d.scale||{x:1,y:1}).visible(d.visible!==false).locked(!!d.locked).layer(d.type||'CHARACTER');
@@ -444,11 +478,12 @@ async function runFx(c,steps,name){
     if(!me&&await autoLink()){ saveCmb(); paintCmb(); items=await chars(); me=c.tok&&items.find(i=>i.id===c.tok); }
     const sel=((await OBR.player.getSelection())||[]).filter(id=>id!==c.tok); const tg=sel.length?items.filter(i=>sel.includes(i.id)):[];
     const names=pcNames(); const pcs=items.filter(i=>names.has(nrm(i.name))||/^\s*pc\s*-/i.test(i.name||''));
+    const here=me||(tg.length?null:{position:await viewCenter()}); const self=here?[here]:[];
     const ins=[]; const add=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:tsize(t)*(z||1)}});
     for(const st of steps){
-      if(st.s&&me) add(st.s,me,st.z,st.d);
-      if(st.t) (tg.length?tg:me?[me]:[]).forEach(t=>add(st.t,t,st.z,st.d));
-      if(st.a) (tg.length?tg:pcs.length?pcs:me?[me]:[]).forEach(t=>add(st.a,t,st.z,st.d));
+      if(st.s&&here) add(st.s,here,st.z,st.d);
+      if(st.t) (tg.length?tg:self).forEach(t=>add(st.t,t,st.z,st.d));
+      if(st.a) (tg.length?tg:pcs.length?pcs:self).forEach(t=>add(st.a,t,st.z,st.d));
       if(st.p&&me&&tg.length) tg.forEach(t=>ins.push({type:'effect',id:st.p,delay:st.d||0,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}}));
     }
     if(ins.length) OBR.broadcast.sendMessage(EMB,{instructions:ins,spellData:{name,caster:ME.id}},{destination:'ALL'});
@@ -483,7 +518,7 @@ function paintCmb(){
         <button class="rollbtn" data-dmgr="${c.id}">dano ${dn?dn.replace(/\s/g,''):esc(b.dano)}</button>
         ${b.exp?`<button class="rollbtn medo" data-exp="${c.id}" title="${esc(b.exp)}">Experiência · 1 Medo</button>`:''}</div>
       <details><summary class="small" style="cursor:pointer">habilidades (${b.feats.length})${b.exp?' · '+esc(b.exp):''}</summary><div style="margin-top:6px">${b.feats.map((f,j)=>featHTML(f,j,'c:'+c.id)).join('')}</div></details>
-      <div class="tokr">${c.tok?'🎯 token no mapa':'sem token'} <button class="x" data-ctok="${c.id}:put">colocar token</button><button class="x" data-ctok="${c.id}:sel">vincular seleção</button></div></div>`; }).join('');
+      <div class="tokr">${c.tok?'🎯 token no mapa':'sem token'} <button class="x" data-ctok="${c.id}:put">colocar token</button><button class="x" data-ctok="${c.id}:ast">dos meus assets</button><button class="x" data-ctok="${c.id}:sel">vincular seleção</button></div></div>`; }).join('');
 }
 const findC=id=>cmb.find(c=>c.id===id);
 
@@ -534,7 +569,7 @@ document.body.addEventListener('click',async ev=>{
     toast(`${c.nome}: ${d} de dano → marca ${c.pv-was} PV`); if(c.pv>=b.pv&&was<b.pv){ shout(`☠ ${c.nome} caiu.`,'ERROR'); runFx(c,[{s:'generic.smoke.puff',z:1.3}],'caiu'); } return; }
   const at=t.closest('[data-atk]'); if(at){ const c=findC(at.dataset.atk), b=B(c); runFx(c,fxAtk(b.arma,b.alc,b.dano),b.arma); await roll(`1d20${b.atq>=0?'+':''}${b.atq}`,`${c.nome} · ataque (${b.arma})`); return; }
   const dr=t.closest('[data-dmgr]'); if(dr){ const c=findC(dr.dataset.dmgr), b=B(c); const dn=(b.dano.match(/\d+d\d+(?:\s*[+\-]\s*\d+)?/)||[])[0];
-    if(dn) await roll(dn.replace(/\s/g,''),`${c.nome} · dano (${b.dano.replace(/^[\dd+\- ]+/,'').trim()})`); else toast(`${c.nome}: dano fixo ${b.dano}`); return; }
+    runFx(c,[{t:/mag/.test(b.dano)?'generic.impact.orange.2':'generic.impact.dropshadow',z:1.3}],'dano'); if(dn) await roll(dn.replace(/\s/g,''),`${c.nome} · dano (${b.dano.replace(/^[\dd+\- ]+/,'').trim()})`); else toast(`${c.nome}: dano fixo ${b.dano}`); return; }
   const ex=t.closest('[data-exp]'); if(ex){ const c=findC(ex.dataset.exp); if(await spend(1,`${c.nome} usa uma Experiência`)) toast(`${c.nome}: ${B(c).exp} no teste.`); return; }
   const us=t.closest('[data-use]'); if(us){ const [w,id,j]=us.dataset.use.split(':'); const c=w==='c'?findC(id):null; const f=(w==='c'?B(c):AMB[+id]).feats[+j]; const k=costs(f[2]);
     if(k.pf&&c){ if(c.pf+k.pf>B(c).pf){ toast(`${c.nome} não tem Fadiga para isso.`); return; } }
@@ -544,7 +579,7 @@ document.body.addEventListener('click',async ev=>{
     if(c) runFx(c,fxFeat(f,k.medo),f[0]); toast(`${f[0]}: ${f[2].slice(0,110)}${f[2].length>110?'…':''}`); return; }
   const rm=t.closest('[data-crm]'); if(rm){ cmb=cmb.filter(c=>c.id!==rm.dataset.crm); paintCmb(); saveCmb(); return; }
   const tk=t.closest('[data-ctok]'); if(tk){ const [id,op]=tk.dataset.ctok.split(':'); const c=findC(id); if(!c) return;
-    if(op==='put'){ await placeToken(c); return; }
+    if(op==='put'){ await placeToken(c); return; } if(op==='ast'){ await placeAsset(c); return; }
     if(demo){ toast('Fora do Owlbear.'); return; } const sel=(await OBR.player.getSelection())||[]; if(sel.length!==1){ toast('Selecione um token no mapa.'); return; }
     c.tok=sel[0]; paintCmb(); saveCmb(); toast('Token vinculado a '+c.nome+'.'); return; }
   const as=t.closest('[data-ambset]'); if(as){ ev.preventDefault(); await api.setMeta({[K.amb]:+as.dataset.ambset}); toast('Ambiente ativado: '+AMB[+as.dataset.ambset].nome); return; }
@@ -566,7 +601,7 @@ function paint(m){ lastMeta=m||{}; fear=lastMeta[K.fear]||0; const nc=lastMeta[K
   const na=lastMeta[K.amb]; amb=(na!=null&&AMB[na])?na:null; paintFear(); ambOn(); paintBando(); }
 (async()=>{
   await api.ready(); ME=await api.me();
-  if(!demo&&ME.role!=='GM'){ document.body.innerHTML='<div class="gate"><div class="stars">★ ★ ★</div><h1>Só o xerife</h1><p class="small">esta mesa é do mestre</p></div>'; try{ await OBR.action.setHeight(240); }catch(e){} return; }
+  if(!demo&&ME.role!=='GM'){ location.replace(new URL('../terras-aridas/index.html'+location.search,location.href).href); return; }
   $('bTipo').innerHTML='<option value="">todos os tipos</option>'+[...new Set(BEST.map(b=>b.tipo.split(' ')[0]))].sort().map(t=>`<option>${t}</option>`).join('');
   paintCmb(); paintBest(); paintAmb(); paint(await api.getMeta()); api.onMeta(paint);
   if(!demo){ try{ const upd=ps=>{ partyIds=new Set(ps.map(p=>p.id)); paintBando(); }; upd(await OBR.party.getPlayers()); OBR.party.onChange(upd); OBR.player.onChange(p=>{ if(p.role!==ME.role) location.reload(); }); }catch(e){} }
