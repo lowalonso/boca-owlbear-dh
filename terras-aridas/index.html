@@ -259,7 +259,7 @@ img,svg{max-width:100%}
 .tks.pot i.on{background:linear-gradient(#e8b0a6 0 22%,#b5321f 22%);border-color:#5e1508}
 .tks.pot2 i.on{background:linear-gradient(#b9c9e2 0 22%,#3f5f9c 22%);border-color:#1f2f55}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261120184644';
+const BUILD='20261120190212';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -298,6 +298,13 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
     <div class="mot" id="cMot"></div>
   </div>
 
+  <div class="sec">Atributos — clique para rolar</div>
+  <div class="attrs" id="attrs"></div>
+
+  <div class="sec">Experiências</div>
+  <div class="pend" id="pend"></div>
+  <div id="exps"></div>
+
   <div class="sec">Couro &amp; Fôlego</div>
   <div id="trackers"></div>
   <div class="thr">
@@ -309,15 +316,8 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <div class="sec">Coldre — recursos da classe</div>
   <div id="fx"></div>
 
-  <div class="sec">Atributos — clique para rolar</div>
-  <div class="attrs" id="attrs"></div>
-
   <div class="sec">Armas — ataque + dano</div>
   <div id="wpns"></div>
-
-  <div class="sec">Experiências</div>
-  <div class="pend" id="pend"></div>
-  <div id="exps"></div>
 
   <div class="sec">Cartas de Classe &amp; Herança</div>
   <div id="ccards"></div>
