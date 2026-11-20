@@ -6,6 +6,7 @@ const NS='com.terras-aridas';
 const abs=p=>new URL(p,location.href).href;
 function once(id){ if(!id) return true; try{ const k='ta-seen-'+id; if(localStorage.getItem(k)) return false; localStorage.setItem(k,'1'); setTimeout(()=>{try{localStorage.removeItem(k)}catch(e){}},60000); }catch(e){} return true; }
 if(OBR.isAvailable) OBR.onReady(async()=>{
+  try{ const gm=async()=>{ await OBR.action.setTitle((await OBR.player.getRole())==='GM'?'Mesa do Xerife':'Ficha do Bando'); }; await gm(); OBR.player.onChange(gm); }catch(e){}
   OBR.broadcast.onMessage(NS+'/notify',ev=>{const d=ev.data; if(d?.msg&&once(d.id)) OBR.notification.show(d.msg,d.variant||'DEFAULT').catch(()=>{});});
   OBR.broadcast.onMessage(NS+'/card',async ev=>{
     const d=ev.data||{}; if(!once(d.id?'card-'+d.id:null)) return;
