@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Carta</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rye&family=Bitter:ital,wght@0,400;0,600;1,400&family=Courier+Prime:wght@400;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Bitter',Georgia,serif;background:transparent;display:flex;align-items:flex-start;justify-content:center;padding:8px}
+.card{position:relative;width:350px;background:#f6ecd2;border:2px solid #2a1a0f;outline:1px solid #2a1a0f;outline-offset:-7px;padding:18px 20px 14px;color:#2a1a0f;text-align:center;
+ box-shadow:4px 5px 0 rgba(0,0,0,.45),0 18px 40px rgba(0,0,0,.5);animation:in .35s ease;
+ background-image:radial-gradient(70% 40% at 15% 10%,rgba(122,95,61,.18),transparent 70%),radial-gradient(60% 40% at 90% 95%,rgba(122,95,61,.2),transparent 70%)}
+@keyframes in{from{opacity:0;transform:translateY(-14px) rotate(-2deg)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.card{animation:none}}
+.k{font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#7a5f3d;margin-bottom:4px}
+h1{font-family:'Rye',Georgia,serif;font-weight:400;font-size:21px;line-height:1.15;color:var(--c,#9c2b1b);margin-bottom:8px}
+h1::before,h1::after{content:" ★ ";font-size:11px;vertical-align:3px;color:#2a1a0f}
+p{font-size:12.5px;line-height:1.55;color:#3a2716;max-height:170px;overflow:auto;text-align:left;border-top:1px solid #2a1a0f;border-bottom:1px solid #2a1a0f;padding:8px 2px}
+.p{margin-top:9px;font-family:'Courier Prime',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a5f3d;display:flex;justify-content:space-between;align-items:center}
+button{font-family:'Courier Prime',monospace;font-weight:700;background:none;border:1px solid #2a1a0f;color:#2a1a0f;border-radius:3px;padding:4px 10px;cursor:pointer;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+button:hover{background:#2a1a0f;color:#f6ecd2}
+</style></head><body>
+<div class="card" id="card">
+  <div class="k" id="t"></div><h1 id="n"></h1><p id="x"></p>
+  <div class="p"><span id="p"></span><button id="ok">fechar</button></div>
+</div>
+<script type="module">
+import OBR from "../obr-sdk.js";
+const q=new URLSearchParams(location.search);
+const set=(id,v)=>document.getElementById(id).textContent=v||'';
+set('t',q.get('t'));set('n',q.get('n'));set('x',q.get('x'));set('p',q.get('p'));
+document.getElementById('card').style.setProperty('--c',q.get('c')||'#9c2b1b');
+async function close(){ try{ if(OBR.isAvailable){await new Promise(r=>OBR.onReady(r)); await OBR.popover.close('com.terras-aridas/card');} }catch(e){} }
+document.getElementById('ok').onclick=close;
+setTimeout(close,14000);
+</script></body></html>
