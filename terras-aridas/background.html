@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Terras Áridas — fundo</title></head><body>
+<script type="module">
+// Roda escondido para todos na sala, mesmo com a ficha fechada: cartas mostradas a todos e avisos.
+import OBR from "../obr-sdk.js";
+const NS='com.terras-aridas';
+const abs=p=>new URL(p,location.href).href;
+function once(id){ if(!id) return true; try{ const k='ta-seen-'+id; if(localStorage.getItem(k)) return false; localStorage.setItem(k,'1'); setTimeout(()=>{try{localStorage.removeItem(k)}catch(e){}},60000); }catch(e){} return true; }
+if(OBR.isAvailable) OBR.onReady(async()=>{
+  OBR.broadcast.onMessage(NS+'/notify',ev=>{const d=ev.data; if(d?.msg&&once(d.id)) OBR.notification.show(d.msg,d.variant||'DEFAULT').catch(()=>{});});
+  OBR.broadcast.onMessage(NS+'/card',async ev=>{
+    const d=ev.data||{}; if(!once(d.id?'card-'+d.id:null)) return;
+    const q=new URLSearchParams({t:d.t||'',n:d.n||'',x:d.x||'',p:d.p||'',c:d.c||'#9c2b1b'}).toString();
+    try{ let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
+      await OBR.popover.open({id:NS+'/card',url:abs('card.html?'+q),width:372,height:330,
+        anchorReference:'POSITION',anchorPosition:{left:Math.max(196,w/2),top:70},
+        anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},hidePaper:true});
+    }catch(e){}
+  });
+});
+</script></body></html>
