@@ -255,7 +255,7 @@ img,svg{max-width:100%}
 .item input{font-weight:700}
 .item textarea{resize:vertical;font-family:inherit;line-height:1.4}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261120183348';
+const BUILD='20261120184323';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -711,7 +711,7 @@ const CHARS = {
   "dom": "Sangue & Esplendor",
   "ancestralidade": "Infernis + Angelis",
   "comunidade": "Erudita",
-  "motivo": "Pregador sem rebanho.",
+  "motivo": "Após ter visões sobre colossos no deserto, veio descobrir o que os antigos deuses planejam.",
   "recompensa": "$ 500",
   "cor": "#1f6f6d",
   "cor2": "#b98a2a",
@@ -722,8 +722,8 @@ const CHARS = {
    "Força": 1,
    "Acuidade": -1,
    "Instinto": 0,
-   "Presença": 1,
-   "Conhecimento": 2
+   "Presença": 2,
+   "Conhecimento": 1
   },
   "evasao": 9,
   "pvMax": 6,
@@ -736,21 +736,27 @@ const CHARS = {
   ],
   "armas": [
    {
-    "nome": "Cajado grande",
-    "desc": "principal · Conhecimento · Muito distante · d6 mág · duas mãos · Poderoso",
+    "nome": "Cetro",
+    "desc": "principal · Presença · Distante · d6 mág · duas mãos · Mágica",
     "dano": "1d6",
-    "atributo": "Conhecimento"
+    "atributo": "Presença"
+   },
+   {
+    "nome": "Cetro (corpo a corpo)",
+    "desc": "Versátil · Presença · Corpo a corpo · d8 mág",
+    "dano": "1d8",
+    "atributo": "Presença"
    }
   ],
   "experiencias": [
    {
     "nome": "Líder de campo",
-    "desc": "",
+    "desc": "Usado para influenciar nas atitudes de grupos.",
     "mod": 2
    },
    {
     "nome": "Epígono divino",
-    "desc": "",
+    "desc": "As diversas visões que tive durante a vida.",
     "mod": 2
    }
   ],
@@ -836,8 +842,8 @@ const CHARS = {
    {
     "secao": "Alforje",
     "tag": "Arma",
-    "nome": "Cajado grande",
-    "texto": "Poderoso: ao acertar, role +1 dado de dano e descarte o menor. Mágica."
+    "nome": "Cetro",
+    "texto": "Presença · Distante · d6 de dano mágico · duas mãos. Versátil: também pode ser usado com Presença em corpo a corpo, causando d8. Mágica."
    },
    {
     "secao": "Alforje",
@@ -854,14 +860,14 @@ const CHARS = {
    {
     "secao": "Terras Áridas",
     "tag": "Montaria",
-    "nome": "Cabra gigante",
+    "nome": "Cascavel gigante",
     "texto": "Não afeta as mecânicas nem dá vantagem em combate; facilita e acelera viagens por cidades e deserto."
    },
    {
     "secao": "Terras Áridas",
     "tag": "Entreposto",
-    "nome": "Prior",
-    "texto": "Líder solitário."
+    "nome": "Forasteiro",
+    "texto": "O enviado."
    },
    {
     "secao": "Terras Áridas",
@@ -872,8 +878,8 @@ const CHARS = {
    {
     "secao": "Terras Áridas",
     "tag": "Em jogo",
-    "nome": "Asas contra colossos",
-    "texto": "Eu posso voar e ajudar a derrotar os colossos."
+    "nome": "Contra os colossos",
+    "texto": "O conhecimento e suas habilidades aéreas permitem que ele consiga agir contra essas criaturas."
    }
   ]
  },
@@ -1549,7 +1555,7 @@ document.addEventListener('click',async ev=>{
 Object.assign(FXW,{
  'Montante':{hit:'generic.weapon_attacks.melee.single.great_sword'},
  'Punhos':{hit:'generic.unarmed_attacks.unarmed_strikes.physical.1'},'Runas de mão':{hit:'generic.energy.energy_attack.1'},'Laço':{hit:'generic.marker.red_chain.complete'},
- 'Rapieira':{hit:'generic.weapon_attacks.melee.single.rapier'},'Cajado grande':{proj:'guiding_bolt',fall:'sacred_flame.target'},
+ 'Rapieira':{hit:'generic.weapon_attacks.melee.single.rapier'},'Cajado grande':{proj:'guiding_bolt',fall:'sacred_flame.target'},'Cetro':{proj:'guiding_bolt',fall:'sacred_flame.target'},'Cetro (corpo a corpo)':{hit:'sacred_flame.target'},
  'Revólver':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},'Revólver pequeno':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},
 });
 Object.assign(FXK,{
