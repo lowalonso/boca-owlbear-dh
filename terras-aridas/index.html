@@ -248,8 +248,14 @@ img,svg{max-width:100%}
   .ci .hd{flex-wrap:wrap}
   .srch input{flex-basis:100%}
 }
+
+.item{border:1.5px solid var(--bone);border-radius:3px;background:var(--paper);padding:6px;margin-bottom:6px}
+.item .itr{display:flex;gap:6px;margin-bottom:5px}
+.item input,.item textarea{width:100%;box-sizing:border-box;background:var(--void2);border:1px dashed var(--bone);border-radius:3px;color:var(--bone);font-family:var(--tele);font-size:13px;padding:6px 8px}
+.item input{font-weight:700}
+.item textarea{resize:vertical;font-family:inherit;line-height:1.4}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261120182530';
+const BUILD='20261120183348';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -1321,6 +1327,10 @@ const FX={
             {nome:'Mochila de Nômade',cost:{esp:1},use:{id:'mochila',max:1,per:'sessao'},txt:'tira um item mundano e útil para a situação'}],
       dmg:['fisico','vontade','levante','det'] },
 };
+/* dinamite para todo o bando */
+for(const k in FX){ const F=FX[k]; if((F.counters||[]).some(c=>c.id==='dinamite')) continue;
+  (F.counters=F.counters||[]).push({id:'dinamite',nome:'Dinamite',max:5,per:'none',start:0,pips:'tnt',txt:'Bananas de dinamite. O mestre entrega mais.'});
+  (F.acts=F.acts||[]).push({nome:'Dinamite',cost:{c:{dinamite:1}},roll:[1,20,5],txt:'todos Muito Próximos de onde cai: reação (14) ou sofrem o dano; quem passa marca 1 PF'}); }
 const CARDREQ={'Um Passo à Frente':'Um Passo à Frente','palavras':'Palavras Inspiradoras','Telepatia':'Livro de Illiat','Talismã da Força Vital':'Talismã da Força Vital'};
 
 function hasCard(n){ if(!n||!C) return true; const i=C.cartas.findIndex(c=>c.nome===n); if(i<0) return true; return loadout().includes(i); }
@@ -1472,9 +1482,17 @@ async function playFx(spec){
   if(!spec||demo||cfg.embers===false) return;
   try{
     const me=await findMyToken(); const tg=await selTargets(me&&me.id); const ins=[];
-    if(spec.proj&&me&&tg.length){ tg.forEach(t=>ins.push({type:'effect',id:spec.proj,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}})); }
-    else if((spec.hit||(spec.proj&&spec.fall))&&(tg.length||me)){ const id=spec.hit||spec.fall; (tg.length?tg:[me]).forEach(t=>ins.push({type:'effect',id,effectProperties:{source:t.position,size:tsize(t)*(spec.sz||1)}})); }
-    else if(spec.self&&me){ ins.push({type:'effect',id:spec.self,effectProperties:{source:me.position,size:tsize(me)*(spec.sz||2)}}); }
+    let here=me; if(!here&&!tg.length){ try{ const w=await OBR.viewport.getWidth(), h=await OBR.viewport.getHeight(); here={position:await OBR.viewport.inverseTransformPoint({x:w/2,y:h/2})}; }catch(e){} }
+    const BIG=1.8, sz=(t,z)=>Math.max(1.4,tsize(t))*z*BIG;
+    const C1=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:sz(t,z)}});
+    const PULSE='generic.template.circle.outpulse.regular.burst', IMP='generic.impact.dropshadow';
+    if(spec.proj&&me&&tg.length){
+      C1('generic.particles.burst.circle',me,1,0);
+      tg.forEach(t=>{ ins.push({type:'effect',id:spec.proj,delay:150,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}});
+        C1(spec.fall||IMP,t,spec.sz||1.5,650); if(spec.fall&&spec.fall!==IMP) C1(IMP,t,1.2,650); }); }
+    else if(spec.hit||(spec.proj&&spec.fall)){ const id=spec.hit||spec.fall; const list=tg.length?tg:(here?[here]:[]);
+      list.forEach(t=>{ C1(id,t,spec.sz||1.4,0); if(id!==IMP) C1(IMP,t,1.3,250); }); }
+    else if(spec.self&&here){ C1(PULSE,here,(spec.sz||2)*.9,0); C1(spec.self,here,spec.sz||2,150); }
     await sendEmbers(ins,spec.proj||spec.hit||spec.self);
   }catch(e){}
 }
@@ -1853,13 +1871,23 @@ function renderSheet(){
   $('ccards').innerHTML=C.habilidades.map((hb,k)=>isCard(hb)?`<details class="card cls" ${/^(Classe|Subclasse)/.test(hb.secao)?'open':''}><summary><b>${esc(hb.nome)}</b><span>${esc(hb.secao)}${hb.tag&&!hb.secao.includes(hb.tag)?' · '+esc(hb.tag):''}</span></summary>
       <div class="cd">${esc(hb.texto)}</div><div class="ca"><button data-hab="${k}">Mostrar a todos</button></div></details>`:'').join('');
   const bySec={};
-  for(const hb of C.habilidades.filter(h=>!isCard(h))){(bySec[hb.secao]=bySec[hb.secao]||[]).push(hb)}
+  for(const hb of C.habilidades.filter(h=>!isCard(h)&&!isItem(h))){(bySec[hb.secao]=bySec[hb.secao]||[]).push(hb)}
   $('habs').innerHTML=Object.entries(bySec).map(([sec,list])=>
     `<div class="small" style="margin:8px 0 4px">${esc(sec)}</div>`+
     list.map(hb=>`<details class="hab"><summary>${esc(hb.nome)}${hb.tag?`<small>${esc(hb.tag)}</small>`:''}</summary><p>${esc(hb.texto)}</p></details>`).join('')
   ).join('');
+  $('habs').insertAdjacentHTML('beforeend','<div class="small" style="margin:10px 0 4px">Alforje — itens (toque para editar)</div><div id="itens"></div>'); renderItens();
   $('pick').style.display='none'; $('sheet').style.display='block';
 }
+const isItem=h=>h.secao==='Alforje'&&/Itens|Consum/.test(h.tag||'');
+function itens(){ if(!Array.isArray(S.itens)) S.itens=C.habilidades.filter(isItem).map(h=>({n:h.nome,t:h.texto})); return S.itens; }
+function renderItens(){ const el=$('itens'); if(!el) return;
+  el.innerHTML=itens().map((it,i)=>`<div class="item"><div class="itr"><input data-itn="${i}" value="${esc(it.n)}" placeholder="nome do item"><button class="mini" data-itx="${i}" title="remover">✕</button></div><textarea data-itt="${i}" rows="2" placeholder="descrição / quantidade">${esc(it.t)}</textarea></div>`).join('')+'<button class="mini" data-itadd="1">+ acrescentar item</button>'; }
+document.addEventListener('change',ev=>{ const t=ev.target; if(!C) return; if(t.dataset.itn!=null){ itens()[+t.dataset.itn].n=t.value; saveSheet(); } else if(t.dataset.itt!=null){ itens()[+t.dataset.itt].t=t.value; saveSheet(); } });
+document.addEventListener('click',ev=>{ if(!C) return; const a=ev.target.closest('[data-itadd]'), x=ev.target.closest('[data-itx]');
+  if(a){ itens().push({n:'',t:''}); renderItens(); saveSheet(); const ins=document.querySelectorAll('#itens [data-itn]'); ins[ins.length-1].focus(); }
+  else if(x){ itens().splice(+x.dataset.itx,1); renderItens(); saveSheet(); } });
+
 
 document.addEventListener('click',ev=>{ const h=ev.target.closest('[data-hab]'); if(!h||!C) return; const hb=C.habilidades[+h.dataset.hab];
   api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:hb.secao+(hb.tag?' · '+hb.tag:''),n:hb.nome,x:hb.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL'); toast('Carta mostrada a todos.'); });
@@ -1990,7 +2018,7 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
   if(ME.role==='GM'&&!demo){ $('gmNote').style.display='block'; const mm=await api.getMeta(); if(mm[K.sheet+ME.id]) await api.setMeta({[K.sheet+ME.id]:undefined}); }
   else try{
     const sv=JSON.parse(localStorage.getItem('ta-ficha-state')||'null');
-    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null,token:sv.token||null};renderSheet();}
+    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null,token:sv.token||null,itens:sv.itens||null};renderSheet();}
   }catch(e){}
   (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagem interna por enquanto)'; $('btnCfg').textContent=(ok?'🟢':'⚙')+' Dice+'; if(!ok&&cfg.useDP) setTimeout(dpWatch,5000); })();
 })();
