@@ -3,7 +3,7 @@
  "version": "1.0.0",
  "manifest_version": 1,
  "author": "Colosso das Terras Áridas",
- "description": "Fichas do bando (Daggerheart, velho oeste): dualidade via Dice+, Esperança e Medo automáticos, cartas de classe e de domínio, balas, combo e círculos de invocação.",
+ "description": "Ficha dos jogadores (Daggerheart, velho oeste): dados, cartas de classe, Esperança e animações.",
  "icon": "https://lowalonso.github.io/boca-owlbear-dh/terras-aridas/icon.svg",
  "action": {
   "title": "Ficha do Bando",
