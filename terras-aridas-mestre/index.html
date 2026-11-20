@@ -248,6 +248,12 @@ img,svg{max-width:100%}
   .ci .hd{flex-wrap:wrap}
   .srch input{flex-basis:100%}
 }
+
+.item{border:1.5px solid var(--bone);border-radius:3px;background:var(--paper);padding:6px;margin-bottom:6px}
+.item .itr{display:flex;gap:6px;margin-bottom:5px}
+.item input,.item textarea{width:100%;box-sizing:border-box;background:var(--void2);border:1px dashed var(--bone);border-radius:3px;color:var(--bone);font-family:var(--tele);font-size:13px;padding:6px 8px}
+.item input{font-weight:700}
+.item textarea{resize:vertical;font-family:inherit;line-height:1.4}
 /* ===== mesa do mestre ===== */
 .fearbox{background:var(--paper);border:2px solid var(--bone);outline:1px solid var(--bone);outline-offset:-6px;padding:14px 14px 12px;text-align:center;box-shadow:2px 3px 0 rgba(42,26,15,.2)}
 .fearbox .n{font-family:var(--rye);font-size:44px;line-height:1;color:var(--blood)}
@@ -307,7 +313,7 @@ details.adv .bd2{padding:0 10px 10px;font-size:11.5px;line-height:1.5}
 .gate{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;text-align:center;gap:8px}
 .gate h1{font-size:26px}
 </style><script>
-const BUILD='20261120182530';
+const BUILD='20261120183348';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -479,13 +485,15 @@ async function runFx(c,steps,name){
     const sel=((await OBR.player.getSelection())||[]).filter(id=>id!==c.tok); const tg=sel.length?items.filter(i=>sel.includes(i.id)):[];
     const names=pcNames(); const pcs=items.filter(i=>names.has(nrm(i.name))||/^\s*pc\s*-/i.test(i.name||''));
     const here=me||(tg.length?null:{position:await viewCenter()}); const self=here?[here]:[];
-    const ins=[]; const add=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:tsize(t)*(z||1)}});
+    const ins=[]; const add=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:Math.max(1.4,tsize(t))*(z||1.3)*1.8}});
     for(const st of steps){
       if(st.s&&here) add(st.s,here,st.z,st.d);
       if(st.t) (tg.length?tg:self).forEach(t=>add(st.t,t,st.z,st.d));
       if(st.a) (tg.length?tg:pcs.length?pcs:self).forEach(t=>add(st.a,t,st.z,st.d));
       if(st.p&&me&&tg.length) tg.forEach(t=>ins.push({type:'effect',id:st.p,delay:st.d||0,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}}));
     }
+    if(steps.some(st=>st.t||st.p)) (tg.length?tg:self).forEach(t=>add('generic.impact.dropshadow',t,1.2,steps.some(st=>st.p)?650:250));
+    if(here&&steps.some(st=>st.p)) add('generic.particles.burst.circle',here,1,0);
     if(ins.length) OBR.broadcast.sendMessage(EMB,{instructions:ins,spellData:{name,caster:ME.id}},{destination:'ALL'});
   }catch(e){}
 }
