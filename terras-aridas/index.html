@@ -254,8 +254,12 @@ img,svg{max-width:100%}
 .item input,.item textarea{width:100%;box-sizing:border-box;background:var(--void2);border:1px dashed var(--bone);border-radius:3px;color:var(--bone);font-family:var(--tele);font-size:13px;padding:6px 8px}
 .item input{font-weight:700}
 .item textarea{resize:vertical;font-family:inherit;line-height:1.4}
+
+.tks.pot i,.tks.pot2 i{width:13px;height:20px;border-radius:3px 3px 7px 7px;background:var(--void2);position:relative}
+.tks.pot i.on{background:linear-gradient(#e8b0a6 0 22%,#b5321f 22%);border-color:#5e1508}
+.tks.pot2 i.on{background:linear-gradient(#b9c9e2 0 22%,#3f5f9c 22%);border-color:#1f2f55}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261120184323';
+const BUILD='20261120184644';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -1337,6 +1341,12 @@ const FX={
 for(const k in FX){ const F=FX[k]; if((F.counters||[]).some(c=>c.id==='dinamite')) continue;
   (F.counters=F.counters||[]).push({id:'dinamite',nome:'Dinamite',max:5,per:'none',start:0,pips:'tnt',txt:'Bananas de dinamite. O mestre entrega mais.'});
   (F.acts=F.acts||[]).push({nome:'Dinamite',cost:{c:{dinamite:1}},roll:[1,20,5],txt:'todos Muito Próximos de onde cai: reação (14) ou sofrem o dano; quem passa marca 1 PF'}); }
+/* poções para todo o bando */
+for(const k in FX){ const F=FX[k]; F.counters=F.counters||[]; F.acts=F.acts||[];
+  F.counters.push({id:'pcura',nome:'Poção de Cura',max:9,per:'none',start:0,pips:'pot',txt:'Beba para recuperar 1d4 Pontos de Vida.'},
+                  {id:'pfad',nome:'Poção de Fadiga',max:9,per:'none',start:0,pips:'pot2',txt:'Beba para recuperar 1d4 Pontos de Fadiga.'});
+  F.acts.push({nome:'Poção de Cura',cost:{c:{pcura:1}},roll:[1,4],onRoll:v=>{ const a=S.pv; S.pv=Math.min(C.pvMax,S.pv+v); return `recuperou ${S.pv-a} PV`; },txt:'recupera 1d4 PV'},
+              {nome:'Poção de Fadiga',cost:{c:{pfad:1}},roll:[1,4],onRoll:v=>{ const a=S.fad; S.fad=Math.min(C.fadigaMax,S.fad+v); return `recuperou ${S.fad-a} PF`; },txt:'recupera 1d4 PF'}); }
 const CARDREQ={'Um Passo à Frente':'Um Passo à Frente','palavras':'Palavras Inspiradoras','Telepatia':'Livro de Illiat','Talismã da Força Vital':'Talismã da Força Vital'};
 
 function hasCard(n){ if(!n||!C) return true; const i=C.cartas.findIndex(c=>c.nome===n); if(i<0) return true; return loadout().includes(i); }
@@ -1421,7 +1431,7 @@ document.addEventListener('click',async ev=>{
       ac.parentElement.insertAdjacentHTML('beforeend',`<div class="fxrow spendrow">${Array.from({length:have},(_,j)=>`<button class="mini" data-fxspend="${ac.dataset.fxact}:${j+1}">${j+1}</button>`).join('')}</div>`); return; }
     if(!canPay(a.cost)) return; const pago=pay(a.cost); if(a.use) X.u[a.use.id]=(X.u[a.use.id]||0)+1;
     if(a.state) X.st[a.state]=true; if(a.fill){ const k=F.counters.find(x=>x.id===a.fill); X.c[k.id]=cntMax(k); } const fxr=a.fx?a.fx():null;
-    let extra=fxr?` → ${fxr}`:''; if(a.roll){ const r=await rollExpr(a.roll[0],a.roll[1],a.roll[2]||0,a.nome); extra+=` → ${r.tot}`; toast(`${a.nome}: ${r.tot}`); if(a.addRoll){ setCnt(a.addRoll,cntOf(a.addRoll)+r.tot); extra+=` (agora ${cntOf(a.addRoll)})`; } }
+    let extra=fxr?` → ${fxr}`:''; if(a.roll){ const r=await rollExpr(a.roll[0],a.roll[1],a.roll[2]||0,a.nome); extra+=` → ${r.tot}`; toast(`${a.nome}: ${r.tot}`); if(a.onRoll){ extra+=' — '+a.onRoll(r.tot); renderTrackers(); saveSheet(); } if(a.addRoll){ setCnt(a.addRoll,cntOf(a.addRoll)+r.tot); extra+=` (agora ${cntOf(a.addRoll)})`; } }
     if(a.combo){ const r=comboRoll(a.combo); extra+=` → Combo ${r.vals.join(' ≥ ')} = +${r.tot} de dano`; toast(`Combo: +${r.tot} de dano`); }
     if(fxr&&!a.roll&&!a.combo) toast(`${a.nome}: ${fxr}`);
     await fxSave(); announce(`${a.nome}${pago?' ('+pago+')':''}${a.txt?' — '+a.txt:''}${extra}`); playFx(FXK[a.nome]); return; }
@@ -1559,6 +1569,7 @@ Object.assign(FXW,{
  'Revólver':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},'Revólver pequeno':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},
 });
 Object.assign(FXK,{
+ 'Poção de Cura':{self:'generic.healing.green',sz:1.6},'Poção de Fadiga':{self:'generic.healing.blue',sz:1.6},
  'Enorme: dado extra do Montante':{hit:'generic.impact.dropshadow'},
  'Combo':{hit:'generic.unarmed_attacks.flurry_of_blows.physical'},'Golpe Atordoante':{hit:'generic.conditions.dizzy_stars'},'Dinamite':{proj:'generic.weapon_attacks.ranged.throw.bomb',fall:'generic.explosion.orange1',sz:3},
  'Enlaçar':{hit:'generic.marker.red_chain.complete'},'Inspiração (dar d6 ao bando)':{self:'bardic_inspiration',sz:3},'Discurso Inspirador':{self:'generic.template.circle.outpulse.music_notes.burst',sz:4},
