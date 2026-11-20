@@ -3,7 +3,7 @@
  "version": "1.0.0",
  "manifest_version": 1,
  "author": "Colosso das Terras Áridas",
- "description": "Mesa do mestre (Daggerheart, velho oeste): Medo, bestiário do 1º ao 3º patamar, combate com tokens e animações, ambientes.",
+ "description": "Mesa do mestre (Daggerheart, velho oeste): Medo, bestiário, combate com tokens, animações e ambientes.",
  "icon": "https://lowalonso.github.io/boca-owlbear-dh/terras-aridas-mestre/icon.svg",
  "action": {
   "title": "Mesa do Xerife",
