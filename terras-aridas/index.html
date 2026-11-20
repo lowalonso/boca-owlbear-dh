@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colosso das Terras Áridas — Ficha do Bando</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rye&family=Bitter:ital,wght@0,400;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap');
+:root{--void:#e9d7ae;--void2:#f4e8cc;--panel:#f3e6c6;--bone:#2a1a0f;--dim:#7a5f3d;
+--blood:#9c2b1b;--blood2:#8a2415;--deep:#c2a66f;--bile:#a06a12;--hope:#17736f;--fear:#9c2b1b;
+--ash:#b99d68;--ok:#4f7a2a;--roxo:#6a4a86;--leather:#3b2414;--leather2:#55351d;--paper:#f6ecd2;--pc:#9c2b1b;
+--rye:'Rye','Georgia',serif;--tele:'Courier Prime','Courier New',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--void);color:var(--bone);font-family:'Bitter',Georgia,'Times New Roman',serif;font-size:14px}
+body{padding:0 12px 92px;min-height:100vh;background:
+ radial-gradient(60% 30% at 12% 8%,rgba(122,95,61,.20),transparent 70%),
+ radial-gradient(50% 26% at 92% 34%,rgba(156,43,27,.08),transparent 70%),
+ radial-gradient(70% 30% at 40% 96%,rgba(122,95,61,.24),transparent 70%),
+ repeating-linear-gradient(0deg,rgba(42,26,15,.022) 0 1px,transparent 1px 3px),var(--void)}
+h1,h2,h3{font-family:var(--rye);font-weight:400;letter-spacing:.03em}
+button{font-family:inherit;cursor:pointer;color:var(--bone);background:none;border:1px solid var(--ash);border-radius:3px;transition:all .2s}
+button:hover{border-color:var(--blood);background:rgba(156,43,27,.06)}
+button:disabled{opacity:.35;cursor:not-allowed}
+.small{font-family:var(--tele);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+/* ===== topo: tira de couro costurada ===== */
+.topbar{display:flex;align-items:center;gap:8px;margin:0 -12px 14px;padding:10px 12px;background:linear-gradient(180deg,var(--leather2),var(--leather));color:#f1e2bd;
+ border-bottom:3px solid #1f120a;box-shadow:0 3px 0 rgba(0,0,0,.12);position:relative}
+.topbar::after{content:"";position:absolute;left:8px;right:8px;top:5px;bottom:6px;border:1px dashed rgba(241,226,189,.35);border-radius:3px;pointer-events:none}
+.topbar .ttl{flex:1;position:relative;z-index:1}
+.topbar .ttl b{font-family:var(--rye);font-weight:400;font-size:16px;display:block;letter-spacing:.03em}
+.topbar .ttl span{font-family:var(--tele);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#cdb785}
+.gmchip{display:flex;gap:5px;align-items:center;position:relative;z-index:1}
+.gmchip button{display:none;width:22px;height:22px;border-radius:50%;border-color:#cdb785;color:#f1e2bd;font-size:13px;line-height:1}
+.gmchip.gm button{display:block}
+.chip{border:2px solid #cdb785;border-radius:50%;width:48px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#2a180d}
+.chip .v{font-family:var(--rye);font-size:18px;line-height:1;color:#e8573f}
+.chip .l{font-family:var(--tele);font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#cdb785}
+/* ===== seletor: cartazes de procura-se ===== */
+#pick h1{font-size:34px;text-align:center;margin:4px 0 0;color:var(--bone);letter-spacing:.06em}
+#pick .sub{text-align:center;margin-bottom:14px}
+.stars{text-align:center;color:var(--blood);letter-spacing:.5em;font-size:11px;margin-bottom:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;padding:4px 4px 0}
+.pc{position:relative;background:var(--paper);border:2px solid var(--bone);outline:1px solid var(--bone);outline-offset:-6px;padding:14px 12px 12px;text-align:center;cursor:pointer;transition:all .22s;
+ box-shadow:2px 3px 0 rgba(42,26,15,.25),0 10px 18px rgba(42,26,15,.15)}
+.pc:nth-child(odd){transform:rotate(-1.2deg)} .pc:nth-child(even){transform:rotate(.9deg)}
+.pc:hover{transform:rotate(0) translateY(-3px);box-shadow:3px 5px 0 rgba(42,26,15,.3),0 16px 26px rgba(42,26,15,.22)}
+.pc::before,.pc::after{content:"";position:absolute;top:5px;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#8d8676,#3a352c)}
+.pc::before{left:7px} .pc::after{right:7px}
+.pc .w{font-family:var(--rye);font-size:17px;letter-spacing:.08em;line-height:1}
+.pc .vm{font-family:var(--tele);font-size:7.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin:2px 0 7px}
+.pc .ph{width:64px;height:64px;margin:0 auto 7px;border:2px solid var(--bone);background:repeating-linear-gradient(45deg,rgba(42,26,15,.06) 0 4px,transparent 4px 8px),color-mix(in srgb,var(--pc) 16%,var(--paper));
+ display:flex;align-items:center;justify-content:center;font-family:var(--rye);font-size:34px;color:var(--pc)}
+.pc b{display:block;font-family:var(--rye);font-weight:400;font-size:15px;line-height:1.15;margin-bottom:3px}
+.pc span{display:block;font-family:var(--tele);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.pc q{display:block;font-size:10px;font-style:italic;line-height:1.35;margin:6px 0;color:#4a3320;quotes:"“" "”"}
+.pc .rw{border-top:1px solid var(--bone);border-bottom:1px solid var(--bone);padding:3px 0;margin-top:6px;font-family:var(--tele);font-size:8px;letter-spacing:.18em;text-transform:uppercase}
+.pc .rw em{font-family:var(--rye);font-style:normal;font-size:14px;letter-spacing:.02em;color:var(--blood);display:block}
+/* ===== ficha ===== */
+#sheet{display:none}
+.sh-head{position:relative;background:var(--paper);border:2px solid var(--bone);outline:1px solid var(--bone);outline-offset:-6px;padding:14px 16px 13px;margin-bottom:6px;text-align:center;box-shadow:2px 3px 0 rgba(42,26,15,.2)}
+.sh-head .w{font-family:var(--tele);font-size:8.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--dim)}
+.sh-head h1{font-size:26px;color:var(--pc);line-height:1.1;margin:2px 0}
+.sh-head .cls{font-family:var(--tele);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:2px 0 7px}
+.sh-head .mot{font-size:12px;font-style:italic;color:#4a3320;line-height:1.45}
+.sec{display:flex;align-items:center;gap:8px;font-family:var(--rye);font-size:13px;letter-spacing:.06em;color:var(--bone);margin:18px 0 9px}
+.sec::before,.sec::after{content:"";flex:1;height:0;border-top:1px solid var(--bone);border-bottom:1px solid var(--bone);padding-top:2px}
+.sec::before{flex:0 0 14px}
+/* trackers */
+.trk{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.trk .tl{width:76px;font-family:var(--tele);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.pips{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.pip{width:18px;height:18px;border:1.5px solid var(--bone);border-radius:50%;cursor:pointer;background:var(--paper);transition:all .15s}
+.pip.on{background:var(--tc,var(--blood));box-shadow:inset 0 0 0 2px var(--paper)}
+.pip:hover{transform:scale(1.12)}
+.trk .tv{font-family:var(--tele);font-size:11px;color:var(--dim);min-width:34px;text-align:right}
+.thr{display:flex;gap:6px;align-items:center;margin:10px 0 2px}
+.thr .tb{flex:1;border:1px dashed var(--bone);border-radius:3px;padding:5px 8px;text-align:center;background:rgba(246,236,210,.6)}
+.thr .tb b{font-family:var(--rye);font-weight:400;font-size:17px;color:var(--bone)}
+.thr .tb span{display:block;font-family:var(--tele);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.btn{font-family:var(--rye);border:2px solid var(--blood);color:var(--blood);padding:9px 12px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:3px;background:var(--paper);box-shadow:2px 2px 0 var(--blood)}
+.btn:hover{background:var(--blood);color:var(--paper);box-shadow:1px 1px 0 var(--bone)}
+.btn.gold{border-color:var(--bone);color:var(--bone);box-shadow:2px 2px 0 var(--bone)}
+.btn.gold:hover{background:var(--bone);color:var(--paper)}
+/* atributos */
+.attrs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.attr{border:1.5px solid var(--bone);background:var(--paper);border-radius:3px;padding:8px 4px 6px;text-align:center;cursor:pointer;transition:all .18s;box-shadow:2px 2px 0 rgba(42,26,15,.22)}
+.attr:hover{transform:translate(-1px,-2px);box-shadow:3px 4px 0 var(--pc);border-color:var(--pc)}
+.attr .an{font-family:var(--tele);font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.attr .av{font-family:var(--rye);font-size:22px;color:var(--pc);line-height:1.15}
+.attr .roll-hint{font-family:var(--tele);font-size:7.5px;color:var(--ash);letter-spacing:.1em}
+/* armas */
+.wpn{display:flex;align-items:center;gap:10px;border:1.5px solid var(--bone);background:var(--paper);border-radius:3px;padding:9px 11px;margin-bottom:8px;cursor:pointer;transition:all .18s;box-shadow:2px 2px 0 rgba(42,26,15,.22)}
+.wpn:hover{transform:translate(-1px,-2px);box-shadow:3px 4px 0 var(--blood);border-color:var(--blood)}
+.wpn .wi{font-size:18px;width:26px;text-align:center}
+.wpn .wn{flex:1}
+.wpn .wn b{display:block;font-family:var(--rye);font-weight:400;font-size:14px}
+.wpn .wn span{font-size:10px;color:var(--dim)}
+.wpn .wd{font-family:var(--rye);font-size:14px;color:var(--blood);white-space:nowrap}
+/* experiências */
+.exp{display:flex;align-items:center;gap:8px;border-left:3px double var(--bile);padding:5px 0 5px 10px;margin-bottom:7px}
+.exp .en{flex:1}
+.exp .en b{font-size:12.5px}
+.exp .en span{display:block;font-size:9.5px;color:var(--dim);font-style:italic}
+.exp .em{font-family:var(--rye);color:var(--bile);font-size:15px}
+.exp button{font-family:var(--tele);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-color:var(--bile);color:var(--bile)}
+.exp button:hover{background:rgba(160,106,18,.14)}
+.pend{border:1px dashed var(--bile);border-radius:3px;background:rgba(160,106,18,.1);color:#6b4708;font-size:10.5px;padding:6px 9px;margin-bottom:8px;display:none}
+/* cartas: papel de baralho */
+details.card{position:relative;border:1.5px solid var(--bone);border-radius:6px;background:var(--paper);margin-bottom:9px;box-shadow:2px 2px 0 rgba(42,26,15,.22)}
+details.card::before{content:"";position:absolute;inset:3px;border:1px solid color-mix(in srgb,var(--pc) 55%,transparent);border-radius:4px;pointer-events:none}
+details.card summary{list-style:none;cursor:pointer;padding:10px 13px 9px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;position:relative}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary b{font-family:var(--rye);font-weight:400;font-size:14.5px;flex:1 1 auto;color:var(--pc)}
+details.card summary span{font-family:var(--tele);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+details.card .cd{padding:0 13px 10px;font-size:12px;line-height:1.55;color:#3a2716;position:relative}
+details.card .ca{padding:0 13px 11px;display:flex;flex-wrap:wrap;gap:5px;position:relative}
+details.card .ca button,details.card summary button{font-family:var(--tele);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;background:var(--void2)}
+details.card summary button{padding:4px 7px;margin-left:4px}
+details.card.vault{opacity:.65;border-style:dashed}
+details.card .ca button:disabled{opacity:.35;cursor:not-allowed}
+details.card.cls summary b::before{content:"★ ";font-size:10px;vertical-align:1px}
+details.hab{border-left:3px double var(--ash);margin-bottom:5px}
+details.hab summary{list-style:none;cursor:pointer;padding:5px 0 5px 10px;font-size:12.5px;font-weight:600}
+details.hab summary::-webkit-details-marker{display:none}
+details.hab summary small{font-family:var(--tele);font-weight:400;color:var(--dim);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-left:6px}
+details.hab p{padding:2px 0 7px 10px;font-size:11.5px;line-height:1.5;color:#3a2716}
+/* diálogos */
+.ov{position:fixed;inset:0;background:rgba(31,18,10,.72);display:none;align-items:center;justify-content:center;z-index:40;padding:14px}
+.ov.on{display:flex}
+.dlg{background:var(--void2);border:2px solid var(--bone);outline:1px solid var(--bone);outline-offset:-6px;padding:18px 18px 16px;width:100%;max-width:360px;box-shadow:5px 6px 0 rgba(0,0,0,.35)}
+.dlg h3{font-size:15px;letter-spacing:.06em;color:var(--blood);margin-bottom:10px;text-align:center}
+.seg{display:flex;border:1.5px solid var(--bone);border-radius:3px;overflow:hidden;margin-bottom:10px}
+.seg button{flex:1;border:none;border-radius:0;padding:9px 4px;font-family:var(--tele);font-weight:700;font-size:10px;letter-spacing:.04em;text-transform:uppercase}
+.seg button+button{border-left:1px solid var(--bone)}
+.seg button.on{background:var(--bone);color:var(--paper)}
+.dlg input[type=number]{width:100%;background:var(--paper);border:1.5px solid var(--bone);border-radius:3px;color:var(--bone);font-family:var(--rye);font-size:22px;text-align:center;padding:8px;margin-bottom:10px}
+.dlg .row{display:flex;gap:10px}
+.dlg .row .btn{flex:1;text-align:center}
+.dlg label{display:flex;align-items:center;gap:7px;font-size:11.5px;color:#4a3320;margin-bottom:10px;cursor:pointer}
+/* resultado */
+#res .dlg{border-color:var(--rescol,var(--bone));outline-color:var(--rescol,var(--bone));max-width:380px}
+.res-dice{display:flex;gap:10px;justify-content:center;margin:6px 0 10px}
+.rd{width:60px;height:60px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid;background:var(--paper);box-shadow:2px 3px 0 currentColor}
+.rd b{font-family:var(--rye);font-weight:400;font-size:26px;line-height:1}
+.rd span{font-family:var(--tele);font-size:7px;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.rd.hope{border-color:var(--hope);color:var(--hope)}
+.rd.fear{border-color:var(--fear);color:var(--fear)}
+.rd.adv{border-color:var(--ok);color:var(--ok)}
+.rd.dis{border-color:var(--roxo);color:var(--roxo)}
+.res-total{text-align:center;margin-bottom:8px}
+.res-total b{font-family:var(--rye);font-weight:400;font-size:40px}
+.res-total .vs{font-family:var(--tele);font-size:10px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+.res-tag{text-align:center;font-family:var(--rye);font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:7px;border-radius:3px;margin-bottom:8px;border:1px dashed currentColor}
+.res-tag.hope{color:var(--hope);background:rgba(23,115,111,.08)}
+.res-tag.fear{color:var(--fear);background:rgba(156,43,27,.08)}
+.res-tag.crit{color:#6b4708;background:rgba(160,106,18,.16)}
+.res-dmg{border-top:1px dashed var(--bone);padding-top:8px;text-align:center;margin-bottom:6px}
+.res-dmg b{font-family:var(--rye);font-weight:400;font-size:30px;color:var(--blood)}
+.res-dmg .small{display:block}
+.res-note{font-size:10.5px;color:var(--dim);text-align:center;margin-bottom:10px;line-height:1.5}
+/* coldre: recursos de classe */
+#fx{border:1.5px solid var(--bone);border-radius:3px;background:var(--paper);padding:9px 11px;box-shadow:2px 2px 0 rgba(42,26,15,.22)}
+.fxtop{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-family:var(--tele);font-size:10px;color:var(--dim);margin-bottom:8px;flex-wrap:wrap}
+.fxtop b{font-family:var(--rye);font-weight:400;font-size:19px;color:var(--pc)}
+.fxrow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:6px}
+.chip2{font-family:var(--tele);font-weight:700;font-size:9.5px;padding:5px 10px;border-radius:999px;border:1.5px solid var(--bone);color:var(--bone);background:var(--void2)}
+.chip2.on{background:var(--pc);border-color:var(--pc);color:var(--paper)}
+.fxline{display:flex;flex-wrap:wrap;align-items:center;gap:6px;border-top:1px dashed var(--ash);padding:7px 0;font-size:11px}
+.fxline:empty{display:none}
+.fxline.col{display:block}
+.fxline>b{font-size:12px}
+.fxline span{color:#5a4428;font-size:10.5px;flex:1 1 110px;line-height:1.4}
+.fxline .dv{font-family:var(--rye);font-weight:400;font-size:14px;color:var(--pc)}
+.fxline.hope b{color:var(--hope)}
+.fxline select{background:var(--paper);color:var(--bone);border:1px solid var(--bone);border-radius:3px;padding:3px 5px;font-family:inherit}
+.mini{font-family:var(--tele);font-weight:700;font-size:9px;letter-spacing:.04em;text-transform:uppercase;padding:5px 8px;border-radius:3px;border-color:var(--bone);background:var(--void2)}
+.mini.gold{border-color:var(--bile);color:#6b4708;background:rgba(160,106,18,.1)}
+.mini:disabled{opacity:.35;cursor:not-allowed}
+.pd{width:30px;height:30px;border-radius:6px;border:1.5px solid var(--bile);color:#6b4708;font-family:var(--rye);font-size:14px}
+/* marcadores desenhados: balas, círculos de invocação, dinamite, notas */
+.tks{display:flex;gap:5px;flex-basis:100%;order:5;padding:2px 0 1px}
+.tks i{display:block;width:15px;height:15px;border-radius:50%;border:1.5px solid var(--bone);background:var(--void2)}
+.tks.bala{gap:6px;padding:6px 8px;border:1.5px solid var(--bone);border-radius:999px;background:#d9c597;flex-basis:auto;width:max-content}
+.tks.bala i{width:16px;height:16px;background:#3b2414;border-color:#1f120a;box-shadow:inset 0 0 0 3px #55351d}
+.tks.bala i.on{background:radial-gradient(circle at 38% 34%,#f1d48a,#b98a2a 55%,#7a5510);box-shadow:inset 0 0 0 2.5px #7a5510;border-color:#5a3c08}
+.tks.circ i{width:34px;height:34px;border:1.5px dashed var(--bone);position:relative;background:transparent}
+.tks.circ i::after{content:"";position:absolute;inset:4px;border:1px solid var(--ash);border-radius:50%}
+.tks.circ i.on{border-style:solid;border-color:var(--pc);background:radial-gradient(circle,color-mix(in srgb,var(--pc) 55%,var(--paper)) 0 38%,color-mix(in srgb,var(--pc) 14%,var(--paper)) 40%);box-shadow:0 0 0 2px color-mix(in srgb,var(--pc) 25%,transparent)}
+.tks.circ i.on::after{border-color:var(--pc)}
+.tks.tnt i{width:9px;height:24px;border-radius:2px;background:var(--void2)}
+.tks.tnt i.on{background:linear-gradient(90deg,#b5321f,#8a2415);border-color:#5e1508;box-shadow:0 -4px 0 -2.5px #2a1a0f}
+.tks.note i{border:none;background:none;width:auto;height:auto;font-style:normal;font-size:17px;line-height:1;color:var(--ash)}
+.tks.note i::before{content:"♪"} .tks.note i.on{color:var(--pc)}
+.fxacts{border-top:1px dashed var(--ash);padding-top:6px}
+.fxa{display:flex;align-items:center;gap:7px;padding:5px 0;flex-wrap:wrap}
+.fxa>div{flex:1}
+.fxa b{font-size:12px;display:block}
+.fxa span{font-size:10px;color:#5a4428}
+.fxa .up{display:flex;gap:3px;align-items:center}
+.fxa .up i{width:9px;height:9px;border:1px solid var(--bile);border-radius:50%;display:inline-block}
+.fxa .up i.used{background:var(--bile)}
+.fxa .up small{font-family:var(--tele);font-size:7.5px;color:var(--dim);margin-left:3px;text-transform:uppercase}
+.spendrow{flex-basis:100%;justify-content:flex-end}
+.fxrest{display:flex;gap:5px;margin-top:8px}
+.fxrest button{flex:1;font-family:var(--tele);font-weight:700;font-size:9px;text-transform:uppercase;padding:6px 3px;border-radius:3px;border-color:var(--bone);background:var(--void2)}
+.dim{color:var(--dim);font-size:10.5px}
+.opts label{display:flex;gap:6px;align-items:flex-start;font-size:11.5px;color:var(--bone);margin-bottom:6px;text-transform:none;letter-spacing:0}
+.opts select{background:var(--paper);color:var(--bone);border:1px solid var(--bone);border-radius:3px;padding:3px 5px}
+.res-act{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.res-act:empty{display:none}
+.vsel{display:inline-flex;gap:3px;align-items:center}
+.vsel select{background:var(--paper);color:var(--bone);border:1px solid var(--bone);border-radius:3px;padding:3px}
+/* bando */
+.bd{display:flex;align-items:center;gap:7px;flex-wrap:wrap;border-left:4px solid var(--pc);background:var(--paper);padding:6px 9px;margin-bottom:5px;font-size:11px;box-shadow:1px 1px 0 rgba(42,26,15,.2)}
+.bd b{font-family:var(--rye);font-weight:400;font-size:12.5px;color:var(--pc)}
+.bd span{flex:1;font-family:var(--tele);font-size:9px;color:var(--dim);text-transform:uppercase}
+.bd em{font-family:var(--tele);font-style:normal;font-weight:700;font-size:10px;border:1px solid var(--ash);border-radius:3px;padding:1px 5px}
+/* rodapé */
+#foot{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,var(--leather2),var(--leather));border-top:3px solid #1f120a;padding:9px 12px;display:flex;gap:8px;z-index:30}
+#foot button{flex:1;font-family:var(--tele);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 4px;color:#f1e2bd;border:1px dashed #cdb785;background:none}
+#foot button:hover{background:rgba(241,226,189,.12)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:66px;background:var(--leather);border:1px solid #cdb785;color:#f1e2bd;padding:9px 16px;border-radius:3px;font-size:12px;z-index:60;opacity:0;transition:opacity .3s;pointer-events:none;max-width:92%;text-align:center;box-shadow:3px 3px 0 rgba(0,0,0,.3)}
+.toast.on{opacity:1}
+.dp-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;background:var(--dim)}
+.dp-dot.ok{background:var(--ok)}
+.settings label{display:block;font-family:var(--tele);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:8px 0 3px}
+.settings input[type=text]{width:100%;background:var(--paper);border:1.5px solid var(--bone);border-radius:3px;color:var(--bone);font-family:var(--tele);font-size:13px;padding:7px}
+.demo-note{border:1px dashed var(--bile);color:#6b4708;border-radius:3px;font-size:10px;padding:7px 10px;margin-bottom:10px;display:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
+const BUILD='20261120120109';
+(async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
+  if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
+</script>
+</head><body>
+
+<div class="topbar">
+  <div class="ttl"><b id="tbName">Terras Áridas</b><span id="tbSub">Ficha do Bando</span></div>
+  <div class="gmchip" id="gmchip">
+    <button id="fearM" title="mestre: gastar 1 Medo">−</button>
+    <div class="chip fear"><div class="v" id="fearV">0</div><div class="l">Medo</div></div>
+    <button id="fearP" title="mestre: +1 Medo">+</button>
+  </div>
+</div>
+<div id="diag" style="display:none;border:1px solid #9c2b1b;background:#f6dcd4;color:#5e1508;font:11px/1.45 monospace;padding:8px 10px;border-radius:4px;margin-bottom:10px;white-space:pre-wrap"></div>
+<script>
+window.__diag=function(m){try{var d=document.getElementById('diag');d.style.display='block';d.textContent+=m+'\n';}catch(e){}};
+window.addEventListener('error',function(e){__diag('ERRO: '+(e.message||e)+(e.filename?' @'+e.filename.split('/').pop()+':'+e.lineno:''));});
+window.addEventListener('unhandledrejection',function(e){__diag('ERRO (promise): '+((e.reason&&e.reason.message)||e.reason));});
+setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de carregar. Etapa: '+(window.__bocaStep||'script não iniciou (falha ao carregar obr-sdk.js?)')); },8000);
+</script>
+<div class="demo-note" id="demoNote">Modo demonstração — fora do Owlbear. Tudo funciona localmente.</div>
+
+<div id="pick">
+  <div class="stars">★ ★ ★</div>
+  <h1>Procura-se</h1>
+  <p class="sub small">Colosso das Terras Áridas · escolha o seu cartaz</p>
+  <p class="small" id="gmNote" style="display:none;text-transform:none;letter-spacing:.02em;color:#6b4708;margin:6px 0 10px;line-height:1.45">Você é o mestre: pode abrir uma ficha para consultar ou testar, mas ela não entra no Bando. Use − e + no Medo, lá em cima.</p>
+  <div class="grid" id="pickGrid"></div>
+</div>
+
+<div id="sheet">
+  <div class="sh-head">
+    <div class="w">★ procura-se ★</div>
+    <h1 id="cNome"></h1>
+    <div class="cls" id="cCls"></div>
+    <div class="mot" id="cMot"></div>
+  </div>
+
+  <div class="sec">Couro &amp; Fôlego</div>
+  <div id="trackers"></div>
+  <div class="thr">
+    <div class="tb"><b id="thr1"></b><span>Dano Maior · 2 PV</span></div>
+    <div class="tb"><b id="thr2"></b><span>Dano Grave · 3 PV</span></div>
+    <button class="btn" id="btnDano">Sofrer dano</button>
+  </div>
+
+  <div class="sec">Coldre — recursos da classe</div>
+  <div id="fx"></div>
+
+  <div class="sec">Atributos — clique para rolar</div>
+  <div class="attrs" id="attrs"></div>
+
+  <div class="sec">Armas — ataque + dano</div>
+  <div id="wpns"></div>
+
+  <div class="sec">Experiências</div>
+  <div class="pend" id="pend"></div>
+  <div id="exps"></div>
+
+  <div class="sec">Cartas de Classe &amp; Herança</div>
+  <div id="ccards"></div>
+
+  <div class="sec">Cartas de Domínio</div>
+  <div id="cards"></div>
+
+  <div class="sec">Alforje &amp; Terras Áridas</div>
+  <div id="habs"></div>
+</div>
+
+<div class="sec">O Bando</div>
+<div id="bando"></div>
+<!-- diálogo de rolagem -->
+<div class="ov" id="rollDlg"><div class="dlg">
+  <h3 id="rdTitle">Rolar</h3>
+  <div class="seg" id="rdMode">
+    <button data-m="dis">Desvantagem −d6</button>
+    <button data-m="norm" class="on">Normal</button>
+    <button data-m="adv">Vantagem +d6</button>
+  </div>
+  <div class="small" id="rdInfo" style="margin-bottom:8px;text-transform:none;letter-spacing:.02em;line-height:1.45"></div>
+  <div id="rdOpts" class="opts"></div>
+  <div class="row"><button class="btn" id="rdGo">Rolar os dados</button><button class="btn gold" id="rdCancel" style="flex:0 0 auto">✕</button></div>
+</div></div>
+
+<!-- diálogo de dano -->
+<div class="ov" id="dmgDlg"><div class="dlg">
+  <h3>Sofrer dano</h3>
+  <input type="number" id="dmgVal" placeholder="valor do dano" min="0">
+  <div id="dmgOpts" class="opts"></div>
+  <div class="row"><button class="btn" id="dmgGo">Aplicar</button><button class="btn gold" id="dmgCancel" style="flex:0 0 auto">✕</button></div>
+</div></div>
+
+<!-- resultado -->
+<div class="ov" id="res"><div class="dlg">
+  <h3 id="resTitle">Resultado</h3>
+  <div class="res-dice" id="resDice"></div>
+  <div class="res-total"><b id="resTotal"></b><div class="vs" id="resVs"></div></div>
+  <div class="res-tag" id="resTag"></div>
+  <div class="res-dmg" id="resDmg" style="display:none"></div>
+  <div class="res-note" id="resNote"></div>
+  <div class="res-act" id="resAct"></div>
+  <div class="row"><button class="btn" id="resOk">Fechar</button></div>
+</div></div>
+
+<!-- configurações -->
+<div class="ov" id="cfgDlg"><div class="dlg settings">
+  <h3>Dice+ &amp; opções</h3>
+  <div class="small" style="margin-bottom:6px"><span class="dp-dot" id="dpDot"></span><span id="dpStat">Dice+: verificando…</span></div>
+  <label>nome do dado de Esperança (azul)</label><input type="text" id="cfgHope">
+  <label>nome do dado de Medo (vermelho)</label><input type="text" id="cfgFear">
+  <label>nome do dado de Vantagem (d6, opcional)</label><input type="text" id="cfgAdv">
+  <label style="margin-top:10px"><input type="checkbox" id="cfgDP" checked style="width:auto"> usar Dice+ quando disponível</label>
+  <label style="margin-top:6px"><input type="checkbox" id="cfgEmb" checked style="width:auto"> efeitos animados do Embers (se estiver instalado na sala)</label>
+  <div class="row" style="margin-top:12px"><button class="btn" id="cfgOk">Salvar</button></div>
+</div></div>
+
+<div id="foot">
+  <button id="btnCfg">⚙ Dice+</button>
+  <button id="btnSwap">Trocar cartaz</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import OBR from "../obr-sdk.js";
+const CHARS = {
+ "SUE": {
+  "code": "SUE",
+  "nome": "Sue Thur-Gar",
+  "classe": "Pugilista",
+  "sub": "Implacável",
+  "dom": "Falange & Valor",
+  "ancestralidade": "Orc",
+  "comunidade": "Liberta",
+  "motivo": "Caçador de recompensa com nome de garotinha.",
+  "recompensa": "$ 800",
+  "cor": "#9c2b1b",
+  "cor2": "#c9722a",
+  "arquivo": "sue-thur-gar",
+  "atributos": {
+   "Agilidade": 1,
+   "Força": 2,
+   "Acuidade": 0,
+   "Instinto": 1,
+   "Presença": -1,
+   "Conhecimento": 0
+  },
+  "evasao": 12,
+  "pvMax": 6,
+  "fadigaMax": 6,
+  "prof": 1,
+  "paMax": 3,
+  "limiares": [
+   6,
+   12
+  ],
+  "armas": [
+   {
+    "nome": "Punhos",
+    "desc": "desarmado · Força · Corpo a corpo · d10+d6 fís · só sem arma equipada (+1 Evasão)",
+    "dano": "1d10",
+    "atributo": "Força"
+   },
+   {
+    "nome": "Runas de mão",
+    "desc": "principal · Instinto · Muito próximo · d10 mág · uma mão",
+    "dano": "1d10",
+    "atributo": "Instinto"
+   },
+   {
+    "nome": "Laço",
+    "desc": "secundária · Agilidade · Muito próximo · d4 fís · em vez do dano, pode Enlaçar o alvo",
+    "dano": "1d4",
+    "atributo": "Agilidade"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Sim, meu nome é Sue",
+    "desc": "",
+    "mod": 2
+   },
+   {
+    "nome": "West weird west pra alguns",
+    "desc": "",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Um Passo à Frente",
+    "meta": "Falange · Nv1 · Talento · Recall 1",
+    "texto": "Quando você é alvo de um ataque originado de um ponto fora de alcance corpo a corpo, você pode marcar 1 Ponto de Fadiga para rolar 1d4 e receber um bônus igual ao resultado na sua Evasão contra este ataque."
+   },
+   {
+    "nome": "Intocável",
+    "meta": "Falange · Nv1 · Talento · Recall 1",
+    "texto": "Receba um bônus na Evasão igual à metade da sua Agilidade."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Classe — Pugilista",
+    "tag": "Classe",
+    "nome": "Você Tem Meu Punho",
+    "texto": "Enquanto não tiver nenhuma arma equipada, você tem: bônus de +1 na sua Evasão; considere seus ataques desarmados como uma arma de alcance Corpo a Corpo — use o Atributo que quiser. O ataque causa d8+d6 de Dano Físico usando sua Proficiência (d10+d6 com Potente)."
+   },
+   {
+    "secao": "Classe — Pugilista",
+    "tag": "Classe",
+    "nome": "Combo (d4 • d6 • d8 • d10)",
+    "texto": "Depois de fazer uma rolagem de ataque com uma arma de Corpo a Corpo mas antes de causar dano ao oponente, gaste 1 Ponto de Fadiga para iniciar um Combo. Role seu Dado de Combo e anote o valor; então role de novo. Se o valor da segunda rolagem for igual ou maior que a primeira, continue rolando até que a rolagem seja menor que a imediatamente anterior. Some o valor de todas as rolagens e adicione o total ao dano da sua arma. Estes valores não podem ser ajustados por efeitos que afetem dados de dano. Seu Dado de Combo começa como d4; quando subir de nível, uma vez por patamar você pode usar uma de suas opções de aprimoramento para aumentá-lo."
+   },
+   {
+    "secao": "Classe — Pugilista",
+    "tag": "Esperança · 3 ❂",
+    "nome": "Golpe Atordoante",
+    "texto": "Gaste 3 Pontos de Esperança ao acertar um adversário para também fazê-lo marcar 1 Ponto de Fadiga e deixá-lo temporariamente Atordoado. Enquanto Atordoado, todos os testes de ataque dele têm desvantagem."
+   },
+   {
+    "secao": "Subclasse — Implacável",
+    "tag": "Fundamental",
+    "nome": "Potente",
+    "texto": "Aumente seu dado de dano para ataque desarmado de d8 para d10. Além disso, você pode marcar 1 Ponto de Fadiga para atacar duas criaturas que estejam em alcance Corpo a Corpo com uma única rolagem de ataque."
+   },
+   {
+    "secao": "Subclasse — Implacável",
+    "tag": "Fundamental",
+    "nome": "Sobrecarga",
+    "texto": "Em um ataque bem-sucedido, você pode gastar 1 Ponto de Esperança para forçar o alvo a marcar 1 Ponto de Fadiga ou arremessá-lo a uma distância Muito Próxima."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Orc",
+    "nome": "Robusto",
+    "texto": "Quando você tem apenas 1 Ponto de Vida restante, ataques contra você têm desvantagem."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Orc",
+    "nome": "Presas",
+    "texto": "Quando acerta um ataque contra um alvo corpo a corpo, você pode gastar 1 Ponto de Esperança para perfurá-lo com suas presas, causando 1d6 de dano adicional."
+   },
+   {
+    "secao": "Comunidade",
+    "tag": "Liberta",
+    "nome": "Desgarrado",
+    "texto": "Uma vez por sessão, quando rolar um Teste com Medo, você pode mudar o resultado para Esperança. (The Void)"
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Arma",
+    "nome": "Laço",
+    "texto": "Ao acertar um ataque, em vez de causar dano, você pode Enlaçar o alvo temporariamente. Um alvo Enlaçado fica Imobilizado e Vulnerável, mas você deve se manter muito próximo dele. Quando o alvo se recuperar dessa condição, você pode fazer um teste de reação de Força. Se passar, ele continua Enlaçado."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Armadura",
+    "nome": "Gibão",
+    "texto": "Gibão — base 3 · limiares 5/11 · Flexível: +1 em Evasão (já somado)."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Consumível",
+    "nome": "Dinamite",
+    "texto": "Acenda e arremesse num ponto em alcance próximo. Todas as criaturas Muito Próximas de onde ela cai fazem um teste de reação (14). Quem falhar sofre 1d20+5 de dano físico; quem passar marca 1 Ponto de Fadiga. Dano dobrado a estruturas e objetos inanimados."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Itens",
+    "nome": "Tralha",
+    "texto": "Bandagens de mão de um mentor ou um livro sobre seu hobby secreto."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Montaria",
+    "nome": "Lagarto gigante “Melody”",
+    "texto": "Não afeta as mecânicas nem dá vantagem em combate; facilita e acelera viagens por cidades e deserto."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Entreposto",
+    "nome": "Gargalhada",
+    "texto": "Filho de um bastardo que me deu nome de garota."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Fé & Essêntia",
+    "nome": "Só acredito em ouro",
+    "texto": "Recuso usar essêntia."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Em jogo",
+    "nome": "O melhor no que faz",
+    "texto": "Melhor no que faz, e o que faz não é bonito."
+   }
+  ]
+ },
+ "DJA": {
+  "code": "DJA",
+  "nome": "Djavan",
+  "classe": "Bardo",
+  "sub": "Beletrista",
+  "dom": "Códice & Graça",
+  "ancestralidade": "Katari",
+  "comunidade": "Erudita",
+  "motivo": "Um poeta cansado do palco e das apresentações.",
+  "recompensa": "$ 350",
+  "cor": "#7a3f8f",
+  "cor2": "#b98a2a",
+  "arquivo": "djavan",
+  "atributos": {
+   "Agilidade": 0,
+   "Força": -1,
+   "Acuidade": 1,
+   "Instinto": 0,
+   "Presença": 2,
+   "Conhecimento": 1
+  },
+  "evasao": 11,
+  "pvMax": 5,
+  "fadigaMax": 6,
+  "prof": 1,
+  "paMax": 3,
+  "limiares": [
+   6,
+   12
+  ],
+  "armas": [
+   {
+    "nome": "Rapieira",
+    "desc": "principal · Presença · Corpo a corpo · d8 fís · uma mão · Veloz",
+    "dano": "1d8",
+    "atributo": "Presença"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Entretenedor das caravanas",
+    "desc": "",
+    "mod": 2
+   },
+   {
+    "nome": "Aprendeu a atirar com os amigos e a duelar com o pai",
+    "desc": "",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Palavras Inspiradoras",
+    "meta": "Graça · Nv1 · Talento · Recall 1",
+    "texto": "Suas palavras são imbuídas de poder. Após um descanso longo, coloque um número de marcadores igual à sua Presença nesta carta. Ao falar com um aliado, você pode gastar um marcador desta carta para dar a ele um benefício dentre os seguintes: • Seu aliado recupera 1 PF; • Seu aliado recupera 1 PV; • Seu aliado ganha 1 Ponto de Esperança. Após um descanso longo, marcadores não utilizados são perdidos."
+   },
+   {
+    "nome": "Livro de Illiat",
+    "meta": "Códice · Nv1 · Grimório · Recall 2",
+    "texto": "Sonolência: faça um teste de conjuração contra um alvo muito próximo. Em um sucesso, ele fica Adormecido até sofrer dano ou até o mestre gastar 1 Ponto de Medo no turno dele para encerrar a condição. Saraivada Arcana: uma vez por descanso, gaste qualquer quantidade de Pontos de Esperança para atirar projéteis mágicos que acertam um alvo próximo à sua escolha. Role um número de d6 igual à quantidade de Pontos de Esperança gasta e cause o resultado deles como dano mágico ao alvo. Telepatia: gaste 1 Ponto de Esperança para criar uma linha de comunicação mental com um alvo que você possa ver. Essa conexão dura até seu próximo descanso ou até você conjurar Telepatia novamente."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Classe — Bardo",
+    "tag": "Classe",
+    "nome": "Inspiração",
+    "texto": "Uma vez por sessão, descreva como você inspira o grupo e forneça a você e seus aliados um Dado de Inspiração. No 1º nível, seu Dado de Inspiração é d6. Um personagem pode rolar o Dado de Inspiração e somar o resultado a um teste, teste de reação ou rolagem de dano, ou para recuperar um número de PF igual ao resultado. No fim de cada sessão, Dados de Inspiração não utilizados são perdidos. No 5º nível, seu Dado de Inspiração aumenta para d8."
+   },
+   {
+    "secao": "Classe — Bardo",
+    "tag": "Esperança · 3 ❂",
+    "nome": "Fazer uma Cena",
+    "texto": "Gaste 3 Pontos de Esperança para distrair temporariamente um alvo próximo, aplicando uma penalidade de –2 à Dificuldade dele."
+   },
+   {
+    "secao": "Subclasse — Beletrista",
+    "tag": "Fundamental",
+    "nome": "Discurso Inspirador",
+    "texto": "Uma vez por descanso longo, você pode fazer um discurso emocionante e inspirador. Todos os aliados até o alcance distante recuperam 2 Pontos de Fadiga."
+   },
+   {
+    "secao": "Subclasse — Beletrista",
+    "tag": "Fundamental",
+    "nome": "Alma de Poeta",
+    "texto": "Após fazer um teste para impressionar, persuadir ou ofender alguém, você pode gastar 1 Ponto de Esperança para somar 1d4 à rolagem."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Katari",
+    "nome": "Instinto Felino",
+    "texto": "Ao fazer um teste de Agilidade, você pode gastar 2 Pontos de Esperança para rolar seu Dado de Esperança novamente."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Katari",
+    "nome": "Garras Retráteis",
+    "texto": "Faça um teste de Agilidade para arranhar um alvo corpo a corpo. Em um sucesso, ele fica temporariamente Vulnerável."
+   },
+   {
+    "secao": "Comunidade",
+    "tag": "Erudita",
+    "nome": "Culto",
+    "texto": "Você tem vantagem em testes que envolvem cultura, história ou política de um lugar ou pessoa importante."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Arma",
+    "nome": "Rapieira",
+    "texto": "Veloz: ao atacar, marque 1 Fadiga para atingir outra criatura ao alcance."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Armadura",
+    "nome": "Gibão",
+    "texto": "Gibão — base 3 · limiares 5/11 · Flexível: +1 em Evasão (já somado)."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Itens",
+    "nome": "Tralha",
+    "texto": "Um livro de romance ou uma carta que nunca foi aberta."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Montaria",
+    "nome": "Cavalo",
+    "texto": "Não afeta as mecânicas nem dá vantagem em combate; facilita e acelera viagens por cidades e deserto."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Entreposto",
+    "nome": "Gargalhada",
+    "texto": "Caravana de Osasco."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Fé & Essêntia",
+    "nome": "Deuses Esquecidos",
+    "texto": "Essêntia: cristais lapidados incrustados no equipamento. Compro nas lojas."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Em jogo",
+    "nome": "A glória do colosso",
+    "texto": "Registrar a glória de caçar um colosso e contar poesias e histórias sobre isso. Sem isso serei apenas mais um mero poeta sem inspiração contando mentiras e histórias de terceiros."
+   }
+  ]
+ },
+ "MOR": {
+  "code": "MOR",
+  "nome": "Mordred",
+  "classe": "Invocador",
+  "sub": "Teurgia",
+  "dom": "Sangue & Esplendor",
+  "ancestralidade": "Infernis + Angelis",
+  "comunidade": "Erudita",
+  "motivo": "Pregador sem rebanho.",
+  "recompensa": "$ 500",
+  "cor": "#1f6f6d",
+  "cor2": "#b98a2a",
+  "arquivo": "mordred",
+  "advDie": 10,
+  "atributos": {
+   "Agilidade": 0,
+   "Força": 1,
+   "Acuidade": -1,
+   "Instinto": 0,
+   "Presença": 1,
+   "Conhecimento": 2
+  },
+  "evasao": 9,
+  "pvMax": 6,
+  "fadigaMax": 6,
+  "prof": 1,
+  "paMax": 4,
+  "limiares": [
+   8,
+   16
+  ],
+  "armas": [
+   {
+    "nome": "Cajado grande",
+    "desc": "principal · Conhecimento · Muito distante · d6 mág · duas mãos · Poderoso",
+    "dano": "1d6",
+    "atributo": "Conhecimento"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Líder de campo",
+    "desc": "",
+    "mod": 2
+   },
+   {
+    "nome": "Epígono divino",
+    "desc": "",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Talismã da Força Vital",
+    "meta": "Sangue · Nv1 · Feitiço · Recall 0",
+    "texto": "Marque 1 Ponto de Vida para conjurar um talismã infundido com a sua essência vital. Quando o portador do talismã for sofrer dano Grave ou maior, ele pode destruir o talismã e reduzir o dano em dois limiares. Caso contrário, o talismã desaparece quando você descansa ou conjura este feitiço novamente."
+   },
+   {
+    "nome": "Espinho de Sangue",
+    "meta": "Sangue · Nv1 · Feitiço · Recall 1",
+    "texto": "Faça um teste de conjuração contra um alvo em alcance próximo. Em um sucesso, gaste 1 Ponto de Esperança para causar d8+2 de dano mágico ao alvo usando a sua Proficiência, e o alvo marca 1 Ponto de Fadiga. Se você tiver pelo menos 3 Pontos de Vida marcados, o dado de dano passa a ser d10."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Classe — Invocador",
+    "tag": "Classe",
+    "nome": "Invocar Entidade",
+    "texto": "Você pode trazer Entidades de outro mundo para o seu: Espíritos do Destino e as Entidades concedidas pela sua subclasse, cada uma associada a um círculo de invocação. Marque 1 Ponto de Fadiga para invocar uma quantidade de Entidades igual ao seu Patamar, adicionando-as aos círculos apropriados da sua ficha. Você pode manter um total de Entidades invocadas igual ao seu nível. Entidades permanecem em alcance Muito Próximo de você, podem realizar tarefas inofensivas dentro desse alcance e não podem ser alvo de ataques. Se uma tarefa exigir um teste de ação, faça um Teste de Conjuração para comandar a Entidade."
+   },
+   {
+    "secao": "Classe — Invocador",
+    "tag": "1º Círculo",
+    "nome": "Espírito do Destino",
+    "texto": "Depois que um adversário em alcance Muito Próximo obtiver sucesso em um teste de ataque, você pode comandar um Espírito do Destino para forçá-lo a rolar o ataque novamente. O espírito então desaparece."
+   },
+   {
+    "secao": "Classe — Invocador",
+    "tag": "Esperança · 3 ❂",
+    "nome": "Auxílio dos Espíritos",
+    "texto": "Gaste 3 Pontos de Esperança para conjurar auxílio do outro mundo: distribua 2 Pontos de Esperança entre um ou mais outros PJs em alcance Distante, e você recupera 1 Ponto de Fadiga."
+   },
+   {
+    "secao": "Subclasse — Teurgia",
+    "tag": "2º Círculo",
+    "nome": "Segundo Círculo: Anjo",
+    "texto": "Você pode invocar Anjos usando o seu Segundo Círculo."
+   },
+   {
+    "secao": "Subclasse — Teurgia",
+    "tag": "Fundamental",
+    "nome": "Presença Angelical",
+    "texto": "Enquanto você tiver ao menos um Anjo invocado, você tem vantagem em testes de Presença para influenciar outras criaturas — o poder celestial ao seu redor inspira admiração e temor."
+   },
+   {
+    "secao": "Subclasse — Teurgia",
+    "tag": "Fundamental",
+    "nome": "Golpe Esperançoso",
+    "texto": "Quando você obtém um sucesso com Esperança em um teste de ataque, você pode comandar um Anjo para causar 1d10 de dano mágico adicional ao alvo. O Anjo então desaparece."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Infernis",
+    "nome": "Destemido",
+    "texto": "Quando rolar com Medo, você pode marcar 2 Pontos de Fadiga para rolar com Esperança em vez disso."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Angelis",
+    "nome": "Semblante Divino",
+    "texto": "Você tem vantagem em rolagens para comandar ou persuadir."
+   },
+   {
+    "secao": "Comunidade",
+    "tag": "Erudita",
+    "nome": "Culto",
+    "texto": "Você tem vantagem em testes que envolvem cultura, história ou política de um lugar ou pessoa importante."
+   },
+   {
+    "secao": "Transformação — Semideus",
+    "tag": "The Void",
+    "nome": "Elixir dos Deuses",
+    "texto": "Seu dado de vantagem é um d10 em vez de um d6."
+   },
+   {
+    "secao": "Transformação — Semideus",
+    "tag": "The Void",
+    "nome": "O Peso da Divindade",
+    "texto": "Quando tiver um fracasso com Medo, você deve marcar 1 Ponto de Fadiga ou conceder ao mestre 1 Ponto de Medo adicional."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Arma",
+    "nome": "Cajado grande",
+    "texto": "Poderoso: ao acertar, role +1 dado de dano e descarte o menor. Mágica."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Armadura",
+    "nome": "Cota de malha",
+    "texto": "Cota de malha — base 4 · limiares 7/15 · Pesada: −1 em Evasão (já somado)."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Itens",
+    "nome": "Tralha",
+    "texto": "Um espírito inofensivo preso em uma garrafa de vidro ou um par de moedas misteriosas."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Montaria",
+    "nome": "Cabra gigante",
+    "texto": "Não afeta as mecânicas nem dá vantagem em combate; facilita e acelera viagens por cidades e deserto."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Entreposto",
+    "nome": "Prior",
+    "texto": "Líder solitário."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Fé & Essêntia",
+    "nome": "Novos Deuses",
+    "texto": "Essêntia: cristais lapidados incrustados no equipamento. Compro nas lojas."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Em jogo",
+    "nome": "Asas contra colossos",
+    "texto": "Eu posso voar e ajudar a derrotar os colossos."
+   }
+  ]
+ },
+ "VIB": {
+  "code": "VIB",
+  "nome": "Víbora (Sylvia)",
+  "classe": "Ladino",
+  "sub": "Gatuno",
+  "dom": "Graça & Meia-noite",
+  "ancestralidade": "Humano + Fada",
+  "comunidade": "Silvestre",
+  "motivo": "Após a ocupação do Oásis pelos humanos, Sylvia se torna uma mercenária como forma de sustentar as outras fadas.",
+  "recompensa": "$ 650",
+  "cor": "#3f6b2f",
+  "cor2": "#b98a2a",
+  "arquivo": "vibora",
+  "atributos": {
+   "Agilidade": 1,
+   "Força": -1,
+   "Acuidade": 2,
+   "Instinto": 1,
+   "Presença": 0,
+   "Conhecimento": 0
+  },
+  "evasao": 13,
+  "pvMax": 6,
+  "fadigaMax": 7,
+  "prof": 1,
+  "paMax": 3,
+  "limiares": [
+   6,
+   12
+  ],
+  "armas": [
+   {
+    "nome": "Revólver",
+    "desc": "principal · Acuidade · Distante · d8+1 fís · uma mão · gasta 1 bala",
+    "dano": "1d8+1",
+    "atributo": "Acuidade",
+    "balas": true
+   },
+   {
+    "nome": "Revólver pequeno",
+    "desc": "secundária · Acuidade · Distante · d6 fís",
+    "dano": "1d6",
+    "atributo": "Acuidade"
+   }
+  ],
+  "experiencias": [
+   {
+    "nome": "Caçadora de Suprimentos",
+    "desc": "",
+    "mod": 2
+   },
+   {
+    "nome": "Mercenária das Terras Áridas",
+    "desc": "",
+    "mod": 2
+   }
+  ],
+  "cartas": [
+   {
+    "nome": "Chuva de Lâminas",
+    "meta": "Meia-noite · Nv1 · Feitiço · Recall 1",
+    "texto": "Gaste 1 Ponto de Esperança para fazer um teste de conjuração e arremessar lâminas mágicas contra todos os alvos muito próximos. Alvos atingidos sofrem d8+2 de dano mágico com sua Proficiência. Se um alvo atingido estiver Vulnerável, ele sofre 1d8 de dano adicional."
+   },
+   {
+    "nome": "Delinquente",
+    "meta": "Meia-noite · Nv1 · Talento · Recall 0",
+    "texto": "Você tem vantagem em testes para arrombar fechaduras não mágicas, desarmar armadilhas não mágicas ou roubar itens de um alvo (seja por meio da furtividade ou da força)."
+   }
+  ],
+  "habilidades": [
+   {
+    "secao": "Classe — Ladino",
+    "tag": "Classe",
+    "nome": "Oculto",
+    "texto": "Sempre que estiver Escondido, em vez disso você fica Oculto. Além dos benefícios da condição Escondido, enquanto estiver Oculto você permanece sem ser visto mesmo que um adversário se mova para onde normalmente o veria, desde que você fique parado. Ao concluir um movimento dentro da linha de visão de um adversário, ou ao atacar, você deixa de estar Oculto."
+   },
+   {
+    "secao": "Classe — Ladino",
+    "tag": "Classe",
+    "nome": "Ataque Furtivo",
+    "texto": "Quando acertar um ataque enquanto estiver Oculto, ou enquanto um aliado estiver corpo a corpo ao seu alvo, some um número de d6 igual ao seu patamar à rolagem de dano (1d6 no 1º patamar)."
+   },
+   {
+    "secao": "Classe — Ladino",
+    "tag": "Esperança · 3 ❂",
+    "nome": "Esquiva de Ladino",
+    "texto": "Gaste 3 Pontos de Esperança para receber um bônus de +2 na Evasão até o próximo ataque que acertar você. Caso contrário, esse bônus dura até seu próximo descanso."
+   },
+   {
+    "secao": "Subclasse — Gatuno",
+    "tag": "Fundamental",
+    "nome": "Passo Sombrio",
+    "texto": "Você pode se movimentar de uma sombra para outra. Ao entrar em uma área de escuridão ou na sombra de outra criatura ou objeto, você pode marcar 1 PF para desaparecer de onde está e reaparecer dentro de outra sombra distante. Ao reaparecer, considera-se que você está Oculto."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Humano",
+    "nome": "Resiliência",
+    "texto": "Receba 1 Ponto de Fadiga adicional durante a criação de personagem (já somado)."
+   },
+   {
+    "secao": "Ancestralidade",
+    "tag": "Fada",
+    "nome": "Asas",
+    "texto": "Você pode voar. Enquanto estiver voando, e após um adversário atacar você, você pode marcar 1 Ponto de Fadiga para receber um bônus de +2 na Evasão contra esse ataque."
+   },
+   {
+    "secao": "Comunidade",
+    "tag": "Silvestre",
+    "nome": "Pés Leves",
+    "texto": "Seu movimento é naturalmente silencioso. Você tem vantagem em testes para se mover sem ser ouvido."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Arma",
+    "nome": "Revólver",
+    "texto": "Seis balas: coloque 6 Marcadores de Bala na sua ficha. Gaste 1 Marcador de Bala para fazer um ataque. Você pode marcar 1 Ponto de Fadiga para recuperar Marcadores gastos."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Arma",
+    "nome": "Revólver pequeno",
+    "texto": "Tiro rápido: gaste 2 Pontos de Esperança para receber um bônus de +4 no dano da arma principal."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Armadura",
+    "nome": "Gibão",
+    "texto": "Gibão — base 3 · limiares 5/11 · Flexível: +1 em Evasão (já somado)."
+   },
+   {
+    "secao": "Alforje",
+    "tag": "Itens",
+    "nome": "Tralha",
+    "texto": "Ferramentas de falsificação ou um arpéu."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Montaria",
+    "nome": "Corça “Miragem”",
+    "texto": "Não afeta as mecânicas nem dá vantagem em combate; facilita e acelera viagens por cidades e deserto."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Origem",
+    "nome": "Oásis das fadas",
+    "texto": "Oásis secreto das fadas no meio do deserto."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Fé & Essêntia",
+    "nome": "Só acredito em ouro",
+    "texto": "Essêntia: cristais lapidados incrustados no equipamento. Roubo."
+   },
+   {
+    "secao": "Terras Áridas",
+    "tag": "Em jogo",
+    "nome": "Se a recompensa for boa",
+    "texto": "Tenho determinação de ser capaz de realizar qualquer coisa se a recompensa for boa. Se eu falhar, as fadas perdem seu maior meio de sustento."
+   }
+  ]
+ }
+};
+
+const NS='com.terras-aridas';
+const K={fear:NS+'/fear', sheet:NS+'/sheet-'};
+const CH={card:NS+'/card', notify:NS+'/notify'};
+const SRC=NS+'.ficha';
+const DP={req:'dice-plus/roll-request', ready:'dice-plus/isReady', res:SRC+'/roll-result', err:SRC+'/roll-error'};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const randInt=m=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%m+1}catch(e){return Math.floor(Math.random()*m)+1}};
+
+/* ---------- adaptador OBR / demo ---------- */
+let demo=!OBR.isAvailable, meta={}, metaSubs=[], bcSubs={};
+const _pendSubs=[];
+const api={
+ async ready(){ if(demo){$('demoNote').style.display='block';return;}
+   await new Promise(r=>OBR.onReady(r));
+   for(const [ch,f] of _pendSubs.splice(0)) OBR.broadcast.onMessage(ch,f); },
+ async me(){ if(demo) return {id:'demo',name:'Demo',role:'GM'};
+   return {id:await OBR.player.getId(),name:await OBR.player.getName(),role:await OBR.player.getRole()}; },
+ async getMeta(){ if(demo) return meta; return OBR.room.getMetadata(); },
+ async setMeta(u){ if(demo){Object.assign(meta,u);metaSubs.forEach(f=>f(meta));return;} return OBR.room.setMetadata(u); },
+ onMeta(f){ if(demo){metaSubs.push(f);return;} OBR.room.onMetadataChange(f); },
+ send(ch,data,dest='ALL'){ if(demo){ (bcSubs[ch]||[]).forEach(f=>f({data})); return; }
+   OBR.broadcast.sendMessage(ch,data,{destination:dest}); },
+ on(ch,f){ if(demo){(bcSubs[ch]=bcSubs[ch]||[]).push(f);return;} if(OBR.isReady) OBR.broadcast.onMessage(ch,f); else _pendSubs.push([ch,f]); },
+ notify(msg,variant='DEFAULT'){ if(demo){toast(msg);return;} OBR.notification.show(msg,variant).catch(()=>{}); },
+ badge(t,color){ if(demo) return; OBR.action.setBadgeText(t||undefined).catch(()=>{});
+   if(color) OBR.action.setBadgeBackgroundColor(color).catch(()=>{}); },
+};
+
+/* ---------- config ---------- */
+const CFG_KEY='ta-ficha-cfg';
+let cfg={hope:'Esperanca',fear:'Medo',adv:'Vantagem',useDP:true};
+try{Object.assign(cfg,JSON.parse(localStorage.getItem(CFG_KEY)||'{}'))}catch(e){}
+function saveCfg(){try{localStorage.setItem(CFG_KEY,JSON.stringify(cfg))}catch(e){}}
+
+/* ---------- estado ---------- */
+let ME={id:'',name:'',role:'PLAYER'};
+let C=null;            // personagem
+let S=null;            // estado vivo {code,pv,fad,pa,esp,pend}
+let fearNow=0, dpOK=false, lastM={}, partyIds=null;
+
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2600)}
+
+async function saveSheet(){ if(!C) return;
+  const pub={code:C.code,nome:C.nome,player:ME.name,pv:S.pv,fad:S.fad,pa:S.pa,esp:S.esp,
+    pvMax:C.pvMax,fadMax:C.fadigaMax,paMax:C.paMax,espMax:6,cor:C.cor,ts:Date.now()};
+  if(!(ME.role==='GM'&&!demo)) await api.setMeta({[K.sheet+ME.id]:pub}); // o mestre não entra na Party
+  try{localStorage.setItem('ta-ficha-state',JSON.stringify({code:C.code,...S}))}catch(e){}
+}
+
+/* ---------- Dice+ ---------- */
+const _pings={};
+api.on(DP.ready,ev=>{const d=ev.data; if(d&&d.ready&&_pings[d.requestId]){_pings[d.requestId]();delete _pings[d.requestId]}});
+function pingDP(){ return new Promise(res=>{
+  if(demo||!cfg.useDP){res(false);return}
+  const id='p'+Date.now()+'-'+randInt(999);
+  _pings[id]=()=>res(true);
+  api.send(DP.ready,{requestId:id,timestamp:Date.now()},'ALL');
+  setTimeout(()=>{if(_pings[id]){delete _pings[id];res(false)}},2500);
+})}
+const pending={};
+api.on(DP.res, ev=>{const d=ev.data; const h=pending[d?.rollId]; if(h){delete pending[d.rollId]; h.ok(d.result)}});
+api.on(DP.err, ev=>{const d=ev.data; const h=pending[d?.rollId]; if(h){delete pending[d.rollId]; h.fail(d.error)}});
+
+function dpRoll(notation){ return new Promise((ok,fail)=>{
+  const rollId='ta-'+Date.now()+'-'+randInt(999);
+  pending[rollId]={ok,fail};
+  api.send(DP.req,{rollId,playerId:ME.id,playerName:ME.name,rollTarget:'everyone',
+    diceNotation:notation,showResults:true,timestamp:Date.now(),source:SRC},'ALL');
+  setTimeout(()=>{if(pending[rollId]){delete pending[rollId];fail('timeout')}},9000);
+})}
+
+function internalRoll(spec){ // gera groups no formato Dice+
+  const groups=[];
+  for(const g of spec){ const dice=[]; let tot=0;
+    for(let i=0;i<g.n;i++){const v=randInt(g.d);dice.push({value:v,kept:true});tot+=v}
+    groups.push({description:`${g.n}d${g.d}`,diceType:'d'+g.d,dice,total:tot,isNegative:!!g.neg});
+  }
+  return {totalValue:0,rollSummary:'interno',groups};
+}
+
+/* ===== recursos de classe ===== */
+const NIVEL=1, PATAMAR=1;
+const SC={SUE:null,DJA:'Presença',MOR:'Presença',VIB:'Acuidade'};
+const PERN={curto:'descanso',longo:'descanso longo',sessao:'sessão'};
+const AT=k=>C.atributos[k]??0;
+function cntOf(id){ const k=(FXC().counters||[]).find(x=>x.id===id); if(!k) return 0; const X=fxS(); return Math.min(cntMax(k), X.c[id]??(k.start==='max'?cntMax(k):(k.start||0))); }
+function setCnt(id,v){ const k=(FXC().counters||[]).find(x=>x.id===id); if(!k) return; fxS().c[id]=Math.max(0,Math.min(cntMax(k),v)); }
+function invTotal(){ return cntOf('destino')+cntOf('circ2'); }
+function invocar(id){ const room=Math.max(0,NIVEL-invTotal()), n=Math.min(PATAMAR,room); setCnt(id,cntOf(id)+n); return n?`invocado (${invTotal()}/${NIVEL} Entidade)`:`sem espaço: você mantém ${NIVEL} Entidade por vez no nível ${NIVEL}`; }
+function comboRoll(d){ const v=[]; let prev=0; for(let i=0;i<30;i++){ const x=randInt(d); v.push(x); if(i>0&&x<prev) break; prev=x; } return {tot:v.reduce((a,b)=>a+b,0),vals:v}; }
+window.__dbg={get S(){return S},get C(){return C},evasao:()=>evasao(),limiares:()=>limiares(),fxS:()=>fxS(),optsFor:c=>optsFor(c),gatherFx:(c,k)=>gatherFx(c,k)};
+const FX={
+ SUE:{ states:[{id:'punhos',nome:'Sem arma equipada (+1 Evasão)',ev:1,txt:'Você Tem Meu Punho: sem nenhuma arma equipada, +1 na Evasão e os Punhos causam d10+d6.'}],
+      counters:[{id:'dinamite',nome:'Dinamite',max:5,per:'none',start:1,pips:'tnt',txt:'Bananas de dinamite. O mestre entrega mais.'}],
+      hope:{nome:'Golpe Atordoante',custo:3,txt:'ao acertar: o alvo marca 1 PF e fica Atordoado (ataques dele com desvantagem).'},
+      acts:[{nome:'Combo',cost:{pf:1},combo:4,txt:'depois do ataque corpo a corpo: role o d4 enquanto não cair e some tudo ao dano'},
+            {nome:'Um Passo à Frente',cost:{pf:1},roll:[1,4],txt:'+1d4 na Evasão contra um ataque de fora do corpo a corpo'},
+            {nome:'Dinamite',cost:{c:{dinamite:1}},roll:[1,20,5],txt:'todos Muito Próximos de onde cai: reação (14) ou sofrem o dano; quem passa marca 1 PF'},
+            {nome:'Enlaçar',txt:'acertou com o Laço: em vez do dano, o alvo fica Imobilizado e Vulnerável'}],
+      opts:[{id:'potente',nome:'Potente (1 PF): atingir duas criaturas corpo a corpo',wpn:true,only:'Punhos',cost:{pf:1}},
+            {id:'sobrecarga',nome:'Sobrecarga (1 ❂): alvo marca 1 PF ou é arremessado',wpn:true,cost:{esp:1}},
+            {id:'presas',nome:'Presas (1 ❂): +1d6 num alvo corpo a corpo',wpn:true,only:'Punhos',cost:{esp:1},dmgDice:[1,6]}],
+      after:['desgarrado'] },
+ DJA:{ counters:[{id:'palavras',nome:'Palavras Inspiradoras',max:()=>AT('Presença'),per:'longo',start:'max',pips:'note',txt:'Ao falar com um aliado, gaste 1: ele recupera 1 PF, 1 PV ou ganha 1 Esperança.'}],
+      hope:{nome:'Fazer uma Cena',custo:3,txt:'um alvo próximo fica com −2 na Dificuldade.'},
+      acts:[{nome:'Inspiração (dar d6 ao bando)',use:{id:'insp',max:1,per:'sessao'},txt:'você e os aliados recebem um Dado de Inspiração d6'},
+            {nome:'Usar meu Dado de Inspiração',roll:[1,6],use:{id:'inspme',max:1,per:'sessao'},txt:'some a um teste, reação ou dano — ou recupere PF'},
+            {nome:'Discurso Inspirador',use:{id:'disc',max:1,per:'longo'},txt:'todos os aliados até alcance distante recuperam 2 PF'},
+            {nome:'Alma de Poeta',cost:{esp:1},roll:[1,4],txt:'depois de impressionar, persuadir ou ofender: some à rolagem'},
+            {nome:'Garras Retráteis',txt:'teste de Agilidade: alvo corpo a corpo fica Vulnerável'},
+            {nome:'Telepatia',cost:{esp:1},txt:'linha de comunicação mental com um alvo que você veja'}],
+      opts:[{id:'veloz',nome:'Veloz (1 PF): atingir outra criatura ao alcance',wpn:true,cost:{pf:1}}],
+      after:['felino'] },
+ MOR:{ counters:[{id:'destino',nome:'1º Círculo — Espírito do Destino',max:NIVEL,per:'none',start:0,pips:'circ',txt:'Depois que um adversário Muito Próximo acertar um ataque, ele rola de novo.'},
+                 {id:'circ2',nome:'2º Círculo — Anjo',max:NIVEL,per:'none',start:0,pips:'circ',txt:'Com um Anjo invocado: vantagem em Presença para influenciar.'}],
+      hope:{nome:'Auxílio dos Espíritos',custo:3,fx:()=>{S.fad=Math.min(C.fadigaMax,S.fad+1); return 'recuperou 1 PF'},txt:'distribua 2 Esperança entre outros PJs distantes e recupere 1 PF.'},
+      acts:[{nome:'Invocar Espírito do Destino',cost:{pf:1},fx:()=>invocar('destino'),txt:'1º Círculo'},
+            {nome:'Invocar Anjo',cost:{pf:1},fx:()=>invocar('circ2'),txt:'2º Círculo'},
+            {nome:'Comandar o Espírito: refazer ataque',cost:{c:{destino:1}},txt:'o adversário Muito Próximo rola o ataque de novo; o espírito desaparece'},
+            {nome:'Golpe Esperançoso',cost:{c:{circ2:1}},roll:[1,10],txt:'sucesso com Esperança num ataque: dano mágico extra; o Anjo desaparece'},
+            {nome:'Talismã da Força Vital',cost:{pv:1},txt:'o portador pode destruí-lo para reduzir o dano em dois limiares'}],
+      after:['destemido','peso'] },
+ VIB:{ counters:[{id:'balas',nome:'Balas no tambor',max:6,per:'none',start:'max',pips:'bala',recarga:{pf:1},txt:'Cada ataque com o Revólver gasta 1.'}],
+      states:[{id:'oculto',nome:'Oculto',txt:'Ataque Furtivo: +1d6 no próximo dano de arma. Você sai de Oculto ao atacar.',dmgDice:[1,6],wpn:true,consume:true},
+              {id:'esquiva',nome:'Esquiva (+2 Evasão)',txt:'+2 na Evasão até o próximo ataque que acertar você.',ev:2,clearOnHit:true}],
+      hope:{nome:'Esquiva de Ladino',custo:3,state:'esquiva',txt:'+2 na Evasão até o próximo ataque que acertar você.'},
+      acts:[{nome:'Passo Sombrio',cost:{pf:1},state:'oculto',txt:'some numa sombra e reaparece em outra distante, Oculta'},
+            {nome:'Asas: +2 Evasão contra o ataque',cost:{pf:1},txt:'voando, depois que um adversário atacar você'}],
+      opts:[{id:'furtivo',nome:'Ataque Furtivo: aliado corpo a corpo ao alvo (+1d6)',wpn:true,dmgDice:[1,6],unless:'oculto'},
+            {id:'tirorapido',nome:'Tiro rápido (2 ❂): +4 no dano do Revólver',wpn:true,only:'Revólver',cost:{esp:2},dmgFlat:4}] },
+};
+const CARDREQ={'Um Passo à Frente':'Um Passo à Frente','palavras':'Palavras Inspiradoras','Telepatia':'Livro de Illiat','Talismã da Força Vital':'Talismã da Força Vital'};
+
+function hasCard(n){ if(!n||!C) return true; const i=C.cartas.findIndex(c=>c.nome===n); if(i<0) return true; return loadout().includes(i); }
+function okItem(x){ if(x.need&&!stOn(x.need)) return false; return hasCard(CARDREQ[x.id]||CARDREQ[x.nome]); }
+function limiares(){ const l=[...C.limiares]; const i=C.cartas.findIndex(c=>c.nome==='Armadura Fortificada'); if(i>=0&&!loadout().includes(i)) return [l[0]-2,l[1]-2]; return l; }
+const FXC=()=>FX[C.code]||{};
+function fxS(){ if(!S.fx) S.fx={u:{},c:{},st:{},pool:{},num:{},det:null,marca:null}; for(const k of ['u','c','st','pool','num']) S.fx[k]=S.fx[k]||{}; return S.fx; }
+function stOn(id){ return !!fxS().st[id]; }
+function usesLeft(u){ return u.max-(fxS().u[u.id]||0); }
+function canPay(cost){ if(!cost) return true; if(cost.pv&&S.pv<=cost.pv){toast('PV insuficiente.');return false} if(cost.c) for(const id in cost.c){ const k=(FXC().counters||[]).find(x=>x.id===id); if(cntOf(id)<cost.c[id]){toast(`Sem ${k?k.nome.replace(/^(Marcadores|Fichas) — /,''):id} suficiente.`);return false} } if(cost.pf&&S.fad<cost.pf){toast('Sem Fadiga disponível.');return false} if(cost.esp&&S.esp<cost.esp){toast('Esperança insuficiente.');return false} if(cost.pa&&S.pa<cost.pa){toast('Sem Armadura disponível.');return false} return true; }
+function pay(cost){ if(!cost) return ''; const t=[]; if(cost.pv){S.pv-=cost.pv;t.push(cost.pv+' PV')} if(cost.c) for(const id in cost.c){ setCnt(id,cntOf(id)-cost.c[id]); const k=(FXC().counters||[]).find(x=>x.id===id); t.push(cost.c[id]+' '+(k?k.nome.replace(/^(Marcadores|Fichas) — /,''):id)); } if(cost.pf){S.fad-=cost.pf;t.push(cost.pf+' PF')} if(cost.esp){S.esp-=cost.esp;t.push(cost.esp+' ❂')} if(cost.pa){S.pa-=cost.pa;t.push(cost.pa+' Armadura')} return t.join(' + '); }
+function costTxt(cost){ if(!cost) return ''; const t=[]; if(cost.pv)t.push(cost.pv+' PV'); if(cost.c) for(const id in cost.c){ const k=(FXC().counters||[]).find(x=>x.id===id); t.push(cost.c[id]+' '+(k?k.nome.replace(/^(Marcadores|Fichas) — /,'').replace('Misturas Tóxicas','toxina').replace('Poder Através da Dor','Dor'):id)); } if(cost.pf)t.push(cost.pf+' PF'); if(cost.esp)t.push(cost.esp+' ❂'); if(cost.pa)t.push(cost.pa+' Arm.'); return t.join(' · '); }
+function announce(msg,variant){ api.send(CH.notify,{msg:`★ ${C.nome}: ${msg}`,variant:variant||'INFO',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
+function cntMax(k){ return Math.max(0,typeof k.max==='function'?k.max():k.max); }
+function evasao(){ let e=parseInt(C.evasao)||0; if(C.cartas.some(c=>c.nome==='Intocável')&&!hasCard('Intocável')) e-=Math.ceil(AT('Agilidade')/2); for(const s of (FXC().states||[])) if(s.ev&&stOn(s.id)) e+=s.ev; return e; }
+function rollLocal(n,d){ let t=0,v=[]; for(let i=0;i<n;i++){const x=randInt(d);v.push(x);t+=x} return {t,v}; }
+async function rollExpr(n,d,flat,label){ // dado avulso (cura, evasão, cartas)
+  let tot=null,vals=null,via='interna';
+  if(dpOK&&cfg.useDP){ try{ const r=await dpRoll(`${n}d${d}${flat?fmtMod(flat):''}`); const g=(r.groups||[]).find(x=>x.diceType==='d'+d); vals=g?g.dice.map(x=>x.value):null; tot=r.totalValue||((vals||[]).reduce((a,b)=>a+b,0)+(flat||0)); via='Dice+'; }catch(e){} }
+  if(tot==null){ const r=rollLocal(n,d); vals=r.v; tot=r.t+(flat||0); }
+  return {tot,vals,via};
+}
+
+function renderFx(){
+  const F=FXC(), X=fxS(); const el=$('fx'); if(!el) return;
+  let h=`<div class="fxline" id="tokLine"></div><div class="fxtop"><span>Evasão <b>${evasao()}</b></span><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
+  // estados
+  if(F.states&&F.states.length) h+=`<div class="fxrow">${F.states.map(s=>`<button class="chip2 ${stOn(s.id)?'on':''}" data-fxst="${s.id}" title="${esc(s.txt)}">${esc(s.nome)}</button>`).join('')}</div>`;
+  // marca (caçador)
+  if(F.marca) h+=`<div class="fxline"><b>🎯 Marca da Presa</b><span>${X.marca?'Alvo marcado: ao causar dano, ele marca 1 PF. Você sabe a direção dele. Predador Veloz: +2 Evasão contra os ataques dele.':'nenhum alvo marcado — marque ao atacar (1 ❂)'}</span>${X.marca?'<button class="mini" data-fxmarca="0">encerrar</button>':''}</div>`;
+  // determinação (guardião)
+  if(F.det){ const d=X.det; h+=`<div class="fxline"><b>🛡 Determinação</b>${d?`<span>Dado <b class="dv">${d}</b>/6 · soma ao dano, −1 gravidade no dano físico, imune a Imobilizado e Vulnerável</span><button class="mini" data-fxdet="up">+1</button><button class="mini" data-fxdet="end">encerrar</button>`:`<span>${usesLeft({id:'det',max:1})>0?'pronta (1×/descanso longo)':'usada neste descanso longo'}</span>${usesLeft({id:'det',max:1})>0?'<button class="mini" data-fxdet="go">ficar Determinado</button>':''}`}</div>`; }
+  // número (mago)
+  if(F.num){ const v=X.num[F.num.id]||''; h+=`<div class="fxline"><b>${esc(F.num.nome)}</b><span>${esc(F.num.txt)}</span><select data-fxnum="${F.num.id}"><option value="">—</option>${Array.from({length:12},(_,i)=>`<option ${v==i+1?'selected':''}>${i+1}</option>`).join('')}</select></div>`; }
+  // pools
+  for(const p of (F.pools||[])){ const arr=X.pool[p.id]||[];
+    h+=`<div class="fxline col"><div><b>🙏 ${esc(p.nome)}</b> <span>${esc(p.txt)}</span></div><div class="fxrow">${arr.length?arr.map((v,i)=>`<button class="pd" data-fxpool="${p.id}:${i}" title="gastar">${v}</button>`).join(''):'<span class="dim">sem dados — role no início da sessão</span>'}<button class="mini" data-fxpoolroll="${p.id}">${arr.length?'rolar de novo':'rolar'} ${cntMax({max:p.count})}d${p.die}${p.extra?' (+1, descarta o menor)':''}</button></div>
+      <div class="fxrow" id="poolmenu-${p.id}"></div></div>`; }
+  // contadores
+  for(const k of (F.counters||[]).filter(okItem)){ const m=cntMax(k), v=Math.min(m, X.c[k.id]??(k.start==='max'?m:(k.start||0)));
+    h+=`<div class="fxline"><b>${esc(k.nome)}</b><span>${esc(k.txt||'')}</span>${k.pips?`<div class="tks ${k.pips}">${Array.from({length:m},(_,j)=>`<i class="${j<v?'on':''}"></i>`).join('')}</div>`:''}<button class="mini" data-fxc="${k.id}:-1">−</button><b class="dv">${v}/${m}</b><button class="mini" data-fxc="${k.id}:1">+</button>${k.recarga?`<button class="mini" data-fxcr="${k.id}">recarregar (${costTxt(k.recarga)})</button>`:''}</div>`; }
+  // habilidade de esperança
+  if(F.hope&&!F.hope.resOnly) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span><button class="mini gold" data-fxhope="1">usar · ${F.hope.custo} ❂</button></div>`;
+  else if(F.hope) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span></div>`;
+  // ações
+  if(F.acts&&F.acts.length) h+=`<div class="fxacts">${F.acts.map((a,i)=>{ if(!okItem(a)) return ''; const left=a.use?usesLeft(a.use):null;
+    const pips=a.use?`<span class="up">${Array.from({length:a.use.max},(_,j)=>`<i class="${j<a.use.max-left?'used':''}"></i>`).join('')}<small>${PERN[a.use.per]||''}</small></span>`:'';
+    return `<div class="fxa"><div><b>${esc(a.nome)}</b>${a.txt?`<span>${esc(a.txt)}</span>`:''}</div>${pips}<button class="mini" data-fxact="${i}" ${a.use&&left<=0?'disabled':''}>${a.spend?'gastar':'usar'}${a.cost?' · '+costTxt(a.cost):''}${a.roll?` · ${a.roll[0]}d${a.roll[1]}${a.roll[2]?'+'+a.roll[2]:''}`:''}</button></div>`; }).join('')}</div>`;
+  h+=`<div class="fxrest"><button data-fxrest="curto">Descanso curto</button><button data-fxrest="longo">Descanso longo</button><button data-fxrest="sessao">Nova sessão</button></div>`;
+  el.innerHTML=h; tokenLine();
+}
+async function fxSave(){ renderFx(); renderTrackers(); await saveSheet(); }
+document.addEventListener('change',async ev=>{
+  const n=ev.target.closest('[data-fxnum]'); if(n){ fxS().num[n.dataset.fxnum]=+n.value||null; await fxSave(); toast(n.value?`Padrão escolhido: ${n.value}`:'Padrão limpo'); }
+});
+document.addEventListener('click',async ev=>{
+  if(!C) return; const F=FXC(), X=fxS(); const t=ev.target;
+  const st=t.closest('[data-fxst]'); if(st){ X.st[st.dataset.fxst]=!X.st[st.dataset.fxst]; await fxSave(); return; }
+  const mk=t.closest('[data-fxmarca]'); if(mk){ X.marca=null; await fxSave(); announce('encerrou a Marca da Presa.'); return; }
+  const dt=t.closest('[data-fxdet]'); if(dt){ const a=dt.dataset.fxdet;
+    if(a==='go'){ X.u.det=(X.u.det||0)+1; X.det=1; announce('ficou Determinado (dado 1/6).','WARNING'); playFx(FXK['Determinação']); }
+    else if(a==='up'){ if(X.det>=6){ X.det=null; announce('a Determinação passou do máximo e se encerrou.'); } else X.det++; }
+    else { X.det=null; }
+    await fxSave(); return; }
+  const c=t.closest('[data-fxc]'); if(c){ const [id,d]=c.dataset.fxc.split(':'); const k=F.counters.find(x=>x.id===id), m=cntMax(k); const cur=X.c[id]??(k.start==='max'?m:(k.start||0)); X.c[id]=Math.max(0,Math.min(m,cur+(+d))); await fxSave(); return; }
+  const cr=t.closest('[data-fxcr]'); if(cr){ const k=F.counters.find(x=>x.id===cr.dataset.fxcr); if(!canPay(k.recarga)) return; pay(k.recarga); X.c[k.id]=cntMax(k); await fxSave(); announce(`recarregou ${k.nome.replace('Marcadores — ','')}.`); return; }
+  const pr=t.closest('[data-fxpoolroll]'); if(pr){ const p=F.pools.find(x=>x.id===pr.dataset.fxpoolroll); const n=cntMax({max:p.count})+(p.extra||0);
+    const r=await rollExpr(n,p.die,0,p.nome); let v=(r.vals||[]).slice().sort((a,b)=>b-a); if(p.extra) v=v.slice(0,v.length-p.extra);
+    X.pool[p.id]=v; await fxSave(); announce(`rolou ${p.nome}: ${v.join(', ')}.`); return; }
+  const pd=t.closest('[data-fxpool]'); if(pd){ const [id,i]=pd.dataset.fxpool.split(':'); const v=X.pool[id][+i];
+    $('poolmenu-'+id).innerHTML=`<span class="dim">dado ${v}:</span><button class="mini" data-pooluse="${id}:${i}:roll">somar à rolagem</button><button class="mini" data-pooluse="${id}:${i}:dmg">reduzir dano</button><button class="mini" data-pooluse="${id}:${i}:hope">+${v} Esperança</button>`; return; }
+  const pu=t.closest('[data-pooluse]'); if(pu){ const [id,i,how]=pu.dataset.pooluse.split(':'); const v=X.pool[id][+i]; X.pool[id].splice(+i,1);
+    if(how==='hope'){ S.esp=Math.min(6,S.esp+v); announce(`gastou um Dado de Oração (${v}) e ganhou ${v} Esperança.`,'SUCCESS'); }
+    else announce(`gastou um Dado de Oração: ${how==='roll'?'+':'−'}${v} ${how==='roll'?'na rolagem':'no dano'}.`,'SUCCESS');
+    await fxSave(); return; }
+  const hp=t.closest('[data-fxhope]'); if(hp){ const H=F.hope; if(!canPay({esp:H.custo})) return; pay({esp:H.custo});
+    if(H.state) X.st[H.state]=true; const hr=H.fx?H.fx():null; await fxSave(); announce(`${H.nome} (${H.custo} ❂) — ${hr||H.txt}`,'SUCCESS'); if(hr) toast(`${H.nome}: ${hr}`); playFx(FXK[H.nome]); return; }
+  const ac=t.closest('[data-fxact]'); if(ac){ const a=F.acts[+ac.dataset.fxact];
+    if(a.use&&usesLeft(a.use)<=0){ toast('Já usado neste '+(PERN[a.use.per]||'período')+'.'); return; }
+    if(a.spend){ const k=F.counters.find(x=>x.id===a.spend), have=X.c[k.id]??cntMax(k);
+      if(!have){ toast('Sem marcadores.'); return; }
+      ac.parentElement.insertAdjacentHTML('beforeend',`<div class="fxrow spendrow">${Array.from({length:have},(_,j)=>`<button class="mini" data-fxspend="${ac.dataset.fxact}:${j+1}">${j+1}</button>`).join('')}</div>`); return; }
+    if(!canPay(a.cost)) return; const pago=pay(a.cost); if(a.use) X.u[a.use.id]=(X.u[a.use.id]||0)+1;
+    if(a.state) X.st[a.state]=true; if(a.fill){ const k=F.counters.find(x=>x.id===a.fill); X.c[k.id]=cntMax(k); } const fxr=a.fx?a.fx():null;
+    let extra=fxr?` → ${fxr}`:''; if(a.roll){ const r=await rollExpr(a.roll[0],a.roll[1],a.roll[2]||0,a.nome); extra+=` → ${r.tot}`; toast(`${a.nome}: ${r.tot}`); if(a.addRoll){ setCnt(a.addRoll,cntOf(a.addRoll)+r.tot); extra+=` (agora ${cntOf(a.addRoll)})`; } }
+    if(a.combo){ const r=comboRoll(a.combo); extra+=` → Combo ${r.vals.join(' ≥ ')} = +${r.tot} de dano`; toast(`Combo: +${r.tot} de dano`); }
+    if(fxr&&!a.roll&&!a.combo) toast(`${a.nome}: ${fxr}`);
+    await fxSave(); announce(`${a.nome}${pago?' ('+pago+')':''}${a.txt?' — '+a.txt:''}${extra}`); playFx(FXK[a.nome]); return; }
+  const sp=t.closest('[data-fxspend]'); if(sp){ const [ai,n]=sp.dataset.fxspend.split(':').map(Number); const a=F.acts[ai]; const k=F.counters.find(x=>x.id===a.spend);
+    X.c[k.id]=(X.c[k.id]??cntMax(k))-n; const r=await rollExpr(n,a.die,0,a.nome); await fxSave();
+    showDmgOnly(`${a.nome} · ${n}d${a.die}`, r, true); playFx(FXK[a.nome]); announce(`${a.nome}: ${n} marcador(es) → ${r.tot} de dano mágico.`); return; }
+  const rs=t.closest('[data-fxrest]'); if(rs){ fxRest(rs.dataset.fxrest); return; }
+});
+async function fxRest(kind){
+  const F=FXC(), X=fxS(); const lv={curto:['curto'],longo:['curto','longo'],sessao:['curto','longo','sessao']}[kind];
+  const all=[...(F.acts||[]).map(a=>a.use).filter(Boolean),...(F.opts||[]).map(o=>o.use).filter(Boolean)]; if(F.det) all.push({id:'det',per:'longo'}); all.push({id:'desgarrado',per:'sessao'});
+  for(const u of all) if(lv.includes(u.per)) X.u[u.id]=0;
+  for(const k of (F.counters||[])) if(lv.includes(k.per)) X.c[k.id]=(k.start==='max'?cntMax(k):0);
+  for(const s of (F.states||[])) if(s.clearOnRest||s.id==='esquiva'||s.id==='besouros'||s.id==='fera') X.st[s.id]=false;
+  X.det=null; if(kind==='sessao'){ X.pool={}; X.marca=null; }
+  await fxSave(); announce(`${kind==='curto'?'fez um descanso curto':kind==='longo'?'fez um descanso longo':'começou uma nova sessão'} — usos e marcadores renovados.`);
+}
+
+/* efeitos aplicados numa rolagem */
+function gatherFx(ctx,checked){
+  const F=FXC(), X=fxS(); const isW=ctx.tipo==='wpn'; const phys=isW&&/fís/.test(ctx.arma.desc||''); const mag=isW&&/mág/.test(ctx.arma.desc||'');
+  const e={atk:0,dmgDice:[],dmgFlat:0,prof:0,adv:false,hopeD20:false,double:false,notes:[],cost:{},consume:[],uses:[],setMarca:false,phys,mag};
+  const add=(o,nome)=>{ if(o.wpn&&!isW) return; if(o.test&&isW) return;
+    if(o.atk) e.atk+=typeof o.atk==='function'?o.atk():o.atk; if(o.dmgDice&&isW) e.dmgDice.push(o.dmgDice); if(o.dmgFlat&&isW) e.dmgFlat+=o.dmgFlat;
+    if(o.prof&&isW) e.prof+=o.prof; if(o.adv) e.adv=true; if(o.hopeD20) e.hopeD20=true; if(o.double&&isW) e.double=true;
+    if(o.cost) for(const k in o.cost){ if(k==='c'){ e.cost.c=e.cost.c||{}; for(const id in o.cost.c) e.cost.c[id]=(e.cost.c[id]||0)+o.cost.c[id]; } else e.cost[k]=(e.cost[k]||0)+o.cost[k]; } if(o.use) e.uses.push(o.use.id); if(o.setMarca) e.setMarca=true; e.notes.push(nome); };
+  for(const s of (F.states||[])) if(stOn(s.id)&&(s.atk||s.dmgDice||s.dmgFlat||s.double)){ if((s.wpn&&!isW)) continue; add(s,s.nome); if(s.consume&&isW) e.consume.push(s.id); }
+  for(const o of (F.opts||[])) if(checked.includes(o.id)) add(o,o.nome.split(':')[0].split('(')[0].trim());
+  // automáticos
+  if(C.code==='W'&&phys){ e.dmgFlat+=NIVEL; e.notes.push('Treinamento de Combate +5'); }
+  if(C.code==='W'&&S.pv<=2){ e.hopeD20=true; e.notes.push('Enfrentar o Desafio: d20 de Esperança'); }
+  if(C.code==='G'&&X.det&&isW){ e.dmgFlat+=X.det; e.notes.push(`Determinação +${X.det}`); }
+  if(C.code==='M'&&S.fad<=0&&isW&&hasCard('Voz da Razão')){ e.prof+=1; e.notes.push('Voz da Razão: +1 Proficiência'); }
+  if(C.code==='C'&&X.marca&&isW) e.notes.push('alvo Marcado marca 1 PF ao sofrer dano');
+  if(isW&&ctx.arma.nome==='Punhos'){ e.dmgDice.push([C.prof||1,6]); e.notes.push('Você Tem Meu Punho: d10+d6'); }
+  if(isW&&ctx.arma.balas){ e.cost.c=e.cost.c||{}; e.cost.c.balas=(e.cost.c.balas||0)+1; e.notes.push('1 bala'); }
+  if(isW&&hasCard('Força Esmagadora')&&C.cartas.some(c=>c.nome==='Força Esmagadora')&&/Corpo a corpo/i.test(ctx.arma.desc||'')){ e.dmgFlat+=AT('Força'); e.notes.push('Força Esmagadora +'+AT('Força')); }
+  if(isW&&/marque 1 PF/i.test(ctx.arma.desc||'')){ e.cost.pf=(e.cost.pf||0)+1; e.notes.push(ctx.arma.nome+': 1 PF'); }
+  return e;
+}
+function optsFor(ctx){
+  const F=FXC(); const isW=ctx.tipo==='wpn';
+  return (F.opts||[]).filter(o=>okItem(o)&&!(o.wpn&&!isW)&&!(o.test&&isW)&&!(o.unless&&stOn(o.unless))&&!(o.unlessMarca&&fxS().marca)&&!(o.use&&usesLeft(o.use)<=0)&&!(o.only&&ctx.arma?.nome!==o.only));
+}
+
+/* ======================================================================
+   TOKENS NO MAPA + EFEITOS DO EMBERS
+   O token do personagem é achado pelo nome (ex.: "Redentor"); o alvo é o
+   que o jogador selecionou no mapa. Os efeitos vão para o Embers pelo
+   canal de mensagens dele (eu.armindo.embers/effects).
+   ====================================================================== */
+const EMB='eu.armindo.embers/effects';
+const nrm=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/^\s*(boss|npc|pc)\s*-\s*/,'').replace(/^\s*[\d]{2}(-[\d]{2})?\s*·\s*/,'').replace(/\s*\([^)]*\)\s*$/,'').replace(/\s*(#\d+|— irmao [ab])$/,'').replace(/\s+/g,' ').trim().replace(/^(o|a|os|as)\s+/,'');
+async function sceneChars(){ if(demo) return []; try{ return await OBR.scene.items.getItems(i=>i.layer==='CHARACTER'); }catch(e){ return []; } }
+async function findMyToken(){
+  if(!C) return null; const items=await sceneChars();
+  if(S.token){ const t=items.find(i=>i.id===S.token); if(t) return t; }
+  const key=nrm(C.nome); return items.find(i=>nrm(i.name)===key)||items.find(i=>{ const n=nrm(i.name); return n&&n.length>3&&(n.includes(key)||key.includes(n)); })||null;
+}
+function tsize(it){ const g=(it.image&&it.grid)?Math.max(it.image.width,it.image.height)/it.grid.dpi:1; return Math.max(Math.abs(it.scale?.x||1),Math.abs(it.scale?.y||1))*g; }
+async function selTargets(excl){ if(demo) return []; try{ const sel=(await OBR.player.getSelection())||[]; const ids=sel.filter(id=>id!==excl); return ids.length?await OBR.scene.items.getItems(ids):[]; }catch(e){ return []; } }
+async function sendEmbers(instructions,name){ if(demo||!instructions.length) return; try{ const pid=await OBR.player.getId(); OBR.broadcast.sendMessage(EMB,{instructions,spellData:{name,caster:pid}},{destination:'ALL'}); }catch(e){} }
+async function playFx(spec){
+  if(!spec||demo||cfg.embers===false) return;
+  try{
+    const me=await findMyToken(); const tg=await selTargets(me&&me.id); const ins=[];
+    if(spec.proj&&me&&tg.length){ tg.forEach(t=>ins.push({type:'effect',id:spec.proj,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}})); }
+    else if((spec.hit||(spec.proj&&spec.fall))&&(tg.length||me)){ const id=spec.hit||spec.fall; (tg.length?tg:[me]).forEach(t=>ins.push({type:'effect',id,effectProperties:{source:t.position,size:tsize(t)*(spec.sz||1)}})); }
+    else if(spec.self&&me){ ins.push({type:'effect',id:spec.self,effectProperties:{source:me.position,size:tsize(me)*(spec.sz||2)}}); }
+    await sendEmbers(ins,spec.proj||spec.hit||spec.self);
+  }catch(e){}
+}
+const FXW={ // armas
+ 'Lâmina do Retorno':{proj:'generic.weapon_attacks.ranged.dagger.throw',fall:'generic.weapon_attacks.melee.single.dagger'},
+ 'Adaga pequena':{hit:'generic.weapon_attacks.melee.single.dagger'},'Adaga':{hit:'generic.weapon_attacks.melee.single.dagger'},'Adaga de Caça':{hit:'generic.weapon_attacks.melee.single.dagger'},
+ 'Cajado Curto':{proj:'generic.ranged_spell.instant.dark_orange',fall:'generic.impact.fire'},
+ 'Escudo Redondo':{hit:'generic.impact.dropshadow'},'Escudo-Torre':{hit:'generic.impact.dropshadow'},
+ 'Machado Sagrado':{hit:'divine_smite.target'},'Varinha':{proj:'guiding_bolt',fall:'sacred_flame.target'},
+ 'Martelo de Guerra':{hit:'generic.weapon_attacks.melee.single.warhammer'},'Sopro de Fogo':{proj:'fire_bolt',fall:'generic.impact.fire'},
+ 'Espada Longa':{hit:'generic.weapon_attacks.melee.single.sword'},'Arco Longo':{proj:'generic.weapon_attacks.ranged.arrow.white',fall:'generic.impact.dropshadow'},
+ 'Lira-Cetro':{hit:'generic.template.circle.outpulse.music_notes.burst'},'Língua':{hit:'generic.creature.bite'},
+ 'Cetro da Boca':{proj:'generic.ranged_spell.overcharged_sphere.purple',fall:'generic.impact.orange.2'},'Cetro da Boca (corpo a corpo)':{hit:'generic.creature.bite'},
+ 'Cajado de Raiz':{hit:'generic.nature.vine_nature.thorns.1.complete'},'Cetro do Falso Céu':{proj:'guiding_bolt',fall:'sacred_flame.target'},'Cetro do Falso Céu (corpo a corpo)':{hit:'divine_smite.target'},
+ 'Adaga Envenenada':{hit:'generic.weapon_attacks.melee.single.dagger'},'Besta de Mão':{proj:'generic.weapon_attacks.ranged.bolt',fall:'generic.impact.dropshadow'},
+ 'Punhos Acorrentados':{hit:'generic.unarmed_attacks.unarmed_strikes.physical.1'},'Machado Incandescente':{hit:'generic.impact.fire'},
+ 'Cajado de Ossos':{proj:'eldritch_blast',fall:'toll_the_dead.skull_smoke'},'Machado de Caça':{hit:'generic.creature.claws'},'Runas da Maré':{hit:'generic.impact.water'},
+};
+const FXK={ // cartas, feitiços dos grimórios e ações de classe
+ 'Vinha Voraz':{hit:'generic.nature.vine_nature.thorns.1.complete'},'Raio Luminoso':{proj:'guiding_bolt',fall:'sacred_flame.target'},'Chama Selvagem':{hit:'generic.impact.fire'},
+ 'Círculo Rúnico':{self:'generic.magic_signs.evocation_circle.dark_red.complete',sz:3},'Bola de Fogo':{proj:'fireball.beam',fall:'fireball.explosion'},'Incendiar':{hit:'generic.fire.eruption'},
+ 'Corrente de Relâmpagos':{proj:'chain_lightning.primary',fall:'generic.lightning.lightning_strike'},'Impacto Defensivo':{self:'generic.impact.dropshadow',sz:3},
+ 'Espírito da Meia-noite':{hit:'spiritual_weapon.spectral_green_longsword'},'Caos Liberto':{proj:'eldritch_blast',fall:'generic.impact.fire'},'Saraivada Arcana':{proj:'eldritch_blast',fall:'generic.impact.fire'},
+ 'Propelir':{hit:'generic.impact.dropshadow'},'Estaca de Gelo':{proj:'generic.ranged_spell.ice_shard',fall:'generic.impact.ice_shard'},'Vaga-Lumes':{self:'generic.fireflies.many',sz:3},
+ 'Tronco Descomunal':{hit:'generic.nature.group_vine.1.complete'},'Sonolência':{hit:'sleep.symbol.dark_pink'},'Amarração Mística':{hit:'generic.nature.vine_nature.simple.1.complete'},
+ 'Sombra Traiçoeira':{self:'darkness.black.transparent',sz:3},'Véu da Noite':{self:'darkness.black.transparent',sz:4},'Silêncio':{hit:'darkness.black.transparent'},'Glifo do Ocaso':{hit:'generic.magic_signs.necromancy_circle.dark_green.complete'},
+ 'Regeneração':{hit:'generic.healing.green'},'Proteção Druídica':{self:'generic.healing.green',sz:3},'Toque Piedoso':{hit:'generic.healing.yellow'},'Alicerce da Vida':{hit:'generic.healing.yellow'},
+ 'Toque Reparador':{hit:'generic.healing.blue'},'Mãos Curativas':{hit:'cure_wounds'},'Campo Curativo':{self:'generic.healing.green',sz:4},
+ 'Canção Comovente':{self:'generic.template.circle.outpulse.music_notes.burst',sz:3},'Canção Épica':{hit:'generic.marker.music'},'Canção Relaxante':{self:'generic.template.circle.outpulse.music_notes.burst',sz:3},
+ 'Inspiração (dar d8 ao grupo)':{self:'generic.template.circle.outpulse.music_notes.burst',sz:3},'Fazer uma Cena':{hit:'generic.marker.music'},'Lampejo Hipnótico':{self:'generic.magic_signs.illusion_circle.dark_purple.complete',sz:3},
+ 'Invisibilidade':{hit:'generic.magic_signs.illusion_circle.dark_purple.complete'},'Linha de Frente':{self:'generic.energy.shield_eldritch_web.above'},'Forma de Fera':{self:'generic.creature.claws'},'Evolução':{self:'generic.creature.claws'},
+ 'Passo Sombrio':{self:'darkness.black.transparent'},'Esquiva de Ladino':{self:'darkness.black.transparent'},'Conjurar Enxame — besouros':{self:'generic.energy.shield_eldritch_web.above'},
+ 'Punição':{self:'divine_smite.caster'},'Evasão Natural':{self:'generic.fire.shield.fire.above'},'Determinação':{self:'generic.fire.shield.molten.above'},'Sem Piedade':{self:'generic.weapon_attacks.melee.single.generic_whirlwind'},
+ 'Segurem Eles':{self:'generic.weapon_attacks.melee.single.generic_whirlwind'},'Não Dessa Vez':{hit:'generic.magic_signs.abjuration_circle.dark_blue.complete'},'Magia Volátil':{hit:'generic.impact.fire'},
+};
+async function tokenLine(){
+  const el=$('tokLine'); if(!el) return;
+  if(demo){ el.innerHTML='<span class="dim">Tokens e efeitos do Embers funcionam dentro do Owlbear.</span>'; return; }
+  const t=await findMyToken();
+  el.innerHTML=`<b>🎯 Token</b><span>${t?`${esc(t.name||'sem nome')}${S.token?' (vinculado)':' (achado pelo nome)'} · efeitos do Embers ${cfg.embers===false?'desligados':'ligados'}`:'nenhum token com o nome do personagem no mapa — selecione o seu e clique em vincular'}</span><button class="mini" data-tok="link">vincular selecionado</button>${S.token?'<button class="mini" data-tok="unlink">desvincular</button>':''}`;
+}
+document.addEventListener('click',async ev=>{
+  const b=ev.target.closest('[data-tok]'); if(!b||!C||demo) return;
+  if(b.dataset.tok==='link'){ const sel=(await OBR.player.getSelection())||[]; if(sel.length!==1){ toast('Selecione só o seu token no mapa.'); return; } S.token=sel[0]; toast('Token vinculado.'); }
+  else S.token=null;
+  await saveSheet(); tokenLine();
+});
+
+Object.assign(FXW,{
+ 'Punhos':{hit:'generic.unarmed_attacks.unarmed_strikes.physical.1'},'Runas de mão':{hit:'generic.energy.energy_attack.1'},'Laço':{hit:'generic.marker.red_chain.complete'},
+ 'Rapieira':{hit:'generic.weapon_attacks.melee.single.rapier'},'Cajado grande':{proj:'guiding_bolt',fall:'sacred_flame.target'},
+ 'Revólver':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},'Revólver pequeno':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},
+});
+Object.assign(FXK,{
+ 'Combo':{hit:'generic.unarmed_attacks.flurry_of_blows.physical'},'Golpe Atordoante':{hit:'generic.conditions.dizzy_stars'},'Dinamite':{proj:'generic.weapon_attacks.ranged.throw.bomb',fall:'generic.explosion.orange1',sz:3},
+ 'Enlaçar':{hit:'generic.marker.red_chain.complete'},'Inspiração (dar d6 ao bando)':{self:'bardic_inspiration',sz:3},'Discurso Inspirador':{self:'generic.template.circle.outpulse.music_notes.burst',sz:4},
+ 'Fazer uma Cena':{hit:'generic.marker.music'},'Saraivada Arcana':{proj:'magic_missile',fall:'generic.impact.fire'},'Sonolência':{hit:'sleep.symbol.dark_pink'},
+ 'Invocar Espírito do Destino':{self:'generic.magic_signs.conjuration_circle.dark_yellow.complete',sz:2.5},'Invocar Anjo':{self:'generic.marker.light.complete',sz:2.5},
+ 'Golpe Esperançoso':{hit:'divine_smite.target'},'Auxílio dos Espíritos':{self:'bless.intro',sz:3},'Espinho de Sangue':{proj:'generic.ranged_spell.instant.dark_orange',fall:'generic.impact.orange.3'},
+ 'Passo Sombrio':{self:'misty_step.out'},'Esquiva de Ladino':{self:'generic.smoke.puff'},'Chuva de Lâminas':{self:'cloud_of_daggers.light_red',sz:3},
+});
+
+/* ---------- motor de dualidade ---------- */
+function parseDuality(result,mode){
+  const gs=result.groups||[];
+  const hope=gs[0]?.dice?.[0]?.value??null, fear=gs[1]?.dice?.[0]?.value??null;
+  let adv=0; if(mode&&mode!=='norm'&&gs[2]&&gs[2].dice?.length===1){ adv=gs[2].isNegative||mode==='dis'?-Math.abs(gs[2].dice[0].value):gs[2].dice[0].value; }
+  return {hope,fear,adv};
+}
+async function applyOutcome(kind){ // 'hope' | 'fear' | 'crit'
+  if(kind==='crit'){ S.esp=Math.min(6,S.esp+1); S.fad=Math.min(C.fadigaMax,S.fad+1); renderTrackers(); await saveSheet(); }
+  else if(kind==='hope'){ S.esp=Math.min(6,S.esp+1); renderTrackers(); await saveSheet(); }
+  else if(kind==='fear'){
+    const m=await api.getMeta(); const f=Math.min(12,(m[K.fear]||0)+1);
+    await api.setMeta({[K.fear]:f});
+    api.send(CH.notify,{msg:`🌵 O deserto cobra… Medo do Mestre: ${f}`,variant:'WARNING',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL');
+  }
+}
+async function undoOutcome(kind){
+  if(kind==='crit'){ S.esp=Math.max(0,S.esp-1); S.fad=Math.max(0,S.fad-1); }
+  else if(kind==='hope'){ S.esp=Math.max(0,S.esp-1); }
+  else if(kind==='fear'){ const m=await api.getMeta(); await api.setMeta({[K.fear]:Math.max(0,(m[K.fear]||0)-1)}); }
+  renderTrackers(); await saveSheet();
+}
+function fmtMod(n){return (n>=0?'+':'')+n}
+
+/* ---------- rolagens ---------- */
+let rollCtx=null, last=null;
+function openRollDlg(ctx){
+  rollCtx={...ctx,mode:'norm'};
+  $('rdTitle').textContent=(ctx.tipo==='wpn'?'Ataque — ':'')+ctx.nome+'  '+fmtMod(ctx.mod);
+  document.querySelectorAll('#rdMode button').forEach(b=>b.classList.toggle('on',b.dataset.m==='norm'));
+  const p=S.pend?`Experiência armada: ${S.pend.nome} +${S.pend.mod} (será consumida)`:'';
+  const auto=gatherFx(ctx,[]).notes;
+  $('rdInfo').textContent=[p,ctx.tipo==='wpn'?`Dano: ${ctx.arma.dano}`:'Rolagem de dualidade 2d12', auto.length?'Ativo: '+auto.join(' · '):''].filter(Boolean).join(' · ');
+  $('rdOpts').innerHTML=optsFor(ctx).map(o=>`<label><input type="checkbox" value="${o.id}"> ${esc(o.nome)}${o.use?` <small>(${usesLeft(o.use)}× até o ${PERN[o.use.per]})</small>`:''}</label>`).join('');
+  $('rollDlg').classList.add('on');
+}
+document.querySelectorAll('#rdMode button').forEach(b=>b.onclick=()=>{
+  rollCtx.mode=b.dataset.m;
+  document.querySelectorAll('#rdMode button').forEach(x=>x.classList.toggle('on',x===b));
+});
+$('rdCancel').onclick=()=>$('rollDlg').classList.remove('on');
+async function rollDuality(mode,totalMod,hopeD20,label){
+  const hd=hopeD20?20:12;
+  let not=`1d${hd}{${cfg.hope}}+1d12{${cfg.fear}}`;
+  const ad=(C&&C.advDie)||6;
+  if(mode==='adv') not+= cfg.adv?`+1d${ad}{${cfg.adv}}`:`+1d${ad}`;
+  if(mode==='dis') not+='-1d6';
+  if(totalMod) not+=fmtMod(totalMod);
+  const spec=[{n:1,d:hd},{n:1,d:12}]; if(mode==='adv')spec.push({n:1,d:ad}); if(mode==='dis')spec.push({n:1,d:6,neg:true});
+  let result=null, viaDP=false;
+  if(dpOK&&cfg.useDP){ try{ result=await dpRoll(not); viaDP=true; }catch(e){ result=null; } }
+  let p=result?parseDuality(result,mode):null;
+  if(!p||p.hope==null||p.fear==null){ p=parseDuality(internalRoll(spec),mode); viaDP=false; }
+  return {p,viaDP};
+}
+async function rollDamage(ctx,e){
+  const dm=ctx.arma.dano.match(/(\d+)d(\d+)([+\-]\d+)?/);
+  const n=+dm[1]+e.prof, d=+dm[2], flat=(dm[3]?parseInt(dm[3]):0)+e.dmgFlat;
+  const groups=[{n,d},...e.dmgDice.map(x=>({n:x[0],d:x[1]}))];
+  const expr=groups.map(g=>`${g.n}d${g.d}`).join('+')+(flat?fmtMod(flat):'');
+  let vals=null, via='interna';
+  if(dpOK&&cfg.useDP){ try{ const r=await dpRoll(expr); const gs=r.groups||[]; if(gs.length>=groups.length) { vals=groups.map((g,i)=>(gs[i].dice||[]).map(x=>x.value)); via='Dice+'; } }catch(e){} }
+  if(!vals) vals=groups.map(g=>rollLocal(g.n,g.d).v);
+  let notes=[];
+  if(/Poderoso/.test(ctx.arma.desc||'')){ const x=randInt(d); const arr=[...vals[0],x]; const mn=Math.min(...arr); arr.splice(arr.indexOf(mn),1); vals[0]=arr; notes.push(`Poderoso: rolou +1 dado (${x}) e descartou o menor (${mn})`); }
+  if(C.code==='G'&&hasCard('Não o Suficiente')){ // Não o Suficiente: rola de novo 1 e 2
+    let rr=0; vals=vals.map((arr,gi)=>arr.map(v=>{ if(v<=2){rr++;return randInt(groups[gi].d)} return v; })); if(rr) notes.push(`Não o Suficiente: ${rr} dado(s) de 1–2 rolado(s) de novo`); }
+  const sum=vals.flat().reduce((a,b)=>a+b,0)+flat;
+  const max=groups.reduce((s,g)=>s+g.n*g.d,0);
+  return {expr,sum,max,via,notes,groups,flat};
+}
+$('rdGo').onclick=async()=>{
+  const ctx=rollCtx; const checked=[...document.querySelectorAll('#rdOpts input:checked')].map(i=>i.value);
+  const e=gatherFx(ctx,checked);
+  if(!canPay(e.cost)) return;
+  $('rollDlg').classList.remove('on');
+  const pago=pay(e.cost); for(const u of e.uses) fxS().u[u]=(fxS().u[u]||0)+1;
+  const expMod=S.pend?S.pend.mod:0; const expNome=S.pend?.nome;
+  const totalMod=ctx.mod+expMod+e.atk;
+  const mode=e.adv&&ctx.mode==='norm'?'adv':ctx.mode;
+  if(S.pend){S.pend=null;renderPend();}
+  const {p,viaDP}=await rollDuality(mode,totalMod,e.hopeD20,ctx.nome);
+  const total=p.hope+p.fear+p.adv+totalMod;
+  const crit=p.hope===p.fear;
+  const kind=crit?'crit':(p.hope>p.fear?'hope':'fear');
+  await applyOutcome(kind);
+  let dmg=null;
+  if(ctx.tipo==='wpn'){ dmg=await rollDamage(ctx,e); for(const id of e.consume) fxS().st[id]=false; if(e.setMarca) fxS().marca=true; }
+  last={ctx,e,p,total,crit,kind,expNome,viaDP,dmg,totalMod,mode,pago};
+  await fxSave();
+  if(pago) announce(`${ctx.nome}: ${e.notes.join(' · ')} (${pago})`);
+  showResult(last);
+  if(ctx.tipo==='wpn') playFx(FXW[ctx.arma.nome]||{hit:'generic.weapon_attacks.melee.single.generic_slash'});
+  else if(/^Conjuração — /.test(ctx.nome)) playFx(FXK[ctx.nome.replace('Conjuração — ','')]);
+};
+function dmgValue(L){ const d=L.dmg; if(!d) return null; let v=d.sum; if(L.crit) v+=d.max; if(L.e.double) v*=2; return v; }
+function showResult(L){
+  const {ctx,p,total,crit,kind,expNome,viaDP,e}=L;
+  const col=kind==='crit'?'var(--bile)':(kind==='hope'?'var(--hope)':'var(--fear)');
+  document.documentElement.style.setProperty('--rescol',col);
+  $('resTitle').textContent=ctx.nome+(ctx.tipo==='wpn'?' — ataque':'');
+  let dice=`<div class="rd hope"><b>${p.hope}</b><span>Esperança${e.hopeD20?' d20':''}</span></div><div class="rd fear"><b>${p.fear}</b><span>Medo</span></div>`;
+  if(p.adv) dice+=`<div class="rd ${p.adv>0?'adv':'dis'}"><b>${p.adv>0?'+':''}${p.adv}</b><span>${p.adv>0?'vantagem':'desvant.'}</span></div>`;
+  $('resDice').innerHTML=dice; $('resDice').style.display='flex'; $('resTag').style.display='block';
+  $('resTotal').textContent=total; $('resVs').textContent='total do teste'+(L.totalMod?` (mod ${fmtMod(L.totalMod)})`:'');
+  const tag=$('resTag'); tag.className='res-tag '+kind;
+  tag.textContent=crit?'✦ CRÍTICO — sucesso com Esperança':(kind==='hope'?'COM ESPERANÇA  (+1 Esperança)':'COM MEDO  (o deserto cobra)');
+  const rd=$('resDmg');
+  if(L.dmg){ const d=L.dmg, v=dmgValue(L);
+    const ex=[crit?`crítico +${d.max}`:'',e.double?'Punição ×2':'',...d.notes].filter(Boolean).join(' · ');
+    rd.style.display='block'; rd.innerHTML=`<b>${v}</b><span class="small">dano · ${esc(d.expr)}${ex?' · '+esc(ex):''}</span>`;
+  } else rd.style.display='none';
+  $('resNote').textContent=[expNome?`Experiência: ${expNome}`:'', e.notes.length?'Efeitos: '+e.notes.join(' · '):'', viaDP?'Rolado no Dice+.':'Rolagem interna.'].filter(Boolean).join(' · ');
+  renderAfter(L);
+  $('res').classList.add('on');
+}
+function showDmgOnly(label,r,magic){
+  document.documentElement.style.setProperty('--rescol','var(--blood2)');
+  $('resTitle').textContent=label; $('resDice').style.display='none'; $('resTag').style.display='none';
+  $('resTotal').textContent=r.tot; $('resVs').textContent='dano'+(r.vals?` · dados: ${r.vals.join(', ')}`:'');
+  $('resDmg').style.display='none'; $('resNote').textContent=r.via==='Dice+'?'Rolado no Dice+.':'Rolagem interna.';
+  last={dmgOnly:true,label,r,magic};
+  $('resAct').innerHTML=magic&&C.code==='F'?`<button class="mini gold" data-after="volatil">Magia Volátil (3 ❂): rolar o dano de novo</button>`:'';
+  $('res').classList.add('on');
+}
+function renderAfter(L){
+  const F=FXC(), X=fxS(), b=[]; const after=F.after||[];
+  if(after.includes('destemido')&&L.kind==='fear') b.push(['destemido','Destemido (2 PF): rolar com Esperança']);
+  if(after.includes('desgarrado')&&L.kind==='fear'&&usesLeft({id:'desgarrado',max:1})>0) b.push(['desgarrado','Desgarrado (1×/sessão): mudar para Esperança']);
+  if(after.includes('peso')&&L.kind==='fear'){ b.push(['pesoPF','Fracassei com Medo — Peso da Divindade: marcar 1 PF']); b.push(['pesoMedo','Fracassei com Medo — Peso da Divindade: +1 Medo ao mestre']); }
+  if(after.includes('furtiv')&&L.kind==='fear') b.push(['furtiv','Mestre da Furtividade (1 PF): movimento furtivo com Esperança']);
+  if(after.includes('coragem')&&L.kind==='fear') b.push(['coragem','Falhei com Medo — Coragem: +1 Esperança']);
+  if(after.includes('padrao')){ const n=X.num.padrao; if(n&&(L.p.hope===n||L.p.fear===n)){ b.push(['padraoE',`Padrão ${n}! +1 Esperança`]); b.push(['padraoF',`Padrão ${n}! recuperar 1 PF`]); } }
+  if(after.includes('adapt')&&L.expNome) b.push(['adapt','Adaptabilidade (1 PF): falhei com Experiência — rolar de novo']);
+  if(after.includes('sorte')&&usesLeft({id:'sorte',max:1})>0) b.push(['sorte','Testar a Sorte (3 ❂, 1×/sessão): rolar a Dualidade de novo']);
+  if(after.includes('felino')&&(L.ctx.nome==='Agilidade'||L.ctx.arma?.atributo==='Agilidade')) b.push(['felino','Felino (2 ❂): rolar o Dado de Esperança de novo']);
+  if(after.includes('marcaRe')&&X.marca&&L.ctx.tipo==='wpn') b.push(['marcaRe','Errei o Marcado: encerrar a Marca e rolar de novo']);
+  if(after.includes('volatil')&&L.dmg&&L.e.mag) b.push(['volatil','Magia Volátil (3 ❂): rolar o dano de novo']);
+  if(L.dmg&&C.code==='C'&&X.marca) b.push(['marcaPF','Acertei o Marcado: avisar que ele marca 1 PF']);
+  $('resAct').innerHTML=b.map(([k,t])=>`<button class="mini gold" data-after="${k}">${esc(t)}</button>`).join('');
+}
+async function rerollDuality(onlyHope){
+  const L=last; await undoOutcome(L.kind);
+  if(onlyHope){ const hd=L.e.hopeD20?20:12; let v=null; if(dpOK&&cfg.useDP){ try{ const r=await dpRoll(`1d${hd}{${cfg.hope}}`); v=r.groups?.[0]?.dice?.[0]?.value??null; }catch(e){} } if(v==null) v=randInt(hd); L.p={...L.p,hope:v}; }
+  else { const {p,viaDP}=await rollDuality(L.mode,L.totalMod,L.e.hopeD20); L.p=p; L.viaDP=viaDP; }
+  L.total=L.p.hope+L.p.fear+L.p.adv+L.totalMod; L.crit=L.p.hope===L.p.fear; L.kind=L.crit?'crit':(L.p.hope>L.p.fear?'hope':'fear');
+  await applyOutcome(L.kind); showResult(L);
+}
+document.addEventListener('click',async ev=>{
+  const a=ev.target.closest('[data-after]'); if(!a||!last) return; const k=a.dataset.after, L=last;
+  if(k==='destemido'||k==='furtiv'){ const c=k==='destemido'?2:1; if(!canPay({pf:c})) return; pay({pf:c}); await undoOutcome('fear'); L.kind='hope'; await applyOutcome('hope'); announce(`${k==='destemido'?'Destemido':'Mestre da Furtividade'} (${c} PF): rolou com Esperança em vez de Medo.`); showResult(L); }
+  else if(k==='desgarrado'){ fxS().u.desgarrado=1; await undoOutcome('fear'); L.kind='hope'; await applyOutcome('hope'); announce('Desgarrado: mudou a rolagem com Medo para Esperança.'); showResult(L); }
+  else if(k==='pesoPF'||k==='pesoMedo'){ if(k==='pesoPF'){ if(!canPay({pf:1})) return; pay({pf:1}); } else { const m=await api.getMeta(); await api.setMeta({[K.fear]:Math.min(12,(m[K.fear]||0)+1)}); } await fxSave(); $('resAct').querySelectorAll('[data-after^="peso"]').forEach(x=>x.remove()); announce(`O Peso da Divindade: ${k==='pesoPF'?'marcou 1 PF':'o mestre ganhou 1 Medo'}.`); }
+  else if(k==='coragem'){ S.esp=Math.min(6,S.esp+1); await fxSave(); a.remove(); announce('Coragem: falhou com Medo e recebeu 1 Esperança.'); }
+  else if(k==='padraoE'||k==='padraoF'){ if(k==='padraoE') S.esp=Math.min(6,S.esp+1); else S.fad=Math.min(C.fadigaMax,S.fad+1); await fxSave(); $('resAct').querySelectorAll('[data-after^="padrao"]').forEach(x=>x.remove()); announce(`Padrões Estranhos: ${k==='padraoE'?'+1 Esperança':'recuperou 1 PF'}.`); }
+  else if(k==='adapt'){ if(!canPay({pf:1})) return; pay({pf:1}); announce('Adaptabilidade (1 PF): rolou de novo.'); await rerollDuality(false); }
+  else if(k==='sorte'){ if(!canPay({esp:3})) return; pay({esp:3}); fxS().u.sorte=1; announce('Testar a Sorte (3 ❂): rolou os Dados de Dualidade de novo.'); await rerollDuality(false); }
+  else if(k==='felino'){ if(!canPay({esp:2})) return; pay({esp:2}); announce('Felino (2 ❂): rolou o Dado de Esperança de novo.'); await rerollDuality(true); }
+  else if(k==='marcaRe'){ fxS().marca=null; announce('encerrou a Marca da Presa para rolar de novo.'); await rerollDuality(false); }
+  else if(k==='marcaPF'){ api.send(CH.notify,{msg:`🎯 ${C.nome} acertou o alvo Marcado — ele marca 1 PF.`,variant:'WARNING',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); a.remove(); }
+  else if(k==='volatil'){ if(!canPay({esp:3})) return; pay({esp:3});
+    if(L.dmgOnly){ const m=L.label.match(/(\d+)d(\d+)(?:\+(\d+))?/); const r=await rollExpr(+m[1],+m[2],+(m[3]||0)); await fxSave(); announce(`Magia Volátil (3 ❂): dano rolado de novo → ${r.tot}.`); showDmgOnly(L.label,r,true); }
+    else { L.dmg=await rollDamage(L.ctx,L.e); await fxSave(); announce(`Magia Volátil (3 ❂): dano rolado de novo → ${dmgValue(L)}.`); showResult(L); } }
+  renderFx();
+});
+
+$('resOk').onclick=()=>$('res').classList.remove('on');
+
+/* ---------- dano sofrido ---------- */
+$('btnDano').onclick=()=>{
+  const F=FXC(), X=fxS(), dm=F.dmg||[]; let h='';
+  const maxArm=Math.min(S.pa, dm.includes('vontade')?2:1);
+  h+=`<label>Armadura a marcar <select id="dmgArmN">${Array.from({length:maxArm+1},(_,i)=>`<option value="${i}">${i}${i?' (−'+i+' gravidade)':''}</option>`).join('')}</select></label>`;
+  if(dm.includes('fisico')) h+=`<label><input type="checkbox" id="dmgFis" checked> dano físico${dm.includes('vontade')?' (Vontade de Ferro: até 2 Armaduras)':''}${X.det?' · Determinação: −1 gravidade':''}</label>`;
+  if(dm.includes('levante')&&hasCard('Levante-se')) h+=`<label><input type="checkbox" id="dmgLev"> Levante-se (1 PF): se for grave, −1 gravidade</label>`;
+  if(dm.includes('escamas')) h+=`<label><input type="checkbox" id="dmgEsc"> Escamas (1 PF): se for grave, marque 1 PV a menos</label>`;
+  if(dm.includes('besouros')&&stOn('besouros')) h+=`<div class="dim" style="margin-bottom:6px">🪲 Besouros ativos: −1 gravidade.</div><label><input type="checkbox" id="dmgBes"> manter os besouros depois (1 ❂)</label>`;
+  if(dm.includes('espinhos')){ const n=X.c.espinhos||0; if(n) h+=`<label>Pele de Espinhos: gastar <select id="dmgEsp">${Array.from({length:n+1},(_,i)=>`<option>${i}</option>`).join('')}</select> marcador(es) (1d6 cada, reduz o dano)</label>`; }
+  if(dm.includes('oracao')){ const arr=X.pool.oracao||[]; if(arr.length) h+=`<div class="dim" style="margin-bottom:4px">Dados de Oração para reduzir o dano:</div><div class="fxrow" style="margin-bottom:8px">${arr.map((v,i)=>`<label style="margin:0"><input type="checkbox" class="dmgOra" value="${i}"> ${v}</label>`).join('')}</div>`; }
+  $('dmgOpts').innerHTML=h; $('dmgVal').value=''; $('dmgDlg').classList.add('on');
+};
+$('dmgCancel').onclick=()=>$('dmgDlg').classList.remove('on');
+$('dmgGo').onclick=async()=>{
+  let v=parseInt($('dmgVal').value||'0'); if(!v){$('dmgDlg').classList.remove('on');return}
+  const F=FXC(), X=fxS(), log=[]; const q=id=>document.getElementById(id);
+  const fis=q('dmgFis')?q('dmgFis').checked:true;
+  if(q('dmgEsp')&&+q('dmgEsp').value){ const n=+q('dmgEsp').value; const r=await rollExpr(n,6,0); X.c.espinhos-=n; v=Math.max(0,v-r.tot); log.push(`Espinhos −${r.tot}`); announce(`Pele de Espinhos: reduziu ${r.tot} de dano (se o atacante está corpo a corpo, ele sofre ${r.tot}).`); }
+  const ora=[...document.querySelectorAll('.dmgOra:checked')].map(i=>+i.value).sort((a,b)=>b-a);
+  if(ora.length){ let s=0; for(const i of ora){ s+=X.pool.oracao[i]; X.pool.oracao.splice(i,1); } v=Math.max(0,v-s); log.push(`Oração −${s}`); }
+  const lim=limiares(); let sev=v<=0?0:(v<lim[0]?1:(v<lim[1]?2:3)); const orig=sev;
+  const arm=Math.min(+(q('dmgArmN')?.value||0), (fis||!(F.dmg||[]).includes('vontade'))?2:1);
+  if(arm&&sev>0){ const use=Math.min(arm,S.pa); S.pa-=use; sev=Math.max(0,sev-use); log.push(`${use} Armadura`); }
+  if(C.code==='G'&&X.det&&fis&&sev>0){ sev--; log.push('Determinação'); }
+  if(stOn('besouros')&&sev>0){ sev--; log.push('Besouros'); if(q('dmgBes')?.checked&&S.esp>0){S.esp--;} else X.st.besouros=false; }
+  if(q('dmgLev')?.checked&&orig===3&&sev>0&&S.fad>0){ S.fad--; sev--; log.push('Levante-se'); }
+  if(q('dmgEsc')?.checked&&orig===3&&sev>0&&S.fad>0){ S.fad--; sev--; log.push('Escamas'); }
+  for(const s of (F.states||[])) if(s.clearOnHit&&X.st[s.id]) { X.st[s.id]=false; log.push(s.nome+' encerrada'); }
+  S.pv=Math.max(0,S.pv-sev);
+  if(S.pv===0&&X.st.fera){ X.st.fera=false; log.push('saiu da Forma de Fera'); }
+  await fxSave();
+  $('dmgDlg').classList.remove('on');
+  toast(`${v} de dano → ${sev} PV${log.length?' · '+log.join(' · '):''}`);
+  if(S.pv===0){ api.send(CH.notify,{msg:`☠ ${C.nome} (${ME.name}) CAIU!`,variant:'ERROR',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
+};
+
+/* ---------- dados das cartas ---------- */
+function cardDice(c){
+  const out=[]; const sc=SC[C.code]; const prof=+C.prof||3;
+  const re=/(^|[.!]\s+)([A-ZÁÉÍÓÚÂÊÔÃÕÇ][^.:•]{2,30}):\s/g; const marks=[]; let m;
+  while((m=re.exec(c.texto))) marks.push({i:m.index+m[1].length,nome:m[2]});
+  const segs=marks.length?marks.map((k,j)=>({nome:k.nome,t:c.texto.slice(k.i,marks[j+1]?marks[j+1].i:undefined)})):[{nome:c.nome,t:c.texto}];
+  if(marks.length&&marks[0].i>0) segs.unshift({nome:c.nome,t:c.texto.slice(0,marks[0].i)});
+  for(const s of segs){
+    if(/marcadores que gastou/.test(s.t)) continue;
+    const mag=/mágico/.test(s.t);
+    let v=s.t.match(/número de d(\d+) igual (?:à|a) quantidade de Pontos de Esperança/);
+    if(v){ out.push({nome:s.nome,varEsp:true,d:+v[1],mag}); continue; }
+    v=s.t.match(/número de d(\d+) igual ao seu atributo de conjuração/);
+    if(v){ out.push({nome:s.nome,n:Math.max(1,AT(sc)),d:+v[1],flat:0,mag}); continue; }
+    const r=/(\d*)d(\d+)(?:\s*\+\s*(\d+))?/g; let x;
+    while((x=r.exec(s.t))){ const after=s.t.slice(x.index,x.index+60);
+      if(/como seu Dado|Dado de (Esperança|Determinação|Inspiração)|nível 5/.test(after)) continue;
+      const n=x[1]?+x[1]:(/Proficiência/.test(s.t)?prof:(/atributo de conjuração/.test(s.t)&&sc?Math.max(1,AT(sc)):1));
+      out.push({nome:s.nome,n,d:+x[2],flat:+(x[3]||0),mag}); }
+  }
+  const seen=new Set(); return out.filter(o=>{const k=o.nome+o.n+'d'+o.d+'+'+(o.flat||0)+(o.varEsp?'v':''); if(seen.has(k)) return false; seen.add(k); return true;});
+}
+function cardButtons(c,i){
+  const isSpell=/Feitiço|Grimório/.test(c.meta); const sc=SC[C.code]; let b='';
+  if(isSpell&&sc) b+=`<button data-cast="${i}">Conjurar · ${esc(sc)} ${fmtMod(AT(sc))}</button>`;
+  cardDice(c).forEach((d,j)=>{
+    if(d.varEsp) b+=`<span class="vsel"><select id="ve-${i}-${j}">${[1,2,3,4,5,6].map(n=>`<option>${n}</option>`).join('')}</select><button data-cdv="${i}:${j}">${esc(d.nome)}: N❂ → Nd${d.d}</button></span>`;
+    else b+=`<button data-cd="${i}:${j}">${esc(d.nome)} · ${d.n}d${d.d}${d.flat?'+'+d.flat:''}</button>`; });
+  return b;
+}
+document.addEventListener('click',async ev=>{
+  if(!C) return;
+  const cs=ev.target.closest('[data-cast]'); if(cs){ const c=C.cartas[+cs.dataset.cast]; openRollDlg({tipo:'attr',nome:'Conjuração — '+c.nome,mod:AT(SC[C.code])}); return; }
+  const cd=ev.target.closest('[data-cd]'); if(cd){ const [i,j]=cd.dataset.cd.split(':').map(Number); const c=C.cartas[i], d=cardDice(c)[j];
+    const r=await rollExpr(d.n,d.d,d.flat); showDmgOnly(`${d.nome} · ${d.n}d${d.d}${d.flat?'+'+d.flat:''}`,r,d.mag);
+    if(d.nome!==c.nome||!/Feitiço|Grimório/.test(c.meta)) playFx(FXK[d.nome]||FXK[c.nome]); return; }
+  const cv=ev.target.closest('[data-cdv]'); if(cv){ const [i,j]=cv.dataset.cdv.split(':').map(Number); const c=C.cartas[i], d=cardDice(c)[j]; const n=+$('ve-'+i+'-'+j).value;
+    if(!canPay({esp:n})) return; pay({esp:n}); const r=await rollExpr(n,d.d,0); await fxSave(); announce(`${d.nome}: gastou ${n} ❂ → ${r.tot} de dano.`); showDmgOnly(`${d.nome} · ${n}d${d.d}`,r,d.mag); return; }
+  const ad=ev.target.closest('[data-adepto]'); if(ad){ const e=C.experiencias[+ad.dataset.adepto]; if(!canPay({pf:1})) return; pay({pf:1}); S.pend={nome:e.nome+' (Adepto ×2)',mod:e.mod*2}; renderPend(); await fxSave(); announce(`Adepto: usou ${e.nome} marcando 1 PF (+${e.mod*2}).`); return; }
+});
+
+/* ---------- render ---------- */
+function pipRow(label,key,max,color){
+  const cur=S[key];
+  let pips='';
+  for(let i=0;i<max;i++) pips+=`<div class="pip ${i<cur?'on':''}" data-k="${key}" data-i="${i}" style="--tc:${color}"></div>`;
+  return `<div class="trk"><div class="tl">${label}</div><div class="pips">${pips}</div><div class="tv">${cur}/${max}</div></div>`;
+}
+function renderTrackers(){
+  $('trackers').innerHTML=
+    pipRow('PV',       'pv', C.pvMax,     'var(--blood2)')+
+    pipRow('Fadiga',   'fad',C.fadigaMax, 'var(--roxo)')+
+    pipRow('Armadura', 'pa', C.paMax,     '#8a7d6a')+
+    pipRow('Esperança','esp',6,           'var(--hope)');
+  document.querySelectorAll('#trackers .pip').forEach(p=>p.onclick=async()=>{
+    const k=p.dataset.k,i=+p.dataset.i;
+    S[k]=(S[k]===i+1)?i:i+1;
+    renderTrackers(); await saveSheet();
+  });
+}
+function renderPend(){
+  const el=$('pend');
+  if(S.pend){el.style.display='block';el.textContent=`✦ Experiência armada para a próxima rolagem: ${S.pend.nome} +${S.pend.mod}`}
+  else el.style.display='none';
+}
+function renderSheet(){
+  document.documentElement.style.setProperty('--pc',C.cor);
+  $('tbName').textContent=C.nome; $('tbSub').textContent=ME.name||'Forasteiro';
+  $('cNome').textContent=C.nome;
+  $('cCls').textContent=`${C.classe} · ${C.sub} · ${C.dom} · ${C.ancestralidade||''} ${C.comunidade?('· '+C.comunidade):''}`;
+  $('cMot').textContent=C.motivo;
+  $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+';
+  renderTrackers(); renderPend(); renderFx();
+  // atributos
+  const AT=[['Agilidade','Agilidade'],['Força','Força'],['Acuidade','Acuidade'],['Instinto','Instinto'],['Presença','Presença'],['Conhecimento','Conhecimento']];
+  $('attrs').innerHTML=AT.map(([k])=>{
+    const v=C.atributos[k]??0;
+    return `<div class="attr" data-a="${k}"><div class="an">${k}</div><div class="av">${fmtMod(v)}</div><div class="roll-hint">2d12 ▸</div></div>`;
+  }).join('');
+  document.querySelectorAll('.attr').forEach(a=>a.onclick=()=>openRollDlg({tipo:'attr',nome:a.dataset.a,mod:C.atributos[a.dataset.a]??0}));
+  // armas
+  $('wpns').innerHTML=C.armas.map((w,i)=>
+    `<div class="wpn" data-i="${i}"><div class="wi">${/Rev[óo]lver/.test(w.nome)?'🔫':/Punhos/.test(w.nome)?'👊':/Laço/.test(w.nome)?'➰':/Cajado|Runas/.test(w.nome)?'✴':'⚔'}</div><div class="wn"><b>${esc(w.nome)}</b><span>${esc(w.desc)}</span></div><div class="wd">${esc(w.dano)}</div></div>`).join('');
+  document.querySelectorAll('.wpn').forEach(w=>w.onclick=()=>{
+    const arma=C.armas[+w.dataset.i];
+    openRollDlg({tipo:'wpn',nome:arma.nome,mod:C.atributos[arma.atributo]??0,arma});
+  });
+  // experiências
+  $('exps').innerHTML=C.experiencias.map((e,i)=>
+    `<div class="exp"><div class="en"><b>${esc(e.nome)}</b><span>${esc(e.desc)}</span></div><div class="em">+${e.mod}</div><button data-i="${i}">Usar · 1 ❂</button>${C.code==='M'?`<button data-adepto="${i}" title="Adepto: marque 1 PF em vez de gastar Esperança e dobre o modificador">Adepto · 1 PF ×2</button>`:''}</div>`).join('');
+  document.querySelectorAll('.exp button[data-i]').forEach(b=>b.onclick=async()=>{
+    const e=C.experiencias[+b.dataset.i];
+    if(S.esp<=0){toast('Sem Esperança para gastar.');return}
+    S.esp--; S.pend={nome:e.nome,mod:e.mod};
+    renderTrackers(); renderPend(); await saveSheet();
+    api.send(CH.card,{t:'Experiência',n:e.nome,x:(e.desc||'')+` — +${e.mod} na próxima rolagem`,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
+  });
+  // cartas
+  renderCards();
+  // cartas de classe, subclasse e herança (as demais viram anotações do alforje)
+  const isCard=h=>/^(Classe|Subclasse|Ancestralidade|Comunidade|Transformação)/.test(h.secao);
+  $('ccards').innerHTML=C.habilidades.map((hb,k)=>isCard(hb)?`<details class="card cls" ${/^(Classe|Subclasse)/.test(hb.secao)?'open':''}><summary><b>${esc(hb.nome)}</b><span>${esc(hb.secao)}${hb.tag&&!hb.secao.includes(hb.tag)?' · '+esc(hb.tag):''}</span></summary>
+      <div class="cd">${esc(hb.texto)}</div><div class="ca"><button data-hab="${k}">Mostrar a todos</button></div></details>`:'').join('');
+  const bySec={};
+  for(const hb of C.habilidades.filter(h=>!isCard(h))){(bySec[hb.secao]=bySec[hb.secao]||[]).push(hb)}
+  $('habs').innerHTML=Object.entries(bySec).map(([sec,list])=>
+    `<div class="small" style="margin:8px 0 4px">${esc(sec)}</div>`+
+    list.map(hb=>`<details class="hab"><summary>${esc(hb.nome)}${hb.tag?`<small>${esc(hb.tag)}</small>`:''}</summary><p>${esc(hb.texto)}</p></details>`).join('')
+  ).join('');
+  $('pick').style.display='none'; $('sheet').style.display='block';
+}
+
+document.addEventListener('click',ev=>{ const h=ev.target.closest('[data-hab]'); if(!h||!C) return; const hb=C.habilidades[+h.dataset.hab];
+  api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:hb.secao+(hb.tag?' · '+hb.tag:''),n:hb.nome,x:hb.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL'); toast('Carta mostrada a todos.'); });
+/* ---------- cartas: mão (até 5) e reserva ---------- */
+let trocaGratis=false;
+function loadout(){ if(!Array.isArray(S.load)){ let L=C.cartas.map((c,i)=>i).filter(i=>!/Vitalidade/.test(C.cartas[i].nome)); while(L.length>5){ let w=L[0]; for(const i of L) if(recallOf(C.cartas[i])>=recallOf(C.cartas[w])) w=i; L=L.filter(i=>i!==w); } S.load=L; } return S.load; }
+function recallOf(c){ const m=(c.meta||'').match(/Recall\s*(\d+)/); return m?+m[1]:0; }
+function renderCards(){
+  const L=loadout(); const mao=C.cartas.map((c,i)=>i).filter(i=>L.includes(i)), res=C.cartas.map((c,i)=>i).filter(i=>!L.includes(i));
+  const card=(i,inHand)=>{ const c=C.cartas[i];
+    const back=`<button data-cm="${i}" ${mao.length>=5?'disabled title="a mão já tem 5 cartas: mande uma para a reserva antes"':''}>← mão${trocaGratis||!recallOf(c)?' (grátis)':` · ${recallOf(c)} PF`}</button>`;
+    return `<details class="card ${inHand?'':'vault'}" ${inHand?'open':''}><summary><b>${esc(c.nome)}</b><span>${esc(c.meta)}</span>${inHand?'':back}</summary>
+      <div class="cd">${esc(c.texto)}</div>
+      <div class="ca"><button data-i="${i}">Mostrar a todos</button>${inHand?cardButtons(c,i)+`<button data-cv="${i}" title="mandar para a reserva">→ reserva</button>`:''}</div></details>`; };
+  $('cards').innerHTML=`<div class="dim" style="margin:-2px 0 7px;display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap"><span>Na mão: <b>${mao.length}/5</b> · Reserva: <b>${res.length}</b></span><label style="display:flex;gap:5px;align-items:center;cursor:pointer"><input type="checkbox" id="trocaGratis" ${trocaGratis?'checked':''}> em descanso (trocas sem custo)</label></div>`
+    +mao.map(i=>card(i,true)).join('')+(res.length?`<div class="small" style="margin:10px 0 5px">Reserva — trazer para a mão custa o Recall da carta em PF</div>`+res.map(i=>card(i,false)).join(''):'');
+  document.querySelectorAll('.card .ca button[data-i]').forEach(b=>b.onclick=()=>{
+    const c=C.cartas[+b.dataset.i];
+    api.send(CH.card,{t:c.meta,n:c.nome,x:c.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL');
+    toast('Carta mostrada a todos.');
+  });
+  $('trocaGratis').onchange=e=>{ trocaGratis=e.target.checked; renderCards(); };
+}
+document.addEventListener('click',async ev=>{
+  if(!C) return;
+  const v=ev.target.closest('[data-cv]'); if(v){ S.load=loadout().filter(i=>i!==+v.dataset.cv); renderCards(); renderFx(); $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+'; await saveSheet(); return; }
+  const m=ev.target.closest('[data-cm]'); if(m){ ev.preventDefault(); const i=+m.dataset.cm, c=C.cartas[i]; const L=loadout(); if(L.length>=5){toast('A mão já tem 5 cartas.');return}
+    const cost=trocaGratis?0:recallOf(c); if(cost&&S.fad<cost){toast('Fadiga insuficiente para o Recall.');return}
+    S.fad-=cost; S.load=[...L,i]; renderTrackers(); renderCards(); renderFx(); $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+'; await saveSheet(); if(cost) announce(`trouxe ${c.nome} da reserva (Recall ${cost} PF).`); return; }
+});
+function renderPick(){
+  $('pickGrid').innerHTML=Object.values(CHARS).map(p=>
+    `<div class="pc" data-c="${p.code}" style="--pc:${p.cor}"><div class="w">PROCURA-SE</div><div class="vm">vivo ou morto</div><div class="ph">${esc(p.nome[0])}</div>
+      <b>${esc(p.nome)}</b><span>${esc(p.classe)} · ${esc(p.sub)}</span><span>${esc(p.ancestralidade)}</span><q>${esc(p.motivo)}</q><div class="rw">recompensa<em>${esc(p.recompensa)}</em></div></div>`).join('');
+  document.querySelectorAll('.pc').forEach(el=>el.onclick=async()=>{
+    C=CHARS[el.dataset.c];
+    S={pv:C.pvMax,fad:C.fadigaMax,pa:C.paMax,esp:2,pend:null};
+    renderSheet(); await saveSheet();
+  });
+}
+
+/* ---------- cartas/avisos globais ---------- */
+function _once(id){ if(!id) return true; try{ const k='ta-seen-'+id; if(localStorage.getItem(k)) return false; localStorage.setItem(k,'1'); setTimeout(()=>{try{localStorage.removeItem(k)}catch(e){}},60000); }catch(e){} return true; }
+api.on(CH.notify,ev=>{const d=ev.data; if(!d?.msg||!_once(d.id)) return; api.notify(d.msg,d.variant||'DEFAULT'); if(demo) toast(d.msg);});
+api.on(CH.card,async ev=>{
+  if(!demo) return; // no Owlbear quem abre a carta é o fundo (ficha/background.html)
+  const d=ev.data||{};
+  if(demo){ toast(`🂠 ${d.n}: ${String(d.x).slice(0,60)}…`); return; }
+  const q=new URLSearchParams({t:d.t||'',n:d.n||'',x:d.x||'',p:d.p||'',c:d.c||'#9c2b1b'}).toString();
+  try{
+    let w=900; try{w=await OBR.viewport.getWidth()}catch(e){}
+    await OBR.popover.open({id:NS+'/card',url:new URL('card.html?'+q,location.href).href,width:360,height:300,
+      anchorReference:'POSITION',anchorPosition:{left:Math.max(190,w/2),top:70},
+      anchorOrigin:{horizontal:'CENTER',vertical:'TOP'},transformOrigin:{horizontal:'CENTER',vertical:'TOP'},
+      hidePaper:true,disableClickAway:false,marginThreshold:8});
+  }catch(e){ api.notify(`🂠 ${d.n} — ${d.p}`,'INFO'); }
+});
+
+/* ---------- topo: medo & fome ---------- */
+/* ---------- tesouros recebidos do mestre ---------- */
+let lootNow=[];
+function renderLoot(arr){
+  lootNow=Array.isArray(arr)?arr:[]; const el=$('loot'); if(!el) return;
+  if(!lootNow.length){ el.innerHTML='<div style="font-size:11px;color:var(--dim);font-style:italic">Nenhum tesouro ainda. O mestre entrega aqui o que a Boca der.</div>'; return; }
+  el.innerHTML=lootNow.map(t=>`<details class="card" style="--pc:#c9a24a"><summary><b>🎁 ${esc(t.nome)}</b><span>d20 · ${esc(t.n)}</span></summary>
+    <div class="cd">${esc(t.uso)}<br><span style="color:#c9a24a"><b>Preço:</b> ${esc(t.preco)}</span></div>
+    <div class="ca"><button data-lootshow="${esc(t.id)}">Mostrar a todos</button> <button data-lootdrop="${esc(t.id)}">Descartar</button></div></details>`).join('');
+}
+document.addEventListener('click',async ev=>{
+  const sh=ev.target.closest('[data-lootshow]');
+  if(sh){ const t=lootNow.find(x=>x.id===sh.dataset.lootshow); if(t) api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:'Tesouro de '+(C?C.nome:ME.name),n:t.nome,x:t.uso+'  —  Preço: '+t.preco,p:'A Boca cobra.',c:'#c9a24a'},'ALL'); return; }
+  const dr=ev.target.closest('[data-lootdrop]');
+  if(dr){ if(dr.dataset.arm!=='1'){ dr.dataset.arm='1'; dr.textContent='Confirmar?'; setTimeout(()=>{dr.dataset.arm='';dr.textContent='Descartar'},3000); return; }
+    const key=NS+'/loot-'+ME.id, m=await api.getMeta(); await api.setMeta({[key]:(m[key]||[]).filter(x=>x.id!==dr.dataset.lootdrop)}); }
+});
+function applyReset(r){
+  if(!r||!r.id) return; let last=null; try{last=localStorage.getItem('ta-last-reset')}catch(e){}
+  if(last===r.id) return; try{localStorage.setItem('ta-last-reset',r.id)}catch(e){}
+  if(r.swap){ C=null; try{localStorage.removeItem('ta-ficha-state')}catch(e){} $('sheet').style.display='none'; $('pick').style.display='block'; return; }
+  if(C){ S={pv:C.pvMax,fad:C.fadigaMax,pa:C.paMax,esp:2,pend:null}; renderSheet(); saveSheet(); }
+  else { try{ const sv=JSON.parse(localStorage.getItem('ta-ficha-state')||'null'); if(sv&&CHARS[sv.code]){ const c=CHARS[sv.code]; localStorage.setItem('ta-ficha-state',JSON.stringify({code:sv.code,pv:c.pvMax,fad:c.fadigaMax,pa:c.paMax,esp:2,pend:null})); } }catch(e){} }
+}
+function renderBando(m){
+  const el=$('bando'); if(!el) return;
+  const rows=Object.entries(m||{}).filter(([k,v])=>k.startsWith(K.sheet)&&v&&(!partyIds||partyIds.has(k.slice(K.sheet.length)))).map(([k,v])=>v);
+  el.innerHTML=rows.length?rows.map(v=>`<div class="bd" style="--pc:${esc(v.cor||'#9c2b1b')}"><b>${esc(v.nome)}</b><span>${esc(v.player||'')}</span><em>PV ${v.pv}/${v.pvMax}</em><em>PF ${v.fad}/${v.fadMax}</em><em>Arm ${v.pa}/${v.paMax}</em><em>❂ ${v.esp}</em></div>`).join('')
+    :'<div class="dim">Ninguém do bando abriu a ficha ainda.</div>';
+}
+function refreshTop(m){
+  lastM=m||{};
+  applyReset(lastM[NS+'/reset']);
+  fearNow=lastM[K.fear]||0;
+  $('fearV').textContent=fearNow;
+  api.badge(fearNow>0?String(fearNow):undefined,'#9c2b1b');
+  renderBando(lastM);
+}
+async function gmFear(d){ const m=await api.getMeta(); const f=Math.max(0,Math.min(12,(m[K.fear]||0)+d)); await api.setMeta({[K.fear]:f}); if(d<0) api.send(CH.notify,{msg:`🌵 O mestre gastou 1 Medo (restam ${f}).`,variant:'WARNING',id:Date.now()+'-'+Math.random().toString(36).slice(2)},'ALL'); }
+$('fearM').onclick=()=>gmFear(-1); $('fearP').onclick=()=>gmFear(1);
+
+/* ---------- config ---------- */
+$('btnCfg').onclick=()=>{
+  $('cfgHope').value=cfg.hope;$('cfgFear').value=cfg.fear;$('cfgAdv').value=cfg.adv;$('cfgDP').checked=cfg.useDP;$('cfgEmb').checked=cfg.embers!==false;
+  $('cfgDlg').classList.add('on');
+  pingDP().then(ok=>{dpOK=ok;$('dpDot').classList.toggle('ok',ok);$('dpStat').textContent=ok?'Dice+: conectado':'Dice+: não encontrado (uso rolagem interna)';});
+};
+$('cfgOk').onclick=()=>{
+  cfg.hope=$('cfgHope').value.trim()||'Esperanca';cfg.fear=$('cfgFear').value.trim()||'Medo';
+  cfg.adv=$('cfgAdv').value.trim();cfg.useDP=$('cfgDP').checked;cfg.embers=$('cfgEmb').checked;saveCfg();
+  $('cfgDlg').classList.remove('on');
+};
+$('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.display='block';};
+
+/* ---------- init ---------- */
+(async()=>{
+  window.__bocaStep='aguardando o Owlbear (OBR.onReady)';
+  await api.ready();
+  window.__bocaStep='lendo jogador (OBR.player)';
+  ME=await api.me();
+  window.__bocaStep='desenhando personagens';
+  renderPick(); window.__bocaOK=true;
+  if(ME.role==='GM') $('gmchip').classList.add('gm');
+  if(!demo){ try{ const upd=ps=>{ partyIds=new Set([ME.id,...ps.map(p=>p.id)]); renderBando(lastM); }; upd(await OBR.party.getPlayers()); OBR.party.onChange(upd); }catch(err){} }
+  const m=await api.getMeta(); refreshTop(m);
+  api.onMeta(refreshTop);
+  // restaurar ficha salva (o mestre começa sem ficha e nunca entra na Party)
+  if(ME.role==='GM'&&!demo){ $('gmNote').style.display='block'; const mm=await api.getMeta(); if(mm[K.sheet+ME.id]) await api.setMeta({[K.sheet+ME.id]:undefined}); }
+  else try{
+    const sv=JSON.parse(localStorage.getItem('ta-ficha-state')||'null');
+    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null,token:sv.token||null};renderSheet();}
+  }catch(e){}
+  (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagem interna por enquanto)'; $('btnCfg').textContent=(ok?'🟢':'⚙')+' Dice+'; if(!ok&&cfg.useDP) setTimeout(dpWatch,5000); })();
+})();
+</script>
+</body></html>
