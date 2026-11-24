@@ -186,8 +186,30 @@ details.card .ca button:disabled{opacity:.35;cursor:not-allowed}
 .settings label{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:8px 0 3px}
 .settings input[type=text]{width:100%;background:#0d0a0b;border:1px solid var(--ash);border-radius:4px;color:var(--bone);font-family:inherit;font-size:13px;padding:7px}
 .demo-note{border:1px dashed var(--bile);color:var(--bile);border-radius:4px;font-size:10px;padding:7px 10px;margin-bottom:10px;display:none;letter-spacing:.05em}
+
+/* ===== personas, Evasão, itens, celular ===== */
+.sonolk{display:block;text-align:center;border:1px solid var(--bile);border-radius:999px;padding:10px 12px;margin:0 0 10px;font-size:11.5px;letter-spacing:.04em;color:var(--bile);text-decoration:none;background:rgba(0,0,0,.25)}
+.perhd{display:flex;align-items:baseline;gap:8px;margin:8px 0 -2px;border-left:3px solid var(--pc);padding-left:8px}
+.perhd b{font-size:13px;color:var(--bone)}.perhd span{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.thr{flex-wrap:wrap}
+.thr .tb.ev{border:2px solid var(--pc,var(--blood));border-style:solid;background:rgba(0,0,0,.3)}
+.thr .tb.ev b{font-size:24px;line-height:1;color:var(--pc,var(--bone))}.thr .tb.ev span{font-size:8.5px;color:var(--bone)}
+.item{border:1px solid var(--ash);border-radius:4px;background:var(--panel);padding:6px;margin-bottom:6px}
+.item .itr{display:flex;gap:6px;margin-bottom:5px}
+.item input,.item textarea{width:100%;box-sizing:border-box;background:#0d0a0b;border:1px dashed var(--ash);border-radius:4px;color:var(--bone);font-family:inherit;font-size:13px;padding:6px 8px}
+.item input{font-weight:700}.item textarea{resize:vertical;line-height:1.4}
+html{-webkit-text-size-adjust:100%} body{overflow-x:hidden}
+@media (pointer:coarse),(max-width:400px){
+  button{min-height:36px;touch-action:manipulation}
+  .mini{min-height:36px;padding:8px 11px;font-size:10px}
+  input,select,textarea{font-size:16px!important}
+  .pip{width:22px!important;height:22px!important}
+  .pc{padding:12px 6px}.pc b{font-size:13px}
+  .fxline{font-size:12px}.fxline span{font-size:11.5px}
+}
+@media (max-width:400px){.thr #btnDano{flex:1 1 100%}}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261120180500';
+const BUILD='20261124143855';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -223,9 +245,17 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
     <div class="mot" id="cMot"></div>
   </div>
 
+  <div class="sec">Atributos — clique para rolar</div>
+  <div class="attrs" id="attrs"></div>
+
+  <div class="sec">Experiências</div>
+  <div class="pend" id="pend"></div>
+  <div id="exps"></div>
+
   <div class="sec">Recursos</div>
   <div id="trackers"></div>
   <div class="thr">
+    <div class="tb ev"><b id="evTop"></b><span>Evasão</span></div>
     <div class="tb"><b id="thr1"></b><span>Dano Menor · 1 PV</span></div>
     <div class="tb"><b id="thr2"></b><span>Dano Grave · 3 PV</span></div>
     <button class="btn" id="btnDano">Sofrer dano</button>
@@ -234,18 +264,14 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <div class="sec">Recursos da classe — habilidades automáticas</div>
   <div id="fx"></div>
 
-  <div class="sec">Atributos — clique para rolar</div>
-  <div class="attrs" id="attrs"></div>
-
   <div class="sec">Armas — clique: ataque + dano</div>
   <div id="wpns"></div>
 
-  <div class="sec">Experiências</div>
-  <div class="pend" id="pend"></div>
-  <div id="exps"></div>
-
   <div class="sec">Cartas de Domínio</div>
   <div id="cards"></div>
+
+  <div class="sec">Itens — toque para editar</div>
+  <div id="itens"></div>
 
   <div class="sec">Tesouros da Boca</div>
   <div id="loot"><div style="font-size:11px;color:var(--dim);font-style:italic">Nenhum tesouro ainda. O mestre entrega aqui o que a Boca der.</div></div>
@@ -306,7 +332,7 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import OBR from "../obr-sdk.js";
+import OBR, { buildImage } from "../obr-sdk.js";
 
 const CHARS = {
  "L": {
@@ -3470,7 +3496,7 @@ async function rollExpr(n,d,flat,label){ // dado avulso (cura, evasão, cartas)
 
 function renderFx(){
   const F=FXC(), X=fxS(); const el=$('fx'); if(!el) return;
-  let h=`<div class="fxline" id="tokLine"></div><div class="fxtop"><span>Evasão <b>${evasao()}</b></span><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
+  let h=`<div class="fxline" id="tokLine"></div><div class="fxtop"><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
   // estados
   if(F.states&&F.states.length) h+=`<div class="fxrow">${F.states.map(s=>`<button class="chip2 ${stOn(s.id)?'on':''}" data-fxst="${s.id}" title="${esc(s.txt)}">${esc(s.nome)}</button>`).join('')}</div>`;
   // marca (caçador)
@@ -3494,7 +3520,7 @@ function renderFx(){
     const pips=a.use?`<span class="up">${Array.from({length:a.use.max},(_,j)=>`<i class="${j<a.use.max-left?'used':''}"></i>`).join('')}<small>${PERN[a.use.per]||''}</small></span>`:'';
     return `<div class="fxa"><div><b>${esc(a.nome)}</b>${a.txt?`<span>${esc(a.txt)}</span>`:''}</div>${pips}<button class="mini" data-fxact="${i}" ${a.use&&left<=0?'disabled':''}>${a.spend?'gastar':'usar'}${a.cost?' · '+costTxt(a.cost):''}${a.roll?` · ${a.roll[0]}d${a.roll[1]}${a.roll[2]?'+'+a.roll[2]:''}`:''}</button></div>`; }).join('')}</div>`;
   h+=`<div class="fxrest"><button data-fxrest="curto">Descanso curto</button><button data-fxrest="longo">Descanso longo</button><button data-fxrest="sessao">Nova sessão</button></div>`;
-  el.innerHTML=h; tokenLine();
+  el.innerHTML=h; tokenLine(); if($('evTop')) $('evTop').textContent=evasao();
 }
 async function fxSave(){ renderFx(); renderTrackers(); await saveSheet(); }
 document.addEventListener('change',async ev=>{
@@ -3529,7 +3555,7 @@ document.addEventListener('click',async ev=>{
       ac.parentElement.insertAdjacentHTML('beforeend',`<div class="fxrow spendrow">${Array.from({length:have},(_,j)=>`<button class="mini" data-fxspend="${ac.dataset.fxact}:${j+1}">${j+1}</button>`).join('')}</div>`); return; }
     if(!canPay(a.cost)) return; const pago=pay(a.cost); if(a.use) X.u[a.use.id]=(X.u[a.use.id]||0)+1;
     if(a.state) X.st[a.state]=true; if(a.fill){ const k=F.counters.find(x=>x.id===a.fill); X.c[k.id]=cntMax(k); } const fxr=a.fx?a.fx():null;
-    let extra=fxr?` → ${fxr}`:''; if(a.roll){ const r=await rollExpr(a.roll[0],a.roll[1],a.roll[2]||0,a.nome); extra+=` → ${r.tot}`; toast(`${a.nome}: ${r.tot}`); if(a.addRoll){ setCnt(a.addRoll,cntOf(a.addRoll)+r.tot); extra+=` (agora ${cntOf(a.addRoll)})`; } }
+    let extra=fxr?` → ${fxr}`:''; if(a.roll){ const r=await rollExpr(a.roll[0],a.roll[1],a.roll[2]||0,a.nome); extra+=` → ${r.tot}`; toast(`${a.nome}: ${r.tot}`); if(a.onRoll){ extra+=' — '+a.onRoll(r.tot); renderTrackers(); saveSheet(); } if(a.addRoll){ setCnt(a.addRoll,cntOf(a.addRoll)+r.tot); extra+=` (agora ${cntOf(a.addRoll)})`; } }
     if(a.combo){ const r=comboRoll(a.combo); extra+=` → Combo ${r.vals.join(' ≥ ')} = +${r.tot} de dano`; toast(`Combo: +${r.tot} de dano`); }
     if(fxr&&!a.roll&&!a.combo) toast(`${a.nome}: ${fxr}`);
     await fxSave(); announce(`${a.nome}${pago?' ('+pago+')':''}${a.txt?' — '+a.txt:''}${extra}`); playFx(FXK[a.nome]); return; }
@@ -3595,9 +3621,17 @@ async function playFx(spec){
   if(!spec||demo||cfg.embers===false) return;
   try{
     const me=await findMyToken(); const tg=await selTargets(me&&me.id); const ins=[];
-    if(spec.proj&&me&&tg.length){ tg.forEach(t=>ins.push({type:'effect',id:spec.proj,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}})); }
-    else if((spec.hit||(spec.proj&&spec.fall))&&(tg.length||me)){ const id=spec.hit||spec.fall; (tg.length?tg:[me]).forEach(t=>ins.push({type:'effect',id,effectProperties:{source:t.position,size:tsize(t)*(spec.sz||1)}})); }
-    else if(spec.self&&me){ ins.push({type:'effect',id:spec.self,effectProperties:{source:me.position,size:tsize(me)*(spec.sz||2)}}); }
+    let here=me; if(!here&&!tg.length){ try{ const w=await OBR.viewport.getWidth(), h=await OBR.viewport.getHeight(); here={position:await OBR.viewport.inverseTransformPoint({x:w/2,y:h/2})}; }catch(e){} }
+    const BIG=1.8, sz=(t,z)=>Math.max(1.4,tsize(t))*z*BIG;
+    const C1=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:sz(t,z)}});
+    const PULSE='generic.template.circle.outpulse.regular.burst', IMP='generic.impact.dropshadow';
+    if(spec.proj&&me&&tg.length){
+      C1('generic.particles.burst.circle',me,1,0);
+      tg.forEach(t=>{ ins.push({type:'effect',id:spec.proj,delay:150,effectProperties:{copies:1,source:me.position,destination:t.position,sourceId:me.id,destinationId:t.id}});
+        C1(spec.fall||IMP,t,spec.sz||1.5,650); if(spec.fall&&spec.fall!==IMP) C1(IMP,t,1.2,650); }); }
+    else if(spec.hit||(spec.proj&&spec.fall)){ const id=spec.hit||spec.fall; const list=tg.length?tg:(here?[here]:[]);
+      list.forEach(t=>{ C1(id,t,spec.sz||1.4,0); if(id!==IMP) C1(IMP,t,1.3,250); }); }
+    else if(spec.self&&here){ C1(PULSE,here,(spec.sz||2)*.9,0); C1(spec.self,here,spec.sz||2,150); }
     await sendEmbers(ins,spec.proj||spec.hit||spec.self);
   }catch(e){}
 }
@@ -3637,11 +3671,16 @@ async function tokenLine(){
   const el=$('tokLine'); if(!el) return;
   if(demo){ el.innerHTML='<span class="dim">Tokens e efeitos do Embers funcionam dentro do Owlbear.</span>'; return; }
   const t=await findMyToken();
-  el.innerHTML=`<b>🎯 Token</b><span>${t?`${esc(t.name||'sem nome')}${S.token?' (vinculado)':' (achado pelo nome)'} · efeitos do Embers ${cfg.embers===false?'desligados':'ligados'}`:'nenhum token com o nome do personagem no mapa — selecione o seu e clique em vincular'}</span><button class="mini" data-tok="link">vincular selecionado</button>${S.token?'<button class="mini" data-tok="unlink">desvincular</button>':''}`;
+  el.innerHTML=`<b>🎯 Token</b><span>${t?`${esc(t.name||'sem nome')}${S.token?' (vinculado)':' (achado pelo nome)'} · efeitos do Embers ${cfg.embers===false?'desligados':'ligados'}`:'nenhum token com o nome do personagem no mapa — selecione o seu e clique em vincular'}</span>${t?'':'<button class="mini gold" data-tok="put">colocar meu token</button>'}<button class="mini" data-tok="link">vincular selecionado</button>${S.token?'<button class="mini" data-tok="unlink">desvincular</button>':''}`;
 }
 document.addEventListener('click',async ev=>{
   const b=ev.target.closest('[data-tok]'); if(!b||!C||demo) return;
   if(b.dataset.tok==='link'){ const sel=(await OBR.player.getSelection())||[]; if(sel.length!==1){ toast('Selecione só o seu token no mapa.'); return; } S.token=sel[0]; toast('Token vinculado.'); }
+  else if(b.dataset.tok==='put'){
+    try{ const w=await OBR.viewport.getWidth(), h=await OBR.viewport.getHeight(); let p=await OBR.viewport.inverseTransformPoint({x:w/2,y:h/2}); try{ p=await OBR.scene.grid.snapPosition(p); }catch(e){}
+      const it=buildImage({url:new URL('tokens/'+C.code+'.png',location.href).href,width:400,height:400,mime:'image/png'},{dpi:400,offset:{x:200,y:200}}).name('PC - '+C.nome).plainText(C.nome).textItemType('LABEL').layer('CHARACTER').position(p).build();
+      await OBR.scene.items.addItems([it]); S.token=it.id; toast('Seu token entrou no mapa.'); }
+    catch(e){ toast('Não deu para colocar o token (peça ao mestre para colocar por você).'); return; } }
   else S.token=null;
   await saveSheet(); tokenLine();
 });
@@ -3951,8 +3990,17 @@ function renderSheet(){
     `<div class="small" style="margin:8px 0 4px">${esc(sec)}</div>`+
     list.map(hb=>`<details class="hab"><summary>${esc(hb.nome)}${hb.tag?`<small>${esc(hb.tag)}</small>`:''}</summary><p>${esc(hb.texto)}</p></details>`).join('')
   ).join('');
+  renderItens();
   $('pick').style.display='none'; $('sheet').style.display='block';
 }
+function itens(){ if(!Array.isArray(S.itens)) S.itens=[]; return S.itens; }
+function renderItens(){ const el=$('itens'); if(!el) return;
+  el.innerHTML=itens().map((it,i)=>`<div class="item"><div class="itr"><input data-itn="${i}" value="${esc(it.n)}" placeholder="nome do item"><button class="mini" data-itx="${i}" title="remover">✕</button></div><textarea data-itt="${i}" rows="2" placeholder="descrição / quantidade">${esc(it.t)}</textarea></div>`).join('')+'<button class="mini" data-itadd="1">+ acrescentar item</button>'; }
+document.addEventListener('change',ev=>{ const t=ev.target; if(!C) return; if(t.dataset.itn!=null){ itens()[+t.dataset.itn].n=t.value; saveSheet(); } else if(t.dataset.itt!=null){ itens()[+t.dataset.itt].t=t.value; saveSheet(); } });
+document.addEventListener('click',ev=>{ if(!C) return; const a=ev.target.closest('[data-itadd]'), x=ev.target.closest('[data-itx]');
+  if(a){ itens().push({n:'',t:''}); renderItens(); saveSheet(); const ins=document.querySelectorAll('#itens [data-itn]'); ins[ins.length-1].focus(); }
+  else if(x){ itens().splice(+x.dataset.itx,1); renderItens(); saveSheet(); } });
+
 
 /* ---------- cartas: mão (até 5) e reserva ---------- */
 let trocaGratis=false;
@@ -3981,12 +4029,18 @@ document.addEventListener('click',async ev=>{
     const cost=trocaGratis?0:recallOf(c); if(cost&&S.fad<cost){toast('Fadiga insuficiente para o Recall.');return}
     S.fad-=cost; S.load=[...L,i]; renderTrackers(); renderCards(); renderFx(); $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+'; await saveSheet(); if(cost) announce(`trouxe ${c.nome} da reserva (Recall ${cost} PF).`); return; }
 });
+for(const k in FX){ const F=FX[k]; F.counters=F.counters||[]; F.acts=F.acts||[];
+  F.counters.push({id:'pcura',nome:'Poção de Cura',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Vida.'},{id:'pfad',nome:'Poção de Fadiga',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Fadiga.'});
+  F.acts.push({nome:'Poção de Cura',cost:{c:{pcura:1}},roll:[1,4],onRoll:v=>{ const a=S.pv; S.pv=Math.min(C.pvMax,S.pv+v); return `recuperou ${S.pv-a} PV`; },txt:'recupera 1d4 PV'},
+              {nome:'Poção de Fadiga',cost:{c:{pfad:1}},roll:[1,4],onRoll:v=>{ const a=S.fad; S.fad=Math.min(C.fadigaMax,S.fad+v); return `recuperou ${S.fad-a} PF`; },txt:'recupera 1d4 PF'}); }
+Object.assign(FXK,{'Poção de Cura':{self:'generic.healing.green',sz:1.6},'Poção de Fadiga':{self:'generic.healing.blue',sz:1.6}});
+const PERSONA={L:['O Faminto','a fome de ter'],D:['O Enraizado','o chamado da terra'],S:['O Crente','a fé sem resposta'],M:['O Sábio','a sede de saber'],G:['O Guardião','o juramento de proteger'],F:['O Vidente','o aviso que ninguém ouve'],W:['O Amante','o amor que não solta'],C:['O Perseguidor','a caçada'],B:['A Voz','a necessidade de ser ouvido']};
 function renderPick(){
   const card=(p,sh)=>p?`<div class="pc ${sh?'sombra':''}" data-c="${p.code}" style="--pc:${p.cor}"><b>${esc(p.nome)}</b><span>${esc(p.classe)}</span><small>${esc(p.sub)}</small></div>`:'<div></div>';
   const pers=Object.values(CHARS).filter(p=>!p.par);
   $('pickGrid').className='pairs';
-  $('pickGrid').innerHTML=`<div class="pairhd"><span>Persona</span><span></span><span>Sombra</span></div>`+pers.map(p=>{ const sh=Object.values(CHARS).find(x=>x.par===p.code);
-    return `<div class="pair">${card(p,false)}<div class="mid">⟷</div>${card(sh,true)}</div>`; }).join('');
+  $('pickGrid').innerHTML=`<a class="sonolk" href="https://lowalonso.github.io/boca-owlbear-dh/sono-dos-quebrados/" target="_blank" rel="noopener">☾ Não sabe quem você é? Durma o Sono dos Quebrados</a><div class="pairhd"><span>☀ persona de luz</span><span></span><span>☾ persona de sombra</span></div>`+pers.map(p=>{ const sh=Object.values(CHARS).find(x=>x.par===p.code), pe=PERSONA[p.code]||[p.nome,''];
+    return `<div class="perhd" style="--pc:${p.cor}"><b>${esc(pe[0])}</b><span>${esc(pe[1])}</span></div><div class="pair">${card(p,false)}<div class="mid">⟷</div>${card(sh,true)}</div>`; }).join('');
   document.querySelectorAll('.pc').forEach(el=>el.onclick=async()=>{
     C=CHARS[el.dataset.c];
     S={pv:C.pvMax,fad:0,pa:C.paMax,esp:2,pend:null};
@@ -4072,7 +4126,7 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
   if(ME.role==='GM'&&!demo){ $('gmNote').style.display='block'; const mm=await api.getMeta(); if(mm[K.sheet+ME.id]) await api.setMeta({[K.sheet+ME.id]:undefined}); }
   else try{
     const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null');
-    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null,token:sv.token||null};renderSheet();}
+    if(sv&&CHARS[sv.code]){C=CHARS[sv.code];S={pv:sv.pv,fad:sv.fad,pa:sv.pa,esp:sv.esp,pend:sv.pend||null,fx:sv.fx||null,load:sv.load||null,token:sv.token||null,itens:sv.itens||null};renderSheet();}
   }catch(e){}
   (async function dpWatch(){ const ok=await pingDP(); dpOK=ok; $('dpDot').classList.toggle('ok',ok); $('dpStat').textContent=ok?'Dice+: conectado':'Dice+: procurando… (rolagem interna por enquanto)'; $('btnCfg').textContent=(ok?'🟢':'⚙')+' Dice+'; if(!ok&&cfg.useDP) setTimeout(dpWatch,5000); })();
 })();
