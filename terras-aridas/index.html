@@ -258,8 +258,14 @@ img,svg{max-width:100%}
 .tks.pot i,.tks.pot2 i{width:13px;height:20px;border-radius:3px 3px 7px 7px;background:var(--void2);position:relative}
 .tks.pot i.on{background:linear-gradient(#e8b0a6 0 22%,#b5321f 22%);border-color:#5e1508}
 .tks.pot2 i.on{background:linear-gradient(#b9c9e2 0 22%,#3f5f9c 22%);border-color:#1f2f55}
+
+.thr{flex-wrap:wrap}
+.thr .tb.ev{border:2px solid var(--blood);background:var(--paper);box-shadow:2px 2px 0 rgba(42,26,15,.2)}
+.thr .tb.ev b{font-size:24px;color:var(--blood);line-height:1}
+.thr .tb.ev span{font-size:8.5px;color:var(--bone);font-weight:700}
+@media (max-width:400px){.thr #btnDano{flex:1 1 100%}}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261120190212';
+const BUILD='20261120191848';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -308,6 +314,7 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <div class="sec">Couro &amp; Fôlego</div>
   <div id="trackers"></div>
   <div class="thr">
+    <div class="tb ev"><b id="evTop"></b><span>Evasão</span></div>
     <div class="tb"><b id="thr1"></b><span>Dano Maior · 2 PV</span></div>
     <div class="tb"><b id="thr2"></b><span>Dano Grave · 3 PV</span></div>
     <button class="btn" id="btnDano">Sofrer dano</button>
@@ -1372,7 +1379,7 @@ async function rollExpr(n,d,flat,label){ // dado avulso (cura, evasão, cartas)
 
 function renderFx(){
   const F=FXC(), X=fxS(); const el=$('fx'); if(!el) return;
-  let h=`<div class="fxline" id="tokLine"></div><div class="fxtop"><span>Evasão <b>${evasao()}</b></span><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
+  let h=`<div class="fxline" id="tokLine"></div><div class="fxtop"><span>Nível ${NIVEL} · Proficiência ${C.prof||3}${SC[C.code]?` · Conjuração: ${SC[C.code]} ${fmtMod(AT(SC[C.code]))}`:''}</span></div>`;
   // estados
   if(F.states&&F.states.length) h+=`<div class="fxrow">${F.states.map(s=>`<button class="chip2 ${stOn(s.id)?'on':''}" data-fxst="${s.id}" title="${esc(s.txt)}">${esc(s.nome)}</button>`).join('')}</div>`;
   // marca (caçador)
@@ -1396,7 +1403,7 @@ function renderFx(){
     const pips=a.use?`<span class="up">${Array.from({length:a.use.max},(_,j)=>`<i class="${j<a.use.max-left?'used':''}"></i>`).join('')}<small>${PERN[a.use.per]||''}</small></span>`:'';
     return `<div class="fxa"><div><b>${esc(a.nome)}</b>${a.txt?`<span>${esc(a.txt)}</span>`:''}</div>${pips}<button class="mini" data-fxact="${i}" ${a.use&&left<=0?'disabled':''}>${a.spend?'gastar':'usar'}${a.cost?' · '+costTxt(a.cost):''}${a.roll?` · ${a.roll[0]}d${a.roll[1]}${a.roll[2]?'+'+a.roll[2]:''}`:''}</button></div>`; }).join('')}</div>`;
   h+=`<div class="fxrest"><button data-fxrest="curto">Descanso curto</button><button data-fxrest="longo">Descanso longo</button><button data-fxrest="sessao">Nova sessão</button></div>`;
-  el.innerHTML=h; tokenLine();
+  el.innerHTML=h; tokenLine(); if($('evTop')) $('evTop').textContent=evasao();
 }
 async function fxSave(){ renderFx(); renderTrackers(); await saveSheet(); }
 document.addEventListener('change',async ev=>{
