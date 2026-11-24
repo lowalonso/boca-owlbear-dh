@@ -209,7 +209,7 @@ html{-webkit-text-size-adjust:100%} body{overflow-x:hidden}
 }
 @media (max-width:400px){.thr #btnDano{flex:1 1 100%}}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261124143855';
+const BUILD='20261124151023';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -1737,7 +1737,7 @@ Object.assign(CHARS,{
   "par": "L",
   "nome": "O Que Engole",
   "classe": "Ocultista Anão",
-  "sub": "Pacto do Perpétuo",
+  "sub": "Servo do Eterno",
   "motivo": "Você não rouba mais: você guarda. Cada moeda, cada nome, cada osso cabe no seu estômago, e ainda falta. A Boca te ofereceu um pacto simples: tudo o que você engolir é seu para sempre.",
   "cor": "#c9a24a",
   "cor2": "#7a6420",
@@ -1798,19 +1798,19 @@ Object.assign(CHARS,{
   ],
   "cartas": [
    {
-    "nome": "Voz Pavorosa",
+    "nome": "Voz do Pavor",
     "meta": "Pavor · Nv1 · Feitiço · Recall 0",
-    "texto": "Através de magia você pode falar diretamente no ouvido de uma criatura que possa ver. Para atormentá-la com suas palavras, faça um teste de conjuração contra ela. Em um sucesso, ela marca 1 Ponto de Fadiga e fica temporariamente Vulnerável."
+    "texto": "Fale magicamente com uma criatura que você possa ver, atormentando-a. Faça um teste de conjuração contra ela: em um sucesso, ela marca 1 PF e fica temporariamente Imobilizada."
    },
    {
-    "nome": "Ataque Devastador",
+    "nome": "Golpe Debilitante",
     "meta": "Pavor · Nv1 · Feitiço · Recall 1",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Distante. Em um sucesso, o alvo sofre d6+1 de dano mágico usando sua Proficiência, e da próxima vez que causar dano a um aliado, esse dano cai pela metade. Em um sucesso com Medo, o alvo sofre d10+1 de dano mágico usando sua Proficiência."
+    "texto": "Faça um teste de conjuração contra um alvo distante. Em um sucesso com Esperança, cause d6+1 de dano mágico com sua Proficiência; com Medo, d10+1. Além disso, o próximo ataque bem-sucedido do alvo causa metade do dano. Em caso de falha, gaste 1 Ponto de Esperança ou marque 1 PF."
    },
    {
-    "nome": "Drenar Essência",
+    "nome": "Sorver Essência",
     "meta": "Pavor · Nv2 · Feitiço · Recall 1",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Muito Próximo. Em um sucesso, uma vez por descanso longo, o alvo sofre d20 de dano mágico usando sua Proficiência e você limpa Pontos de Vida em número igual aos PV que ele marcou com este ataque. Em um sucesso com Medo, você ganha +1 de Proficiência neste ataque."
+    "texto": "Faça um teste de conjuração contra um alvo muito próximo. Uma vez por descanso longo, em um sucesso, o alvo sofre d12+4 de dano mágico com sua Proficiência (com Medo, +1 na Proficiência desta rolagem). Você recupera PV iguais aos PV que o alvo marcar."
    },
    {
     "nome": "Não Minta para Mim",
@@ -1818,9 +1818,9 @@ Object.assign(CHARS,{
     "texto": "Faça um teste de conjuração contra um alvo muito próximo. Em um sucesso, ele não pode mentir para você enquanto estiver em alcance próximo, porém não é obrigado a falar. Se você fizer uma pergunta e ele se recusar a responder, ele deve marcar 1 Ponto de Fadiga e o efeito termina. O alvo em geral não está ciente de que este feitiço foi conjurado sobre ele até que fale uma verdade contra sua vontade."
    },
    {
-    "nome": "Correntes da Aflição",
+    "nome": "Correntes de Aflição",
     "meta": "Pavor · Nv4 · Feitiço · Recall 2",
-    "texto": "Marque 2 Pontos de Fadiga para Acorrentar temporariamente um alvo em alcance Próximo. Quando uma criatura Acorrentada causa dano, o alvo do ataque dela marca 1 Ponto de Vida a menos. Só uma criatura Acorrentada por vez."
+    "texto": "Marque 2 PF para Acorrentar temporariamente um alvo próximo. Quando uma criatura Acorrentada causa dano, o alvo dela marca 1 PV a menos. Só uma criatura Acorrentada por vez."
    },
    {
     "nome": "Sondar Pensamentos",
@@ -1828,47 +1828,53 @@ Object.assign(CHARS,{
     "texto": "Você pode espionar a mente dos outros. Gaste 1 Ponto de Esperança para ler pensamentos vagos e superficiais de um alvo distante. Faça um teste de conjuração contra o alvo para sondar pensamentos profundos e escondidos. Se rolar com Medo, a critério do mestre, o alvo pode perceber que você está lendo a mente dele."
    },
    {
-    "nome": "Golpe Funesto",
-    "meta": "Pavor · Nv5 · Feitiço · Recall 1",
-    "texto": "Depois de um ataque bem-sucedido, gaste 2 Pontos de Esperança para sugar poder do alvo. Para cada Ponto de Vida que ele marcar com esse ataque, o mestre perde 1 Ponto de Medo."
+    "nome": "Golpe Atroz",
+    "meta": "Pavor · Nv5 · Feitiço · Recall 2",
+    "texto": "Quando um alvo marcar PV por um ataque seu, você pode gastar 1 Ponto de Esperança para drenar o poder dele: o mestre perde 1 Ponto de Medo."
    }
   ],
   "habilidades": [
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Patrono Oculto",
-    "texto": "Seu patrono é a própria Boca. Esferas de influência: Fome & Posse, cada uma com +4 (+2 na criação, +1 por patamar). Antes de um teste ligado a uma esfera, gaste 1 Favor para somar o bônus."
+    "nome": "Pacto do Patrono",
+    "texto": "Seu patrono é a própria Boca. Esferas de influência: Fome & Posse. Antes de um teste ligado à esfera, gaste 1 Ponto de Benesse para rolar o Dado de Patrono (d8 no 5º nível) e somar ao total."
    },
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Favor",
-    "texto": "Começa com 3 Favor, máximo 6. No descanso, use uma ação de repouso para pagar tributo e recuperar Favor igual à sua Presença. Se renunciar ao tributo, o mestre ganha 1 Medo."
+    "nome": "Pontos de Benesse",
+    "texto": "Você começa com 3 Pontos de Benesse (PB). Num movimento de repouso, preste tributo ao patrono e receba PB iguais à sua Presença. Ao ter sucesso numa rolagem com Esperança, você pode receber 1 PB em vez de 1 Ponto de Esperança."
    },
    {
     "secao": "Habilidade de Esperança",
     "tag": "3 Esperança",
     "nome": "Dádiva do Patrono",
-    "texto": "Gaste 3 Esperança para clamar ao patrono por ajuda e ganhe 1d4 de Favor."
+    "texto": "Ao falhar em um teste, gaste 3 Pontos de Esperança para rolar novamente com vantagem."
    },
    {
-    "secao": "Subclasse — Pacto do Perpétuo",
+    "secao": "Subclasse — Servo do Eterno",
+    "tag": "Fundamental",
+    "nome": "Abraço Imortal",
+    "texto": "Uma vez por descanso, gaste quantos Pontos de Benesse quiser e role esse número de Dados de Patrono. Para cada resultado 4 ou maior, recupere 1 Ponto de Vida."
+   },
+   {
+    "secao": "Subclasse — Servo do Eterno",
     "tag": "Fundamental",
     "nome": "Manto do Patrono",
-    "texto": "Marque 1 PF para assumir um aspecto horrendo do patrono até sofrer Dano Grave ou a cena acabar. Transformado: pode gastar 2 Favor no lugar de marcar 1 Ponto de Armadura e ganha +3 para intimidar."
+    "texto": "Gaste 1 PB para se envolver no aspecto apavorante do patrono, até sofrer dano grave ou até o fim da cena: +3 (seu patamar) nos limiares de dano e vantagem em testes para intimidar."
    },
    {
-    "secao": "Subclasse — Pacto do Perpétuo",
-    "tag": "Fundamental",
-    "nome": "Devoção Mórbida",
-    "texto": "Após um ataque bem-sucedido, gaste 1 Favor para ganhar +1 na Evasão até marcar um Ponto de Vida ou descansar."
-   },
-   {
-    "secao": "Subclasse — Pacto do Perpétuo",
+    "secao": "Subclasse — Servo do Eterno",
     "tag": "Especialização",
-    "nome": "Invocação Drenante",
-    "texto": "Quando um adversário atacar você ou um aliado em alcance Muito Próximo, gaste 1 Favor para ele rolar d12 em vez de d20 no ataque. Além disso, ele marca 1 Ponto de Fadiga e você limpa 1."
+    "nome": "Súplica Pungente",
+    "texto": "Quando um adversário atacar você ou um aliado muito próximo, gaste 1 PB para que o ataque seja feito com desvantagem. Se falhar, o adversário também marca 1 PF."
+   },
+   {
+    "secao": "Subclasse — Servo do Eterno",
+    "tag": "Especialização",
+    "nome": "Absorver Dano",
+    "texto": "Uma vez por descanso, gaste 1 PB para reduzir à metade o dano recebido."
    },
    {
     "secao": "Ancestralidade",
@@ -1890,7 +1896,7 @@ Object.assign(CHARS,{
   "par": "D",
   "nome": "O Bosque Faminto",
   "classe": "Bruxo Firbolg",
-  "sub": "Cerca-Viva",
+  "sub": "Sábio Rústico",
   "motivo": "Você deixou o micélio entrar e ele não saiu mais. Já não existe \"você\": existe o bosque, e o bosque tem fome. Cada criatura que cai alimenta as raízes, e as raízes sussurram de volta.",
   "cor": "#8a9a3a",
   "cor2": "#3a4a22",
@@ -1945,9 +1951,9 @@ Object.assign(CHARS,{
   ],
   "cartas": [
    {
-    "nome": "Ataque Devastador",
+    "nome": "Golpe Debilitante",
     "meta": "Pavor · Nv1 · Feitiço · Recall 1",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Distante. Em um sucesso, o alvo sofre d6+1 de dano mágico usando sua Proficiência, e da próxima vez que causar dano a um aliado, esse dano cai pela metade. Em um sucesso com Medo, o alvo sofre d10+1 de dano mágico usando sua Proficiência."
+    "texto": "Faça um teste de conjuração contra um alvo distante. Em um sucesso com Esperança, cause d6+1 de dano mágico com sua Proficiência; com Medo, d10+1. Além disso, o próximo ataque bem-sucedido do alvo causa metade do dano. Em caso de falha, gaste 1 Ponto de Esperança ou marque 1 PF."
    },
    {
     "nome": "Vinha Voraz",
@@ -1957,7 +1963,7 @@ Object.assign(CHARS,{
    {
     "nome": "Trauma Compartilhado",
     "meta": "Pavor · Nv3 · Feitiço · Recall 1",
-    "texto": "Você transfere sofrimento de uma criatura para outra. Uma vez por descanso, marque qualquer quantidade de Pontos de Vida numa criatura voluntária em alcance Corpo a Corpo para limpar a mesma quantidade de PV de outra criatura voluntária em alcance Corpo a Corpo. Você pode ser uma das duas."
+    "texto": "Uma vez por descanso, marque qualquer número de PV de uma criatura voluntária em corpo a corpo para recuperar a mesma quantidade de PV de outra criatura voluntária em corpo a corpo."
    },
    {
     "nome": "Projétil Corrosivo",
@@ -1970,9 +1976,9 @@ Object.assign(CHARS,{
     "texto": "Uma vez por descanso longo, você pode conjurar um campo de plantas curativas ao seu redor. Toda a área em alcance próximo irrompe em vida e natureza vibrante, permitindo que você e todos os aliados nessa área recuperem 1 Ponto de Vida. Gaste 2 Pontos de Esperança para curar 2 Pontos de Vida em vez de 1."
    },
    {
-    "nome": "Correntes da Aflição",
+    "nome": "Correntes de Aflição",
     "meta": "Pavor · Nv4 · Feitiço · Recall 2",
-    "texto": "Marque 2 Pontos de Fadiga para Acorrentar temporariamente um alvo em alcance Próximo. Quando uma criatura Acorrentada causa dano, o alvo do ataque dela marca 1 Ponto de Vida a menos. Só uma criatura Acorrentada por vez."
+    "texto": "Marque 2 PF para Acorrentar temporariamente um alvo próximo. Quando uma criatura Acorrentada causa dano, o alvo dela marca 1 PV a menos. Só uma criatura Acorrentada por vez."
    },
    {
     "nome": "Fortaleza Selvagem",
@@ -1984,44 +1990,44 @@ Object.assign(CHARS,{
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Feitiço",
-    "texto": "Quando uma criatura fizer você ou um aliado Próximo marcar PV, marque 1 PF para Enfeitiçá-la. Testes e dano contra ela ganham +3 (seu patamar), e com Feitiço Aprimorado seus ataques ganham ainda +3 de dano (sua Proficiência). Dura até o mestre gastar Medo igual ao seu atributo de conjuração, até você Enfeitiçar outra criatura ou até o fim da cena."
+    "nome": "Praga",
+    "texto": "Marque 1 PF para Esconjurar temporariamente um alvo distante. Enquanto ele estiver Esconjurado, aplique uma penalidade igual ao seu patamar (3) na Dificuldade e nas rolagens de dano dele. Você mantém no máximo um número de Esconjurados igual ao seu atributo de conjuração."
    },
    {
     "secao": "Habilidades de Classe",
     "tag": "",
     "nome": "Comunhão",
-    "texto": "1×/descanso longo, numa calmaria, faça uma pergunta a uma entidade e role d6 igual ao seu atributo de conjuração. Escolha um dado: 1–3 sabor, cheiro ou sensação; 4–5 som ou visão; 6 você vê a cena como se estivesse lá."
+    "texto": "Uma vez por descanso longo, num momento tranquilo, pergunte algo a um ancestral, divindade ou espírito e role d6 iguais ao seu atributo de conjuração. Escolha um resultado: 1–3 um sabor, aroma ou sensação; 4–5 sons ou uma visão; 6 um vislumbre da cena, como se participasse dela."
    },
    {
     "secao": "Habilidade de Esperança",
     "tag": "3 Esperança",
-    "nome": "Amuleto da Bruxa",
-    "texto": "Quando você ou um aliado Distante falhar em um teste de ação, gaste 3 Esperança para transformá-lo em sucesso com Medo."
+    "nome": "Amuleto de Bruxaria",
+    "texto": "Quando você ou um aliado distante falhar em um teste, gaste 3 Pontos de Esperança para transformar a falha em um sucesso com Medo."
    },
    {
-    "secao": "Subclasse — Cerca-Viva",
+    "secao": "Subclasse — Sábio Rústico",
     "tag": "Fundamental",
-    "nome": "Medicina Herbalista",
-    "texto": "Quando você ou um aliado recuperar PV ou PF por um consumível, recupere 1 a mais."
+    "nome": "Ervas Medicinais",
+    "texto": "Quando você ou um aliado na cena recuperar PV ou PF por meio de um consumível, recupera 1 ponto adicional."
    },
    {
-    "secao": "Subclasse — Cerca-Viva",
+    "secao": "Subclasse — Sábio Rústico",
     "tag": "Fundamental",
-    "nome": "Talismã de Amarração",
-    "texto": "1×/descanso, imbua um item pequeno com sua essência. Quando quem o segura sofrer dano, gaste o talismã para reduzir em 1 os PV marcados. Só um por vez."
+    "nome": "Talismã Encantado",
+    "texto": "Uma vez por descanso, imbua um item pequeno: gaste quantos Pontos de Esperança quiser e coloque esse número de marcadores na carta. Quando quem carrega o talismã sofrer dano, gaste um marcador para reduzir em 1 os PV a marcar. Marcadores não usados somem no próximo descanso."
    },
    {
-    "secao": "Subclasse — Cerca-Viva",
+    "secao": "Subclasse — Sábio Rústico",
     "tag": "Especialização",
     "nome": "Caminhar Entre Mundos",
-    "texto": "Teste de Conjuração (13): você atravessa o véu da morte para conversar com espíritos próximos. Ponha na carta marcadores iguais ao seu atributo de conjuração e remova um a cada resposta. Volta ao mundo dos vivos quando o último sair."
+    "texto": "Num momento tranquilo, faça um teste de conjuração (13). Em um sucesso, uma vez por descanso, marque 1 PF para atravessar o véu e conversar com espíritos próximos: coloque marcadores iguais ao seu atributo de conjuração e remova um a cada pergunta respondida."
    },
    {
-    "secao": "Subclasse — Cerca-Viva",
+    "secao": "Subclasse — Sábio Rústico",
     "tag": "Especialização",
-    "nome": "Feitiço Aprimorado",
-    "texto": "Seus ataques contra criaturas Enfeitiçadas ganham bônus de dano igual à sua Proficiência (+3)."
+    "nome": "Praga Incômoda",
+    "texto": "Você tem vantagem em testes de ataque contra criaturas Esconjuradas."
    },
    {
     "secao": "Ancestralidade",
@@ -2041,7 +2047,7 @@ Object.assign(CHARS,{
   "code": "SS",
   "par": "S",
   "nome": "O Falso Profeta",
-  "classe": "Invocador Angelis",
+  "classe": "Invocador Aetheris",
   "sub": "Teurgia",
   "motivo": "A voz do fundo te chamou de profeta e você acreditou. Os anjos que te seguem têm asas demais e olhos de menos. Você prega a salvação, e a salvação é descer.",
   "cor": "#f0e2b0",
@@ -2195,15 +2201,15 @@ Object.assign(CHARS,{
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Angelis",
-    "nome": "Aura Sagrada",
-    "texto": "1×/descanso, quando um aliado Próximo rolar com Medo, você pode transformar em rolagem com Esperança."
+    "tag": "Aetheris",
+    "nome": "Aura Exaltada",
+    "texto": "Uma vez por descanso longo, quando um aliado próximo rolar com Medo, você pode transformar o teste em uma rolagem com Esperança."
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Angelis",
-    "nome": "Semblante Divino",
-    "texto": "Você tem vantagem em rolagens para comandar ou persuadir."
+    "tag": "Aetheris",
+    "nome": "Asas Celestiais",
+    "texto": "Você tem asas e pode voar. Uma vez por cena, voando, gaste 1 Ponto de Esperança em vez de marcar 1 Ponto de Armadura."
    }
   ]
  },
@@ -2212,11 +2218,11 @@ Object.assign(CHARS,{
   "par": "M",
   "nome": "O Que Sabe Demais",
   "classe": "Assassino Gnomo",
-  "sub": "Intoxicante",
+  "sub": "Membro dos Veneficistas",
   "motivo": "Você leu tudo. Sabe como cada corpo para de funcionar, qual raiz fecha a garganta, qual esporo apodrece o pulmão. O saber virou ferramenta, e a ferramenta só serve para uma coisa.",
   "cor": "#8a7ab8",
   "cor2": "#34305a",
-  "dom": "Meia-noite & Lâmina",
+  "dom": "Lâmina & Meia-noite",
   "arquivo": "sombra-sabe-demais",
   "atributos": {
    "Agilidade": 1,
@@ -2312,56 +2318,50 @@ Object.assign(CHARS,{
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Marca da Morte",
-    "texto": "Num ataque bem-sucedido com arma, marque 1 PF para pôr a Marca da Morte no alvo. Ataques contra ele causam +3d4 (1d4 por patamar). Só um alvo por vez, até derrotá-lo. O mestre pode gastar Medo igual à sua Proficiência para removê-la; senão ela acaba no descanso."
+    "nome": "Entrar e Sair",
+    "texto": "Gaste 1 Ponto de Esperança para pedir ao mestre um jeito rápido ou discreto de entrar ou sair de um lugar que você possa ver. Seu teste baseado nessa informação tem vantagem."
    },
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Entrar & Sair",
-    "texto": "Gaste 1 Esperança para perguntar ao mestre um caminho rápido e discreto para entrar ou sair de uma estrutura à vista. A próxima rolagem ligada a isso tem vantagem."
+    "nome": "Marca da Morte",
+    "texto": "Ao acertar um ataque armado, marque 1 PF para deixar o alvo Marcado de Morte: seu dano contra ele aumenta em 3d4 (um d4 por patamar). Só um alvo por vez. Dura até seu próximo descanso, até o alvo ser derrotado ou até o mestre gastar 3 Pontos de Medo para remover a marca."
    },
    {
     "secao": "Habilidade de Esperança",
     "tag": "3 Esperança",
     "nome": "Determinação Mortal",
-    "texto": "Recupere 2 Pontos de Fadiga."
+    "texto": "Gaste 3 Pontos de Esperança para recuperar 2 Pontos de Fadiga."
    },
    {
-    "secao": "Subclasse — Intoxicante",
+    "secao": "Subclasse — Membro dos Veneficistas",
     "tag": "Fundamental",
-    "nome": "Misturas Tóxicas",
-    "texto": "Marque 1 PF para pôr 1d4+1 marcadores na carta. Remova todos no descanso longo. Toxinas: Raiz de Górgona (−1 permanente na Dificuldade do alvo, só uma vez); Esporo de Tumba (o alvo marca 1 PF); Erva de Sanguessuga (+1d6 de dano no ataque)."
+    "nome": "Compostos Tóxicos",
+    "texto": "Marque 1 PF para colocar 1d4+1 marcadores nesta carta. Ao acertar um ataque armado, gaste um marcador para envenenar o alvo. Erva Sanguessuga: +1d6 de dano neste ataque. Esporos de Cemitério: o alvo também marca 1 PF. Pétala Espectral: o alvo fica temporariamente Vulnerável. Marcadores não usados somem no próximo descanso longo."
    },
    {
-    "secao": "Subclasse — Intoxicante",
-    "tag": "Fundamental",
-    "nome": "Aplicar Toxina",
-    "texto": "Num ataque bem-sucedido com arma, gaste 1 marcador para aplicar uma toxina conhecida."
-   },
-   {
-    "secao": "Subclasse — Intoxicante",
+    "secao": "Subclasse — Membro dos Veneficistas",
     "tag": "Especialização",
     "nome": "Compêndio de Venenos",
-    "texto": "Você também conhece: Véu da Meia-noite (o alvo ganha −2 permanente nos testes de ataque, só uma vez) e Pétala Fantasma (o dado de dano do ataque padrão do alvo cai um passo, só uma vez)."
+    "texto": "Você também conhece: Raiz-górgona (o alvo fica temporariamente Imobilizado) e Vinha da Meia-noite (o alvo tem desvantagem em ataques até marcar 1 PF para se livrar do veneno)."
    },
    {
-    "secao": "Subclasse — Intoxicante",
+    "secao": "Subclasse — Membro dos Veneficistas",
     "tag": "Especialização",
-    "nome": "Bênção da Víbora",
-    "texto": "Você é imune a venenos e toxinas."
+    "nome": "Peçonha Dupla",
+    "texto": "Ao usar um veneno num alvo Marcado de Morte, gaste um marcador adicional para aplicar também o efeito de um segundo veneno que você conheça."
    },
    {
     "secao": "Ancestralidade",
     "tag": "Gnomo",
     "nome": "Dedos Ágeis",
-    "texto": "Num teste de Acuidade, gaste 2 Esperança para rolar de novo o Dado de Esperança."
+    "texto": "Em testes de Acuidade, gaste 2 Pontos de Esperança para rolar de novo o seu Dado de Esperança."
    },
    {
     "secao": "Ancestralidade",
     "tag": "Gnomo",
-    "nome": "Visão Verdadeira",
-    "texto": "Você tem vantagem em rolagens para enxergar através de ilusões."
+    "nome": "Passo Cintilante",
+    "texto": "Uma vez por cena, teletransporte-se para um ponto distante que você consiga ver."
    }
   ]
  },
@@ -2369,12 +2369,12 @@ Object.assign(CHARS,{
   "code": "SG",
   "par": "G",
   "nome": "O Carcereiro",
-  "classe": "Pugilista Terrenal",
-  "sub": "Implacável",
+  "classe": "Lutador Herdeiro da Terra",
+  "sub": "Esmagador",
   "motivo": "Você não deixou ninguém morrer desta vez: prendeu todos. Quem você ama fica onde você vê, atrás das suas correntes, longe do perigo e longe da porta. Proteger e prender viraram a mesma palavra.",
   "cor": "#9a9aa4",
   "cor2": "#3e3e44",
-  "dom": "Falange & Valor",
+  "dom": "Valor & Falange",
   "arquivo": "sombra-carcereiro",
   "atributos": {
    "Agilidade": 1,
@@ -2395,9 +2395,9 @@ Object.assign(CHARS,{
   ],
   "armas": [
    {
-    "nome": "Punhos Acorrentados",
-    "desc": "principal · Força · Corpo a corpo · 3d10+3d6 fís · desarmado (Você Tem Meu Punho)",
-    "dano": "3d10",
+    "nome": "Golpe de Lutador",
+    "desc": "principal · Força · Corpo a corpo · 3d8+3d6 fís · desarmado (Eu Sou a Arma)",
+    "dano": "3d8",
     "atributo": "Força"
    }
   ],
@@ -2464,56 +2464,56 @@ Object.assign(CHARS,{
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Você Tem Meu Punho",
-    "texto": "Sem arma equipada: +1 na Evasão e seus golpes desarmados são uma arma Corpo a Corpo com o atributo que quiser. Com Potente, causam d10+d6 de dano físico com a Proficiência (3d10+3d6)."
+    "nome": "Eu Sou a Arma",
+    "texto": "Sem outras armas ativas, você usa o Golpe de Lutador: atributo à sua escolha, alcance corpo a corpo, d8+d6 de dano físico com sua Proficiência (3d8+3d6). Enquanto ele estiver ativo, +1 na Evasão (já somado)."
    },
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Combo (d6)",
-    "texto": "Depois da rolagem de dano com uma arma Corpo a Corpo, e antes de aplicar o dano, marque 1 PF para um Combo: role o Dado de Combo e anote; role de novo enquanto o resultado for igual ou maior que o anterior. Some tudo ao dano. O dado começou em d4 e subiu para d6."
+    "nome": "Sequência de Golpes (d6)",
+    "texto": "Depois de acertar um ataque corpo a corpo e rolar o dano, marque 1 PF para iniciar uma sequência: role o Dado de Sequência e continue rolando até um resultado ser menor que o anterior. Some tudo ao dano. Esses resultados não podem ser alterados."
    },
    {
     "secao": "Habilidade de Esperança",
     "tag": "3 Esperança",
-    "nome": "Golpe Atordoante",
-    "texto": "Ao ter sucesso num ataque, gaste 3 Esperança para Atordoar o alvo e fazê-lo marcar 1 PF. Atordoado, ele tem desvantagem nos ataques."
+    "nome": "Encarar",
+    "texto": "Gaste 3 Pontos de Esperança para intimidar um alvo próximo, deixando-o temporariamente Vulnerável."
    },
    {
-    "secao": "Subclasse — Implacável",
+    "secao": "Subclasse — Esmagador",
     "tag": "Fundamental",
-    "nome": "Potente",
-    "texto": "Seu dano desarmado sobe de d8 para d10. Marque 1 PF para atingir até três criaturas corpo a corpo com uma só rolagem (Robusto)."
+    "nome": "Durão",
+    "texto": "+3 permanente no seu limiar de dano grave (já somado)."
    },
    {
-    "secao": "Subclasse — Implacável",
+    "secao": "Subclasse — Esmagador",
     "tag": "Fundamental",
     "nome": "Sobrecarga",
-    "texto": "Num ataque bem-sucedido, gaste 1 Esperança para o alvo marcar 1 PF ou ser arremessado a uma distância Muito Próxima."
+    "texto": "Ao acertar um ataque, gaste 1 Ponto de Esperança para fazer o alvo marcar 1 PF ou arremessá-lo para um ponto em alcance próximo."
    },
    {
-    "secao": "Subclasse — Implacável",
+    "secao": "Subclasse — Esmagador",
     "tag": "Especialização",
-    "nome": "Robusto",
-    "texto": "+3 permanente no limiar de dano grave (já somado). Potente passa a atingir até três criaturas."
+    "nome": "Cercado",
+    "texto": "Ao fazer um ataque armado corpo a corpo, gaste quantos Pontos de Esperança quiser para atingir esse número de criaturas adicionais em corpo a corpo."
    },
    {
-    "secao": "Subclasse — Implacável",
+    "secao": "Subclasse — Esmagador",
     "tag": "Especialização",
     "nome": "Olho por Olho",
-    "texto": "Quando você marcar mais de 1 PV por um ataque corpo a corpo, o atacante faz um Teste de Reação (13). Se falhar, 1×/descanso, ele marca a mesma quantidade de PV."
+    "texto": "Uma vez por descanso, quando um adversário em corpo a corpo fizer você marcar PV, marque 1 PF para forçá-lo a marcar a mesma quantidade de PV."
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Terrenal",
-    "nome": "Duro Feito Pedra",
-    "texto": "+1 nos Pontos de Armadura e nos limiares de dano (já somado)."
+    "tag": "Herdeiro da Terra",
+    "nome": "Pele de Pedra",
+    "texto": "+1 permanente na Armadura e nos limiares de dano (já somado)."
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Terrenal",
-    "nome": "Irremovível",
-    "texto": "Com os pés no chão, você não pode ser levantado nem movido contra sua vontade."
+    "tag": "Herdeiro da Terra",
+    "nome": "Imóvel",
+    "texto": "Em contato com o solo, você não pode ser erguido nem movido contra a sua vontade."
    }
   ]
  },
@@ -2521,8 +2521,8 @@ Object.assign(CHARS,{
   "code": "SF",
   "par": "F",
   "nome": "A Catástrofe",
-  "classe": "Ocultista Calidar",
-  "sub": "Pacto do Colérico",
+  "classe": "Ocultista Herdeiro da Brasa",
+  "sub": "Servo do Colérico",
   "motivo": "Ninguém acreditou no arauto, então o arauto parou de avisar. O grande mal não vinha: era você, o tempo todo. O fogo que você tentava conter agora tem um patrono, e ele adora assistir.",
   "cor": "#5a8af0",
   "cor2": "#1e3a8a",
@@ -2577,24 +2577,24 @@ Object.assign(CHARS,{
   ],
   "cartas": [
    {
-    "nome": "Ataque Devastador",
+    "nome": "Golpe Debilitante",
     "meta": "Pavor · Nv1 · Feitiço · Recall 1",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Distante. Em um sucesso, o alvo sofre d6+1 de dano mágico usando sua Proficiência, e da próxima vez que causar dano a um aliado, esse dano cai pela metade. Em um sucesso com Medo, o alvo sofre d10+1 de dano mágico usando sua Proficiência."
+    "texto": "Faça um teste de conjuração contra um alvo distante. Em um sucesso com Esperança, cause d6+1 de dano mágico com sua Proficiência; com Medo, d10+1. Além disso, o próximo ataque bem-sucedido do alvo causa metade do dano. Em caso de falha, gaste 1 Ponto de Esperança ou marque 1 PF."
    },
    {
     "nome": "Véu Umbral",
     "meta": "Pavor · Nv1 · Feitiço · Recall 1",
-    "texto": "Uma vez por descanso, ao rolar com Medo, gaste qualquer quantidade de Pontos de Esperança para pôr a mesma quantidade de marcadores nesta carta, envolvendo-se em energia sombria. Depois que um ataque for feito contra você, gaste quantos marcadores quiser para dar −1 ao ataque por marcador. No próximo descanso, remova todos os marcadores."
+    "texto": "Uma vez por descanso, marque 1 PF para se envolver em energia sombria: coloque nesta carta marcadores iguais aos Pontos de Medo do mestre. Depois de ser alvo de um ataque, gaste marcadores para aplicar −1 ao resultado por marcador. No fim da cena, os que sobrarem são perdidos."
    },
    {
-    "nome": "Retribuição Hedionda",
+    "nome": "Retribuição Sinistra",
     "meta": "Pavor · Nv2 · Feitiço · Recall 2",
-    "texto": "Quando um aliado em alcance Próximo sofrer dano de um alvo que você possa ver, faça um Teste de Reação de Conjuração contra o alvo. Em um sucesso, marque 1 Ponto de Fadiga para causar d6 de dano mágico a ele usando sua Proficiência."
+    "texto": "Quando um aliado próximo sofrer dano de um alvo que você possa ver, faça um teste de reação contra o alvo com seu atributo de conjuração. Se acertar, marque 1 PF para causar d6 de dano mágico com sua Proficiência."
    },
    {
     "nome": "Aterrorizar",
     "meta": "Pavor · Nv3 · Feitiço · Recall 1",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Distante. Em um sucesso, ele marca 1d4 Pontos de Fadiga e você pode fazê-lo fugir um passo de alcance para longe de você (de Próximo para Distante, de Distante para Muito Distante etc.). Em um sucesso com Medo, o alvo fica temporariamente Vulnerável."
+    "texto": "Faça um teste de conjuração contra um alvo próximo. Em um sucesso, ele marca 1d4 PF e você pode fazê-lo fugir uma categoria de alcance. Em um sucesso com Medo, ele também fica temporariamente Vulnerável."
    },
    {
     "nome": "Lampejo Hipnótico",
@@ -2602,9 +2602,9 @@ Object.assign(CHARS,{
     "texto": "Faça um teste de conjuração contra todos os adversários próximos na sua frente. Uma vez por descanso, em um sucesso, crie lampejos ilusórios de cores e luzes que deixam os alvos atingidos temporariamente Atordoados e os força a marcar 1 PF. Enquanto estiverem Atordoados, os alvos não podem usar reações e não podem fazer quaisquer outras ações até que se recuperem desta condição."
    },
    {
-    "nome": "Invocar Horror",
+    "nome": "Conjurar o Horror",
     "meta": "Pavor · Nv4 · Feitiço · Recall 2",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Distante. Em um sucesso, gaste 1 Ponto de Esperança para chamar uma criatura de outro mundo que o ataca, causando d10 de dano mágico usando sua Proficiência. O alvo precisa ter sucesso num Teste de Reação (12) ou marca 1d4 Pontos de Fadiga. Depois do ataque, a criatura se dissipa."
+    "texto": "Marque 1 PF para invocar uma criatura de outro mundo: ela causa d8+1 de dano mágico com seu atributo de conjuração a um alvo distante. Se o alvo marcar PV, ele passa num teste de reação (12) ou marca a mesma quantidade de PF. Depois do ataque, a criatura desaparece."
    },
    {
     "nome": "Palavras de Discórdia",
@@ -2616,56 +2616,56 @@ Object.assign(CHARS,{
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Patrono Oculto",
-    "texto": "Seu patrono é a própria Boca. Esferas de influência: Fogo & Profecia, cada uma com +4 (+2 na criação, +1 por patamar). Antes de um teste ligado a uma esfera, gaste 1 Favor para somar o bônus."
+    "nome": "Pacto do Patrono",
+    "texto": "Seu patrono é a própria Boca. Esferas de influência: Fogo & Profecia. Antes de um teste ligado à esfera, gaste 1 Ponto de Benesse para rolar o Dado de Patrono (d8 no 5º nível) e somar ao total."
    },
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Favor",
-    "texto": "Começa com 3 Favor, máximo 6. No descanso, use uma ação de repouso para pagar tributo e recuperar Favor igual à sua Presença. Se renunciar ao tributo, o mestre ganha 1 Medo."
+    "nome": "Pontos de Benesse",
+    "texto": "Você começa com 3 Pontos de Benesse (PB). Num movimento de repouso, preste tributo ao patrono e receba PB iguais à sua Presença. Ao ter sucesso numa rolagem com Esperança, você pode receber 1 PB em vez de 1 Ponto de Esperança."
    },
    {
     "secao": "Habilidade de Esperança",
     "tag": "3 Esperança",
     "nome": "Dádiva do Patrono",
-    "texto": "Gaste 3 Esperança para clamar ao patrono por ajuda e ganhe 1d4 de Favor."
+    "texto": "Ao falhar em um teste, gaste 3 Pontos de Esperança para rolar novamente com vantagem."
    },
    {
-    "secao": "Subclasse — Pacto do Colérico",
+    "secao": "Subclasse — Servo do Colérico",
     "tag": "Fundamental",
-    "nome": "Arma Favorita",
-    "texto": "Marque 1 PF para Imbuir sua arma com a fúria do patrono até causar Dano Grave. Num ataque bem-sucedido com ela, gaste Favor: +1d6 de dano por Favor."
+    "nome": "Fúria do Patrono",
+    "texto": "Gaste 1 PB para imbuir seus ataques com o poder do patrono, até causar dano grave ou até o fim da cena: ao rolar dano, role também 3 Dados de Patrono (seu patamar) e some."
    },
    {
-    "secao": "Subclasse — Pacto do Colérico",
+    "secao": "Subclasse — Servo do Colérico",
     "tag": "Fundamental",
-    "nome": "Arauto da Morte",
-    "texto": "Num ataque mal-sucedido, gaste 1 Favor para rolar de novo. Se falhar outra vez, fica com o segundo resultado e marca 1 PF."
+    "nome": "Vingança Mortal",
+    "texto": "Ao marcar PV por causa de um ataque, gaste 1 PB e role um Dado de Patrono por PV marcado. Para cada resultado 4 ou maior, o atacante marca 1 PV."
    },
    {
-    "secao": "Subclasse — Pacto do Colérico",
+    "secao": "Subclasse — Servo do Colérico",
     "tag": "Especialização",
     "nome": "Alcance Ameaçador",
-    "texto": "Ao Imbuir a arma, marque 1 PF adicional para aumentar o alcance dela em um passo (Corpo a Corpo para Muito Próximo, Muito Próximo para Próximo etc.)."
+    "texto": "Gaste 1 PB para aumentar em um passo o alcance da sua arma principal (até muito distante). Acaba quando você acertar um ataque com ela."
    },
    {
-    "secao": "Subclasse — Pacto do Colérico",
+    "secao": "Subclasse — Servo do Colérico",
     "tag": "Especialização",
-    "nome": "Diminuir Meus Inimigos",
-    "texto": "Ao ter sucesso com Esperança num teste de ação contra um alvo, gaste 1 Esperança para ele marcar 1 Ponto de Fadiga."
+    "nome": "Enfraquecer Meus Inimigos",
+    "texto": "Ao ter sucesso com Esperança num teste contra um alvo, gaste quantos PB quiser: o alvo marca esse número de PF."
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Calidar",
-    "nome": "À Prova de Fogo",
-    "texto": "Você é imune a dano de fogo mundano ou mágico."
+    "tag": "Herdeiro da Brasa",
+    "nome": "Ignífugo",
+    "texto": "Você é imune a dano causado por fogo, mágico ou mundano."
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Calidar",
+    "tag": "Herdeiro da Brasa",
     "nome": "Ignição",
-    "texto": "Marque 1 PF para envolver sua arma principal em chamas até o fim da cena: ela emite luz e ganha +1d6 de dano contra alvos corpo a corpo."
+    "texto": "Marque 1 PF para envolver sua arma principal em chamas até o fim da cena: ela emite luz e suas rolagens de dano com ela aumentam em +1d6."
    }
   ],
   "esferas": "Fogo & Profecia"
@@ -2990,8 +2990,8 @@ Object.assign(CHARS,{
   "code": "SB",
   "par": "B",
   "nome": "O Coro",
-  "classe": "Bruxo Maresial",
-  "sub": "Lunar",
+  "classe": "Bruxo Herdeiro da Maré",
+  "sub": "Sábio da Lua",
   "motivo": "Sua voz voltou, mas não é sua. É de todos que a Boca engoliu, e cada um quer cantar através de você. Você virou o que cada plateia deseja, e já não lembra que rosto tinha antes do aplauso.",
   "cor": "#6ab0b8",
   "cor2": "#1e4a5a",
@@ -3046,14 +3046,14 @@ Object.assign(CHARS,{
   ],
   "cartas": [
    {
-    "nome": "Voz Pavorosa",
+    "nome": "Voz do Pavor",
     "meta": "Pavor · Nv1 · Feitiço · Recall 0",
-    "texto": "Através de magia você pode falar diretamente no ouvido de uma criatura que possa ver. Para atormentá-la com suas palavras, faça um teste de conjuração contra ela. Em um sucesso, ela marca 1 Ponto de Fadiga e fica temporariamente Vulnerável."
+    "texto": "Fale magicamente com uma criatura que você possa ver, atormentando-a. Faça um teste de conjuração contra ela: em um sucesso, ela marca 1 PF e fica temporariamente Imobilizada."
    },
    {
     "nome": "Véu Umbral",
     "meta": "Pavor · Nv1 · Feitiço · Recall 1",
-    "texto": "Uma vez por descanso, ao rolar com Medo, gaste qualquer quantidade de Pontos de Esperança para pôr a mesma quantidade de marcadores nesta carta, envolvendo-se em energia sombria. Depois que um ataque for feito contra você, gaste quantos marcadores quiser para dar −1 ao ataque por marcador. No próximo descanso, remova todos os marcadores."
+    "texto": "Uma vez por descanso, marque 1 PF para se envolver em energia sombria: coloque nesta carta marcadores iguais aos Pontos de Medo do mestre. Depois de ser alvo de um ataque, gaste marcadores para aplicar −1 ao resultado por marcador. No fim da cena, os que sobrarem são perdidos."
    },
    {
     "nome": "Familiar da Natureza",
@@ -3061,74 +3061,74 @@ Object.assign(CHARS,{
     "texto": "Gaste 1 Ponto de Esperança para invocar um pequeno espírito da natureza ou criatura da floresta. Esse familiar fica ao seu lado até seu próximo descanso, até você conjurar Familiar da Natureza novamente ou até que ele seja alvo de um ataque. Ao gastar 1 Ponto de Esperança adicional, você pode invocar um familiar voador. Você pode se comunicar com ele, fazer um teste de conjuração para mandá-lo executar tarefas simples e marcar 1 PF para enxergar pelos olhos dele. Ao causar dano a um adversário corpo a corpo ao seu familiar, some 1d6 à rolagem de dano."
    },
    {
-    "nome": "Drenar Essência",
+    "nome": "Sorver Essência",
     "meta": "Pavor · Nv2 · Feitiço · Recall 1",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Muito Próximo. Em um sucesso, uma vez por descanso longo, o alvo sofre d20 de dano mágico usando sua Proficiência e você limpa Pontos de Vida em número igual aos PV que ele marcou com este ataque. Em um sucesso com Medo, você ganha +1 de Proficiência neste ataque."
+    "texto": "Faça um teste de conjuração contra um alvo muito próximo. Uma vez por descanso longo, em um sucesso, o alvo sofre d12+4 de dano mágico com sua Proficiência (com Medo, +1 na Proficiência desta rolagem). Você recupera PV iguais aos PV que o alvo marcar."
    },
    {
     "nome": "Aterrorizar",
     "meta": "Pavor · Nv3 · Feitiço · Recall 1",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Distante. Em um sucesso, ele marca 1d4 Pontos de Fadiga e você pode fazê-lo fugir um passo de alcance para longe de você (de Próximo para Distante, de Distante para Muito Distante etc.). Em um sucesso com Medo, o alvo fica temporariamente Vulnerável."
+    "texto": "Faça um teste de conjuração contra um alvo próximo. Em um sucesso, ele marca 1d4 PF e você pode fazê-lo fugir uma categoria de alcance. Em um sucesso com Medo, ele também fica temporariamente Vulnerável."
    },
    {
-    "nome": "Invocar Horror",
+    "nome": "Conjurar o Horror",
     "meta": "Pavor · Nv4 · Feitiço · Recall 2",
-    "texto": "Faça um teste de conjuração contra um alvo em alcance Distante. Em um sucesso, gaste 1 Ponto de Esperança para chamar uma criatura de outro mundo que o ataca, causando d10 de dano mágico usando sua Proficiência. O alvo precisa ter sucesso num Teste de Reação (12) ou marca 1d4 Pontos de Fadiga. Depois do ataque, a criatura se dissipa."
+    "texto": "Marque 1 PF para invocar uma criatura de outro mundo: ela causa d8+1 de dano mágico com seu atributo de conjuração a um alvo distante. Se o alvo marcar PV, ele passa num teste de reação (12) ou marca a mesma quantidade de PF. Depois do ataque, a criatura desaparece."
    },
    {
     "nome": "Névoa Espectral",
     "meta": "Pavor · Nv5 · Feitiço · Recall 0",
-    "texto": "Marque 1 Ponto de Fadiga para invocar uma névoa estranha que deixa você e quaisquer alvos em alcance Próximo momentaneamente incorpóreos: atravessam objetos sólidos e são imunes a dano físico. A criatura volta ao normal depois de atravessar um objeto sólido ou fazer um teste de ação; fora isso, o efeito acaba no fim da cena."
+    "texto": "Gaste 2 Pontos de Esperança: você e aliados próximos à sua escolha ficam incorpóreos, atravessam objetos sólidos e são imunes a dano físico. Volta ao normal ao atravessar um objeto, fazer um teste ou no fim da cena."
    }
   ],
   "habilidades": [
    {
     "secao": "Habilidades de Classe",
     "tag": "",
-    "nome": "Feitiço",
-    "texto": "Quando uma criatura fizer você ou um aliado Próximo marcar PV, marque 1 PF para Enfeitiçá-la. Testes e dano contra ela ganham +3 (seu patamar). Dura até o mestre gastar Medo igual ao seu atributo de conjuração, até você Enfeitiçar outra criatura ou até o fim da cena."
+    "nome": "Praga",
+    "texto": "Marque 1 PF para Esconjurar temporariamente um alvo distante. Enquanto ele estiver Esconjurado, aplique uma penalidade igual ao seu patamar (3) na Dificuldade e nas rolagens de dano dele. Você mantém no máximo um número de Esconjurados igual ao seu atributo de conjuração."
    },
    {
     "secao": "Habilidades de Classe",
     "tag": "",
     "nome": "Comunhão",
-    "texto": "1×/descanso longo, numa calmaria, faça uma pergunta a uma entidade e role d6 igual ao seu atributo de conjuração. Escolha um dado: 1–3 sabor, cheiro ou sensação; 4–5 som ou visão; 6 você vê a cena como se estivesse lá."
+    "texto": "Uma vez por descanso longo, num momento tranquilo, pergunte algo a um ancestral, divindade ou espírito e role d6 iguais ao seu atributo de conjuração. Escolha um resultado: 1–3 um sabor, aroma ou sensação; 4–5 sons ou uma visão; 6 um vislumbre da cena, como se participasse dela."
    },
    {
     "secao": "Habilidade de Esperança",
     "tag": "3 Esperança",
-    "nome": "Amuleto da Bruxa",
-    "texto": "Quando você ou um aliado Distante falhar em um teste de ação, gaste 3 Esperança para transformá-lo em sucesso com Medo."
+    "nome": "Amuleto de Bruxaria",
+    "texto": "Quando você ou um aliado distante falhar em um teste, gaste 3 Pontos de Esperança para transformar a falha em um sucesso com Medo."
    },
    {
-    "secao": "Subclasse — Lunar",
+    "secao": "Subclasse — Sábio da Lua",
     "tag": "Fundamental",
     "nome": "Glamour Noturno",
-    "texto": "Marque 1 PF para ficar Glamourizado até marcar 1 PV, atacar ou descansar: toma a forma de qualquer criatura do seu tamanho que já viu, ou melhora a própria aparência e ganha vantagem em Presença que use isso."
+    "texto": "Faça um teste de conjuração (13) para assumir uma aparência glamorosa e ficar Encantador: vantagem em testes que se beneficiem da aparência, e adversários próximos precisam marcar 1 PF para atacar você. Acaba quando você marcar PV ou causar dano, a menos que marque 1 PF para manter."
    },
    {
-    "secao": "Subclasse — Lunar",
-    "tag": "Especialização",
-    "nome": "Raio de Lua",
-    "texto": "1×/sessão, conjure uma coluna de luar que ilumina a área em alcance Próximo até o fim da cena. Sob ela, você e seus aliados ganham +1 nos testes de conjuração e vantagem para enxergar através de ilusões."
-   },
-   {
-    "secao": "Subclasse — Lunar",
+    "secao": "Subclasse — Sábio da Lua",
     "tag": "Especialização",
     "nome": "Ira da Luz Pálida",
-    "texto": "Quando uma criatura Enfeitiçada em alcance Distante errar um ataque, ela marca 1 Ponto de Fadiga."
+    "texto": "Quando uma criatura Esconjurada até muito distante falhar em um teste de ataque, ela marca 1 PF."
+   },
+   {
+    "secao": "Subclasse — Sábio da Lua",
+    "tag": "Especialização",
+    "nome": "Raio Lunar",
+    "texto": "Uma vez por sessão, conjure uma coluna de luar que ilumina a área próxima até o fim da cena. Banhados por ele, você e seus aliados recebem +1 em testes de conjuração e enxergam através de ilusões."
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Maresial",
+    "tag": "Herdeiro da Maré",
     "nome": "Anfíbio",
-    "texto": "Você pode respirar e se mover naturalmente debaixo d'água."
+    "texto": "Você respira e se move normalmente sob a água."
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Maresial",
-    "nome": "Fonte Vital",
-    "texto": "1×/descanso, com um pouco de água por perto, marque 2 PF para curar 1 PV seu ou de um aliado."
+    "tag": "Herdeiro da Maré",
+    "nome": "Fonte da Vida",
+    "texto": "Uma vez por descanso, com um pouco de água por perto, marque 1 PF para recuperar 1 PV seu ou de um aliado muito próximo."
    }
   ]
  }
@@ -3337,70 +3337,17 @@ function invTotal(){ return cntOf('destino')+cntOf('circ2')+cntOf('circ3'); }
 function invocar(id){ const room=Math.max(0,NIVEL-invTotal()), n=Math.min(3,room); setCnt(id,cntOf(id)+n); return n?`+${n} (total ${invTotal()}/${NIVEL})`:`sem espaço (máximo ${NIVEL})`; }
 window.__dbg={get S(){return S},get C(){return C},evasao:()=>evasao(),limiares:()=>limiares(),fxS:()=>fxS(),optsFor:c=>optsFor(c),gatherFx:(c,k)=>gatherFx(c,k)};
 function comboRoll(d){ const v=[]; let prev=0; for(let i=0;i<30;i++){ const x=randInt(d); v.push(x); if(i>0&&x<prev) break; prev=x; } return {tot:v.reduce((a,b)=>a+b,0),vals:v}; }
-const FAVOR={id:'favor',nome:'Favor',max:6,per:'none',start:3,txt:'Gaste para interceder pelo patrono. Recupere pagando tributo no descanso.'};
-const TRIBUTO={nome:'Tributo ao patrono',fx:()=>{ setCnt('favor',cntOf('favor')+AT('Presença')); return `Favor ${cntOf('favor')}/6`; },txt:'ação de repouso: recupera Favor igual à Presença (renunciar dá 1 Medo ao mestre)'};
-const ESFERA=nome=>({id:'esfera',nome:`Interceder pelo patrono — ${nome}: +4 (1 Favor)`,cost:{c:{favor:1}},atk:4});
-const FEITICO={id:'feitico',nome:'Alvo Enfeitiçado (+3)',txt:'Feitiço: testes e dano contra a criatura Enfeitiçada ganham +3 (seu patamar). Ligue ao agir contra ela.',atk:3,dmgFlat:3,wpn:false};
-const COMUNHAO={nome:'Comunhão',use:{id:'comunhao',max:1,per:'longo'},roll:[3,6],txt:'pergunte a uma entidade e escolha um dos dados: 1–3 sensação, 4–5 som ou visão, 6 a cena'};
+/* FAVOR: versão Jambô mais abaixo */
+/* TRIBUTO: versão Jambô mais abaixo */
+/* ESFERA: versão Jambô mais abaixo */
+/* FEITICO: versão Jambô mais abaixo */
+/* COMUNHAO: versão Jambô mais abaixo */
 const INV=(c2,c3)=>({
   counters:[{id:'destino',nome:'Espíritos do Destino',max:NIVEL,per:'none',start:0,txt:'1º Círculo: depois que um adversário Muito Próximo acertar, ele rola o ataque de novo.'},
             {id:'circ2',nome:c2,max:NIVEL,per:'none',start:0,txt:'2º Círculo da sua subclasse.'},
             {id:'circ3',nome:c3,max:NIVEL,per:'none',start:0,txt:'3º Círculo (especialização).'}],
   hope:{nome:'Auxílio dos Espíritos',custo:3,fx:()=>{S.fad=Math.min(C.fadigaMax,S.fad+1); return 'limpou 1 PF'},txt:'distribua 2 Esperança entre outros PJs Distantes e recupere 1 PF.'} });
 Object.assign(FX,{
- SL:{ counters:[FAVOR],
-      states:[{id:'manto',nome:'Manto do Patrono',txt:'Aspecto horrendo: +3 para intimidar; pode gastar 2 Favor no lugar de marcar 1 Armadura. Acaba com Dano Grave ou fim da cena.'},
-              {id:'devocao',nome:'Devoção Mórbida (+1 Evasão)',ev:1,clearOnHit:true,clearOnRest:true,txt:'+1 na Evasão até sofrer um ataque bem-sucedido.'}],
-      hope:{nome:'Dádiva do Patrono',custo:3,fx:()=>{ const r=randInt(4); setCnt('favor',cntOf('favor')+r); return `+${r} Favor (agora ${cntOf('favor')}/6)`; },txt:'clame ao patrono: ganhe 1d4 de Favor.'},
-      acts:[TRIBUTO,{nome:'Manto do Patrono',cost:{pf:1},state:'manto'},
-            {nome:'Manto: 2 Favor no lugar de 1 Armadura',cost:{c:{favor:2}},need:'manto',txt:'reduz a gravidade do dano como se marcasse Armadura'},
-            {nome:'Devoção Mórbida',cost:{c:{favor:1}},state:'devocao',txt:'depois de um ataque bem-sucedido'},
-            {nome:'Vigoroso (Anão)',cost:{esp:3},txt:'reduz à metade o dano físico sofrido'},
-            {nome:'Pele Espessa (Anão)',cost:{pf:2},txt:'dano menor: marque 2 PF em vez de 1 PV'},
-            {nome:'Invocação Drenante',cost:{c:{favor:1}},txt:'o adversário ataca com d12; ele marca 1 PF e você limpa 1 PF'},
-            {nome:'Drenar Essência',use:{id:'drenar',max:1,per:'longo'},roll:[3,20],txt:'dano mágico; você limpa os PV que o alvo marcar'},
-            {nome:'Correntes da Aflição',cost:{pf:2},txt:'quem o alvo Acorrentado atacar marca 1 PV a menos'},
-            {nome:'Golpe Funesto',cost:{esp:2},txt:'depois de acertar: o mestre perde 1 Medo por PV que o alvo marcar'},
-            {nome:'Sondar Pensamentos',cost:{esp:1},txt:'lê pensamentos superficiais de um alvo distante'}],
-      opts:[ESFERA('Fome & Posse')] },
- SF:{ counters:[FAVOR],
-      states:[{id:'imbuida',nome:'Arma Imbuída',txt:'Arma Favorita: num ataque bem-sucedido, gaste Favor para +1d6 por Favor. Acaba ao causar Dano Grave.'},
-              {id:'ignicao',nome:'Ignição (+1d6 cac)',dmgDice:[1,6],wpn:true,clearOnRest:true,txt:'Arma em chamas até o fim da cena: +1d6 contra alvos corpo a corpo.'}],
-      hope:{nome:'Dádiva do Patrono',custo:3,fx:()=>{ const r=randInt(4); setCnt('favor',cntOf('favor')+r); return `+${r} Favor (agora ${cntOf('favor')}/6)`; },txt:'clame ao patrono: ganhe 1d4 de Favor.'},
-      acts:[TRIBUTO,{nome:'Arma Favorita',cost:{pf:1},state:'imbuida',txt:'imbui a arma com a fúria do patrono'},
-            {nome:'Arauto da Morte',cost:{c:{favor:1}},txt:'ataque falhou: role de novo (se falhar de novo, marque 1 PF)'},
-            {nome:'Ignição (Calidar)',cost:{pf:1},state:'ignicao'},
-            {nome:'Alcance Ameaçador',cost:{pf:1},need:'imbuida',txt:'a arma Imbuída ganha um passo de alcance'},
-            {nome:'Diminuir Meus Inimigos',cost:{esp:1},txt:'sucesso com Esperança contra o alvo: ele marca 1 PF'},
-            {nome:'Retribuição Hedionda',cost:{pf:1},roll:[3,6],txt:'reação: dano mágico em quem feriu um aliado Próximo'},
-            {nome:'Aterrorizar',roll:[1,4],txt:'em sucesso, o alvo marca essa Fadiga e foge um passo de alcance'},
-            {nome:'Invocar Horror',cost:{esp:1},roll:[3,10],txt:'dano mágico; o alvo faz Reação (12) ou marca 1d4 PF'},
-            {nome:'Lampejo Hipnótico',use:{id:'lamp',max:1,per:'curto'},txt:'alvos atingidos ficam Atordoados e marcam 1 PF'}],
-      opts:[ESFERA('Fogo & Profecia'),
-            {id:'fav1',nome:'Arma Favorita: +1d6 (1 Favor)',wpn:true,need:'imbuida',cost:{c:{favor:1}},dmgDice:[1,6]},
-            {id:'fav2',nome:'Arma Favorita: +2d6 (2 Favor)',wpn:true,need:'imbuida',cost:{c:{favor:2}},dmgDice:[2,6]},
-            {id:'fav3',nome:'Arma Favorita: +3d6 (3 Favor)',wpn:true,need:'imbuida',cost:{c:{favor:3}},dmgDice:[3,6]}] },
- SD:{ states:[{...FEITICO,nome:'Alvo Enfeitiçado (+3 teste, +6 dano)',dmgFlat:6,txt:'Feitiço + Feitiço Aprimorado: testes +3, dano +6 contra a criatura Enfeitiçada.'}],
-      hope:{nome:'Amuleto da Bruxa',custo:3,txt:'você ou um aliado Distante falhou num teste de ação: vira sucesso com Medo.'},
-      acts:[{nome:'Feitiço',cost:{pf:1},state:'feitico',txt:'Enfeitiça a criatura que fez você ou um aliado marcar PV'},COMUNHAO,
-            {nome:'Talismã de Amarração',use:{id:'talisma',max:1,per:'curto'},txt:'quem segura o talismã marca 1 PV a menos'},
-            {nome:'Investida (Firbolg)',cost:{pf:1},roll:[1,12],txt:'1d12 físico em todos corpo a corpo após a investida'},
-            {nome:'Caminhar Entre Mundos',txt:'Conjuração (13): converse com os espíritos; uma pergunta por marcador'},
-            {nome:'Trauma Compartilhado',use:{id:'trauma',max:1,per:'curto'},txt:'passa PV marcados de uma criatura voluntária para outra'},
-            {nome:'Correntes da Aflição',cost:{pf:2},txt:'quem o alvo Acorrentado atacar marca 1 PV a menos'},
-            {nome:'Campo Curativo',use:{id:'campo',max:1,per:'longo'},txt:'você e aliados próximos recuperam 1 PV (2 ❂ para 2 PV)'}] },
- SB:{ states:[FEITICO,{id:'luar',nome:'Raio de Lua (+1 conjuração)',clearOnRest:true,txt:'Você e aliados no luar: +1 em testes de conjuração e vantagem contra ilusões. Até o fim da cena.'},{id:'glamour',nome:'Glamourizado',clearOnRest:true,txt:'Forma de outra criatura que já viu, ou aparência melhorada com vantagem em Presença. Acaba ao marcar PV, atacar ou descansar.'}],
-      hope:{nome:'Amuleto da Bruxa',custo:3,txt:'você ou um aliado Distante falhou num teste de ação: vira sucesso com Medo.'},
-      acts:[{nome:'Feitiço',cost:{pf:1},state:'feitico',txt:'Enfeitiça a criatura que fez você ou um aliado marcar PV'},COMUNHAO,
-            {nome:'Glamour Noturno',cost:{pf:1},state:'glamour'},
-            {nome:'Fonte Vital (Maresial)',cost:{pf:2},use:{id:'fonte',max:1,per:'curto'},txt:'com água por perto: cura 1 PV seu ou de um aliado'},
-            {nome:'Raio de Lua',use:{id:'luar',max:1,per:'sessao'},state:'luar'},
-            {nome:'Familiar da Natureza',cost:{esp:1}},
-            {nome:'Drenar Essência',use:{id:'drenar',max:1,per:'longo'},roll:[3,20],txt:'dano mágico; você limpa os PV que o alvo marcar'},
-            {nome:'Aterrorizar',roll:[1,4],txt:'em sucesso, o alvo marca essa Fadiga e foge um passo de alcance'},
-            {nome:'Invocar Horror',cost:{esp:1},roll:[3,10],txt:'dano mágico; o alvo faz Reação (12) ou marca 1d4 PF'},
-            {nome:'Névoa Espectral',cost:{pf:1},txt:'você e alvos Próximos ficam incorpóreos (imunes a dano físico)'}],
-      opts:[{id:'familiar',nome:'Familiar corpo a corpo ao alvo (+1d6)',wpn:true,dmgDice:[1,6]}] },
  SS:{ ...INV('Anjos','Arcanjos'),
       acts:[{nome:'Invocar Espíritos do Destino',cost:{pf:1},fx:()=>invocar('destino')},
             {nome:'Invocar Anjos',cost:{pf:1},fx:()=>invocar('circ2')},
@@ -3409,7 +3356,7 @@ Object.assign(FX,{
             {nome:'Golpe Esperançoso',cost:{c:{circ2:1}},roll:[1,10],txt:'sucesso com Esperança num ataque: dano mágico extra (1d12 se houver Arcanjo)'},
             {nome:'Golpe Esperançoso (com Arcanjo)',cost:{c:{circ2:1}},roll:[1,12],txt:'Comandante Divino: 1d12 de dano mágico extra'},
             {nome:'Auxílio Celestial',cost:{c:{circ3:1}},txt:'leva você ou um aliado voando até Distante, ou ajuda um aliado sem gastar Esperança'},
-            {nome:'Aura Sagrada (Angelis)',use:{id:'aura',max:1,per:'curto'},txt:'a rolagem com Medo de um aliado Próximo vira Esperança'},
+            {nome:'Aura Exaltada (Aetheris)',use:{id:'aura',max:1,per:'longo'},txt:'a rolagem com Medo de um aliado Próximo vira Esperança'},
             {nome:'Tecer a Carne',cost:{pv:1},use:{id:'tecer',max:1,per:'longo'},txt:'cada aliado Muito Próximo limpa 1 PV e 1 Armadura'},
             {nome:'Parasita da Vontade',cost:{pv:1},use:{id:'parasita',max:1,per:'curto'},txt:'infecta o alvo: vantagem em Presença contra ele; 1 ❂ dá desvantagem no ataque dele'}] },
  SW:{ ...INV('Cadáveres Rastejantes','Fantasmas'),
@@ -3425,31 +3372,6 @@ Object.assign(FX,{
             {nome:'Arpão Macabro',cost:{pf:1},roll:[3,10],txt:'dano mágico e puxa você ou o alvo para corpo a corpo'},
             {nome:'Forma Viscosa',cost:{pf:1},txt:'vira uma poça de sangue: resistência a dano físico'}],
       opts:[{id:'presas',nome:'Presas (Orc): +1d6 corpo a corpo (1 ❂)',wpn:true,cost:{esp:1},dmgDice:[1,6]}] },
- SM:{ counters:[{id:'tox',nome:'Marcadores — Misturas Tóxicas',max:12,per:'longo',start:0,txt:'Gaste 1 num ataque bem-sucedido para aplicar uma toxina.'}],
-      states:[{id:'morte',nome:'Marca da Morte (+3d4)',dmgDice:[3,4],wpn:true,clearOnRest:true,txt:'Ataques contra o alvo marcado causam +3d4. Só um alvo por vez; acaba no descanso.'}],
-      hope:{nome:'Determinação Mortal',custo:3,fx:()=>{S.fad=Math.min(C.fadigaMax,S.fad+2)},txt:'recupere 2 Pontos de Fadiga.'},
-      acts:[{nome:'Marca da Morte',cost:{pf:1},state:'morte',txt:'num ataque bem-sucedido com arma'},
-            {nome:'Misturas Tóxicas',cost:{pf:1},roll:[1,4,1],addRoll:'tox',txt:'adiciona 1d4+1 marcadores'},
-            {nome:'Entrar & Sair',cost:{esp:1},txt:'pergunte ao mestre um caminho discreto; vantagem na próxima rolagem ligada a ele'},
-            {nome:'Dedos Ágeis (Gnomo)',cost:{esp:2},txt:'teste de Acuidade: role de novo o Dado de Esperança'},
-            {nome:'Estrangulamento',cost:{pf:1},txt:'alvo fica Vulnerável; ataques contra ele causam +2d6'},
-            {nome:'Recuo Espectral',cost:{esp:1},txt:'marca o local; mais 1 ❂ depois para voltar a ele'}],
-      opts:[{id:'erva',nome:'Erva de Sanguessuga: +1d6 (1 toxina)',wpn:true,cost:{c:{tox:1}},dmgDice:[1,6]},
-            {id:'esporo',nome:'Esporo de Tumba: o alvo marca 1 PF (1 toxina)',wpn:true,cost:{c:{tox:1}}},
-            {id:'gorgona',nome:'Raiz de Górgona: −1 na Dificuldade do alvo (1 toxina)',wpn:true,cost:{c:{tox:1}}},
-            {id:'veu',nome:'Véu da Meia-noite: −2 nos ataques do alvo (1 toxina)',wpn:true,cost:{c:{tox:1}}},
-            {id:'petala',nome:'Pétala Fantasma: dado de dano do alvo cai um passo (1 toxina)',wpn:true,cost:{c:{tox:1}}},
-            {id:'estr',nome:'Alvo estrangulado (+2d6)',wpn:true,dmgDice:[2,6]}] },
- SG:{ hope:{nome:'Golpe Atordoante',custo:3,txt:'ao acertar: o alvo marca 1 PF e fica Atordoado (ataques dele com desvantagem).'},
-      acts:[{nome:'Combo',cost:{pf:1},combo:6,txt:'role o Dado de Combo (d6) enquanto não cair; some tudo ao dano'},
-            {nome:'Imposição',txt:'ataque com a arma principal: empurra o alvo para Próximo; com Esperança, +1d6'},
-            {nome:'Incitar',txt:'teste de Presença: o alvo marca 1 PF e te ataca com desvantagem'},
-            {nome:'Ferocidade',cost:{esp:2},txt:'Evasão +PV que o alvo marcou, até o próximo ataque'},
-            {nome:'Resistir',cost:{pf:1},txt:'marque 1 Armadura adicional ao reduzir dano'},
-            {nome:'Conhece Teu Inimigo',cost:{esp:1},txt:'pergunte ao mestre um dado do alvo'},
-            {nome:'Olho por Olho',use:{id:'olho',max:1,per:'curto'},txt:'o atacante falhou na Reação (13): marca os mesmos PV que você'}],
-      opts:[{id:'potente2',nome:'Potente (1 PF): atingir até três criaturas corpo a corpo',wpn:true,cost:{pf:1}},
-            {id:'sobrecarga',nome:'Sobrecarga (1 ❂): alvo marca 1 PF ou é arremessado',wpn:true,cost:{esp:1}}] },
  SC:{ counters:[{id:'dor',nome:'Fichas — Poder Através da Dor',max:()=>AT('Força'),per:'longo',start:0,txt:'+1 ficha a cada PV marcado. Gaste num ataque bem-sucedido: +1d6 por ficha.'}],
       states:[{id:'ritual',nome:'Ritual Carmesim (+3d4 mág)',dmgDice:[3,4],wpn:true,clearOnRest:true,txt:'Arma enfeitiçada com sede de sangue até o próximo descanso.'},
               {id:'hibrida',nome:'Forma Híbrida (+1d6)',dmgDice:[1,6],wpn:true,clearOnRest:true,txt:'+1d6 nos testes de ação e no dano. Ao ganhar Esperança nesta forma, marque 1 PF.'}],
@@ -3475,7 +3397,7 @@ Object.assign(CARDREQ,{'Drenar Essência':'Drenar Essência','Correntes da Afli�
 
 function hasCard(n){ if(!n||!C) return true; const i=C.cartas.findIndex(c=>c.nome===n); if(i<0) return true; return loadout().includes(i); }
 function okItem(x){ if(x.need&&!stOn(x.need)) return false; return hasCard(CARDREQ[x.id]||CARDREQ[x.nome]); }
-function limiares(){ const l=[...C.limiares]; const i=C.cartas.findIndex(c=>c.nome==='Armadura Fortificada'); if(i>=0&&!loadout().includes(i)) return [l[0]-2,l[1]-2]; return l; }
+function limiares(){ const lb=(FXC().states||[]).reduce((t,st)=>t+(st.lim&&stOn(st.id)?st.lim:0),0); const l=C.limiares.map(v=>v+lb); const i=C.cartas.findIndex(c=>c.nome==='Armadura Fortificada'); if(i>=0&&!loadout().includes(i)) return [l[0]-2,l[1]-2]; return l; }
 const FXC=()=>FX[C.code]||{};
 function fxS(){ if(!S.fx) S.fx={u:{},c:{},st:{},pool:{},num:{},det:null,marca:null}; for(const k of ['u','c','st','pool','num']) S.fx[k]=S.fx[k]||{}; return S.fx; }
 function stOn(id){ return !!fxS().st[id]; }
@@ -3520,7 +3442,7 @@ function renderFx(){
     const pips=a.use?`<span class="up">${Array.from({length:a.use.max},(_,j)=>`<i class="${j<a.use.max-left?'used':''}"></i>`).join('')}<small>${PERN[a.use.per]||''}</small></span>`:'';
     return `<div class="fxa"><div><b>${esc(a.nome)}</b>${a.txt?`<span>${esc(a.txt)}</span>`:''}</div>${pips}<button class="mini" data-fxact="${i}" ${a.use&&left<=0?'disabled':''}>${a.spend?'gastar':'usar'}${a.cost?' · '+costTxt(a.cost):''}${a.roll?` · ${a.roll[0]}d${a.roll[1]}${a.roll[2]?'+'+a.roll[2]:''}`:''}</button></div>`; }).join('')}</div>`;
   h+=`<div class="fxrest"><button data-fxrest="curto">Descanso curto</button><button data-fxrest="longo">Descanso longo</button><button data-fxrest="sessao">Nova sessão</button></div>`;
-  el.innerHTML=h; tokenLine(); if($('evTop')) $('evTop').textContent=evasao();
+  el.innerHTML=h; tokenLine(); if($('evTop')) $('evTop').textContent=evasao(); if($('thr1')){ $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+'; }
 }
 async function fxSave(){ renderFx(); renderTrackers(); await saveSheet(); }
 document.addEventListener('change',async ev=>{
@@ -3590,7 +3512,7 @@ function gatherFx(ctx,checked){
   if(C.code==='G'&&X.det&&isW){ e.dmgFlat+=X.det; e.notes.push(`Determinação +${X.det}`); }
   if(C.code==='M'&&S.fad<=0&&isW&&hasCard('Voz da Razão')){ e.prof+=1; e.notes.push('Voz da Razão: +1 Proficiência'); }
   if(C.code==='C'&&X.marca&&isW) e.notes.push('alvo Marcado marca 1 PF ao sofrer dano');
-  if(C.code==='SG'&&isW&&/Punhos/.test(ctx.arma.nome)){ e.dmgDice.push([C.prof||3,6]); e.notes.push('Você Tem Meu Punho: +3d6'); }
+  if(C.code==='SG'&&isW&&/Golpe de Lutador/.test(ctx.arma.nome)){ e.dmgDice.push([C.prof||3,6]); e.notes.push('Eu Sou a Arma: +3d6'); }
   if(isW&&hasCard('Força Esmagadora')&&C.cartas.some(c=>c.nome==='Força Esmagadora')&&/Corpo a corpo/i.test(ctx.arma.desc||'')){ e.dmgFlat+=AT('Força'); e.notes.push('Força Esmagadora +'+AT('Força')); }
   if(isW&&/marque 1 PF/i.test(ctx.arma.desc||'')){ e.cost.pf=(e.cost.pf||0)+1; e.notes.push(ctx.arma.nome+': 1 PF'); }
   return e;
@@ -4029,6 +3951,114 @@ document.addEventListener('click',async ev=>{
     const cost=trocaGratis?0:recallOf(c); if(cost&&S.fad<cost){toast('Fadiga insuficiente para o Recall.');return}
     S.fad-=cost; S.load=[...L,i]; renderTrackers(); renderCards(); renderFx(); $('thr1').textContent=limiares()[0]; $('thr2').textContent=limiares()[1]+'+'; await saveSheet(); if(cost) announce(`trouxe ${c.nome} da reserva (Recall ${cost} PF).`); return; }
 });
+const BENESSE={id:'benesse',nome:'Pontos de Benesse',max:12,per:'none',start:3,txt:'Gaste para pedir a ajuda do patrono. Recupere prestando tributo num repouso, ou trocando a Esperança de um sucesso por 1 PB.'};
+const TRIBUTO={nome:'Tributo ao patrono',fx:()=>{ setCnt('benesse',cntOf('benesse')+AT('Presença')); return `Benesse ${cntOf('benesse')}`; },txt:'movimento de repouso: recebe PB iguais à sua Presença'};
+const BENESP={nome:'Trocar Esperança por Benesse',fx:()=>{ setCnt('benesse',cntOf('benesse')+1); return `Benesse ${cntOf('benesse')} (não marque a Esperança deste sucesso)`; },txt:'num sucesso com Esperança: 1 PB em vez de 1 Esperança'};
+const ESFERA=nome=>({id:'esfera',nome:`Pacto do Patrono — ${nome}: +1d8 (1 PB)`,cost:{c:{benesse:1}},atk:()=>randInt(8)});
+const patrono=n=>{ const v=Array.from({length:n},()=>randInt(8)); return {v,ok:v.filter(x=>x>=4).length}; };
+const PRAGA={id:'praga',nome:'Alvo Esconjurado (−3 Dif. e dano dele)',clearOnRest:true,txt:'Praga: a criatura Esconjurada tem −3 na Dificuldade e nas rolagens de dano. Baixe o alvo do ataque em 3 ao rolar contra ela.',atk:3,wpn:false};
+const COMUNHAO=n=>({nome:'Comunhão',use:{id:'comunhao',max:1,per:'longo'},roll:[n,6],txt:'pergunte a uma entidade e escolha um dos dados: 1–3 sensação, 4–5 som ou visão, 6 a cena'});
+const DEBIL=[{nome:'Golpe Debilitante (com Esperança)',roll:[3,6,1],txt:'dano mágico; o próximo acerto do alvo causa metade do dano'},{nome:'Golpe Debilitante (com Medo)',roll:[3,10,1],txt:'dano mágico; o próximo acerto do alvo causa metade do dano'}];
+Object.assign(FX,{
+ SL:{ counters:[BENESSE],
+      states:[{id:'manto',nome:'Manto do Patrono (+3 limiares)',lim:3,clearOnRest:true,txt:'+3 nos limiares de dano e vantagem para intimidar. Acaba com dano grave ou no fim da cena.'}],
+      hope:{nome:'Dádiva do Patrono',custo:3,txt:'ao falhar em um teste: role novamente com vantagem.'},
+      acts:[TRIBUTO,BENESP,
+            ...[1,2,3].map(n=>({nome:`Abraço Imortal (${n} PB)`,cost:{c:{benesse:n}},use:{id:'abraco',max:1,per:'curto'},fx:()=>{ const r=patrono(n), a=S.pv; S.pv=Math.min(C.pvMax,S.pv+r.ok); return `dados ${r.v.join(', ')}: recuperou ${S.pv-a} PV`; },txt:'cada Dado de Patrono 4+ recupera 1 PV'})),
+            {nome:'Manto do Patrono',cost:{c:{benesse:1}},state:'manto'},
+            {nome:'Súplica Pungente',cost:{c:{benesse:1}},txt:'o ataque contra você ou um aliado muito próximo tem desvantagem; se falhar, o adversário marca 1 PF'},
+            {nome:'Absorver Dano',cost:{c:{benesse:1}},use:{id:'absorver',max:1,per:'curto'},txt:'reduz à metade o dano recebido'},
+            {nome:'Vigoroso (Anão)',cost:{esp:3},txt:'reduz à metade o dano físico sofrido'},
+            {nome:'Pele Espessa (Anão)',cost:{pf:2},txt:'dano menor: marque 2 PF em vez de 1 PV'},
+            ...DEBIL,
+            {nome:'Véu Umbral',cost:{pf:1},use:{id:'veu',max:1,per:'curto'},txt:'marcadores iguais ao Medo do mestre: −1 por marcador num ataque contra você'},
+            {nome:'Voz do Pavor',txt:'conjuração contra a criatura: ela marca 1 PF e fica Imobilizada'},
+            {nome:'Sorver Essência',use:{id:'sorver',max:1,per:'longo'},roll:[3,12,4],txt:'dano mágico; você recupera os PV que o alvo marcar'},
+            {nome:'Aterrorizar',roll:[1,4],txt:'em sucesso, o alvo marca essa Fadiga e foge um passo de alcance'},
+            {nome:'Correntes de Aflição',cost:{pf:2},txt:'quem o alvo Acorrentado atacar marca 1 PV a menos'},
+            {nome:'Golpe Atroz',cost:{esp:1},txt:'o alvo marcou PV pelo seu ataque: o mestre perde 1 Medo'}],
+      opts:[ESFERA('Fome & Posse')] },
+ SF:{ counters:[BENESSE],
+      states:[{id:'furia',nome:'Fúria do Patrono (+3d8 de dano)',dmgDice:[3,8],clearOnRest:true,txt:'Suas rolagens de dano somam 3 Dados de Patrono. Acaba ao causar dano grave ou no fim da cena.'},
+              {id:'ignicao',nome:'Ignição (+1d6)',dmgDice:[1,6],wpn:true,clearOnRest:true,txt:'Arma principal em chamas até o fim da cena: +1d6 de dano.'}],
+      hope:{nome:'Dádiva do Patrono',custo:3,txt:'ao falhar em um teste: role novamente com vantagem.'},
+      acts:[TRIBUTO,BENESP,{nome:'Fúria do Patrono',cost:{c:{benesse:1}},state:'furia',txt:'imbui seus ataques com o poder do patrono'},
+            ...[1,2,3].map(n=>({nome:`Vingança Mortal (marcou ${n} PV)`,cost:{c:{benesse:1}},fx:()=>{ const r=patrono(n); return `dados ${r.v.join(', ')}: o atacante marca ${r.ok} PV`; },txt:'um Dado de Patrono por PV que você marcou; cada 4+ fere o atacante'})),
+            {nome:'Alcance Ameaçador',cost:{c:{benesse:1}},txt:'a arma principal ganha um passo de alcance até você acertar com ela'},
+            {nome:'Enfraquecer Meus Inimigos',cost:{c:{benesse:1}},txt:'sucesso com Esperança contra o alvo: ele marca 1 PF por PB gasto'},
+            {nome:'Ignição (Herdeiro da Brasa)',cost:{pf:1},state:'ignicao'},
+            ...DEBIL,
+            {nome:'Véu Umbral',cost:{pf:1},use:{id:'veu',max:1,per:'curto'},txt:'marcadores iguais ao Medo do mestre: −1 por marcador num ataque contra você'},
+            {nome:'Retribuição Sinistra',cost:{pf:1},roll:[3,6],txt:'reação: dano mágico em quem feriu um aliado próximo'},
+            {nome:'Aterrorizar',roll:[1,4],txt:'em sucesso, o alvo marca essa Fadiga e foge um passo de alcance'},
+            {nome:'Conjurar o Horror',cost:{pf:1},roll:[3,8,1],txt:'dano mágico a um alvo distante; se marcar PV, Reação (12) ou marca os mesmos PF'},
+            {nome:'Lampejo Hipnótico',use:{id:'lamp',max:1,per:'curto'},txt:'alvos atingidos ficam Atordoados e marcam 1 PF'},
+            {nome:'Golpe Atroz',cost:{esp:1},txt:'o alvo marcou PV pelo seu ataque: o mestre perde 1 Medo'}],
+      opts:[ESFERA('Fogo & Profecia')] },
+ SD:{ counters:[{id:'talisma',nome:'Marcadores — Talismã Encantado',max:6,per:'curto',start:0,txt:'Quem carrega o talismã gasta 1 para marcar 1 PV a menos.'}],
+      states:[PRAGA],
+      hope:{nome:'Amuleto de Bruxaria',custo:3,txt:'você ou um aliado distante falhou num teste: vira sucesso com Medo.'},
+      acts:[{nome:'Praga',cost:{pf:1},state:'praga',txt:'Esconjura um alvo distante'},COMUNHAO(3),
+            ...[1,2,3].map(n=>({nome:`Talismã Encantado (${n} ❂)`,cost:{esp:n},use:{id:'talismaU',max:1,per:'curto'},fx:()=>{ setCnt('talisma',n); return `${n} marcador(es) no talismã`; },txt:'imbui um item pequeno'})),
+            {nome:'Usar o Talismã',cost:{c:{talisma:1}},txt:'o portador marca 1 PV a menos'},
+            {nome:'Caminhar Entre Mundos',cost:{pf:1},use:{id:'mundos',max:1,per:'curto'},txt:'depois de Conjuração (13): converse com os espíritos, uma pergunta por marcador'},
+            {nome:'Investida (Firbolg)',cost:{pf:1},roll:[1,12],txt:'1d12 físico em todos corpo a corpo após a investida'},
+            ...DEBIL,
+            {nome:'Retribuição Sinistra',cost:{pf:1},roll:[3,6],txt:'reação: dano mágico em quem feriu um aliado próximo'},
+            {nome:'Trauma Compartilhado',use:{id:'trauma',max:1,per:'curto'},txt:'passa PV marcados de uma criatura voluntária para outra'},
+            {nome:'Correntes de Aflição',cost:{pf:2},txt:'quem o alvo Acorrentado atacar marca 1 PV a menos'},
+            {nome:'Campo Curativo',use:{id:'campo',max:1,per:'longo'},txt:'você e aliados próximos recuperam 1 PV (2 ❂ para 2 PV)'}],
+      opts:[{id:'incomoda',nome:'Praga Incômoda: vantagem contra alvo Esconjurado',adv:true,need:'praga'}] },
+ SB:{ states:[PRAGA,{id:'luar',nome:'Raio Lunar (+1 conjuração)',clearOnRest:true,txt:'Você e aliados no luar: +1 em testes de conjuração e enxergam através de ilusões. Até o fim da cena.'},{id:'glamour',nome:'Encantador',clearOnRest:true,txt:'Vantagem em testes que se beneficiem da aparência; adversários próximos marcam 1 PF para atacar você. Acaba ao marcar PV ou causar dano (1 PF para manter).'}],
+      hope:{nome:'Amuleto de Bruxaria',custo:3,txt:'você ou um aliado distante falhou num teste: vira sucesso com Medo.'},
+      acts:[{nome:'Praga',cost:{pf:1},state:'praga',txt:'Esconjura um alvo distante'},COMUNHAO(3),
+            {nome:'Glamour Noturno',state:'glamour',txt:'depois de Conjuração (13)'},
+            {nome:'Manter o Glamour',cost:{pf:1},txt:'ao marcar PV ou causar dano, para continuar Encantador'},
+            {nome:'Raio Lunar',use:{id:'luar',max:1,per:'sessao'},state:'luar'},
+            {nome:'Fonte da Vida (Herdeiro da Maré)',cost:{pf:1},use:{id:'fonte',max:1,per:'curto'},txt:'com água por perto: recupera 1 PV seu ou de um aliado muito próximo'},
+            {nome:'Familiar da Natureza',cost:{esp:1}},
+            {nome:'Véu Umbral',cost:{pf:1},use:{id:'veu',max:1,per:'curto'},txt:'marcadores iguais ao Medo do mestre: −1 por marcador num ataque contra você'},
+            {nome:'Voz do Pavor',txt:'conjuração contra a criatura: ela marca 1 PF e fica Imobilizada'},
+            {nome:'Sorver Essência',use:{id:'sorver',max:1,per:'longo'},roll:[3,12,4],txt:'dano mágico; você recupera os PV que o alvo marcar'},
+            {nome:'Aterrorizar',roll:[1,4],txt:'em sucesso, o alvo marca essa Fadiga e foge um passo de alcance'},
+            {nome:'Conjurar o Horror',cost:{pf:1},roll:[3,8,1],txt:'dano mágico a um alvo distante; se marcar PV, Reação (12) ou marca os mesmos PF'},
+            {nome:'Névoa Espectral',cost:{esp:2},txt:'você e aliados próximos ficam incorpóreos (imunes a dano físico)'}],
+      opts:[{id:'familiar',nome:'Familiar corpo a corpo ao alvo (+1d6)',wpn:true,dmgDice:[1,6]}] },
+ SM:{ counters:[{id:'tox',nome:'Marcadores — Compostos Tóxicos',max:12,per:'longo',start:0,txt:'Gaste 1 num ataque armado bem-sucedido para envenenar o alvo.'}],
+      states:[{id:'morte',nome:'Marcado de Morte (+3d4)',dmgDice:[3,4],clearOnRest:true,txt:'Seu dano contra o alvo Marcado de Morte aumenta em 3d4. Só um alvo por vez; o mestre pode gastar 3 Medo para remover.'}],
+      hope:{nome:'Determinação Mortal',custo:3,fx:()=>{S.fad=Math.min(C.fadigaMax,S.fad+2)},txt:'recupere 2 Pontos de Fadiga.'},
+      acts:[{nome:'Marca da Morte',cost:{pf:1},state:'morte',txt:'ao acertar um ataque armado'},
+            {nome:'Compostos Tóxicos',cost:{pf:1},roll:[1,4,1],addRoll:'tox',txt:'adiciona 1d4+1 marcadores'},
+            {nome:'Entrar e Sair',cost:{esp:1},txt:'peça ao mestre um caminho rápido ou discreto; seu teste baseado nisso tem vantagem'},
+            {nome:'Dedos Ágeis (Gnomo)',cost:{esp:2},txt:'teste de Acuidade: role de novo o Dado de Esperança'},
+            {nome:'Passo Cintilante (Gnomo)',use:{id:'passo',max:1,per:'curto'},txt:'uma vez por cena: teletransporte para um ponto distante que você veja'},
+            {nome:'Estrangulamento',cost:{pf:1},txt:'alvo fica Vulnerável; ataques contra ele causam +2d6'},
+            {nome:'Recuo Espectral',cost:{esp:1},txt:'marca o local; mais 1 ❂ depois para voltar a ele'}],
+      opts:[{id:'erva',nome:'Erva Sanguessuga: +1d6 (1 marcador)',wpn:true,cost:{c:{tox:1}},dmgDice:[1,6]},
+            {id:'esporo',nome:'Esporos de Cemitério: o alvo marca 1 PF (1 marcador)',wpn:true,cost:{c:{tox:1}}},
+            {id:'petala',nome:'Pétala Espectral: alvo Vulnerável (1 marcador)',wpn:true,cost:{c:{tox:1}}},
+            {id:'gorgona',nome:'Raiz-górgona: alvo Imobilizado (1 marcador)',wpn:true,cost:{c:{tox:1}}},
+            {id:'vinha',nome:'Vinha da Meia-noite: desvantagem nos ataques do alvo (1 marcador)',wpn:true,cost:{c:{tox:1}}},
+            {id:'estr',nome:'Alvo estrangulado (+2d6)',wpn:true,dmgDice:[2,6]}] },
+ SG:{ hope:{nome:'Encarar',custo:3,txt:'intimida um alvo próximo: ele fica temporariamente Vulnerável.'},
+      acts:[{nome:'Sequência de Golpes',cost:{pf:1},combo:6,txt:'role o Dado de Sequência (d6) até cair; some tudo ao dano'},
+            {nome:'Olho por Olho',cost:{pf:1},use:{id:'olho',max:1,per:'curto'},txt:'o adversário em corpo a corpo marca os mesmos PV que fez você marcar'},
+            {nome:'Imposição',txt:'ataque com a arma principal: empurra o alvo para Próximo; com Esperança, +1d6'},
+            {nome:'Incitar',txt:'teste de Presença: o alvo marca 1 PF e te ataca com desvantagem'},
+            {nome:'Ferocidade',cost:{esp:2},txt:'Evasão +PV que o alvo marcou, até o próximo ataque'},
+            {nome:'Resistir',cost:{pf:1},txt:'marque 1 Armadura adicional ao reduzir dano'},
+            {nome:'Conhece Teu Inimigo',cost:{esp:1},txt:'pergunte ao mestre um dado do alvo'}],
+      opts:[{id:'sobrecarga',nome:'Sobrecarga (1 ❂): alvo marca 1 PF ou é arremessado até próximo',wpn:true,cost:{esp:1}},
+            {id:'cercado1',nome:'Cercado (1 ❂): +1 criatura corpo a corpo',wpn:true,cost:{esp:1}},
+            {id:'cercado2',nome:'Cercado (2 ❂): +2 criaturas corpo a corpo',wpn:true,cost:{esp:2}}] },
+});
+Object.assign(FXK,{'Sequência de Golpes':{hit:'generic.unarmed_attacks.flurry_of_blows.physical'},'Encarar':{hit:'generic.marker.fear.1'},'Praga':{hit:'generic.marker.poison.1'},'Sorver Essência':{hit:'generic.healing.purple'},
+ 'Conjurar o Horror':{hit:'generic.marker.fear.2'},'Retribuição Sinistra':{hit:'generic.impact.orange.2'},'Voz do Pavor':{hit:'generic.marker.fear.1'},'Golpe Debilitante (com Esperança)':{proj:'eldritch_blast',fall:'generic.impact.orange.2'},'Golpe Debilitante (com Medo)':{proj:'eldritch_blast',fall:'generic.impact.orange.2'},
+ 'Fúria do Patrono':{self:'generic.magic_signs.evocation_circle.dark_red.complete',sz:2.2},'Manto do Patrono':{self:'darkness.black.transparent',sz:2},'Raio Lunar':{self:'generic.marker.light.complete',sz:3},'Aterrorizar':{hit:'generic.marker.fear.2'},
+ 'Correntes de Aflição':{hit:'generic.marker.red_chain.complete'},'Abraço Imortal (1 PB)':{self:'generic.healing.purple',sz:1.6},'Abraço Imortal (2 PB)':{self:'generic.healing.purple',sz:1.6},'Abraço Imortal (3 PB)':{self:'generic.healing.purple',sz:1.6},
+ 'Passo Cintilante (Gnomo)':{self:'misty_step.out'},'Marca da Morte':{hit:'generic.marker.red_chain.complete'},'Ignição (Herdeiro da Brasa)':{self:'generic.fire.eruption',sz:1.4},'Fonte da Vida (Herdeiro da Maré)':{self:'generic.healing.blue',sz:1.6}});
+
+Object.assign(FXW,{'Golpe de Lutador':{hit:'generic.unarmed_attacks.unarmed_strikes.physical.1'}});
 for(const k in FX){ const F=FX[k]; F.counters=F.counters||[]; F.acts=F.acts||[];
   F.counters.push({id:'pcura',nome:'Poção de Cura',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Vida.'},{id:'pfad',nome:'Poção de Fadiga',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Fadiga.'});
   F.acts.push({nome:'Poção de Cura',cost:{c:{pcura:1}},roll:[1,4],onRoll:v=>{ const a=S.pv; S.pv=Math.min(C.pvMax,S.pv+v); return `recuperou ${S.pv-a} PV`; },txt:'recupera 1d4 PV'},
