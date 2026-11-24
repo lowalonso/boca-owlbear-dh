@@ -208,8 +208,24 @@ html{-webkit-text-size-adjust:100%} body{overflow-x:hidden}
   .fxline{font-size:12px}.fxline span{font-size:11.5px}
 }
 @media (max-width:400px){.thr #btnDano{flex:1 1 100%}}
+
+/* ===== marcadores desenhados, cartas de classe, grupo ===== */
+.fxline{flex-wrap:wrap}
+.tks{display:flex;gap:5px;flex-basis:100%;order:5;padding:3px 0 1px;flex-wrap:wrap}
+.tks i{display:block;width:15px;height:15px;border-radius:50%;border:1.5px solid var(--dim);background:var(--void)}
+.tks.pot i,.tks.pot2 i{width:13px;height:20px;border-radius:3px 3px 7px 7px}
+.tks.pot i.on{background:linear-gradient(#e8b0a6 0 22%,#c0352e 22%);border-color:#e05a4a;box-shadow:0 0 6px rgba(192,53,46,.55)}
+.tks.pot2 i.on{background:linear-gradient(#c6b5e6 0 22%,#8a5ab8 22%);border-color:#b070c8;box-shadow:0 0 6px rgba(176,112,200,.55)}
+details.card.cls{border-left-width:3px}
+details.card.cls summary b::before{content:"✦ ";font-size:10px;vertical-align:1px;color:var(--pc)}
+details.card .cd{white-space:pre-line}
+.bd{display:flex;align-items:center;gap:7px;flex-wrap:wrap;border-left:3px solid var(--pc);background:var(--panel);border-radius:3px;padding:6px 9px;margin-bottom:5px;font-size:11px}
+.bd b{font-size:12.5px;color:var(--pc)}
+.bd span{flex:1;font-size:9px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase}
+.bd em{font-style:normal;font-weight:700;font-size:10px;border:1px solid var(--ash);border-radius:3px;padding:1px 5px;color:var(--bone)}
+.dim{color:var(--dim);font-size:10.5px}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261124155848';
+const BUILD='20261124174644';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -267,6 +283,9 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <div class="sec">Armas — clique: ataque + dano</div>
   <div id="wpns"></div>
 
+  <div class="sec">Cartas de Classe &amp; Herança</div>
+  <div id="ccards"></div>
+
   <div class="sec">Cartas de Domínio</div>
   <div id="cards"></div>
 
@@ -276,9 +295,11 @@ setTimeout(function(){ if(!window.__bocaOK) __diag('A ficha não terminou de car
   <div class="sec">Tesouros da Boca</div>
   <div id="loot"><div style="font-size:11px;color:var(--dim);font-style:italic">Nenhum tesouro ainda. O mestre entrega aqui o que a Boca der.</div></div>
 
-  <div class="sec">Habilidades</div>
-  <div id="habs"></div>
+  <div id="habs" style="display:none"></div>
 </div>
+
+<div class="sec">Os Quebrados — o grupo</div>
+<div id="bando"></div>
 
 <!-- diálogo de rolagem -->
 <div class="ov" id="rollDlg"><div class="dlg">
@@ -365,7 +386,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Lâmina do Retorno",
-   "desc": "principal · Acuidade · Próximo · <b>3d8+6</b> mág · uma mão · avançada · reaparece na sua mão logo após o ataque",
+   "desc": "principal · Acuidade · Próximo · 3d8+6 mág · uma mão · avançada · reaparece na sua mão logo após o ataque",
    "dano": "3d8+6",
    "atributo": "Acuidade"
   },
@@ -528,7 +549,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Cajado de Augma",
-   "desc": "principal · Instinto · Distante · <b>3d6+7</b> mág · uma mão · Catalisador: ao acertar, marque 1 PF para dar +3 no próximo ataque de um aliado próximo",
+   "desc": "principal · Instinto · Distante · 3d6+7 mág · uma mão · Catalisador: ao acertar, marque 1 PF para dar +3 no próximo ataque de um aliado próximo",
    "dano": "3d6+7",
    "atributo": "Instinto"
   },
@@ -697,7 +718,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Machado de Fortunis",
-   "desc": "principal · Força · Corpo a corpo · <b>3d10+8</b> mág · duas mãos (Arma Espiritual) · Sorte: ao errar, marque 1 PF para rolar o ataque de novo",
+   "desc": "principal · Força · Corpo a corpo · 3d10+8 mág · duas mãos (Arma Espiritual) · Sorte: ao errar, marque 1 PF para rolar o ataque de novo",
    "dano": "3d10+8",
    "atributo": "Força"
   }
@@ -854,7 +875,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Orbe Mágico",
-   "desc": "principal · Conhecimento · Distante · <b>3d6+7</b> mág · uma mão · Poderoso (role +1 dado de dano e descarte o menor)",
+   "desc": "principal · Conhecimento · Distante · 3d6+7 mág · uma mão · Poderoso (role +1 dado de dano e descarte o menor)",
    "dano": "3d6+7",
    "atributo": "Conhecimento"
   },
@@ -1034,7 +1055,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Maça do Juramento",
-   "desc": "principal · Força · Corpo a corpo · <b>3d8+7</b> fís · uma mão · maça avançada",
+   "desc": "principal · Força · Corpo a corpo · 3d8+7 fís · uma mão · maça avançada",
    "dano": "3d8+7",
    "atributo": "Força"
   },
@@ -1203,7 +1224,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Cajado de Fogo",
-   "desc": "principal · Instinto · Distante · <b>3d6+7</b> mág · duas mãos · Ardente: para cada 6 nos dados de dano, o alvo marca 1 PF",
+   "desc": "principal · Instinto · Distante · 3d6+7 mág · duas mãos · Ardente: para cada 6 nos dados de dano, o alvo marca 1 PF",
    "dano": "3d6+7",
    "atributo": "Instinto"
   },
@@ -1372,7 +1393,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Lâmina do Oscilume",
-   "desc": "principal · Agilidade · Corpo a corpo · <b>3d8+9</b> fís · uma mão · Fugaz: +Agilidade no dano (já somado)",
+   "desc": "principal · Agilidade · Corpo a corpo · 3d8+9 fís · uma mão · Fugaz: +Agilidade no dano (já somado)",
    "dano": "3d8+9",
    "atributo": "Agilidade"
   },
@@ -1541,7 +1562,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Arco com Espinhos",
-   "desc": "principal · Agilidade · Muito distante · <b>3d6+7</b> fís · duas mãos · versátil",
+   "desc": "principal · Agilidade · Muito distante · 3d6+7 fís · duas mãos · versátil",
    "dano": "3d6+7",
    "atributo": "Agilidade"
   },
@@ -1704,7 +1725,7 @@ const CHARS = {
  "armas": [
   {
    "nome": "Lira-Cetro",
-   "desc": "principal · Presença · Próximo · <b>3d8+6</b> mág · uma mão · o instrumento do pacto · Encadeado: marque PF para atingir o mesmo número de criaturas adicionais no alcance",
+   "desc": "principal · Presença · Próximo · 3d8+6 mág · uma mão · o instrumento do pacto · Encadeado: marque PF para atingir o mesmo número de criaturas adicionais no alcance",
    "dano": "3d8+6",
    "atributo": "Presença"
   },
@@ -3449,7 +3470,7 @@ function saveCfg(){try{localStorage.setItem(CFG_KEY,JSON.stringify(cfg))}catch(e
 let ME={id:'',name:'',role:'PLAYER'};
 let C=null;            // personagem
 let S=null;            // estado vivo {code,pv,fad,pa,esp,pend}
-let fearNow=0, fomeNow=0, dpOK=false;
+let fearNow=0, fomeNow=0, dpOK=false, lastM={}, partyIds=null;
 
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2600)}
 
@@ -3712,7 +3733,7 @@ function renderFx(){
       <div class="fxrow" id="poolmenu-${p.id}"></div></div>`; }
   // contadores
   for(const k of (F.counters||[]).filter(okItem)){ const m=cntMax(k), v=Math.min(m, X.c[k.id]??(k.start==='max'?m:(k.start||0)));
-    h+=`<div class="fxline"><b>${esc(k.nome)}</b><span>${esc(k.txt||'')}</span><button class="mini" data-fxc="${k.id}:-1">−</button><b class="dv">${v}/${m}</b><button class="mini" data-fxc="${k.id}:1">+</button>${k.recarga?`<button class="mini" data-fxcr="${k.id}">recarregar (${costTxt(k.recarga)})</button>`:''}</div>`; }
+    h+=`<div class="fxline"><b>${esc(k.nome)}</b><span>${esc(k.txt||'')}</span>${k.pips?`<div class="tks ${k.pips}">${Array.from({length:m},(_,j)=>`<i class="${j<v?'on':''}"></i>`).join('')}</div>`:''}<button class="mini" data-fxc="${k.id}:-1">−</button><b class="dv">${v}/${m}</b><button class="mini" data-fxc="${k.id}:1">+</button>${k.recarga?`<button class="mini" data-fxcr="${k.id}">recarregar (${costTxt(k.recarga)})</button>`:''}</div>`; }
   // habilidade de esperança
   if(F.hope&&!F.hope.resOnly) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span><button class="mini gold" data-fxhope="1">usar · ${F.hope.custo} ❂</button></div>`;
   else if(F.hope) h+=`<div class="fxline hope"><b>❂ ${esc(F.hope.nome)}</b><span>${esc(F.hope.txt)}</span></div>`;
@@ -3794,7 +3815,7 @@ function gatherFx(ctx,checked){
   if(C.code==='C'&&X.marca&&isW) e.notes.push('alvo Marcado marca 1 PF ao sofrer dano');
   if(C.code==='SG'&&isW&&/Golpe de Lutador/.test(ctx.arma.nome)){ e.dmgDice.push([C.prof||3,6]); e.notes.push('Eu Sou a Arma: +3d6'); }
   if(isW&&hasCard('Força Esmagadora')&&C.cartas.some(c=>c.nome==='Força Esmagadora')&&/Corpo a corpo/i.test(ctx.arma.desc||'')){ e.dmgFlat+=AT('Força'); e.notes.push('Força Esmagadora +'+AT('Força')); }
-  if(isW&&/marque 1 PF/i.test(ctx.arma.desc||'')){ e.cost.pf=(e.cost.pf||0)+1; e.notes.push(ctx.arma.nome+': 1 PF'); }
+  if(isW&&/(^|\()marque 1 PF/i.test(ctx.arma.desc||'')){ e.cost.pf=(e.cost.pf||0)+1; e.notes.push(ctx.arma.nome+': 1 PF'); }
   return e;
 }
 function optsFor(ctx){
@@ -4186,13 +4207,9 @@ function renderSheet(){
   });
   // cartas
   renderCards();
-  // habilidades
-  const bySec={};
-  for(const hb of C.habilidades){(bySec[hb.secao]=bySec[hb.secao]||[]).push(hb)}
-  $('habs').innerHTML=Object.entries(bySec).map(([sec,list])=>
-    `<div class="small" style="margin:8px 0 4px">${esc(sec)}</div>`+
-    list.map(hb=>`<details class="hab"><summary>${esc(hb.nome)}${hb.tag?`<small>${esc(hb.tag)}</small>`:''}</summary><p>${esc(hb.texto)}</p></details>`).join('')
-  ).join('');
+  // cartas de classe, subclasse, herança e equipamento
+  $('ccards').innerHTML=C.habilidades.map((hb,k)=>`<details class="card cls" ${/^(Habilidade|Subclasse)/.test(hb.secao)?'open':''}><summary><b>${esc(hb.nome)}</b><span>${esc(hb.secao)}${hb.tag&&!hb.secao.includes(hb.tag)?' · '+esc(hb.tag):''}</span></summary>
+      <div class="cd">${esc(hb.texto)}</div><div class="ca"><button data-hab="${k}">Mostrar a todos</button></div></details>`).join('');
   renderItens();
   $('pick').style.display='none'; $('sheet').style.display='block';
 }
@@ -4205,6 +4222,8 @@ document.addEventListener('click',ev=>{ if(!C) return; const a=ev.target.closest
   else if(x){ itens().splice(+x.dataset.itx,1); renderItens(); saveSheet(); } });
 
 
+document.addEventListener('click',ev=>{ const h=ev.target.closest('[data-hab]'); if(!h||!C) return; const hb=C.habilidades[+h.dataset.hab];
+  api.send(CH.card,{id:Date.now()+'-'+Math.random().toString(36).slice(2),t:hb.secao+(hb.tag?' · '+hb.tag:''),n:hb.nome,x:hb.texto,p:`${C.nome} · ${ME.name}`,c:C.cor},'ALL'); toast('Carta mostrada a todos.'); });
 /* ---------- cartas: mão (até 5) e reserva ---------- */
 let trocaGratis=false;
 function loadout(){ if(!Array.isArray(S.load)){ let L=C.cartas.map((c,i)=>i).filter(i=>!/Vitalidade/.test(C.cartas[i].nome)); while(L.length>5){ let w=L[0]; for(const i of L) if(recallOf(C.cartas[i])>=recallOf(C.cartas[w])) w=i; L=L.filter(i=>i!==w); } S.load=L; } return S.load; }
@@ -4345,7 +4364,7 @@ Object.assign(FXW,{'Cajado de Augma':FXW['Cajado Curto'],'Machado de Fortunis':F
 for(const k in FXW) if(!FXW[k]) delete FXW[k];
 Object.assign(FXW,{'Presas':{hit:'generic.creature.bite'}}); Object.assign(FXK,{'Forma de Lobo':{self:'generic.creature.claws',sz:1.6},'Fúria Uivante':{self:'generic.template.circle.outpulse.regular.burst',sz:4}});
 for(const k in FX){ const F=FX[k]; F.counters=F.counters||[]; F.acts=F.acts||[];
-  F.counters.push({id:'pcura',nome:'Poção de Cura',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Vida.'},{id:'pfad',nome:'Poção de Fadiga',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Fadiga.'});
+  F.counters.push({id:'pcura',nome:'Poção de Cura',max:9,per:'none',start:1,pips:'pot',txt:'Beba para recuperar 1d4 Pontos de Vida.'},{id:'pfad',nome:'Poção de Fadiga',max:9,per:'none',start:1,pips:'pot2',txt:'Beba para recuperar 1d4 Pontos de Fadiga.'});
   F.acts.push({nome:'Poção de Cura',cost:{c:{pcura:1}},roll:[1,4],onRoll:v=>{ const a=S.pv; S.pv=Math.min(C.pvMax,S.pv+v); return `recuperou ${S.pv-a} PV`; },txt:'recupera 1d4 PV'},
               {nome:'Poção de Fadiga',cost:{c:{pfad:1}},roll:[1,4],onRoll:v=>{ const a=S.fad; S.fad=Math.min(C.fadigaMax,S.fad+v); return `recuperou ${S.fad-a} PF`; },txt:'recupera 1d4 PF'}); }
 Object.assign(FXK,{'Poção de Cura':{self:'generic.healing.green',sz:1.6},'Poção de Fadiga':{self:'generic.healing.blue',sz:1.6}});
@@ -4406,7 +4425,14 @@ function applyReset(r){
   if(C){ S={pv:C.pvMax,fad:C.fadigaMax,pa:C.paMax,esp:2,pend:null}; renderSheet(); saveSheet(); }
   else { try{ const sv=JSON.parse(localStorage.getItem('boca-ficha-state')||'null'); if(sv&&CHARS[sv.code]){ const c=CHARS[sv.code]; localStorage.setItem('boca-ficha-state',JSON.stringify({code:sv.code,pv:c.pvMax,fad:c.fadigaMax,pa:c.paMax,esp:2,pend:null})); } }catch(e){} }
 }
+function renderBando(m){
+  const el=$('bando'); if(!el) return;
+  const rows=Object.entries(m||{}).filter(([k,v])=>k.startsWith(K.sheet)&&v&&(!partyIds||partyIds.has(k.slice(K.sheet.length)))).map(([k,v])=>v);
+  el.innerHTML=rows.length?rows.map(v=>`<div class="bd" style="--pc:${esc(v.cor||'#a8312a')}"><b>${esc(v.nome)}</b><span>${esc(v.player||'')}</span><em>PV ${v.pv}/${v.pvMax}</em><em>PF ${v.fad}/${v.fadMax}</em><em>Arm ${v.pa}/${v.paMax}</em><em>❂ ${v.esp}</em></div>`).join('')
+    :'<div class="dim">Ninguém do grupo abriu a ficha ainda.</div>';
+}
 function refreshTop(m){
+  lastM=m||{}; renderBando(lastM);
   renderLoot(m[NS+'/loot-'+ME.id]);
   applyReset(m[NS+'/reset']);
   fearNow=m[K.fear]||0; fomeNow=m[K.hunger]||0;
@@ -4435,6 +4461,7 @@ $('btnSwap').onclick=()=>{$('sheet').style.display='none';$('pick').style.displa
   ME=await api.me();
   window.__bocaStep='desenhando personagens';
   renderPick(); window.__bocaOK=true;
+  if(!demo){ try{ const upd=ps=>{ partyIds=new Set([ME.id,...ps.map(p=>p.id)]); renderBando(lastM); }; upd(await OBR.party.getPlayers()); OBR.party.onChange(upd); }catch(err){} }
   const m=await api.getMeta(); refreshTop(m);
   api.onMeta(refreshTop);
   // restaurar ficha salva (o mestre começa sem ficha e nunca entra na Party)
