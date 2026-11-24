@@ -265,7 +265,7 @@ img,svg{max-width:100%}
 .thr .tb.ev span{font-size:8.5px;color:var(--bone);font-weight:700}
 @media (max-width:400px){.thr #btnDano{flex:1 1 100%}}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261120191848';
+const BUILD='20261124151302';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -395,11 +395,11 @@ const CHARS = {
  "SUE": {
   "code": "SUE",
   "nome": "Sue Thur-Gar",
-  "classe": "Pugilista",
-  "sub": "Implacável",
-  "dom": "Falange & Valor",
+  "classe": "Lutador",
+  "sub": "Esmagador",
+  "dom": "Valor & Falange",
   "ancestralidade": "Orc",
-  "comunidade": "Liberta",
+  "comunidade": "Livre",
   "motivo": "Caçador de recompensa com nome de garotinha.",
   "recompensa": "$ 800",
   "cor": "#9c2b1b",
@@ -413,20 +413,20 @@ const CHARS = {
    "Presença": -1,
    "Conhecimento": 0
   },
-  "evasao": 12,
+  "evasao": 11,
   "pvMax": 6,
   "fadigaMax": 6,
   "prof": 1,
   "paMax": 3,
   "limiares": [
    6,
-   12
+   15
   ],
   "armas": [
    {
-    "nome": "Punhos",
-    "desc": "desarmado · Força · Corpo a corpo · d10+d6 fís · só sem arma equipada (+1 Evasão)",
-    "dano": "1d10",
+    "nome": "Golpe de Lutador",
+    "desc": "desarmado · Força · Corpo a corpo · d8+d6 fís · sem outra arma ativa (+1 Evasão)",
+    "dano": "1d8",
     "atributo": "Força"
    },
    {
@@ -468,34 +468,34 @@ const CHARS = {
   ],
   "habilidades": [
    {
-    "secao": "Classe — Pugilista",
+    "secao": "Classe — Lutador",
     "tag": "Classe",
-    "nome": "Você Tem Meu Punho",
-    "texto": "Enquanto não tiver nenhuma arma equipada, você tem: bônus de +1 na sua Evasão; considere seus ataques desarmados como uma arma de alcance Corpo a Corpo — use o Atributo que quiser. O ataque causa d8+d6 de Dano Físico usando sua Proficiência (d10+d6 com Potente)."
+    "nome": "Eu Sou a Arma",
+    "texto": "Seus ataques desarmados são uma arma principal, o Golpe de Lutador, equipada sempre que você não tiver outras armas ativas: atributo à sua escolha, alcance corpo a corpo, d8+d6 de dano físico com sua Proficiência. Enquanto ela estiver ativa, +1 na Evasão."
    },
    {
-    "secao": "Classe — Pugilista",
+    "secao": "Classe — Lutador",
     "tag": "Classe",
-    "nome": "Combo (d4 • d6 • d8 • d10)",
-    "texto": "Depois de fazer uma rolagem de ataque com uma arma de Corpo a Corpo mas antes de causar dano ao oponente, gaste 1 Ponto de Fadiga para iniciar um Combo. Role seu Dado de Combo e anote o valor; então role de novo. Se o valor da segunda rolagem for igual ou maior que a primeira, continue rolando até que a rolagem seja menor que a imediatamente anterior. Some o valor de todas as rolagens e adicione o total ao dano da sua arma. Estes valores não podem ser ajustados por efeitos que afetem dados de dano. Seu Dado de Combo começa como d4; quando subir de nível, uma vez por patamar você pode usar uma de suas opções de aprimoramento para aumentá-lo."
+    "nome": "Sequência de Golpes (d4)",
+    "texto": "Depois de acertar um ataque com uma arma corpo a corpo e rolar o dano, marque 1 PF para iniciar uma sequência: role o Dado de Sequência e continue rolando até um resultado ser menor que o anterior. Some tudo ao dano. Esses resultados não podem ser alterados. O dado começa como d4; uma vez por patamar você pode aumentá-lo ao subir de nível."
    },
    {
-    "secao": "Classe — Pugilista",
+    "secao": "Classe — Lutador",
     "tag": "Esperança · 3 ❂",
-    "nome": "Golpe Atordoante",
-    "texto": "Gaste 3 Pontos de Esperança ao acertar um adversário para também fazê-lo marcar 1 Ponto de Fadiga e deixá-lo temporariamente Atordoado. Enquanto Atordoado, todos os testes de ataque dele têm desvantagem."
+    "nome": "Encarar",
+    "texto": "Gaste 3 Pontos de Esperança para intimidar um alvo próximo, deixando-o temporariamente Vulnerável."
    },
    {
-    "secao": "Subclasse — Implacável",
+    "secao": "Subclasse — Esmagador",
     "tag": "Fundamental",
-    "nome": "Potente",
-    "texto": "Aumente seu dado de dano para ataque desarmado de d8 para d10. Além disso, você pode marcar 1 Ponto de Fadiga para atacar duas criaturas que estejam em alcance Corpo a Corpo com uma única rolagem de ataque."
+    "nome": "Durão",
+    "texto": "Você recebe um bônus permanente de +3 no seu limiar de dano grave (já somado)."
    },
    {
-    "secao": "Subclasse — Implacável",
+    "secao": "Subclasse — Esmagador",
     "tag": "Fundamental",
     "nome": "Sobrecarga",
-    "texto": "Em um ataque bem-sucedido, você pode gastar 1 Ponto de Esperança para forçar o alvo a marcar 1 Ponto de Fadiga ou arremessá-lo a uma distância Muito Próxima."
+    "texto": "Ao acertar um ataque, gaste 1 Ponto de Esperança para fazer o alvo marcar 1 PF ou arremessá-lo para um ponto em alcance próximo."
    },
    {
     "secao": "Ancestralidade",
@@ -511,9 +511,9 @@ const CHARS = {
    },
    {
     "secao": "Comunidade",
-    "tag": "Liberta",
-    "nome": "Desgarrado",
-    "texto": "Uma vez por sessão, quando rolar um Teste com Medo, você pode mudar o resultado para Esperança. (The Void)"
+    "tag": "Livre",
+    "nome": "Liberto",
+    "texto": "Uma vez por sessão, quando fizer uma rolagem com Medo, você pode transformar o teste em uma rolagem com Esperança."
    },
    {
     "secao": "Alforje",
@@ -537,7 +537,7 @@ const CHARS = {
     "secao": "Alforje",
     "tag": "Itens",
     "nome": "Tralha",
-    "texto": "Bandagens de mão de um mentor ou um livro sobre seu hobby secreto."
+    "texto": "Faixas de mão de um mentor ou um livro sobre seu passatempo secreto."
    },
    {
     "secao": "Terras Áridas",
@@ -720,14 +720,13 @@ const CHARS = {
   "classe": "Invocador",
   "sub": "Teurgia",
   "dom": "Sangue & Esplendor",
-  "ancestralidade": "Infernis + Angelis",
+  "ancestralidade": "Infernis + Aetheris",
   "comunidade": "Erudita",
   "motivo": "Após ter visões sobre colossos no deserto, veio descobrir o que os antigos deuses planejam.",
   "recompensa": "$ 500",
   "cor": "#1f6f6d",
   "cor2": "#b98a2a",
   "arquivo": "mordred",
-  "advDie": 10,
   "atributos": {
    "Agilidade": 0,
    "Força": 1,
@@ -828,9 +827,9 @@ const CHARS = {
    },
    {
     "secao": "Ancestralidade",
-    "tag": "Angelis",
-    "nome": "Semblante Divino",
-    "texto": "Você tem vantagem em rolagens para comandar ou persuadir."
+    "tag": "Aetheris",
+    "nome": "Asas Celestiais",
+    "texto": "Você tem asas e pode voar. Uma vez por cena, enquanto estiver voando, você pode gastar 1 Ponto de Esperança em vez de marcar 1 Ponto de Armadura."
    },
    {
     "secao": "Comunidade",
@@ -840,15 +839,15 @@ const CHARS = {
    },
    {
     "secao": "Transformação — Semideus",
-    "tag": "The Void",
-    "nome": "Elixir dos Deuses",
-    "texto": "Seu dado de vantagem é um d10 em vez de um d6."
+    "tag": "Transformação",
+    "nome": "Abençoado",
+    "texto": "Você recebe um bônus de +1 em testes comuns, testes de reação e rolagens de dano (já somado nas rolagens da ficha)."
    },
    {
     "secao": "Transformação — Semideus",
-    "tag": "The Void",
-    "nome": "O Peso da Divindade",
-    "texto": "Quando tiver um fracasso com Medo, você deve marcar 1 Ponto de Fadiga ou conceder ao mestre 1 Ponto de Medo adicional."
+    "tag": "Transformação",
+    "nome": "Fardo da Divindade",
+    "texto": "Ao falhar em um teste, você deve marcar 1 Ponto de Fadiga ou o mestre recebe 1 Ponto de Medo."
    },
    {
     "secao": "Alforje",
@@ -1300,16 +1299,15 @@ function invocar(id){ const room=Math.max(0,NIVEL-invTotal()), n=Math.min(PATAMA
 function comboRoll(d){ const v=[]; let prev=0; for(let i=0;i<30;i++){ const x=randInt(d); v.push(x); if(i>0&&x<prev) break; prev=x; } return {tot:v.reduce((a,b)=>a+b,0),vals:v}; }
 window.__dbg={get S(){return S},get C(){return C},evasao:()=>evasao(),limiares:()=>limiares(),fxS:()=>fxS(),optsFor:c=>optsFor(c),gatherFx:(c,k)=>gatherFx(c,k)};
 const FX={
- SUE:{ states:[{id:'punhos',nome:'Sem arma equipada (+1 Evasão)',ev:1,txt:'Você Tem Meu Punho: sem nenhuma arma equipada, +1 na Evasão e os Punhos causam d10+d6.'}],
+ SUE:{ states:[{id:'punhos',nome:'Golpe de Lutador ativo (+1 Evasão)',ev:1,txt:'Eu Sou a Arma: sem outras armas ativas, +1 na Evasão e o Golpe de Lutador causa d8+d6.'}],
       counters:[{id:'dinamite',nome:'Dinamite',max:5,per:'none',start:1,pips:'tnt',txt:'Bananas de dinamite. O mestre entrega mais.'}],
-      hope:{nome:'Golpe Atordoante',custo:3,txt:'ao acertar: o alvo marca 1 PF e fica Atordoado (ataques dele com desvantagem).'},
-      acts:[{nome:'Combo',cost:{pf:1},combo:4,txt:'depois do ataque corpo a corpo: role o d4 enquanto não cair e some tudo ao dano'},
+      hope:{nome:'Encarar',custo:3,txt:'intimida um alvo próximo: ele fica temporariamente Vulnerável.'},
+      acts:[{nome:'Sequência de Golpes',cost:{pf:1},combo:4,txt:'depois de acertar corpo a corpo: role o d4 até cair e some tudo ao dano'},
             {nome:'Um Passo à Frente',cost:{pf:1},roll:[1,4],txt:'+1d4 na Evasão contra um ataque de fora do corpo a corpo'},
             {nome:'Dinamite',cost:{c:{dinamite:1}},roll:[1,20,5],txt:'todos Muito Próximos de onde cai: reação (14) ou sofrem o dano; quem passa marca 1 PF'},
             {nome:'Enlaçar',txt:'acertou com o Laço: em vez do dano, o alvo fica Imobilizado e Vulnerável'}],
-      opts:[{id:'potente',nome:'Potente (1 PF): atingir duas criaturas corpo a corpo',wpn:true,only:'Punhos',cost:{pf:1}},
-            {id:'sobrecarga',nome:'Sobrecarga (1 ❂): alvo marca 1 PF ou é arremessado',wpn:true,cost:{esp:1}},
-            {id:'presas',nome:'Presas (1 ❂): +1d6 num alvo corpo a corpo',wpn:true,only:'Punhos',cost:{esp:1},dmgDice:[1,6]}],
+      opts:[{id:'sobrecarga',nome:'Sobrecarga (1 ❂): alvo marca 1 PF ou é arremessado até próximo',wpn:true,cost:{esp:1}},
+            {id:'presas',nome:'Presas (1 ❂): +1d6 num alvo corpo a corpo',wpn:true,only:'Golpe de Lutador',cost:{esp:1},dmgDice:[1,6]}],
       after:['desgarrado'] },
  DJA:{ counters:[{id:'palavras',nome:'Palavras Inspiradoras',max:()=>AT('Presença'),per:'longo',start:'max',pips:'note',txt:'Ao falar com um aliado, gaste 1: ele recupera 1 PF, 1 PV ou ganha 1 Esperança.'}],
       hope:{nome:'Fazer uma Cena',custo:3,txt:'um alvo próximo fica com −2 na Dificuldade.'},
@@ -1328,7 +1326,8 @@ const FX={
             {nome:'Invocar Anjo',cost:{pf:1},fx:()=>invocar('circ2'),txt:'2º Círculo'},
             {nome:'Comandar o Espírito: refazer ataque',cost:{c:{destino:1}},txt:'o adversário Muito Próximo rola o ataque de novo; o espírito desaparece'},
             {nome:'Golpe Esperançoso',cost:{c:{circ2:1}},roll:[1,10],txt:'sucesso com Esperança num ataque: dano mágico extra; o Anjo desaparece'},
-            {nome:'Talismã da Força Vital',cost:{pv:1},txt:'o portador pode destruí-lo para reduzir o dano em dois limiares'}],
+            {nome:'Talismã da Força Vital',cost:{pv:1},txt:'o portador pode destruí-lo para reduzir o dano em dois limiares'},
+            {nome:'Asas Celestiais',cost:{esp:1},use:{id:'asas',max:1,per:'curto'},txt:'voando, uma vez por cena: gaste 1 Esperança em vez de marcar 1 Armadura'}],
       after:['destemido','peso'] },
  VIB:{ counters:[{id:'balas',nome:'Balas no tambor',max:6,per:'none',start:'max',pips:'bala',recarga:{pf:1},txt:'Cada ataque com o Revólver gasta 1.'}],
       states:[{id:'oculto',nome:'Oculto',txt:'Ataque Furtivo: +1d6 no próximo dano de arma. Você sai de Oculto ao atacar.',dmgDice:[1,6],wpn:true,consume:true},
@@ -1468,12 +1467,13 @@ function gatherFx(ctx,checked){
   for(const s of (F.states||[])) if(stOn(s.id)&&(s.atk||s.dmgDice||s.dmgFlat||s.double)){ if((s.wpn&&!isW)) continue; add(s,s.nome); if(s.consume&&isW) e.consume.push(s.id); }
   for(const o of (F.opts||[])) if(checked.includes(o.id)) add(o,o.nome.split(':')[0].split('(')[0].trim());
   // automáticos
+  if(C.code==='MOR'){ e.atk+=1; e.dmgFlat+=1; e.notes.push('Abençoado +1'); }
   if(C.code==='W'&&phys){ e.dmgFlat+=NIVEL; e.notes.push('Treinamento de Combate +5'); }
   if(C.code==='W'&&S.pv<=2){ e.hopeD20=true; e.notes.push('Enfrentar o Desafio: d20 de Esperança'); }
   if(X.det&&isW){ e.dmgFlat+=X.det; e.notes.push(`Determinação +${X.det}`); }
   if(C.code==='M'&&S.fad<=0&&isW&&hasCard('Voz da Razão')){ e.prof+=1; e.notes.push('Voz da Razão: +1 Proficiência'); }
   if(C.code==='C'&&X.marca&&isW) e.notes.push('alvo Marcado marca 1 PF ao sofrer dano');
-  if(isW&&ctx.arma.nome==='Punhos'){ e.dmgDice.push([C.prof||1,6]); e.notes.push('Você Tem Meu Punho: d10+d6'); }
+  if(isW&&ctx.arma.nome==='Golpe de Lutador'){ e.dmgDice.push([C.prof||1,6]); e.notes.push('Eu Sou a Arma: d8+d6'); }
   if(isW&&ctx.arma.balas){ e.cost.c=e.cost.c||{}; e.cost.c.balas=(e.cost.c.balas||0)+1; e.notes.push('1 bala'); }
   if(isW&&hasCard('Força Esmagadora')&&C.cartas.some(c=>c.nome==='Força Esmagadora')&&/Corpo a corpo/i.test(ctx.arma.desc||'')){ e.dmgFlat+=AT('Força'); e.notes.push('Força Esmagadora +'+AT('Força')); }
   if(isW&&/marque 1 PF/i.test(ctx.arma.desc||'')){ e.cost.pf=(e.cost.pf||0)+1; e.notes.push(ctx.arma.nome+': 1 PF'); }
@@ -1571,14 +1571,14 @@ document.addEventListener('click',async ev=>{
 
 Object.assign(FXW,{
  'Montante':{hit:'generic.weapon_attacks.melee.single.great_sword'},
- 'Punhos':{hit:'generic.unarmed_attacks.unarmed_strikes.physical.1'},'Runas de mão':{hit:'generic.energy.energy_attack.1'},'Laço':{hit:'generic.marker.red_chain.complete'},
+ 'Golpe de Lutador':{hit:'generic.unarmed_attacks.unarmed_strikes.physical.1'},'Runas de mão':{hit:'generic.energy.energy_attack.1'},'Laço':{hit:'generic.marker.red_chain.complete'},
  'Rapieira':{hit:'generic.weapon_attacks.melee.single.rapier'},'Cajado grande':{proj:'guiding_bolt',fall:'sacred_flame.target'},'Cetro':{proj:'guiding_bolt',fall:'sacred_flame.target'},'Cetro (corpo a corpo)':{hit:'sacred_flame.target'},
  'Revólver':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},'Revólver pequeno':{proj:'generic.weapon_attacks.ranged.bullet.orange',fall:'generic.impact.dropshadow'},
 });
 Object.assign(FXK,{
  'Poção de Cura':{self:'generic.healing.green',sz:1.6},'Poção de Fadiga':{self:'generic.healing.blue',sz:1.6},
  'Enorme: dado extra do Montante':{hit:'generic.impact.dropshadow'},
- 'Combo':{hit:'generic.unarmed_attacks.flurry_of_blows.physical'},'Golpe Atordoante':{hit:'generic.conditions.dizzy_stars'},'Dinamite':{proj:'generic.weapon_attacks.ranged.throw.bomb',fall:'generic.explosion.orange1',sz:3},
+ 'Sequência de Golpes':{hit:'generic.unarmed_attacks.flurry_of_blows.physical'},'Encarar':{hit:'generic.conditions.dizzy_stars'},'Dinamite':{proj:'generic.weapon_attacks.ranged.throw.bomb',fall:'generic.explosion.orange1',sz:3},
  'Enlaçar':{hit:'generic.marker.red_chain.complete'},'Inspiração (dar d6 ao bando)':{self:'bardic_inspiration',sz:3},'Discurso Inspirador':{self:'generic.template.circle.outpulse.music_notes.burst',sz:4},
  'Fazer uma Cena':{hit:'generic.marker.music'},'Saraivada Arcana':{proj:'magic_missile',fall:'generic.impact.fire'},'Sonolência':{hit:'sleep.symbol.dark_pink'},
  'Invocar Espírito do Destino':{self:'generic.magic_signs.conjuration_circle.dark_yellow.complete',sz:2.5},'Invocar Anjo':{self:'generic.marker.light.complete',sz:2.5},
@@ -1714,8 +1714,8 @@ function showDmgOnly(label,r,magic){
 function renderAfter(L){
   const F=FXC(), X=fxS(), b=[]; const after=F.after||[];
   if(after.includes('destemido')&&L.kind==='fear') b.push(['destemido','Destemido (2 PF): rolar com Esperança']);
-  if(after.includes('desgarrado')&&L.kind==='fear'&&usesLeft({id:'desgarrado',max:1})>0) b.push(['desgarrado','Desgarrado (1×/sessão): mudar para Esperança']);
-  if(after.includes('peso')&&L.kind==='fear'){ b.push(['pesoPF','Fracassei com Medo — Peso da Divindade: marcar 1 PF']); b.push(['pesoMedo','Fracassei com Medo — Peso da Divindade: +1 Medo ao mestre']); }
+  if(after.includes('desgarrado')&&L.kind==='fear'&&usesLeft({id:'desgarrado',max:1})>0) b.push(['desgarrado','Liberto (1×/sessão): mudar para Esperança']);
+  if(after.includes('peso')){ b.push(['pesoPF','Se falhei — Fardo da Divindade: marcar 1 PF']); b.push(['pesoMedo','Se falhei — Fardo da Divindade: +1 Medo ao mestre']); }
   if(after.includes('furtiv')&&L.kind==='fear') b.push(['furtiv','Mestre da Furtividade (1 PF): movimento furtivo com Esperança']);
   if(after.includes('coragem')&&L.kind==='fear') b.push(['coragem','Falhei com Medo — Coragem: +1 Esperança']);
   if(after.includes('padrao')){ const n=X.num.padrao; if(n&&(L.p.hope===n||L.p.fear===n)){ b.push(['padraoE',`Padrão ${n}! +1 Esperança`]); b.push(['padraoF',`Padrão ${n}! recuperar 1 PF`]); } }
@@ -1737,8 +1737,8 @@ async function rerollDuality(onlyHope){
 document.addEventListener('click',async ev=>{
   const a=ev.target.closest('[data-after]'); if(!a||!last) return; const k=a.dataset.after, L=last;
   if(k==='destemido'||k==='furtiv'){ const c=k==='destemido'?2:1; if(!canPay({pf:c})) return; pay({pf:c}); await undoOutcome('fear'); L.kind='hope'; await applyOutcome('hope'); announce(`${k==='destemido'?'Destemido':'Mestre da Furtividade'} (${c} PF): rolou com Esperança em vez de Medo.`); showResult(L); }
-  else if(k==='desgarrado'){ fxS().u.desgarrado=1; await undoOutcome('fear'); L.kind='hope'; await applyOutcome('hope'); announce('Desgarrado: mudou a rolagem com Medo para Esperança.'); showResult(L); }
-  else if(k==='pesoPF'||k==='pesoMedo'){ if(k==='pesoPF'){ if(!canPay({pf:1})) return; pay({pf:1}); } else { const m=await api.getMeta(); await api.setMeta({[K.fear]:Math.min(12,(m[K.fear]||0)+1)}); } await fxSave(); $('resAct').querySelectorAll('[data-after^="peso"]').forEach(x=>x.remove()); announce(`O Peso da Divindade: ${k==='pesoPF'?'marcou 1 PF':'o mestre ganhou 1 Medo'}.`); }
+  else if(k==='desgarrado'){ fxS().u.desgarrado=1; await undoOutcome('fear'); L.kind='hope'; await applyOutcome('hope'); announce('Liberto: mudou a rolagem com Medo para Esperança.'); showResult(L); }
+  else if(k==='pesoPF'||k==='pesoMedo'){ if(k==='pesoPF'){ if(!canPay({pf:1})) return; pay({pf:1}); } else { const m=await api.getMeta(); await api.setMeta({[K.fear]:Math.min(12,(m[K.fear]||0)+1)}); } await fxSave(); $('resAct').querySelectorAll('[data-after^="peso"]').forEach(x=>x.remove()); announce(`O Fardo da Divindade: ${k==='pesoPF'?'marcou 1 PF':'o mestre ganhou 1 Medo'}.`); }
   else if(k==='coragem'){ S.esp=Math.min(6,S.esp+1); await fxSave(); a.remove(); announce('Coragem: falhou com Medo e recebeu 1 Esperança.'); }
   else if(k==='padraoE'||k==='padraoF'){ if(k==='padraoE') S.esp=Math.min(6,S.esp+1); else S.fad=Math.min(C.fadigaMax,S.fad+1); await fxSave(); $('resAct').querySelectorAll('[data-after^="padrao"]').forEach(x=>x.remove()); announce(`Padrões Estranhos: ${k==='padraoE'?'+1 Esperança':'recuperou 1 PF'}.`); }
   else if(k==='adapt'){ if(!canPay({pf:1})) return; pay({pf:1}); announce('Adaptabilidade (1 PF): rolou de novo.'); await rerollDuality(false); }
@@ -1873,7 +1873,7 @@ function renderSheet(){
   document.querySelectorAll('.attr').forEach(a=>a.onclick=()=>openRollDlg({tipo:'attr',nome:a.dataset.a,mod:C.atributos[a.dataset.a]??0}));
   // armas
   $('wpns').innerHTML=C.armas.map((w,i)=>
-    `<div class="wpn" data-i="${i}"><div class="wi">${/Rev[óo]lver/.test(w.nome)?'🔫':/Punhos/.test(w.nome)?'👊':/Laço/.test(w.nome)?'➰':/Cajado|Runas/.test(w.nome)?'✴':'⚔'}</div><div class="wn"><b>${esc(w.nome)}</b><span>${esc(w.desc)}</span></div><div class="wd">${esc(w.dano)}</div></div>`).join('');
+    `<div class="wpn" data-i="${i}"><div class="wi">${/Rev[óo]lver/.test(w.nome)?'🔫':/Golpe de Lutador/.test(w.nome)?'👊':/Laço/.test(w.nome)?'➰':/Cajado|Runas/.test(w.nome)?'✴':'⚔'}</div><div class="wn"><b>${esc(w.nome)}</b><span>${esc(w.desc)}</span></div><div class="wd">${esc(w.dano)}</div></div>`).join('');
   document.querySelectorAll('.wpn').forEach(w=>w.onclick=()=>{
     const arma=C.armas[+w.dataset.i];
     openRollDlg({tipo:'wpn',nome:arma.nome,mod:C.atributos[arma.atributo]??0,arma});
