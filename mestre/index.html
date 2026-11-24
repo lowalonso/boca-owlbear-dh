@@ -124,8 +124,11 @@ details.reveal summary{color:var(--bile)}
 .tp.fís{border-color:var(--blood2);color:var(--blood2)}
 .atk .an span{display:inline-block;margin-top:2px}
 .quick{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
+
+html{-webkit-text-size-adjust:100%} body{overflow-x:hidden}
+@media (pointer:coarse),(max-width:400px){ button{min-height:36px;touch-action:manipulation} input,select,textarea{font-size:16px!important} .pip{width:22px!important;height:22px!important} }
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261114222811';
+const BUILD='20261124143855';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -594,7 +597,7 @@ async function runFx(c,steps,name){
     if(!me&&await autoLink()){ saveCmb(); paintCmb(); items=await chars(); me=c.tok&&items.find(i=>i.id===c.tok); }
     const sel=((await OBR.player.getSelection())||[]).filter(id=>id!==c.tok); const tg=sel.length?items.filter(i=>sel.includes(i.id)):[];
     const pcs=items.filter(i=>/^\s*pc\s*-/i.test(i.name||''));
-    const ins=[]; const add=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:tsize(t)*(z||1)}});
+    const ins=[]; const add=(id,t,z,d)=>ins.push({type:'effect',id,delay:d||0,effectProperties:{source:t.position,size:Math.max(1.4,tsize(t))*(z||1.2)*((z||1)>2.5?1.15:1.6)}});
     for(const st of steps){
       if(st.s&&me) add(st.s,me,st.z,st.d);
       if(st.t) (tg.length?tg:me?[me]:[]).forEach(t=>add(st.t,t,st.z,st.d));
