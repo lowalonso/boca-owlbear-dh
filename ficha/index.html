@@ -209,7 +209,7 @@ html{-webkit-text-size-adjust:100%} body{overflow-x:hidden}
 }
 @media (max-width:400px){.thr #btnDano{flex:1 1 100%}}
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261124152751';
+const BUILD='20261124155848';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -353,14 +353,14 @@ const CHARS = {
   "Presença": 0,
   "Conhecimento": 0
  },
- "evasao": 14,
+ "evasao": 15,
  "pvMax": 8,
  "fadigaMax": 6,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  10,
-  16
+  16,
+  32
  ],
  "armas": [
   {
@@ -483,6 +483,18 @@ const CHARS = {
    "tag": "Infernis",
    "nome": "Aspecto Apavorante",
    "texto": "Você tem vantagem em testes para intimidar criaturas hostis."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Lamelar do Protetor Celeste",
+   "texto": "Limiares base 11/27 · Armadura 5 · Vigilante: +2 na Evasão (já somado)."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Livre",
+   "nome": "Liberto",
+   "texto": "Uma vez por sessão, quando fizer uma rolagem com Medo, você pode transformar o teste em uma rolagem com Esperança."
   }
  ]
 },
@@ -508,10 +520,10 @@ const CHARS = {
  "pvMax": 8,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 6,
+ "paMax": 8,
  "limiares": [
-  11,
-  18
+  16,
+  31
  ],
  "armas": [
   {
@@ -640,6 +652,18 @@ const CHARS = {
    "tag": "Fungril",
    "nome": "Vínculo Mortal",
    "texto": "Enquanto estiver tocando um cadáver que tenha morrido recentemente, você pode marcar 1 PF para extrair dele uma memória relacionada a uma emoção ou sensação específica à sua escolha."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Brigantina (casca de micélio)",
+   "texto": "Limiares base 11/26 · Armadura 5 (+3 do escudo) · Forro: marque 1 PF para ignorar um dano menor."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Silvestre",
+   "nome": "Pés Leves",
+   "texto": "Seu movimento é naturalmente silencioso. Você tem vantagem em testes para se mover sem ser ouvido."
   }
  ]
 },
@@ -665,10 +689,10 @@ const CHARS = {
  "pvMax": 9,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 6,
  "limiares": [
-  12,
-  20
+  18,
+  36
  ],
  "armas": [
   {
@@ -779,6 +803,18 @@ const CHARS = {
    "tag": "Aetheris",
    "nome": "Asas Celestiais",
    "texto": "Você tem asas e pode voar. Uma vez por cena, voando, gaste 1 Ponto de Esperança em vez de marcar 1 Ponto de Armadura."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Cota de Malha avançada",
+   "texto": "Limiares base 13/31 · Armadura 6 · Pesada: −1 na Evasão (já somado)."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Rural",
+   "nome": "Laços Fortes",
+   "texto": "Uma vez por descanso longo, gaste quantos Pontos de Esperança quiser para conceder a mesma quantidade a um aliado distante."
   }
  ],
  "ancestralidade": "Fada",
@@ -810,10 +846,10 @@ const CHARS = {
  "pvMax": 7,
  "fadigaMax": 8,
  "prof": 3,
- "paMax": 3,
+ "paMax": 4,
  "limiares": [
-  11,
-  18
+  17,
+  31
  ],
  "armas": [
   {
@@ -947,6 +983,18 @@ const CHARS = {
    "tag": "Humano",
    "nome": "Adaptabilidade",
    "texto": "Ao rolar uma falha em um teste que usou uma de suas Experiências, você pode marcar 1 Ponto de Fadiga para fazer a rolagem novamente."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Túnica de Mago avançada",
+   "texto": "Limiares base 8/22 · Armadura 4 · Encantamento: + seu Conhecimento nos limiares (já somado)."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Erudita",
+   "nome": "Culto",
+   "texto": "Você tem vantagem em testes que envolvem cultura, história ou política de um lugar ou pessoa importante."
   }
  ],
  "ancestralidade": "Humano",
@@ -978,10 +1026,10 @@ const CHARS = {
  "pvMax": 10,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 8,
+ "paMax": 10,
  "limiares": [
-  17,
-  25
+  24,
+  43
  ],
  "armas": [
   {
@@ -1104,6 +1152,18 @@ const CHARS = {
    "tag": "Gigante",
    "nome": "Alcance",
    "texto": "Trate qualquer arma, talento, magia ou outra habilidade com alcance corpo a corpo como se ela possuísse alcance muito próximo."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Placas avançada",
+   "texto": "Limiares base 15/35 · Armadura 6 (+4 do escudo-torre) · Muito Pesada: −2 na Evasão, −1 em Agilidade (já somados)."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Bélica",
+   "nome": "Semblante Corajoso",
+   "texto": "Uma vez por sessão, quando tiver que marcar 1 PF, você pode gastar 1 Ponto de Esperança em vez disso."
   }
  ],
  "ancestralidade": "Gigante",
@@ -1135,10 +1195,10 @@ const CHARS = {
  "pvMax": 8,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  11,
-  18
+  16,
+  32
  ],
  "armas": [
   {
@@ -1261,6 +1321,18 @@ const CHARS = {
    "tag": "Drakona",
    "nome": "Sopro Elemental",
    "texto": "Escolha um elemento para seu sopro (aqui, fogo). Pode usá-lo contra um alvo ou grupo muito próximo, tratando-o como uma arma que usa Instinto e causa d8 de dano mágico com sua Proficiência."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Escamas de Dragão",
+   "texto": "Limiares base 11/27 · Armadura 5 · Impenetrável: uma vez por descanso curto, marque 1 PF em vez de marcar seu último PV."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Solitária",
+   "nome": "Família Escolhida",
+   "texto": "Uma vez por descanso, gaste 1 Ponto de Esperança para usar a Experiência de um aliado como se fosse sua. Descreva como o tempo com ele preparou você para esse momento."
   }
  ],
  "ancestralidade": "Drakona",
@@ -1288,14 +1360,14 @@ const CHARS = {
   "Presença": 0,
   "Conhecimento": -1
  },
- "evasao": 13,
+ "evasao": 14,
  "pvMax": 8,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 4,
+ "paMax": 6,
  "limiares": [
-  12,
-  20
+  18,
+  40
  ],
  "armas": [
   {
@@ -1418,6 +1490,18 @@ const CHARS = {
    "tag": "Elfo",
    "nome": "Transe Celestial",
    "texto": "Durante um descanso, você pode entrar em um transe celestial para escolher um movimento de repouso adicional."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura da Pedra de Sangue",
+   "texto": "Limiares base 13/35 · Armadura 6 · Sede de Sangue: num sucesso crítico em ataque corpo a corpo armado, recupere 1 PV."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Glacial",
+   "nome": "Resistente",
+   "texto": "Ao fazer um descanso, você recupera 1 Ponto de Vida."
   }
  ],
  "ancestralidade": "Elfo",
@@ -1449,10 +1533,10 @@ const CHARS = {
  "pvMax": 8,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  11,
-  18
+  16,
+  32
  ],
  "armas": [
   {
@@ -1569,6 +1653,18 @@ const CHARS = {
    "tag": "Katari",
    "nome": "Garras Retráteis",
    "texto": "Faça um teste de Agilidade para arranhar um alvo corpo a corpo. Em um sucesso, ele fica temporariamente Vulnerável."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Couro avançada",
+   "texto": "Limiares base 11/27 · Armadura 5."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Nômade",
+   "nome": "Mochila de Nômade",
+   "texto": "Uma vez por sessão, gaste 1 Ponto de Esperança para tirar da mochila um item mundano e útil para a situação. Combine o item com o mestre."
   }
  ],
  "ancestralidade": "Katari",
@@ -1589,7 +1685,7 @@ const CHARS = {
  "dom": "Códice & Graça",
  "arquivo": "ficha-silenciado",
  "atributos": {
-  "Presença": 4,
+  "Presença": 5,
   "Agilidade": 0,
   "Acuidade": 2,
   "Instinto": 2,
@@ -1600,10 +1696,10 @@ const CHARS = {
  "pvMax": 7,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  11,
-  18
+  16,
+  32
  ],
  "armas": [
   {
@@ -1714,6 +1810,18 @@ const CHARS = {
    "tag": "Quacho",
    "nome": "Linguarudo",
    "texto": "Você pode usar sua língua comprida para agarrar coisas Próximas. Marque 1 PF para usá-la como arma de Acuidade com alcance próximo que causa d12 de dano físico com sua Proficiência."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Bellamoi",
+   "texto": "Limiares base 11/27 · Armadura 5 · Revestimento Dourado: +1 em Presença (já somado)."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Desértica",
+   "nome": "Oásis",
+   "texto": "Quando fizer um descanso curto, você ou um aliado podem rolar novamente um dos dados de um movimento de repouso e ficar com o melhor resultado."
   }
  ],
  "ancestralidade": "Quacho",
@@ -1749,10 +1857,10 @@ Object.assign(CHARS,{
  "pvMax": 6,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 6,
  "limiares": [
-  11,
-  18
+  22,
+  48
  ],
  "armas": [
   {
@@ -1765,6 +1873,12 @@ Object.assign(CHARS,{
    "nome": "Cetro da Boca (corpo a corpo)",
    "desc": "versátil · Presença · Corpo a corpo · 3d8+4 mág",
    "dano": "3d8+4",
+   "atributo": "Presença"
+  },
+  {
+   "nome": "Presas",
+   "desc": "transformação (Vampiro) · atributo à escolha · Corpo a corpo · 3d6 fís",
+   "dano": "3d6",
    "atributo": "Presença"
   }
  ],
@@ -1881,6 +1995,30 @@ Object.assign(CHARS,{
    "tag": "Anão",
    "nome": "Vigoroso",
    "texto": "Gaste 3 Pontos de Esperança para reduzir à metade o dano físico sofrido."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Runas da Fortificação",
+   "texto": "Limiares base 17/43 · Armadura 6 · Excruciante: sempre que marcar 1 Ponto de Armadura, marque também 1 PF."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Livre",
+   "nome": "Liberto",
+   "texto": "Uma vez por sessão, quando fizer uma rolagem com Medo, você pode transformar o teste em uma rolagem com Esperança."
+  },
+  {
+   "secao": "Transformação — Vampiro",
+   "tag": "Transformação",
+   "nome": "Presas",
+   "texto": "Faça um ataque com um atributo à sua escolha para morder um alvo em corpo a corpo. Se acertar, cause d6 de dano físico com sua Proficiência (3d6)."
+  },
+  {
+   "secao": "Transformação — Vampiro",
+   "tag": "Transformação",
+   "nome": "Alimentação",
+   "texto": "Ao acertar com as Presas uma criatura que tem sangue, marque 1 PF para se alimentar: coloque marcadores iguais aos PV que o alvo marcou (máximo de 6). Antes de um teste qualquer, gaste um marcador para transformar seu Dado de Medo em d20. Num descanso longo, remova um marcador. Sem nenhum marcador, a fome cobra o seu preço: combine com o mestre."
   }
  ],
  "esferas": "Fome & Posse"
@@ -1908,10 +2046,10 @@ Object.assign(CHARS,{
  "pvMax": 7,
  "fadigaMax": 6,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  11,
-  18
+  16,
+  32
  ],
  "armas": [
   {
@@ -2034,6 +2172,18 @@ Object.assign(CHARS,{
    "tag": "Firbolg",
    "nome": "Inabalável",
    "texto": "Quando for marcar 1 Ponto de Fadiga, role 1d6. Se tirar 6, não o marque."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Couro avançada",
+   "texto": "Limiares base 11/27 · Armadura 5."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Silvestre",
+   "nome": "Pés Leves",
+   "texto": "Seu movimento é naturalmente silencioso. Você tem vantagem em testes para se mover sem ser ouvido."
   }
  ]
 },
@@ -2056,14 +2206,14 @@ Object.assign(CHARS,{
   "Presença": 2,
   "Conhecimento": 3
  },
- "evasao": 12,
+ "evasao": 11,
  "pvMax": 6,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  10,
-  16
+  16,
+  32
  ],
  "armas": [
   {
@@ -2204,6 +2354,30 @@ Object.assign(CHARS,{
    "tag": "Aetheris",
    "nome": "Asas Celestiais",
    "texto": "Você tem asas e pode voar. Uma vez por cena, voando, gaste 1 Ponto de Esperança em vez de marcar 1 Ponto de Armadura."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Traje Astral",
+   "texto": "Limiares base 11/27 · Armadura 5 · Estelar: marque 1 PF para fazer um teste de conjuração com vantagem."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Rural",
+   "nome": "Laços Fortes",
+   "texto": "Uma vez por descanso longo, gaste quantos Pontos de Esperança quiser para conceder a mesma quantidade a um aliado distante."
+  },
+  {
+   "secao": "Transformação — Semideus",
+   "tag": "Transformação",
+   "nome": "Abençoado",
+   "texto": "Você recebe +1 em testes comuns, testes de reação e rolagens de dano (já somado nas rolagens da ficha)."
+  },
+  {
+   "secao": "Transformação — Semideus",
+   "tag": "Transformação",
+   "nome": "Fardo da Divindade",
+   "texto": "Ao falhar em um teste, você deve marcar 1 Ponto de Fadiga ou o mestre recebe 1 Ponto de Medo."
   }
  ]
 },
@@ -2230,10 +2404,10 @@ Object.assign(CHARS,{
  "pvMax": 6,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  10,
-  16
+  14,
+  28
  ],
  "armas": [
   {
@@ -2356,161 +2530,179 @@ Object.assign(CHARS,{
    "tag": "Gnomo",
    "nome": "Passo Cintilante",
    "texto": "Uma vez por cena, teletransporte-se para um ponto distante que você consiga ver."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Gibão avançado",
+   "texto": "Limiares base 9/23 · Armadura 5 · Flexível: +1 na Evasão (já somado)."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Erudita",
+   "nome": "Culto",
+   "texto": "Você tem vantagem em testes que envolvem cultura, história ou política de um lugar ou pessoa importante."
   }
  ]
 },
  "SG": {
-  "code": "SG",
-  "par": "G",
-  "nome": "O Carcereiro",
-  "classe": "Lutador Herdeiro da Terra",
-  "sub": "Esmagador",
-  "motivo": "Você não deixou ninguém morrer desta vez: prendeu todos. Quem você ama fica onde você vê, atrás das suas correntes, longe do perigo e longe da porta. Proteger e prender viraram a mesma palavra.",
-  "cor": "#9a9aa4",
-  "cor2": "#3e3e44",
-  "dom": "Valor & Falange",
-  "arquivo": "sombra-carcereiro",
-  "atributos": {
-   "Agilidade": 1,
-   "Força": 3,
-   "Acuidade": 0,
-   "Instinto": 2,
-   "Presença": 1,
-   "Conhecimento": 0
-  },
-  "evasao": 12,
-  "pvMax": 7,
-  "fadigaMax": 7,
-  "prof": 3,
-  "paMax": 7,
-  "limiares": [
-   19,
-   40
-  ],
-  "armas": [
-   {
-    "nome": "Golpe de Lutador",
-    "desc": "principal · Força · Corpo a corpo · 3d8+3d6 fís · desarmado (Eu Sou a Arma)",
-    "dano": "3d8",
-    "atributo": "Força"
-   }
-  ],
-  "experiencias": [
-   {
-    "nome": "Muralha de Carne",
-    "desc": "segurar uma porta, um corredor, alguém",
-    "mod": 3
-   },
-   {
-    "nome": "Chave Perdida",
-    "desc": "prender e imobilizar",
-    "mod": 3
-   },
-   {
-    "nome": "Vigília",
-    "desc": "não dormir em serviço",
-    "mod": 2
-   },
-   {
-    "nome": "Voz de Comando",
-    "desc": "fazer obedecer",
-    "mod": 2
-   }
-  ],
-  "cartas": [
-   {
-    "nome": "Armadura Corporal",
-    "meta": "Valor · Nv1 · Talento · Recall 0",
-    "texto": "Enquanto não equipar uma armadura, você tem Armadura base igual a 3 + sua Força e usa estes limiares de dano base: • 1º patamar: 9/19; • 2º patamar: 11/24; • 3º patamar: 13/31; • 4º patamar: 15/38."
-   },
-   {
-    "nome": "Imposição",
-    "meta": "Valor · Nv1 · Talento · Recall 0",
-    "texto": "Ataque um alvo corpo a corpo com sua arma principal. Em um sucesso, você causa dano e o empurra para um ponto em alcance próximo. Em um sucesso com Esperança, acrescente 1d6 à rolagem de dano. Além disso, gaste 1 Ponto de Esperança para deixá-lo temporariamente Vulnerável."
-   },
-   {
-    "nome": "Força Esmagadora",
-    "meta": "Valor · Nv2 · Talento · Recall 1",
-    "texto": "Você usa toda sua força física em um combate. Ao acertar um ataque usando uma arma com alcance corpo a corpo, receba um bônus igual à sua Força na rolagem de dano."
-   },
-   {
-    "nome": "Ferocidade",
-    "meta": "Falange · Nv2 · Talento · Recall 2",
-    "texto": "Ao fazer com que um adversário marque 1 ou mais Pontos de Vida, você pode gastar 2 Pontos de Esperança para aumentar sua Evasão em um número igual à quantidade de PV que ele marcou. Esse bônus dura até o término do próximo ataque feito contra você."
-   },
-   {
-    "nome": "Resistir",
-    "meta": "Falange · Nv3 · Talento · Recall 1",
-    "texto": "Ao marcar 1 Ponto de Armadura para reduzir o dano sofrido, você pode marcar 1 Ponto de Fadiga para marcar 1 Ponto de Armadura adicional."
-   },
-   {
-    "nome": "Incitar",
-    "meta": "Valor · Nv4 · Talento · Recall 1",
-    "texto": "Descreva como você provoca um alvo próximo. Em seguida, faça um teste de Presença contra ele. Em um sucesso, o alvo deve marcar 1 PF e, na próxima vez que o mestre colocá-lo em foco, ele deve atacar você com desvantagem."
-   },
-   {
-    "nome": "Conhece Teu Inimigo",
-    "meta": "Falange · Nv5 · Talento · Recall 1",
-    "texto": "Enquanto estiver observando uma criatura, você pode fazer um teste de Instinto contra ela. Em um sucesso, gaste 1 Ponto de Esperança e pergunte ao mestre uma das seguintes informações a respeito dela: • PV e PF restantes; • Dificuldade e limiares de dano; • Táticas e dados de dano padrão; • Habilidades e Experiências. Além disso, em um sucesso, você pode marcar 1 PF para fazer o mestre perder 1 Ponto de Medo."
-   }
-  ],
-  "habilidades": [
-   {
-    "secao": "Habilidades de Classe",
-    "tag": "",
-    "nome": "Eu Sou a Arma",
-    "texto": "Sem outras armas ativas, você usa o Golpe de Lutador: atributo à sua escolha, alcance corpo a corpo, d8+d6 de dano físico com sua Proficiência (3d8+3d6). Enquanto ele estiver ativo, +1 na Evasão (já somado)."
-   },
-   {
-    "secao": "Habilidades de Classe",
-    "tag": "",
-    "nome": "Sequência de Golpes (d6)",
-    "texto": "Depois de acertar um ataque corpo a corpo e rolar o dano, marque 1 PF para iniciar uma sequência: role o Dado de Sequência e continue rolando até um resultado ser menor que o anterior. Some tudo ao dano. Esses resultados não podem ser alterados."
-   },
-   {
-    "secao": "Habilidade de Esperança",
-    "tag": "3 Esperança",
-    "nome": "Encarar",
-    "texto": "Gaste 3 Pontos de Esperança para intimidar um alvo próximo, deixando-o temporariamente Vulnerável."
-   },
-   {
-    "secao": "Subclasse — Esmagador",
-    "tag": "Fundamental",
-    "nome": "Durão",
-    "texto": "+3 permanente no seu limiar de dano grave (já somado)."
-   },
-   {
-    "secao": "Subclasse — Esmagador",
-    "tag": "Fundamental",
-    "nome": "Sobrecarga",
-    "texto": "Ao acertar um ataque, gaste 1 Ponto de Esperança para fazer o alvo marcar 1 PF ou arremessá-lo para um ponto em alcance próximo."
-   },
-   {
-    "secao": "Subclasse — Esmagador",
-    "tag": "Especialização",
-    "nome": "Cercado",
-    "texto": "Ao fazer um ataque armado corpo a corpo, gaste quantos Pontos de Esperança quiser para atingir esse número de criaturas adicionais em corpo a corpo."
-   },
-   {
-    "secao": "Subclasse — Esmagador",
-    "tag": "Especialização",
-    "nome": "Olho por Olho",
-    "texto": "Uma vez por descanso, quando um adversário em corpo a corpo fizer você marcar PV, marque 1 PF para forçá-lo a marcar a mesma quantidade de PV."
-   },
-   {
-    "secao": "Ancestralidade",
-    "tag": "Herdeiro da Terra",
-    "nome": "Pele de Pedra",
-    "texto": "+1 permanente na Armadura e nos limiares de dano (já somado)."
-   },
-   {
-    "secao": "Ancestralidade",
-    "tag": "Herdeiro da Terra",
-    "nome": "Imóvel",
-    "texto": "Em contato com o solo, você não pode ser erguido nem movido contra a sua vontade."
-   }
-  ]
+ "code": "SG",
+ "par": "G",
+ "nome": "O Carcereiro",
+ "classe": "Lutador Herdeiro da Terra",
+ "sub": "Esmagador",
+ "motivo": "Você não deixou ninguém morrer desta vez: prendeu todos. Quem você ama fica onde você vê, atrás das suas correntes, longe do perigo e longe da porta. Proteger e prender viraram a mesma palavra.",
+ "cor": "#9a9aa4",
+ "cor2": "#3e3e44",
+ "dom": "Valor & Falange",
+ "arquivo": "sombra-carcereiro",
+ "atributos": {
+  "Agilidade": 1,
+  "Força": 3,
+  "Acuidade": 0,
+  "Instinto": 2,
+  "Presença": 1,
+  "Conhecimento": 0
  },
+ "evasao": 12,
+ "pvMax": 7,
+ "fadigaMax": 7,
+ "prof": 3,
+ "paMax": 7,
+ "limiares": [
+  19,
+  40
+ ],
+ "armas": [
+  {
+   "nome": "Golpe de Lutador",
+   "desc": "principal · Força · Corpo a corpo · 3d8+3d6 fís · desarmado (Eu Sou a Arma)",
+   "dano": "3d8",
+   "atributo": "Força"
+  }
+ ],
+ "experiencias": [
+  {
+   "nome": "Muralha de Carne",
+   "desc": "segurar uma porta, um corredor, alguém",
+   "mod": 3
+  },
+  {
+   "nome": "Chave Perdida",
+   "desc": "prender e imobilizar",
+   "mod": 3
+  },
+  {
+   "nome": "Vigília",
+   "desc": "não dormir em serviço",
+   "mod": 2
+  },
+  {
+   "nome": "Voz de Comando",
+   "desc": "fazer obedecer",
+   "mod": 2
+  }
+ ],
+ "cartas": [
+  {
+   "nome": "Armadura Corporal",
+   "meta": "Valor · Nv1 · Talento · Recall 0",
+   "texto": "Enquanto não equipar uma armadura, você tem Armadura base igual a 3 + sua Força e usa estes limiares de dano base: • 1º patamar: 9/19; • 2º patamar: 11/24; • 3º patamar: 13/31; • 4º patamar: 15/38."
+  },
+  {
+   "nome": "Imposição",
+   "meta": "Valor · Nv1 · Talento · Recall 0",
+   "texto": "Ataque um alvo corpo a corpo com sua arma principal. Em um sucesso, você causa dano e o empurra para um ponto em alcance próximo. Em um sucesso com Esperança, acrescente 1d6 à rolagem de dano. Além disso, gaste 1 Ponto de Esperança para deixá-lo temporariamente Vulnerável."
+  },
+  {
+   "nome": "Força Esmagadora",
+   "meta": "Valor · Nv2 · Talento · Recall 1",
+   "texto": "Você usa toda sua força física em um combate. Ao acertar um ataque usando uma arma com alcance corpo a corpo, receba um bônus igual à sua Força na rolagem de dano."
+  },
+  {
+   "nome": "Ferocidade",
+   "meta": "Falange · Nv2 · Talento · Recall 2",
+   "texto": "Ao fazer com que um adversário marque 1 ou mais Pontos de Vida, você pode gastar 2 Pontos de Esperança para aumentar sua Evasão em um número igual à quantidade de PV que ele marcou. Esse bônus dura até o término do próximo ataque feito contra você."
+  },
+  {
+   "nome": "Resistir",
+   "meta": "Falange · Nv3 · Talento · Recall 1",
+   "texto": "Ao marcar 1 Ponto de Armadura para reduzir o dano sofrido, você pode marcar 1 Ponto de Fadiga para marcar 1 Ponto de Armadura adicional."
+  },
+  {
+   "nome": "Incitar",
+   "meta": "Valor · Nv4 · Talento · Recall 1",
+   "texto": "Descreva como você provoca um alvo próximo. Em seguida, faça um teste de Presença contra ele. Em um sucesso, o alvo deve marcar 1 PF e, na próxima vez que o mestre colocá-lo em foco, ele deve atacar você com desvantagem."
+  },
+  {
+   "nome": "Conhece Teu Inimigo",
+   "meta": "Falange · Nv5 · Talento · Recall 1",
+   "texto": "Enquanto estiver observando uma criatura, você pode fazer um teste de Instinto contra ela. Em um sucesso, gaste 1 Ponto de Esperança e pergunte ao mestre uma das seguintes informações a respeito dela: • PV e PF restantes; • Dificuldade e limiares de dano; • Táticas e dados de dano padrão; • Habilidades e Experiências. Além disso, em um sucesso, você pode marcar 1 PF para fazer o mestre perder 1 Ponto de Medo."
+  }
+ ],
+ "habilidades": [
+  {
+   "secao": "Habilidades de Classe",
+   "tag": "",
+   "nome": "Eu Sou a Arma",
+   "texto": "Sem outras armas ativas, você usa o Golpe de Lutador: atributo à sua escolha, alcance corpo a corpo, d8+d6 de dano físico com sua Proficiência (3d8+3d6). Enquanto ele estiver ativo, +1 na Evasão (já somado)."
+  },
+  {
+   "secao": "Habilidades de Classe",
+   "tag": "",
+   "nome": "Sequência de Golpes (d6)",
+   "texto": "Depois de acertar um ataque corpo a corpo e rolar o dano, marque 1 PF para iniciar uma sequência: role o Dado de Sequência e continue rolando até um resultado ser menor que o anterior. Some tudo ao dano. Esses resultados não podem ser alterados."
+  },
+  {
+   "secao": "Habilidade de Esperança",
+   "tag": "3 Esperança",
+   "nome": "Encarar",
+   "texto": "Gaste 3 Pontos de Esperança para intimidar um alvo próximo, deixando-o temporariamente Vulnerável."
+  },
+  {
+   "secao": "Subclasse — Esmagador",
+   "tag": "Fundamental",
+   "nome": "Durão",
+   "texto": "+3 permanente no seu limiar de dano grave (já somado)."
+  },
+  {
+   "secao": "Subclasse — Esmagador",
+   "tag": "Fundamental",
+   "nome": "Sobrecarga",
+   "texto": "Ao acertar um ataque, gaste 1 Ponto de Esperança para fazer o alvo marcar 1 PF ou arremessá-lo para um ponto em alcance próximo."
+  },
+  {
+   "secao": "Subclasse — Esmagador",
+   "tag": "Especialização",
+   "nome": "Cercado",
+   "texto": "Ao fazer um ataque armado corpo a corpo, gaste quantos Pontos de Esperança quiser para atingir esse número de criaturas adicionais em corpo a corpo."
+  },
+  {
+   "secao": "Subclasse — Esmagador",
+   "tag": "Especialização",
+   "nome": "Olho por Olho",
+   "texto": "Uma vez por descanso, quando um adversário em corpo a corpo fizer você marcar PV, marque 1 PF para forçá-lo a marcar a mesma quantidade de PV."
+  },
+  {
+   "secao": "Ancestralidade",
+   "tag": "Herdeiro da Terra",
+   "nome": "Pele de Pedra",
+   "texto": "+1 permanente na Armadura e nos limiares de dano (já somado)."
+  },
+  {
+   "secao": "Ancestralidade",
+   "tag": "Herdeiro da Terra",
+   "nome": "Imóvel",
+   "texto": "Em contato com o solo, você não pode ser erguido nem movido contra a sua vontade."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Bélica",
+   "nome": "Semblante Corajoso",
+   "texto": "Uma vez por sessão, quando tiver que marcar 1 PF, você pode gastar 1 Ponto de Esperança em vez disso."
+  }
+ ]
+},
  "SF": {
  "code": "SF",
  "par": "F",
@@ -2534,10 +2726,10 @@ Object.assign(CHARS,{
  "pvMax": 7,
  "fadigaMax": 6,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  11,
-  18
+  16,
+  32
  ],
  "armas": [
   {
@@ -2666,6 +2858,18 @@ Object.assign(CHARS,{
    "tag": "Herdeiro da Brasa",
    "nome": "Ignição",
    "texto": "Marque 1 PF para envolver sua arma principal em chamas até o fim da cena: ela emite luz e suas rolagens de dano com ela aumentam em +1d6."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Couro avançada",
+   "texto": "Limiares base 11/27 · Armadura 5."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Solitária",
+   "nome": "Família Escolhida",
+   "texto": "Uma vez por descanso, gaste 1 Ponto de Esperança para usar a Experiência de um aliado como se fosse sua. Descreva como o tempo com ele preparou você para esse momento."
   }
  ],
  "esferas": "Fogo & Profecia"
@@ -2693,10 +2897,10 @@ Object.assign(CHARS,{
  "pvMax": 7,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  11,
-  18
+  16,
+  32
  ],
  "armas": [
   {
@@ -2831,6 +3035,30 @@ Object.assign(CHARS,{
    "tag": "Orc",
    "nome": "Presas",
    "texto": "Ao acertar um alvo corpo a corpo, gaste 1 Esperança para perfurá-lo com as presas: +1d6 de dano."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Couro avançada",
+   "texto": "Limiares base 11/27 · Armadura 5."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Glacial",
+   "nome": "Resistente",
+   "texto": "Ao fazer um descanso, você recupera 1 Ponto de Vida."
+  },
+  {
+   "secao": "Transformação — Fantasma",
+   "tag": "Transformação",
+   "nome": "Assuntos Inacabados",
+   "texto": "Combine com o mestre o propósito ou desejo que prende você ao Plano Mortal. Quando ele se encerrar, você atravessa o véu da morte."
+  },
+  {
+   "secao": "Transformação — Fantasma",
+   "tag": "Transformação",
+   "nome": "Efêmero",
+   "texto": "Seu corpo oscila entre corpóreo e incorpóreo: você é resistente a dano físico, sofre o dobro de dano mágico e pode marcar 2 PF para atravessar temporariamente um objeto sólido."
   }
  ]
 },
@@ -2857,10 +3085,10 @@ Object.assign(CHARS,{
  "pvMax": 7,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 5,
  "limiares": [
-  11,
-  18
+  16,
+  32
  ],
  "armas": [
   {
@@ -2983,6 +3211,30 @@ Object.assign(CHARS,{
    "tag": "Fauno",
    "nome": "Coice",
    "texto": "Ao acertar um alvo corpo a corpo, marque 1 PF para um coice: +2d6 de dano e empurra ele ou você para Muito Próximo."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura de Couro avançada",
+   "texto": "Limiares base 11/27 · Armadura 5."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Nômade",
+   "nome": "Mochila de Nômade",
+   "texto": "Uma vez por sessão, gaste 1 Ponto de Esperança para tirar da mochila um item mundano e útil para a situação. Combine o item com o mestre."
+  },
+  {
+   "secao": "Transformação — Lobisomem",
+   "tag": "Transformação",
+   "nome": "Forma de Lobo",
+   "texto": "Ao marcar 1 PV ou mais, você pode marcar 1 PF para assumir a Forma de Lobo: +1d10 em testes de ataque e rolagens de dano. Se receber Pontos de Esperança nessa forma, marque a mesma quantidade de PF. Dura até a Fúria Uivante ou até o próximo descanso."
+  },
+  {
+   "secao": "Transformação — Lobisomem",
+   "tag": "Transformação",
+   "nome": "Fúria Uivante",
+   "texto": "Ao marcar seu último Ponto de Fadiga na Forma de Lobo, você entra em fúria: role 3d20 (um por patamar) e cause esse dano físico a todas as criaturas muito próximas. Depois, abandone a Forma de Lobo."
   }
  ]
 },
@@ -3005,14 +3257,14 @@ Object.assign(CHARS,{
   "Presença": 2,
   "Conhecimento": 0
  },
- "evasao": 12,
+ "evasao": 11,
  "pvMax": 6,
  "fadigaMax": 7,
  "prof": 3,
- "paMax": 3,
+ "paMax": 6,
  "limiares": [
-  10,
-  16
+  18,
+  40
  ],
  "armas": [
   {
@@ -3129,6 +3381,30 @@ Object.assign(CHARS,{
    "tag": "Herdeiro da Maré",
    "nome": "Fonte da Vida",
    "texto": "Uma vez por descanso, com um pouco de água por perto, marque 1 PF para recuperar 1 PV seu ou de um aliado muito próximo."
+  },
+  {
+   "secao": "Equipamento",
+   "tag": "Armadura",
+   "nome": "Armadura Coral de Forja Profunda",
+   "texto": "Limiares base 13/35 · Armadura 6 · Submersão: respira debaixo d’água e tem vantagem em Agilidade submerso."
+  },
+  {
+   "secao": "Comunidade",
+   "tag": "Desértica",
+   "nome": "Oásis",
+   "texto": "Quando fizer um descanso curto, você ou um aliado podem rolar novamente um dos dados de um movimento de repouso e ficar com o melhor resultado."
+  },
+  {
+   "secao": "Transformação — Metamorfo",
+   "tag": "Transformação",
+   "nome": "Mudar de Forma",
+   "texto": "Durante um descanso, use um movimento de repouso para trocar sua ancestralidade atual por outra. Descreva como sua aparência muda."
+  },
+  {
+   "secao": "Transformação — Metamorfo",
+   "tag": "Transformação",
+   "nome": "Superficial",
+   "texto": "Você recebe os benefícios de apenas uma das duas habilidades da sua ancestralidade atual, escolhida no momento em que assume a nova forma."
   }
  ]
 }
@@ -3228,7 +3504,7 @@ const FX={
       {id:'vuln',nome:'Vulnerável',txt:'Adrenalina: some seu nível (+5) às rolagens de dano.',dmgFlat:NIVEL,wpn:true},
       {id:'esquiva',nome:'Esquiva (+2 Evasão)',txt:'+2 na Evasão até o próximo ataque que acertar você.',ev:2,clearOnHit:true}],
      hope:{nome:'Esquiva de Ladino',custo:3,state:'esquiva',txt:'+2 na Evasão até o próximo ataque que acertar você.'},
-     acts:[{nome:'Passo Sombrio',cost:{pf:1},state:'oculto',txt:'some numa sombra e reaparece em outra distante, Oculto'},
+     acts:[{nome:'Liberto (comunidade Livre)',use:{id:'liberto',max:1,per:'sessao'},txt:'sua rolagem com Medo vira rolagem com Esperança'},{nome:'Passo Sombrio',cost:{pf:1},state:'oculto',txt:'some numa sombra e reaparece em outra distante, Oculto'},
            {nome:'Disfarce Inquietante',cost:{pf:1},txt:'toma a forma de um humanoide'},
            {nome:'Estrangulamento',cost:{pf:1},txt:'alvo fica Vulnerável; ataques contra ele causam +2d6'}],
      opts:[{id:'par',nome:'Par: alvo corpo a corpo (+4)',wpn:true,only:'Lâmina do Retorno',dmgFlat:4},{id:'furtivo',nome:'Ataque Furtivo: aliado corpo a corpo ao alvo (+3d6)',wpn:true,dmgDice:[3,6],unless:'oculto'},
@@ -3254,7 +3530,7 @@ const FX={
  S:{ pools:[{id:'oracao',nome:'Dados de Oração',die:4,count:()=>AT('Força'),extra:1,txt:'Devoção: role um a mais e descarte o menor. Gaste: somar a uma rolagem, reduzir dano ou ganhar Esperança.'}],
      states:[{id:'punicao',nome:'Punição carregada',txt:'O próximo ataque de arma que acertar dobra o dano (mágico).',wpn:true,double:true,consume:true}],
      hope:{nome:'Alicerce da Vida',custo:3,txt:'um aliado próximo recupera 1 PV.'},
-     acts:[{nome:'Toque Piedoso',use:{id:'piedoso',max:2,per:'longo'},txt:'a criatura recupera 2 PV ou 2 PF'},
+     acts:[{nome:'Laços Fortes (comunidade Rural)',cost:{esp:1},use:{id:'lacos',max:1,per:'longo'},txt:'dê a Esperança gasta a um aliado distante (marque o restante à mão se der mais de 1)'},{nome:'Toque Piedoso',use:{id:'piedoso',max:2,per:'longo'},txt:'a criatura recupera 2 PV ou 2 PF'},
            {nome:'Punição',cost:{esp:3},use:{id:'punicao',max:1,per:'curto'},state:'punicao'},
            {nome:'Arma Espiritual — alvo extra',cost:{pf:1}},
            {nome:'Asas Celestiais',cost:{esp:1},use:{id:'asas',max:1,per:'curto'},txt:'voando, uma vez por cena: 1 Esperança em vez de marcar 1 Armadura'},
@@ -3276,13 +3552,13 @@ const FX={
      auto:['vozRazao','adepto'], after:['padrao','adapt'] },
  G:{ det:true,
      hope:{nome:'Linha de Frente',custo:3,fx:()=>{S.pa=Math.min(C.paMax,S.pa+2)},txt:'recupera 2 Pontos de Armadura.'},
-     acts:[{nome:'Sou Seu Escudo',cost:{pf:1}},
+     acts:[{nome:'Semblante Corajoso (comunidade Bélica)',cost:{esp:1},use:{id:'semblante',max:1,per:'sessao'},txt:'gasta 1 Esperança em vez de marcar 1 PF'},{nome:'Sou Seu Escudo',cost:{pf:1}},
            {nome:'Irmãos de Armas',cost:{pa:1},txt:'reduz a gravidade do dano físico de um aliado muito próximo'},
            {nome:'Bastião',cost:{esp:2},txt:'aliado rola de novo o Dado de Medo ou de Esperança'}],
      opts:[{id:'impulso',nome:'Impulso (1 PF): vantagem e +1d10 no dano',wpn:true,cost:{pf:1},adv:true,dmgDice:[1,10]}],
      auto:['naoSuficiente'], dmg:['fisico','vontade','levante','det'] },
  F:{ counters:[{id:'caos',nome:'Marcadores — Caos Liberto',max:()=>AT('Instinto'),per:'sessao',start:'max',recarga:{pf:1},txt:'Gaste marcadores num ataque: 1d10 de dano mágico por marcador. Recarregue marcando 1 PF.'}],
-     acts:[{nome:'Caos Liberto',spend:'caos',die:10,txt:'d10 de dano mágico por marcador'},
+     acts:[{nome:'Família Escolhida (comunidade Solitária)',cost:{esp:1},use:{id:'familia',max:1,per:'curto'},txt:'use a Experiência de um aliado neste teste'},{nome:'Caos Liberto',spend:'caos',die:10,txt:'d10 de dano mágico por marcador'},
            {nome:'Canalizar Poder Bruto',use:{id:'canal',max:1,per:'longo'},txt:'Esperança igual ao nível da carta, ou dano extra'},
            {nome:'Evasão Natural',cost:{pf:1},roll:[1,6],txt:'+1d6 na Evasão contra este ataque'},
            {nome:'Premonição',use:{id:'premon',max:1,per:'longo'},txt:'ignora as consequências do último teste'},
@@ -3301,7 +3577,7 @@ const FX={
      auto:['treino','desafio'], after:['coragem'], dmg:['levante'] },
  C:{ marca:true,
      hope:{nome:'Segurem Eles',custo:3,txt:'usa o mesmo teste contra dois adversários adicionais.'},
-     acts:[{nome:'Um Passo à Frente',cost:{pf:1},roll:[1,4],txt:'+1d4 na Evasão contra um ataque à distância'},
+     acts:[{nome:'Mochila de Nômade',cost:{esp:1},use:{id:'mochila',max:1,per:'sessao'},txt:'tira um item mundano e útil para a situação'},{nome:'Um Passo à Frente',cost:{pf:1},roll:[1,4],txt:'+1d4 na Evasão contra um ataque à distância'},
            {nome:'Ferocidade',cost:{esp:2}},
            {nome:'Conhece Teu Inimigo',cost:{esp:1},txt:'pergunta ao mestre um dado do alvo'},
            {nome:'Garras Retráteis',txt:'teste de Agilidade: alvo corpo a corpo fica Vulnerável'}],
@@ -3352,7 +3628,7 @@ const INV=(c2,c3)=>({
   hope:{nome:'Auxílio dos Espíritos',custo:3,fx:()=>{S.fad=Math.min(C.fadigaMax,S.fad+1); return 'limpou 1 PF'},txt:'distribua 2 Esperança entre outros PJs Distantes e recupere 1 PF.'} });
 Object.assign(FX,{
  SS:{ ...INV('Anjos','Arcanjos'),
-      acts:[{nome:'Invocar Espíritos do Destino',cost:{pf:1},fx:()=>invocar('destino')},
+      acts:[{nome:'Laços Fortes (comunidade Rural)',cost:{esp:1},use:{id:'lacos',max:1,per:'longo'},txt:'dê a Esperança gasta a um aliado distante (marque o restante à mão se der mais de 1)'},{nome:'Invocar Espíritos do Destino',cost:{pf:1},fx:()=>invocar('destino')},
             {nome:'Invocar Anjos',cost:{pf:1},fx:()=>invocar('circ2')},
             {nome:'Invocar Arcanjos',cost:{pf:1},fx:()=>invocar('circ3')},
             {nome:'Espírito do Destino: refazer ataque',cost:{c:{destino:1}},txt:'o adversário Muito Próximo rola o ataque de novo'},
@@ -3363,7 +3639,7 @@ Object.assign(FX,{
             {nome:'Tecer a Carne',cost:{pv:1},use:{id:'tecer',max:1,per:'longo'},txt:'cada aliado Muito Próximo limpa 1 PV e 1 Armadura'},
             {nome:'Parasita da Vontade',cost:{pv:1},use:{id:'parasita',max:1,per:'curto'},txt:'infecta o alvo: vantagem em Presença contra ele; 1 ❂ dá desvantagem no ataque dele'}] },
  SW:{ ...INV('Cadáveres Rastejantes','Fantasmas'),
-      acts:[{nome:'Invocar Espíritos do Destino',cost:{pf:1},fx:()=>invocar('destino')},
+      acts:[{nome:'Efêmero: atravessar',cost:{pf:2},txt:'atravessa temporariamente um objeto sólido'},{nome:'Invocar Espíritos do Destino',cost:{pf:1},fx:()=>invocar('destino')},
             {nome:'Invocar Cadáveres',cost:{pf:1},fx:()=>invocar('circ2')},
             {nome:'Invocar Fantasmas',cost:{pf:1},fx:()=>invocar('circ3')},
             {nome:'Terror Espectral',cost:{c:{circ3:1}},txt:'em sucesso na conjuração contra alvo Distante: ele marca 1 PF'},
@@ -3376,10 +3652,10 @@ Object.assign(FX,{
             {nome:'Forma Viscosa',cost:{pf:1},txt:'vira uma poça de sangue: resistência a dano físico'}],
       opts:[{id:'presas',nome:'Presas (Orc): +1d6 corpo a corpo (1 ❂)',wpn:true,cost:{esp:1},dmgDice:[1,6]}] },
  SC:{ counters:[{id:'dor',nome:'Fichas — Poder Através da Dor',max:()=>AT('Força'),per:'longo',start:0,txt:'+1 ficha a cada PV marcado. Gaste num ataque bem-sucedido: +1d6 por ficha.'}],
-      states:[{id:'ritual',nome:'Ritual Carmesim (+3d4 mág)',dmgDice:[3,4],wpn:true,clearOnRest:true,txt:'Arma enfeitiçada com sede de sangue até o próximo descanso.'},
+      states:[{id:'lobo',nome:'Forma de Lobo (+1d10 ataque e dano)',atk:()=>randInt(10),dmgDice:[1,10],clearOnRest:true,txt:'Se receber Esperança nesta forma, marque a mesma quantidade de PF. Ao marcar o último PF: Fúria Uivante.'},{id:'ritual',nome:'Ritual Carmesim (+3d4 mág)',dmgDice:[3,4],wpn:true,clearOnRest:true,txt:'Arma enfeitiçada com sede de sangue até o próximo descanso.'},
               {id:'hibrida',nome:'Forma Híbrida (+1d6)',dmgDice:[1,6],wpn:true,clearOnRest:true,txt:'+1d6 nos testes de ação e no dano. Ao ganhar Esperança nesta forma, marque 1 PF.'}],
       hope:{nome:'Maldição de Sangue',custo:3,txt:'um adversário Próximo acertou: ele rola de novo com desvantagem.'},
-      acts:[{nome:'Ritual Carmesim',cost:{pv:1},state:'ritual',fx:()=>{ setCnt('dor',cntOf('dor')+1); return 'arma enfeitiçada; +1 ficha de Dor'; }},
+      acts:[{nome:'Forma de Lobo',cost:{pf:1},state:'lobo',txt:'ao marcar 1 PV ou mais'},{nome:'Fúria Uivante',roll:[3,20],txt:'ao marcar o último PF na Forma de Lobo: dano físico em todos muito próximos; depois, saia da forma'},{nome:'Mochila de Nômade',cost:{esp:1},use:{id:'mochila',max:1,per:'sessao'},txt:'tira um item mundano e útil para a situação'},{nome:'Ritual Carmesim',cost:{pv:1},state:'ritual',fx:()=>{ setCnt('dor',cntOf('dor')+1); return 'arma enfeitiçada; +1 ficha de Dor'; }},
             {nome:'Forma Híbrida',cost:{pf:1},state:'hibrida'},
             {nome:'Psicometria Sombria',txt:'Conjuração (12): vê a última criatura que cometeu violência ali'},
             {nome:'Marca da Punição',cost:{pf:1},txt:'marca o alvo que você acertou'},
@@ -3510,6 +3786,7 @@ function gatherFx(ctx,checked){
   for(const s of (F.states||[])) if(stOn(s.id)&&(s.atk||s.dmgDice||s.dmgFlat||s.double)){ if((s.wpn&&!isW)) continue; add(s,s.nome); if(s.consume&&isW) e.consume.push(s.id); }
   for(const o of (F.opts||[])) if(checked.includes(o.id)) add(o,o.nome.split(':')[0].split('(')[0].trim());
   // automáticos
+  if(C.code==='SS'){ e.atk+=1; e.dmgFlat+=1; e.notes.push('Abençoado +1'); }
   if(C.code==='W'&&phys){ e.dmgFlat+=NIVEL; e.notes.push('Treinamento de Combate +5'); }
   if(C.code==='W'&&S.pv<=2){ e.hopeD20=true; e.notes.push('Enfrentar o Desafio: d20 de Esperança'); }
   if(C.code==='G'&&X.det&&isW){ e.dmgFlat+=X.det; e.notes.push(`Determinação +${X.det}`); }
@@ -3964,10 +4241,10 @@ const PRAGA={id:'praga',nome:'Alvo Esconjurado (−3 Dif. e dano dele)',clearOnR
 const COMUNHAO=n=>({nome:'Comunhão',use:{id:'comunhao',max:1,per:'longo'},roll:[n,6],txt:'pergunte a uma entidade e escolha um dos dados: 1–3 sensação, 4–5 som ou visão, 6 a cena'});
 const DEBIL=[{nome:'Golpe Debilitante (com Esperança)',roll:[3,6,1],txt:'dano mágico; o próximo acerto do alvo causa metade do dano'},{nome:'Golpe Debilitante (com Medo)',roll:[3,10,1],txt:'dano mágico; o próximo acerto do alvo causa metade do dano'}];
 Object.assign(FX,{
- SL:{ counters:[BENESSE],
+ SL:{ counters:[{id:'sangue',nome:'Marcadores — Alimentação',max:6,per:'none',start:0,txt:'Gaste 1 antes de um teste: seu Dado de Medo vira d20.'},BENESSE],
       states:[{id:'manto',nome:'Manto do Patrono (+3 limiares)',lim:3,clearOnRest:true,txt:'+3 nos limiares de dano e vantagem para intimidar. Acaba com dano grave ou no fim da cena.'}],
       hope:{nome:'Dádiva do Patrono',custo:3,txt:'ao falhar em um teste: role novamente com vantagem.'},
-      acts:[TRIBUTO,BENESP,
+      acts:[{nome:'Alimentação',cost:{pf:1},txt:'acertou com as Presas: ganhe marcadores iguais aos PV que o alvo marcou (use o + do contador)'},{nome:'Dado de Medo vira d20',cost:{c:{sangue:1}},roll:[1,20],txt:'use este resultado no lugar do Dado de Medo'},{nome:'Liberto (comunidade Livre)',use:{id:'liberto',max:1,per:'sessao'},txt:'sua rolagem com Medo vira rolagem com Esperança'},TRIBUTO,BENESP,
             ...[1,2,3].map(n=>({nome:`Abraço Imortal (${n} PB)`,cost:{c:{benesse:n}},use:{id:'abraco',max:1,per:'curto'},fx:()=>{ const r=patrono(n), a=S.pv; S.pv=Math.min(C.pvMax,S.pv+r.ok); return `dados ${r.v.join(', ')}: recuperou ${S.pv-a} PV`; },txt:'cada Dado de Patrono 4+ recupera 1 PV'})),
             {nome:'Manto do Patrono',cost:{c:{benesse:1}},state:'manto'},
             {nome:'Súplica Pungente',cost:{c:{benesse:1}},txt:'o ataque contra você ou um aliado muito próximo tem desvantagem; se falhar, o adversário marca 1 PF'},
@@ -3986,7 +4263,7 @@ Object.assign(FX,{
       states:[{id:'furia',nome:'Fúria do Patrono (+3d8 de dano)',dmgDice:[3,8],clearOnRest:true,txt:'Suas rolagens de dano somam 3 Dados de Patrono. Acaba ao causar dano grave ou no fim da cena.'},
               {id:'ignicao',nome:'Ignição (+1d6)',dmgDice:[1,6],wpn:true,clearOnRest:true,txt:'Arma principal em chamas até o fim da cena: +1d6 de dano.'}],
       hope:{nome:'Dádiva do Patrono',custo:3,txt:'ao falhar em um teste: role novamente com vantagem.'},
-      acts:[TRIBUTO,BENESP,{nome:'Fúria do Patrono',cost:{c:{benesse:1}},state:'furia',txt:'imbui seus ataques com o poder do patrono'},
+      acts:[{nome:'Família Escolhida (comunidade Solitária)',cost:{esp:1},use:{id:'familia',max:1,per:'curto'},txt:'use a Experiência de um aliado neste teste'},TRIBUTO,BENESP,{nome:'Fúria do Patrono',cost:{c:{benesse:1}},state:'furia',txt:'imbui seus ataques com o poder do patrono'},
             ...[1,2,3].map(n=>({nome:`Vingança Mortal (marcou ${n} PV)`,cost:{c:{benesse:1}},fx:()=>{ const r=patrono(n); return `dados ${r.v.join(', ')}: o atacante marca ${r.ok} PV`; },txt:'um Dado de Patrono por PV que você marcou; cada 4+ fere o atacante'})),
             {nome:'Alcance Ameaçador',cost:{c:{benesse:1}},txt:'a arma principal ganha um passo de alcance até você acertar com ela'},
             {nome:'Enfraquecer Meus Inimigos',cost:{c:{benesse:1}},txt:'sucesso com Esperança contra o alvo: ele marca 1 PF por PB gasto'},
@@ -4045,7 +4322,7 @@ Object.assign(FX,{
             {id:'vinha',nome:'Vinha da Meia-noite: desvantagem nos ataques do alvo (1 marcador)',wpn:true,cost:{c:{tox:1}}},
             {id:'estr',nome:'Alvo estrangulado (+2d6)',wpn:true,dmgDice:[2,6]}] },
  SG:{ hope:{nome:'Encarar',custo:3,txt:'intimida um alvo próximo: ele fica temporariamente Vulnerável.'},
-      acts:[{nome:'Sequência de Golpes',cost:{pf:1},combo:6,txt:'role o Dado de Sequência (d6) até cair; some tudo ao dano'},
+      acts:[{nome:'Semblante Corajoso (comunidade Bélica)',cost:{esp:1},use:{id:'semblante',max:1,per:'sessao'},txt:'gasta 1 Esperança em vez de marcar 1 PF'},{nome:'Sequência de Golpes',cost:{pf:1},combo:6,txt:'role o Dado de Sequência (d6) até cair; some tudo ao dano'},
             {nome:'Olho por Olho',cost:{pf:1},use:{id:'olho',max:1,per:'curto'},txt:'o adversário em corpo a corpo marca os mesmos PV que fez você marcar'},
             {nome:'Imposição',txt:'ataque com a arma principal: empurra o alvo para Próximo; com Esperança, +1d6'},
             {nome:'Incitar',txt:'teste de Presença: o alvo marca 1 PF e te ataca com desvantagem'},
@@ -4066,6 +4343,7 @@ Object.assign(FXW,{'Golpe de Lutador':{hit:'generic.unarmed_attacks.unarmed_stri
 Object.assign(FXW,{'Cajado de Augma':FXW['Cajado Curto'],'Machado de Fortunis':FXW['Machado Sagrado'],'Orbe Mágico':FXW['Varinha'],'Maça do Juramento':FXW['Martelo de Guerra'],'Cajado de Fogo':{proj:'fire_bolt',fall:'generic.fire.eruption'},
  'Lâmina do Oscilume':FXW['Espada Longa'],'Arco com Espinhos':FXW['Arco Longo'],'Arco com Espinhos (corpo a corpo)':{hit:'generic.weapon_attacks.melee.single.generic_slash'},'Machado Incandescente (Atroz)':{hit:'generic.fire.eruption'}});
 for(const k in FXW) if(!FXW[k]) delete FXW[k];
+Object.assign(FXW,{'Presas':{hit:'generic.creature.bite'}}); Object.assign(FXK,{'Forma de Lobo':{self:'generic.creature.claws',sz:1.6},'Fúria Uivante':{self:'generic.template.circle.outpulse.regular.burst',sz:4}});
 for(const k in FX){ const F=FX[k]; F.counters=F.counters||[]; F.acts=F.acts||[];
   F.counters.push({id:'pcura',nome:'Poção de Cura',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Vida.'},{id:'pfad',nome:'Poção de Fadiga',max:9,per:'none',start:0,txt:'Beba para recuperar 1d4 Pontos de Fadiga.'});
   F.acts.push({nome:'Poção de Cura',cost:{c:{pcura:1}},roll:[1,4],onRoll:v=>{ const a=S.pv; S.pv=Math.min(C.pvMax,S.pv+v); return `recuperou ${S.pv-a} PV`; },txt:'recupera 1d4 PV'},
