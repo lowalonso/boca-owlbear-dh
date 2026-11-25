@@ -128,7 +128,7 @@ details.reveal summary{color:var(--bile)}
 html{-webkit-text-size-adjust:100%} body{overflow-x:hidden}
 @media (pointer:coarse),(max-width:400px){ button{min-height:36px;touch-action:manipulation} input,select,textarea{font-size:16px!important} .pip{width:22px!important;height:22px!important} }
 </style><script>/* auto-atualização: se o GitHub tiver versão nova, recarrega furando o cache */
-const BUILD='20261124155848';
+const BUILD='20261124232252';
 (async()=>{ try{ const t=await (await fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'})).text(); const m=t.match(/const BUILD='(\d+)'/);
   if(m&&m[1]!==BUILD){ const u=new URL(location.href); if(u.searchParams.get('b')===m[1]) return; u.searchParams.set('b',m[1]); location.replace(u.toString()); } }catch(e){} })();
 </script>
@@ -291,7 +291,9 @@ function paint(m){
   fear=m[K.fear]||0; fome=m[K.hunger]||0;
   bannerOn=!!m[NS+'/banner']; $('btnBanner').textContent='Banner no topo: '+(bannerOn?'ON':'OFF');
   lastMeta=m; if(Array.isArray(m[K.cmb])&&JSON.stringify(m[K.cmb])!==JSON.stringify(cmb)){ cmb=m[K.cmb]; paintCmb(); } else if($('cFear')) $('cFear').textContent=fear;
-  if(m[K.desc]&&!descBusy){ const nd=m[K.desc]; if(JSON.stringify(nd)!==JSON.stringify(desc)){ desc=Object.assign({floor:0,visited:[],log:[],last:null},nd); paintDesc(); } }
+  if(m[K.desc]&&!descBusy){ const nd=unpackDesc(m[K.desc]); const reset=(nd.epoch||0)!==(desc.epoch||0)&&(nd.epoch||0)>(desc.epoch||0);
+    if(reset||nd.log.length>desc.log.length||(nd.log.length===desc.log.length&&JSON.stringify(packDesc(nd).l)!==JSON.stringify(packDesc(desc).l)&&!descDirty)){ const keep=desc.last; desc=nd; if(keep&&!reset&&nd.log.some(x=>x.f===keep.floor)) desc.last=keep; paintDesc(); }
+    else if(nd.log.length<desc.log.length&&!reset&&!descDirty){ saveDesc(); } }
   $('fearV').textContent=fear;
   document.querySelectorAll('.seg').forEach((s,i)=>s.classList.toggle('on',i<fome));
   $('fomeTxt').textContent=fome>=6?'— A BOCA ACORDOU':`(${fome}/6)`;
@@ -754,7 +756,21 @@ function paintDesc(){
   $('dLog').innerHTML=desc.log.length?'<div class="small" style="margin-top:12px">Caminho da descida</div><div class="dlog">'+
     desc.log.map((e,k)=>`<span style="--tc:${e.c}" data-logk="${k}">${e.f}. ${esc(e.nome)}</span>`).join('')+'</div>':'';
 }
-async function saveDesc(){ await api.setMeta({[K.desc]:desc}); }
+function packDesc(d){ return {v:2,e:d.epoch||0,l:d.log.map(x=>x.kind==='boss'?['b',x.n]:[x.i,x.roll||0]),k:d.last?d.log.findIndex(x=>x.f===d.last.floor):-1}; }
+function unpackDesc(p){
+  if(!p||p.v!==2) return Object.assign({floor:0,visited:[],log:[],last:null,epoch:0},p||{});
+  const log=(p.l||[]).map((x,k)=>x[0]==='b'?{f:k+1,nome:'☠ '+((DATA.bosses[x[1]-1]||{}).nome||'Chefe'),c:'#c9a24a',kind:'boss',n:x[1]}:{f:k+1,nome:(SALAS[x[0]]||{}).nome||'?',c:TCOR[(SALAS[x[0]]||{}).tipo]||'#a8312a',kind:'sala',i:x[0],roll:x[1]});
+  const L=log[p.k]; return {floor:log.length,visited:log.filter(x=>x.kind==='sala').map(x=>x.i),log,epoch:p.e||0,
+    last:L?(L.kind==='sala'?{kind:'sala',i:L.i,floor:L.f,roll:L.roll}:{kind:'boss',n:L.n,floor:L.f}):null};
+}
+let descDirty=false;
+async function saveDesc(){
+  try{ localStorage.setItem('boca-desc-'+(demo?'demo':OBR.room.id),JSON.stringify(packDesc(desc))); }catch(e){}
+  try{ await api.setMeta({[K.desc]:packDesc(desc)}); descDirty=false; }
+  catch(e){ descDirty=true; let kb='?'; try{ kb=(JSON.stringify(await api.getMeta()).length/1024).toFixed(1); }catch(_){}
+    toast('Não consegui salvar a descida na sala (metadados: '+kb+' KB de 16 KB). Ela fica guardada neste navegador.'); }
+}
+function freshDesc(){ return {floor:0,visited:[],log:[],last:null,epoch:Date.now()}; }
 $('dDesc').onclick=async()=>{
   if(descBusy) return;
   if(desc.visited.length>=SALAS.length){ toast('Não há mais salas inéditas — rolem o chefe.'); return; }
@@ -784,7 +800,7 @@ $('dReset').onclick=async()=>{
   if(!desc.floor){toast('A descida já está zerada.');return}
   if($('dReset').dataset.arm!=='1'){ $('dReset').dataset.arm='1'; $('dReset').textContent='Clique de novo para confirmar'; setTimeout(()=>{$('dReset').dataset.arm='';$('dReset').textContent='Selar a Boca (zerar descida)'},3000); return; }
   $('dReset').dataset.arm=''; $('dReset').textContent='Selar a Boca (zerar descida)';
-  desc={floor:0,visited:[],log:[],last:null}; paintDesc(); await saveDesc(); toast('A Boca foi selada. Descida zerada.');
+  desc=freshDesc(); paintDesc(); await saveDesc(); toast('A Boca foi selada. Descida zerada.');
 };
 
 /* delegação de cliques de rolagem e revelação */
@@ -845,8 +861,8 @@ $('qD20').onclick=()=>roll('1d20','d20 do Mestre');
 /* ---------- reset de sessão ---------- */
 function armBtn(id,label,fn){ const b=document.querySelector(id); b.onclick=async()=>{ if(b.dataset.arm!=='1'){ b.dataset.arm='1'; b.textContent='Clique de novo para confirmar'; setTimeout(()=>{b.dataset.arm='';b.textContent=label},3500); return; } b.dataset.arm=''; b.textContent=label; await fn(); }; }
 armBtn('#rsMesa','↺ Resetar a mesa',async()=>{
-  desc={floor:0,visited:[],log:[],last:null}; cmb=[];
-  await api.setMeta({[K.fear]:0,[K.hunger]:0,[K.desc]:desc,[K.cmb]:[],[NS+'/banner']:false});
+  desc=freshDesc(); cmb=[];
+  await api.setMeta({[K.fear]:0,[K.hunger]:0,[K.desc]:packDesc(desc),[K.cmb]:[],[NS+'/banner']:false});
   paintDesc(); paintCmb(); $('lastroll').classList.remove('on'); $('lastroll').innerHTML='';
   shout('↺ A Boca se fecha. A mesa foi reiniciada.','INFO'); toast('Mesa reiniciada.');
 });
@@ -913,6 +929,8 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
   renderBest(); renderBoss(); paintDesc(); paintCmb();
   $('lootDet').addEventListener('toggle',()=>{ if($('lootDet').open) renderLootTable(); });
   if(!demo){ try{ const soJog=ps=>ps.filter(p=>p.role!=='GM'); partyList=soJog(await OBR.party.getPlayers()); partyIds=new Set(partyList.map(p=>p.id)); renderParty(lastMeta); OBR.party.onChange(ps=>{ partyList=soJog(ps); partyIds=new Set(partyList.map(p=>p.id)); renderParty(lastMeta); }); }catch(e){} }
+  try{ const bk=JSON.parse(localStorage.getItem('boca-desc-'+(demo?'demo':OBR.room.id))||'null'); if(bk) desc=unpackDesc(bk); }catch(e){}
+  paintDesc(); const m0=await api.getMeta(); if(!m0[K.desc]&&desc.log.length) await saveDesc();
   paint(await api.getMeta());
   if(!demo&&lastMeta[K.sheetPrefix+ME.id]) api.setMeta({[K.sheetPrefix+ME.id]:undefined}); // limpa ficha antiga do mestre
   api.onMeta(paint);
